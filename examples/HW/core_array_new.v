@@ -23,8 +23,8 @@
 
 ///////////////////////////Core Array///////////////////////////
 module core_array #(
-	parameter HNUM = ${num_head},
-    parameter VNUM = ${num_col},
+	parameter HNUM = ${n_heads},
+    parameter VNUM = ${n_cols},
 
     parameter GBUS_DATA = ${gbus_width},
     parameter GBUS_ADDR = 12,
