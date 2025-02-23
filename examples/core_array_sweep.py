@@ -148,18 +148,18 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 	# Assign new suggestions
 	feasible_suggestions = []
 	suggestions = study_client.suggest(count=5) # Since 3 threads per job
-	# while len(feasible_suggestions) < 3:
-	# 	print("Generating new suggestions")
-	# 	for i, suggestion in enumerate(suggestions):
-	# 		print(suggestion.parameters)
-	# 		if not is_feasible(suggestion):
-	# 			print(f"Suggestion {i} is not feasible. Skipping.")
-	# 			# suggestion.complete(vz.Measurement(), infeasibility_reason='Infeasible design.')  # mark as completed
-	# 			suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
-	# 		else:
-	# 			feasible_suggestions.append(suggestion)
-	# 	suggestions = study_client.suggest(count=5)
-	feasible_suggestions = suggestions
+	while len(feasible_suggestions) < 3:
+		print("Generating new suggestions")
+		for i, suggestion in enumerate(suggestions):
+			print(suggestion.parameters)
+			if not is_feasible(suggestion):
+				print(f"Suggestion {i} is not feasible. Skipping.")
+				# suggestion.complete(vz.Measurement(), infeasibility_reason='Infeasible design.')  # mark as completed
+				suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
+			else:
+				feasible_suggestions.append(suggestion)
+		suggestions = study_client.suggest(count=5)
+	# feasible_suggestions = suggestions
 
 	for suggestion in feasible_suggestions:
 		print("Feasible suggestions:")
