@@ -87,6 +87,10 @@ def is_feasible(suggestion) -> bool:
 		print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
 		return False
 
+	if n_heads * n_cols > 64:
+		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
+		return False
+
 	return True
 
 def fom(area: float, period: float, total_power: float):
@@ -148,7 +152,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 	# Assign new suggestions
 	feasible_suggestions = []
-	suggestions = study_client.suggest(count=5) # Since 3 threads per job
+	suggestions = study_client.suggest(count=10) # Since 3 threads per job
 	while len(feasible_suggestions) < 1:
 		print("Generating new suggestions")
 		for i, suggestion in enumerate(suggestions):
@@ -159,7 +163,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 				suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
 			else:
 				feasible_suggestions.append(suggestion)
-		suggestions = study_client.suggest(count=5)
+		suggestions = study_client.suggest(count=10)
 	# feasible_suggestions = suggestions
 
 	for suggestion in feasible_suggestions:

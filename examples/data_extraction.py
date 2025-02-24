@@ -80,7 +80,7 @@ with open(output_csv_path, mode='w', newline='') as file:
                         "Num_Memories": ppa_data["synth_stats"].get("num_memories", "N/A"),
                         "Num_Memory_Bits": ppa_data["synth_stats"].get("num_memory_bits", "N/A"),
                         "Num_Processes": ppa_data["synth_stats"].get("num_processes", "N/A"),
-                        "Total Time": ppa_data["total_time_taken"].get("total_seconds", "N/A"),
+                        "Total Time(s)": ppa_data["total_time_taken"].get("total_seconds", "N/A"),
                         
                     }
 
