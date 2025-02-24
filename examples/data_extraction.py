@@ -6,7 +6,7 @@ import csv
 base_dir = "/home/ppa/pyppa/PPA4LLMs/runs/core_array/1_core_array_opt"  
 
 # Define the output CSV file path
-output_csv_path = os.path.join(base_dir, "ppa_extracted_data.csv")
+output_csv_path = "/home/ppa/pyppa/PPA4LLMs"
 
 # Column headers for CSV
 csv_columns = [
