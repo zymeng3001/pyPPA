@@ -27,8 +27,7 @@ with open(output_csv_path, mode='w', newline='') as file:
 
     # Iterate over all folders in base directory
     for trial in sorted(os.listdir(base_dir)):
-        for suggestion in sorted(os.listdir(trial)):
-            print(suggestion)
+        for i, suggestion in enumerate(sorted(os.listdir(trial))):
             folder_path = os.path.join(base_dir, trial, suggestion)
             ppa_json_path = os.path.join(folder_path, "ppa.json")
 
@@ -42,7 +41,7 @@ with open(output_csv_path, mode='w', newline='') as file:
                     # Extract relevant data
                     data = {
                         "Trial Number": ppa_data.get("run_number", "N/A"),
-                        "Suggestion Number": suggestion,
+                        "Suggestion Number": i,
                         "ABC Max Fanout": ppa_data["flow_config"].get("ABC_MAX_FANOUT", "N/A"),
                         "ABC Map Effort": ppa_data["flow_config"].get("ABC_MAP_EFFORT", "N/A"),
                         "Power (W)": ppa_data["ppa_stats"]["power_report"]["total"]["total_power"],
