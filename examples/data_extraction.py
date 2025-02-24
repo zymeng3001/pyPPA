@@ -86,6 +86,7 @@ with open(output_csv_path, mode='w', newline='') as file:
 
                     # Write data to CSV file
                     writer.writerow(data)
+                    file.flush()
                     print(f"✔ Extracted data from: {folder_path}")
 
                 except (json.JSONDecodeError, KeyError) as e:
