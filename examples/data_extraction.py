@@ -27,8 +27,8 @@ with open(output_csv_path, mode='w', newline='') as file:
 
     # Iterate over all folders in base directory
     for trial in sorted(os.listdir(base_dir)):
-        print(trial)
-        for i, suggestion in enumerate(sorted(os.listdir(trial))):
+        trial_path = os.path.join(base_dir, trial)
+        for i, suggestion in enumerate(sorted(os.listdir(trial_path))):
             folder_path = os.path.join(base_dir, trial, suggestion)
             ppa_json_path = os.path.join(folder_path, "ppa.json")
 
