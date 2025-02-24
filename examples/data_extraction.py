@@ -17,7 +17,7 @@ csv_columns = [
     "Sequential_Total", "Combinational_Internal", "Combinational_Switching", "Combinational_Leakage", 
     "Combinational_Total", "Num_Wires", "Num_Wire_Bits", "Num_Public_Wires", 
     "Num_Public_Wire_Bits", "Num_Cells", "Chip_Area", "Num_Memories", "Num_Memory_Bits", 
-    "Num_Processes","Total Time",
+    "Num_Processes","Total Time(s)",
 ]
 
 # Open the CSV file for writing

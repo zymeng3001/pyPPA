@@ -59,7 +59,7 @@ study_config.algorithm = 'DEFAULT' # Use NSGA2 for multi-objective optimization
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_v2'
+  study_id='ppa_core_array_opt_2_24'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -131,7 +131,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			final_measurement = vz.Measurement({'fom': objective})
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 15: # Run for 10 iterations and then stop
+	if prev_iter_number >= 30: # Run for 10 iterations and then stop
 		print("Optimization complete.")
 		# Print the optimal Vizier trials
 		for optimal_trial in study_client.optimal_trials():
