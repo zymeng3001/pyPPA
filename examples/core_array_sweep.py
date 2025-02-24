@@ -5,6 +5,7 @@ from vizier import service
 from vizier.service import clients
 from vizier.service import pyvizier as vz
 import numpy as np
+import time
 
 import sys
 from os import path
@@ -164,6 +165,9 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 	for suggestion in feasible_suggestions:
 		print("Feasible suggestions:")
 		print(suggestion.parameters) 
+
+	# report time stamp
+	print(f"Time stamp: {time.time()}")
 	return {
 		'opt_complete': False,
 		'next_suggestions': [
