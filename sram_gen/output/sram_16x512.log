@@ -1,0 +1,55 @@
+[2025-01-16 03:42:49.746520] [openram.globals/init_openram]: Initializing OpenRAM...
+[2025-01-16 03:42:49.746645] [openram.globals/setup_paths]: OpenRAM source code found in /home/ppa/OpenRAM/compiler
+[2025-01-16 03:42:49.746761] [openram.globals/setup_paths]: Temporary files saved in /tmp/openram_ppa_915182_temp/
+[2025-01-16 03:42:49.746936] [openram.globals/read_config]: Configuration file is /home/ppa/pyppa/PPA4LLMs/sram_gen/sram_config_tiny.py
+[2025-01-16 03:42:49.747222] [openram.globals/read_config]: Output saved in /home/ppa/pyppa/PPA4LLMs/sram_gen/output/
+[2025-01-16 03:42:49.747487] [openram.globals/install_conda]: Creating conda setup...
+[2025-01-16 03:42:49.749030] [openram.globals/import_tech]: Tech directory found in /home/ppa/OpenRAM/technology:/home/ppa/OpenRAM/compiler/../technology
+[2025-01-16 03:42:49.749190] [openram.globals/import_tech]: Adding technology path: /home/ppa/OpenRAM/technology
+[2025-01-16 03:42:49.749324] [openram.globals/import_tech]: Adding technology path: /home/ppa/OpenRAM/compiler/../technology
+[2025-01-16 03:42:49.752084] [openram.globals/init_paths]: Creating temp directory: /tmp/openram_ppa_915182_temp/
+[2025-01-16 03:42:49.864404] [openram.globals/setup_bitcell]: Using bitcell: bitcell_1port
+[2025-01-16 03:42:50.368987] [openram.characterizer/<module>]: Initializing characterizer...
+[2025-01-16 03:42:50.380842] [openram.characterizer/<module>]: Analytical model enabled.
+[2025-01-16 03:42:50.393533] [openram.verify/<module>]: Initializing verify...
+[2025-01-16 03:42:50.405307] [openram.verify/<module>]: LVS/DRC/PEX disabled.
+[2025-01-16 03:42:50.405674] [openram.globals/setup_bitcell]: Using bitcell: bitcell_1port
+[2025-01-16 03:42:50.405730] |==============================================================================|
+[2025-01-16 03:42:50.405767] |=========                      OpenRAM v1.2.48                       =========|
+[2025-01-16 03:42:50.405806] |=========                                                            =========|
+[2025-01-16 03:42:50.405837] |=========               VLSI Design and Automation Lab               =========|
+[2025-01-16 03:42:50.405865] |=========        Computer Science and Engineering Department         =========|
+[2025-01-16 03:42:50.405892] |=========            University of California Santa Cruz             =========|
+[2025-01-16 03:42:50.405919] |=========                                                            =========|
+[2025-01-16 03:42:50.405946] |=========          Usage help: openram-user-group@ucsc.edu           =========|
+[2025-01-16 03:42:50.405973] |=========        Development help: openram-dev-group@ucsc.edu        =========|
+[2025-01-16 03:42:50.406000] |=========                See LICENSE for license info                =========|
+[2025-01-16 03:42:50.406026] |==============================================================================|
+[2025-01-16 03:42:50.406067] ** Start: 01/16/2025 03:42:50
+[2025-01-16 03:42:50.406098] Technology: sky130
+[2025-01-16 03:42:50.406127] Total size: 8192 bits
+[2025-01-16 03:42:50.406160] Word size: 16
+Words: 512
+Banks: 1
+[2025-01-16 03:42:50.406190] RW ports: 1
+R-only ports: 0
+W-only ports: 0
+[2025-01-16 03:42:50.406218] DRC/LVS/PEX is only run on the top-level design to save run-time (inline_lvsdrc=True to do inline checking).
+[2025-01-16 03:42:50.406246] DRC/LVS/PEX is disabled (check_lvsdrc=True to enable).
+[2025-01-16 03:42:50.406272] Characterization is disabled (using analytical delay models) (analytical_delay=False to simulate).
+[2025-01-16 03:42:50.406305] Words per row: None
+[2025-01-16 03:42:50.406339] Output files are: 
+[2025-01-16 03:42:50.406366] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.lvs
+[2025-01-16 03:42:50.406397] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.sp
+[2025-01-16 03:42:50.406423] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.v
+[2025-01-16 03:42:50.406451] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.lib
+[2025-01-16 03:42:50.406477] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.py
+[2025-01-16 03:42:50.406503] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.html
+[2025-01-16 03:42:50.406538] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.log
+[2025-01-16 03:42:50.406565] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.lef
+[2025-01-16 03:42:50.406591] /home/ppa/pyppa/PPA4LLMs/sram_gen/output/sram_16x512.gds
+[2025-01-16 03:42:50.417304] [openram.sram_config/recompute_sizes]: Recomputing with words per row: 8
+[2025-01-16 03:42:50.417495] [openram.sram_config/recompute_sizes]: Rows: 64 Cols: 128
+[2025-01-16 03:42:50.417669] [openram.sram_config/recompute_sizes]: Row addr size: 6 Col addr size: 3 Bank addr size: 9
+[2025-01-16 03:42:50.417844] ERROR: file sram_config.py: line 146: Invalid number of cols including rbl(s): 129. Total cols must be divisible by 2
+
