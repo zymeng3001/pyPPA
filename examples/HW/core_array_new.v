@@ -37,7 +37,7 @@ module core_array #(
 
     parameter ODATA_BIT = 16,
     parameter IDATA_BIT = 8,
-    parameter MAC_NUM   = 8,
+    parameter MAC_NUM   = ${gbus_width/8},
 
     parameter   WMEM_DEPTH  = 512,
     parameter   CACHE_DEPTH = ${max_context_length}
