@@ -18,6 +18,8 @@ from pyppa.ppa.ppa_runner import PPARunner
 from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 
 import math
+import pickle
+from typing import List
 
 ppa_runner = PPARunner(
 	design_name="core_array",
@@ -41,7 +43,7 @@ problem.search_space.root.add_float_param(name='constraint_period', min_value=8,
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
-problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=4) 
+problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=4) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(32,288,32).tolist(), default_value=64) 
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,264,8).tolist(), default_value=64)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=np.arange(8,264,8).tolist(), default_value=64)
@@ -59,7 +61,7 @@ study_config.algorithm = 'DEFAULT' # Use NSGA2 for multi-objective optimization
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_2_24'
+  study_id='ppa_core_array_opt_2_28'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -113,6 +115,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			return {
 				'opt_complete': True
 			}
+		
+		data_points = []  # List to store data points
 
 		for i, suggestion in enumerate(previous_suggestions):
 			constraint_period = suggestion.parameters['constraint_period']
@@ -132,8 +136,24 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			print(f'Iteration {prev_iter_number}, suggestion (constraint_period = {constraint_period})')
 			
 			print(f'area {area} period {period} total_power {total_power} throughput {throughput} objective value {objective}.')
+
+			# Record the data point in a list
+			data_points.append({
+                'iteration': prev_iter_number,
+                'constraint_period': constraint_period,
+                'area': area,
+                'period': period,
+                'total_power': total_power,
+                'throughput': throughput,
+                'objective': objective,
+            })
+
 			final_measurement = vz.Measurement({'fom': objective})
 			suggestion.complete(final_measurement)
+
+		 # Save data points to a pkl file
+		with open("../ppa_data.pkl", "ab") as f:
+			pickle.dump(data_points, f)
 
 	if prev_iter_number >= 30: # Run for 10 iterations and then stop
 		print("Optimization complete.")
