@@ -173,7 +173,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 	# Assign new suggestions
 	feasible_suggestions = []
-	suggestions = study_client.suggest(count=10) # Since 3 threads per job
+	suggestions = study_client.suggest(count=20) # Since 3 threads per job
 	while len(feasible_suggestions) < 1:
 		print("Generating new suggestions")
 		for i, suggestion in enumerate(suggestions):
@@ -184,7 +184,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 				suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
 			else:
 				feasible_suggestions.append(suggestion)
-		suggestions = study_client.suggest(count=10)
+		suggestions = study_client.suggest(count=20)
 	# feasible_suggestions = suggestions
 
 	for suggestion in feasible_suggestions:
