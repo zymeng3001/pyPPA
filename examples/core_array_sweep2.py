@@ -43,8 +43,8 @@ problem.search_space.root.add_int_param(name='constraint_period', min_value=5, m
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
 problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=4) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=64) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[64], default_value=64)
-problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[64], default_value=64)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[32], default_value=64)
+problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=64)
 problem.search_space.root.add_bool_param(name='ABC_AREA', default_value=True)
 
 problem.metric_information.append(
@@ -59,7 +59,7 @@ study_config.algorithm = 'DEFAULT' # Use NSGA2 for multi-objective optimization
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_2_26'
+  study_id='ppa_core_array_opt_2_28'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -87,7 +87,7 @@ def is_feasible(suggestion) -> bool:
 		print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
 		return False
 
-	if n_heads * n_cols > 31 or n_heads > 4:
+	if n_heads * n_cols > 64 or n_heads > 4:
 		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
 		return False
 
