@@ -42,9 +42,9 @@ problem.search_space.root.add_int_param(name='constraint_period', min_value=5, m
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
 problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=4) 
-problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=64) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[32], default_value=64)
-problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=64)
+problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256]) 
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[32])
+problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32])
 problem.search_space.root.add_bool_param(name='ABC_AREA', default_value=True)
 
 problem.metric_information.append(
