@@ -45,7 +45,6 @@ problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256) 
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[32], default_value=32)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
-problem.search_space.root.add_bool_param(name='ABC_AREA', default_value=True)
 
 problem.metric_information.append(
     vz.MetricInformation(
@@ -59,7 +58,7 @@ study_config.algorithm = 'DEFAULT' # Use NSGA2 for multi-objective optimization
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_v5'
+  study_id='ppa_core_array_opt_v3_1'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
