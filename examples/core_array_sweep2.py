@@ -54,7 +54,7 @@ problem.metric_information.append(
 )
 
 study_config = vz.StudyConfig.from_problem(problem)
-study_config.algorithm = 'RANDOM' # Use NSGA2 for multi-objective optimization
+study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
