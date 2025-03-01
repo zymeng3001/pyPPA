@@ -41,10 +41,10 @@ problem.search_space.root.add_int_param(name='constraint_period', min_value=5, m
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
-problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=4) 
+problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=10) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256) 
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[32], default_value=32)
-problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
+problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16], default_value=16)
 
 problem.metric_information.append(
     vz.MetricInformation(
@@ -54,7 +54,7 @@ problem.metric_information.append(
 )
 
 study_config = vz.StudyConfig.from_problem(problem)
-study_config.algorithm = 'DEFAULT' # Use NSGA2 for multi-objective optimization
+study_config.algorithm = 'RANDOM' # Use NSGA2 for multi-objective optimization
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
@@ -82,11 +82,11 @@ def is_feasible(suggestion) -> bool:
 		print(f"core_dim {core_dim} is not divisible by mac_num {mac_num}. Reject suggestion.")
 		return False
 	
-	if max_context_length % n_cols != 0:
-		print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
-		return False
+	# if max_context_length % n_cols != 0:
+	# 	print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
+	# 	return False
 
-	if n_heads * n_cols > 64 or n_heads > 4:
+	if n_heads * n_cols > 100 or n_heads > 5:
 		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
 		return False
 
