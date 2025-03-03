@@ -45,8 +45,8 @@ problem.search_space.root.add_int_param(name='constraint_period', min_value=5, m
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
 problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=4) 
-# problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(32,288,32).tolist(), default_value=64) 
-problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=64) 
+problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(32,288,32).tolist(), default_value=64) 
+# problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=64) 
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,264,8).tolist(), default_value=64)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=np.arange(8,264,8).tolist(), default_value=64)
 problem.search_space.root.add_bool_param(name='ABC_AREA', default_value=True)
@@ -59,11 +59,11 @@ problem.metric_information.append(
 )
 
 study_config = vz.StudyConfig.from_problem(problem)
-study_config.algorithm = 'DEFAULT' # Use NSGA2 for multi-objective optimization
+study_config.algorithm = 'RANDOM_SEARCH' # Use NSGA2 for multi-objective optimization
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_2_28'
+  study_id='ppa_core_array_opt_mar3'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -89,10 +89,6 @@ def is_feasible(suggestion) -> bool:
 	
 	if max_context_length % n_cols != 0:
 		print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
-		return False
-
-	if n_heads * n_cols > 64:
-		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
 		return False
 
 	return True
@@ -157,7 +153,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 		with open("../ppa_data.pkl", "ab") as f:
 			pickle.dump(data_points, f)
 
-	if prev_iter_number >= 30: # Run for 10 iterations and then stop
+	if prev_iter_number >= 100: # Run for 10 iterations and then stop
 		print("Optimization complete.")
 		# Print the optimal Vizier trials
 		for optimal_trial in study_client.optimal_trials():
@@ -174,7 +170,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 	# Assign new suggestions
 	feasible_suggestions = []
-	suggestions = study_client.suggest(count=20) # Since 3 threads per job
+	suggestions = study_client.suggest(count=10) # Since 3 threads per job
 	while len(feasible_suggestions) < 1:
 		print("Generating new suggestions")
 		for i, suggestion in enumerate(suggestions):
@@ -185,7 +181,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 				suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
 			else:
 				feasible_suggestions.append(suggestion)
-		suggestions = study_client.suggest(count=20)
+		suggestions = study_client.suggest(count=10)
 	# feasible_suggestions = suggestions
 
 	for suggestion in feasible_suggestions:

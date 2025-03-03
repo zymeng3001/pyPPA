@@ -58,7 +58,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_mar1'
+  study_id='ppa_core_array_opt_mar2'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -86,7 +86,7 @@ def is_feasible(suggestion) -> bool:
 	# 	print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
 	# 	return False
 
-	if n_heads * n_cols > 100 or n_heads > 5:
+	if n_heads * n_cols > 150 or n_heads > 8:
 		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
 		return False
 
