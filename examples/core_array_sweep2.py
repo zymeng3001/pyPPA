@@ -41,10 +41,10 @@ problem.search_space.root.add_int_param(name='constraint_period', min_value=5, m
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
-problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=10) 
+problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=10) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[32], default_value=32)
-problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16], default_value=16)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,136,8), default_value=32)
+problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,24,32], default_value=16)
 
 problem.metric_information.append(
     vz.MetricInformation(
@@ -58,7 +58,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_mar2'
+  study_id='ppa_core_array_opt_mar4'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -86,7 +86,7 @@ def is_feasible(suggestion) -> bool:
 	# 	print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
 	# 	return False
 
-	if n_heads * n_cols > 100 or n_heads > 6:
+	if n_heads > 7 and n_cols*n_heads > 63:
 		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
 		return False
 
@@ -134,7 +134,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			final_measurement = vz.Measurement({'fom': objective})
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 30: # Run for 10 iterations and then stop
+	if prev_iter_number >= 100: # Run for 10 iterations and then stop
 		print("Optimization complete.")
 		# Print the optimal Vizier trials
 		for optimal_trial in study_client.optimal_trials():
