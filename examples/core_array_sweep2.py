@@ -43,7 +43,7 @@ problem.search_space.root.add_int_param(name='constraint_period', min_value=5, m
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
 problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=10) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,136,8), default_value=32)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,136,8).tolist(), default_value=32)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,24,32], default_value=16)
 
 problem.metric_information.append(
@@ -134,7 +134,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			final_measurement = vz.Measurement({'fom': objective})
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 100: # Run for 10 iterations and then stop
+	if prev_iter_number >= 150: # Run for 10 iterations and then stop
 		print("Optimization complete.")
 		# Print the optimal Vizier trials
 		for optimal_trial in study_client.optimal_trials():
