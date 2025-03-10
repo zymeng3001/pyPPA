@@ -37,13 +37,13 @@ ppa_runner = PPARunner(
 )
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_int_param(name='constraint_period', min_value=5, max_value=6) # Guessing that the optimal period is somewhere in between, based on previous results
+problem.search_space.root.add_int_param(name='constraint_period', min_value=5, max_value=6, default_value=6) # Guessing that the optimal period is somewhere in between, based on previous results
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
-problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=4) 
-problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=10) 
+problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=8) 
+problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=8) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,72,8).tolist(), default_value=32)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,72,8).tolist(), default_value=24)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,24,32], default_value=16)
 
 problem.metric_information.append(
@@ -58,7 +58,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_mar5'
+  study_id='ppa_core_array_opt_mar9'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
