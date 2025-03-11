@@ -43,8 +43,8 @@ problem.search_space.root.add_discrete_param(name='constraint_period', feasible_
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=8) 
 problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=16, default_value=8) 
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,72,8).tolist(), default_value=24)
-problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,24,32], default_value=16)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,24,8).tolist(), default_value=24)
+problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,24], default_value=16)
 
 problem.metric_information.append(
     vz.MetricInformation(
@@ -58,7 +58,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_mar10'
+  study_id='ppa_core_array_opt_mar11'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
