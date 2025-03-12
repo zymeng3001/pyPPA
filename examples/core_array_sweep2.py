@@ -37,7 +37,7 @@ ppa_runner = PPARunner(
 )
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[8,7.5,7], default_value=7) # Guessing that the optimal period is somewhere in between, based on previous results
+problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[10], default_value=10) # Guessing that the optimal period is somewhere in between, based on previous results
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=12, default_value=8) 
@@ -58,7 +58,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_mar11'
+  study_id='ppa_core_array_opt_mar12'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
