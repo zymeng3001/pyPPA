@@ -31,7 +31,8 @@ if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) == 1} 
     append final_synth_args " -flatten"
 }
 
-synth  -top $::env(DESIGN_NAME) {*}$final_synth_args
+# synth  -top $::env(DESIGN_NAME) {*}$final_synth_args
+synth  -top $::env(DESIGN_NAME) 
 
 
 if { [info exists ::env(USE_LSORACLE)] } {
