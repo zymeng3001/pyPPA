@@ -32,7 +32,7 @@ if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) == 1} 
 }
 
 # synth  -top $::env(DESIGN_NAME) {*}$final_synth_args
-synth  -top $::env(DESIGN_NAME) 
+synth  -top $::env(DESIGN_NAME) -hier
 
 
 if { [info exists ::env(USE_LSORACLE)] } {
