@@ -18,11 +18,22 @@ set max_TR 0
 
 # Generic synthesis
 set final_synth_args $::env(SYNTH_ARGS)
-if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) != 1} {
-  puts "Flattening the hierarchy."
-  append final_synth_args " -flatten"
+# if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) != 1} {
+#   puts "Flattening the hierarchy."
+#   append final_synth_args " -flatten"
+# }
+# Check if hierarchical synthesis is enabled
+if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) == 1} {
+    puts "Performing hierarchical synthesis."
+    append final_synth_args " -hier"
+} else {
+    puts "Flattening the hierarchy."
+    append final_synth_args " -flatten"
 }
+
 synth  -top $::env(DESIGN_NAME) {*}$final_synth_args
+# synth  -top $::env(DESIGN_NAME) -hier
+
 
 if { [info exists ::env(USE_LSORACLE)] } {
     set lso_script [open $::env(OBJECTS_DIR)/lso.script w]

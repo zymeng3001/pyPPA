@@ -69,4 +69,3 @@ if {[info exist ::env(BLOCKS)]} {
     puts "blackboxing $block"
   }
 }
-
