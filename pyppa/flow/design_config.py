@@ -63,6 +63,20 @@ class __DesignFloorplanConfig(TypedDict):
 
 FlowDesignConfigDict = Union[__DesignCommonConfig, __STAConfig, __DesignSynthConfig, __DesignFloorplanConfig]
 
+# FLOW_DESIGN_CONFIG_DEFAULTS: FlowDesignConfigDict = {
+# 	'ABC_AREA': False,
+# 	'ABC_CLOCK_PERIOD_IN_PS': 0,
+# 	'PLACE_PINS_ARGS': '',
+# 	'RUN_VERILOG_SIM': False,
+# 	'USE_STA_VCD': False,
+# 	'STA_TB_DUT_INSTANCE': 'dut',
+# 	'USE_YOSYS_SV_PLUGIN': False,
+# 	'SYNTH_HIERARCHICAL': False,
+# 	'PRESERVE_HIERARCHY_MODULES': [],
+# 	'SYNTH_ARGS': '',
+# 	'ADDITIONAL_LIB_FILES': []
+# }
+
 FLOW_DESIGN_CONFIG_DEFAULTS: FlowDesignConfigDict = {
 	'ABC_AREA': False,
 	'ABC_CLOCK_PERIOD_IN_PS': 0,
@@ -76,6 +90,7 @@ FLOW_DESIGN_CONFIG_DEFAULTS: FlowDesignConfigDict = {
 	'SYNTH_ARGS': '',
 	'ADDITIONAL_LIB_FILES': []
 }
+
 
 class FlowDesignConfig:
 	configopts: Union[FlowDesignConfigDict, dict]
