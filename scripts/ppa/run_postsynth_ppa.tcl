@@ -12,13 +12,22 @@ set block [ord::get_db_block]
 set seq_count 0
 set comb_count 0
 
+set total_power 0.0
+
 foreach inst [$block getInsts] {
 	if { [[$inst getMaster] isSequential] == 1 } {
 		set seq_count [expr $seq_count + 1]
 	} else {
 		set comb_count [expr $comb_count + 1]
 	}
+
+  current_design $inst
+  set power [sta::report_power -quiet]  ;# Get power of the module
+  puts "$inst: $power mW"
+  set total_power [expr $total_power + $power]
 }
+
+puts "Total Power: $total_power mW"
 
 puts "Sequential Cells Count: $seq_count"
 puts "Combinational Cells Count: $comb_count"
