@@ -23,10 +23,13 @@ set final_synth_args $::env(SYNTH_ARGS)
 #   append final_synth_args " -flatten"
 # }
 # Check if hierarchical synthesis is enabled
+
+hierarchy -check -top $::env(DESIGN_NAME)
+
 if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) == 1} {
     puts "Performing hierarchical synthesis."
     append final_synth_args " -hier"
-    synth  -top $::env(DESIGN_NAME) -hier
+    synth  -top $::env(DESIGN_NAME)
 } else {
     puts "Flattening the hierarchy."
     append final_synth_args " -flatten"
