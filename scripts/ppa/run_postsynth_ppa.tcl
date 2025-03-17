@@ -20,11 +20,6 @@ foreach inst [$block getInsts] {
 	} else {
 		set comb_count [expr $comb_count + 1]
 	}
-
-  current_design $inst
-  set power [sta::report_power -quiet]  ;# Get power of the module
-  puts "$inst: $power mW"
-  set total_power [expr $total_power + $power]
 }
 
 puts "Total Power: $total_power mW"
