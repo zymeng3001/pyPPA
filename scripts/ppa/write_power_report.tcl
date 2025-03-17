@@ -15,6 +15,8 @@ proc write_power_report {step} {
 			sta::set_power_activity -input_port rst -activity 0
 		}
 
+		current_design $::env(DESIGN_NAME)
+
 		set power_report_file [file join $::env(REPORTS_DIR) "${step}_power_report.txt"]
 		sta::report_power > $power_report_file
 
