@@ -26,12 +26,15 @@ set final_synth_args $::env(SYNTH_ARGS)
 if {[info exists ::env(SYNTH_HIERARCHICAL)] && $::env(SYNTH_HIERARCHICAL) == 1} {
     puts "Performing hierarchical synthesis."
     append final_synth_args " -hier"
+    synth  -top $::env(DESIGN_NAME) -hier
 } else {
     puts "Flattening the hierarchy."
     append final_synth_args " -flatten"
+    synth  -top $::env(DESIGN_NAME) -flatten
+
 }
 
-synth  -top $::env(DESIGN_NAME) {*}$final_synth_args
+# synth  -top $::env(DESIGN_NAME) {*}$final_synth_args
 # synth  -top $::env(DESIGN_NAME) -hier
 
 
