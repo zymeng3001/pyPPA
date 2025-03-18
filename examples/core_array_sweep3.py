@@ -99,13 +99,13 @@ def is_feasible(suggestion) -> bool:
 		print(f"core_dim {core_dim} is not divisible by mac_num {mac_num}. Reject suggestion.")
 		return False
 	
-	# if max_context_length % n_cols != 0:
-	# 	print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
-	# 	return False
-
-	if n_cols*n_heads > 90 or n_heads > 6:
-		print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
+	if max_context_length % n_cols != 0:
+		print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
 		return False
+
+	# if n_cols*n_heads > 90 or n_heads > 6:
+	# 	print(f"n_heads * n_cols {n_heads * n_cols} is greater than 64. Reject suggestion")
+	# 	return False
 
 	return True
 
