@@ -176,7 +176,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
             suggestion.complete(final_measurement)
 
 
-    if prev_iter_number >= 150: # Run for 10 iterations and then stop
+    if prev_iter_number >= 50: # Run for 10 iterations and then stop
         print("Optimization complete.")
         # Print the optimal Vizier trials
         for optimal_trial in study_client.optimal_trials():
