@@ -48,9 +48,9 @@ problem.search_space.root.add_discrete_param(name='constraint_period', feasible_
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
 problem.search_space.root.add_int_param(name='n_heads', min_value=4, max_value=4, default_value=4)
-problem.search_space.root.add_int_param(name='n_cols', min_value=2, max_value=16, default_value=8)
+problem.search_space.root.add_int_param(name='n_cols', min_value=4, max_value=4, default_value=4)
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256)
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(16,272,16).tolist(), default_value=32)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,264,8).tolist(), default_value=32)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
 
 
@@ -67,7 +67,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_opt_hier_max_context_length_study'
+  study_id='ppa_core_array_opt_hier_max_context_length_study2'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -195,7 +195,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
     # Assign new suggestions
     feasible_suggestions = []
-    suggestions = study_client.suggest(count=20) # Since 3 threads per job
+    suggestions = study_client.suggest(count=10) # Since 3 threads per job
     while len(feasible_suggestions) < 1:
         print("Generating new suggestions")
         for i, suggestion in enumerate(suggestions):
@@ -206,7 +206,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                 suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
             else:
                 feasible_suggestions.append(suggestion)
-        suggestions = study_client.suggest(count=20)
+        suggestions = study_client.suggest(count=10)
     # feasible_suggestions = suggestions
 
 
