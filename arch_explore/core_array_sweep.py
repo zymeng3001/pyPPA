@@ -57,7 +57,7 @@ problem.search_space.root.add_discrete_param(name='constraint_period', feasible_
 problem.search_space.root.add_int_param(name='n_heads', min_value=4, max_value=4, default_value=4)
 problem.search_space.root.add_int_param(name='n_cols', min_value=4, max_value=4, default_value=4)
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=[256], default_value=256)
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(8,264,8).tolist(), default_value=32)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(48,264,8).tolist(), default_value=32)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
 
 
@@ -249,7 +249,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'max_context_length': int(suggestion.parameters['max_context_length']),
                     'gbus_width': int(suggestion.parameters['gbus_width']),
                     'wmem_depth': 512,
-                    'cache_size': int(suggestion.parameters['n_cols'])
+                    'cache_depth': get_cache_depth(suggestion)
                 }
             } for suggestion in feasible_suggestions
         ],
