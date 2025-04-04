@@ -1,18 +1,19 @@
-`define GBUS_DATA = ${gbus_width}
-`define ABUF_DEPTH = 64
-`define ABUF_DATA =  ${gbus_width}
-`define ABUF_ADDR  = $clog2(ABUF_DEPTH)
-`define ALERT_DEPTH = 3
-
-module core_buf (
+/////////////////////////////Core Buf////////////////////////////////
+module core_buf #(
+    parameter ABUF_DATA = ${gbus_width},
+    parameter ABUF_ADDR = $clog2(ABUF_DATA),
+    parameter ABUF_DEPTH = 64,
+    parameter ALERT_DEPTH = 3,
+    parameter GBUS_DATA = ${gbus_width}
+)(
     // Global Signals
     input                       clk,
     input                       rstn,
 
     // Channel - Core-to-Core Link
-    input       [`GBUS_DATA-1:0] clink_wdata,
+    input       [GBUS_DATA-1:0] clink_wdata,
     input                       clink_wen,
-    output      [`GBUS_DATA-1:0] clink_rdata,
+    output      [GBUS_DATA-1:0] clink_rdata,
     output                      clink_rvalid,
 
     // Channel - Activation Buffer for MAC Operation
@@ -20,7 +21,7 @@ module core_buf (
     //input       [ABUF_ADDR-1:0] abuf_waddr,
     //input       [ABUF_ADDR-1:0] abuf_raddr,
     input                       abuf_ren,
-    output      [`ABUF_DATA-1:0] abuf_rdata,
+    output      [ABUF_DATA-1:0] abuf_rdata,
     output  reg                 abuf_rvalid,
     output reg                  abuf_empty,
         output reg                  abuf_reuse_empty,
@@ -35,21 +36,21 @@ module core_buf (
     // =============================================================================
     // Memory Instantization: Dual-Port or Double-Buffering ABUF
     // TODO: Design Exploration for DP/DB and SRAM/REGFILE/DFF ABUF
-    wire    [`ABUF_DATA-1:0]     abuf_wdata;
-    wire    [`ABUF_DATA-1:0]     abuf_rdata_mem;
+    wire    [ABUF_DATA-1:0]     abuf_wdata;
+    wire    [ABUF_DATA-1:0]     abuf_rdata_mem;
     wire                        abuf_wen;
-    reg    [`ABUF_ADDR:0]          abuf_waddr;
-    reg    [`ABUF_ADDR:0]          abuf_raddr;
-    reg     [`ABUF_ADDR:0]       reuse_raddr; //for reuse pointer.
-    reg    [`ABUF_ADDR-1:0]     abuf_raddr_mux;
-    assign abuf_raddr_mux= abuf_reuse_ren ? reuse_raddr[`ABUF_ADDR-1:0] : abuf_raddr[`ABUF_ADDR-1:0];
+    reg    [ABUF_ADDR:0]          abuf_waddr;
+    reg    [ABUF_ADDR:0]          abuf_raddr;
+    reg     [ABUF_ADDR:0]       reuse_raddr; //for reuse pointer.
+    reg    [ABUF_ADDR-1:0]     abuf_raddr_mux;
+    assign abuf_raddr_mux= abuf_reuse_ren ? reuse_raddr[ABUF_ADDR-1:0] : abuf_raddr[ABUF_ADDR-1:0];
 
     mem_dp_abuf abuf_inst (
         .clk                    (clk),
-        .waddr                  (abuf_waddr[`ABUF_ADDR-1:0]),
+        .waddr                  (abuf_waddr[ABUF_ADDR-1:0]),
         .wen                    (abuf_wen),
         .wdata                  (abuf_wdata),
-        .raddr                  (abuf_raddr[`ABUF_ADDR-1:0]),
+        .raddr                  (abuf_raddr[ABUF_ADDR-1:0]),
         .ren                    (abuf_ren),
         .rdata                  (abuf_rdata)
     );
@@ -88,15 +89,15 @@ module core_buf (
 
     assign abuf_empty = (abuf_raddr == abuf_waddr);
     assign abuf_reuse_empty = (reuse_raddr == abuf_waddr);
-    assign abuf_full = (abuf_raddr[`ABUF_ADDR] ^ abuf_waddr[`ABUF_ADDR]) & //should abuf_raddr[ABUF_ADDR] be  at [ABUF_ADDR-1] instead?
-        (abuf_raddr[`ABUF_ADDR-1:0] == abuf_waddr[`ABUF_ADDR-1:0]);
+    assign abuf_full = (abuf_raddr[ABUF_ADDR] ^ abuf_waddr[ABUF_ADDR]) & //should abuf_raddr[ABUF_ADDR] be  at [ABUF_ADDR-1] instead?
+        (abuf_raddr[ABUF_ADDR-1:0] == abuf_waddr[ABUF_ADDR-1:0]);
     assign abuf_rdata = abuf_rdata_mem;
 
     always@(*) begin
-        if(abuf_raddr[`ABUF_ADDR] ^ abuf_waddr[`ABUF_ADDR])
-            abuf_almost_full=((abuf_raddr[`ABUF_ADDR-1:0]-abuf_waddr[`ABUF_ADDR-1:0])<=`ALERT_DEPTH);
+        if(abuf_raddr[ABUF_ADDR] ^ abuf_waddr[ABUF_ADDR])
+            abuf_almost_full=((abuf_raddr[ABUF_ADDR-1:0]-abuf_waddr[ABUF_ADDR-1:0])<=ALERT_DEPTH);
         else
-            abuf_almost_full=((abuf_waddr[`ABUF_ADDR-1:0]-abuf_raddr[`ABUF_ADDR-1:0])>=`ABUF_DEPTH-`ALERT_DEPTH);
+            abuf_almost_full=((abuf_waddr[ABUF_ADDR-1:0]-abuf_raddr[ABUF_ADDR-1:0])>=ABUF_DEPTH-ALERT_DEPTH);
     end
     
 
@@ -113,7 +114,7 @@ module core_buf (
     // Core-to-Core Link Channel
 
     // 1. Write Channel: CLINK -> Core
-    reg     [`GBUS_DATA-1:0]     clink_reg;
+    reg     [GBUS_DATA-1:0]     clink_reg;
     reg                         clink_reg_valid;
 
     always @(posedge clk or negedge rstn) begin
@@ -152,17 +153,20 @@ module core_buf (
 
 endmodule 
 
-module align_s2p_abuf (
+module align_s2p_abuf #(
+    parameter ABUF_DATA = 64,
+    parameter GBUS_DATA = ${gbus_width}
+)(
     input                       clk,
     input                       rstn, 
-    input       [`GBUS_DATA-1:0] idata,
+    input       [GBUS_DATA-1:0] idata,
     input                       idata_valid,
-    output  reg [`ABUF_DATA-1:0] odata,
+    output  reg [ABUF_DATA-1:0] odata,
     output  reg                 odata_valid
 );
-    localparam  REG_NUM = `ABUF_DATA / `GBUS_DATA;
+    localparam  REG_NUM = ABUF_DATA / GBUS_DATA;
     localparam  ADDR_BIT = $clog2(REG_NUM+1);
-    reg     [`GBUS_DATA-1:0] regfile [0:REG_NUM-1];
+    reg     [GBUS_DATA-1:0] regfile [0:REG_NUM-1];
     reg     [ADDR_BIT-1:0]  regfile_addr;           
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
@@ -191,30 +195,44 @@ module align_s2p_abuf (
     generate
         for (i = 0; i < REG_NUM; i = i + 1) begin:gen_pal
             always @(*) begin
-                odata[i*`GBUS_DATA+:`GBUS_DATA] = regfile[i];
+                odata[i*GBUS_DATA+:GBUS_DATA] = regfile[i];
             end
         end
     endgenerate    
 endmodule
 
-
-module mem_sp_abuf (
+module mem_dp_abuf #(
+    parameter   ABUF_DATA = 64,
+    parameter   ABUF_DEPTH = 64,
+    parameter   ADDR_BIT = $clog2(64)
+)(
+    // Global Signals
     input                       clk,
-    input       [$clog2(`ABUF_DEPTH)-1:0]  addr,
+
+    // Data Signals
+    input       [ADDR_BIT-1:0]  waddr,
     input                       wen,
-    input       [$clog2(`ABUF_DEPTH)-1:0]  wdata,
+    input       [ABUF_DATA-1:0]  wdata,
+    input       [ADDR_BIT-1:0]  raddr,
     input                       ren,
-    output  reg [$clog2(`ABUF_DEPTH)-1:0]  rdata
+    output  reg [ABUF_DATA-1:0]  rdata
 );
-    reg [`ABUF_DATA-1:0]  mem [0:`ABUF_DEPTH-1];
+
+    // 1, Memory initialization
+    reg [ABUF_DATA-1:0]  mem [0:ABUF_DEPTH-1];
+
+    // 2. Write channel
     always @(posedge clk) begin
         if (wen) begin
-            mem[addr] <= wdata;
+            mem[waddr] <= wdata;
         end
     end
+
+    // 3. Read channel
     always @(posedge clk) begin
         if (ren) begin
-            rdata <= mem[addr];
+            rdata <= mem[raddr];
         end
     end
+    
 endmodule

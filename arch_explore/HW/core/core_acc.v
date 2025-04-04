@@ -24,7 +24,7 @@ module core_acc #(
     // Accumulation Counter
     wire    pre_finish;
 
-    core_acc_ctrl acc_counter_inst (
+    core_acc_ctrl #(.CDATA_BIT(CDATA_BIT)) acc_counter_inst (
         .clk                (clk),
         .rstn                (rstn),
         .cfg_acc_num        (cfg_acc_num),
@@ -49,13 +49,15 @@ endmodule
 // =============================================================================
 // FSM for Accumulation Counter
 
-module core_acc_ctrl (
+module core_acc_ctrl #(
+    parameter   CDATA_BIT = 8
+)(
     // Global Signals
     input                       clk,
     input                       rstn,
 
     // Config Signals
-    input       [`CDATA_BIT-1:0] cfg_acc_num,
+    input       [CDATA_BIT-1:0] cfg_acc_num,
 
     // Control Signals
     input                       psum_valid,
@@ -153,7 +155,10 @@ endmodule
 // =============================================================================
 // Computing Logic in Accumulation
 
-module core_acc_mac (
+module core_acc_mac #(
+    parameter ACC_IDATA_BIT = (16+$clog2(8)),
+    parameter ODATA_BIT = 16
+)(
     // Global Signals
     input                       clk,
     input                       rstn,
@@ -162,9 +167,9 @@ module core_acc_mac (
     input                       pre_finish,
 
     // Data Signals
-    input       [`IDATA_BIT-1:0] idata,
+    input       [ACC_IDATA_BIT-1:0] idata,
     input                       idata_valid,
-    output  reg [`ODATA_BIT-1:0] odata,
+    output  reg [ODATA_BIT-1:0] odata,
     output  reg                 odata_valid
 );
 
@@ -191,7 +196,7 @@ module core_acc_mac (
     end
 
     // Accumulation
-    reg signed  [`ODATA_BIT-1:0] acc_reg;
+    reg signed  [ODATA_BIT-1:0] acc_reg;
 
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
