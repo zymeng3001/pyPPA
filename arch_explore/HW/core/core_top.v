@@ -14,7 +14,7 @@ module core_top #(
     parameter   ODATA_BIT = 16,
 
     parameter   CDATA_BIT = 8,
-    parameter LBUF_ADDR = $clog2(64)
+    parameter LBUF_ADDR = $clog2(LBUF_DEPTH)
 )(
   
 input                       clk,
