@@ -1,14 +1,12 @@
-`define N_COL ${n_cols}
-
 module core_array #(
 	parameter HNUM = ${n_heads},
-    parameter VNUM = `N_COL,
+    parameter VNUM = ${n_cols},
 
     parameter GBUS_DATA = ${gbus_width},
     parameter GBUS_ADDR = 12,
 
     parameter LBUF_DEPTH = 64,
-    parameter LBUF_DATA =  64,
+    parameter LBUF_DATA =  GBUS_DATA,
     parameter LBUF_ADDR   = $clog2(LBUF_DEPTH),
 
     parameter CDATA_BIT = 8,
@@ -17,8 +15,8 @@ module core_array #(
     parameter IDATA_BIT = 8,
     parameter MAC_NUM   = ${gbus_width/8},
 
-    parameter   WMEM_DEPTH  = 512,
-    parameter   CACHE_DEPTH = ${max_context_length}
+    parameter   WMEM_DEPTH  = ${wmem_depth},
+    parameter   CACHE_DEPTH = ${cache_depth},
 )(
     // Global Signals
     input                       clk,
