@@ -1,4 +1,4 @@
-`define IDATA_BIT = (16+$clog2(8))
+`define IDATA_BIT = 9 //(16+$clog2(8))
 `define ODATA_BIT = 16
 `define CDATA_BIT = 8
 
