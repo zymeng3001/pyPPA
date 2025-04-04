@@ -1,9 +1,6 @@
-`define IDATA_BIT = (16+$clog2(8))
-`define ODATA_BIT = 16
-`define CDATA_BIT = 8
-
+/////////////////////////////////Core Acc///////////////////////////////
 module core_acc #(
-    parameter IDATA_BIT = 9,   // Default: 16 + $clog2(8)
+    parameter ACC_IDATA_BIT = (16+$clog2(8)),
     parameter ODATA_BIT = 16,
     parameter CDATA_BIT = 8
 )(
@@ -15,7 +12,7 @@ module core_acc #(
     input       [CDATA_BIT-1:0] cfg_acc_num,
 
     // Data Signals
-    input       [IDATA_BIT-1:0] idata,
+    input       [ACC_IDATA_BIT-1:0] idata,
     input                       idata_valid,
     output      [ODATA_BIT-1:0] odata,
     output                      odata_valid
@@ -24,7 +21,7 @@ module core_acc #(
     // Accumulation Counter
     wire    pre_finish;
 
-    core_acc_ctrl #(.CDATA_BIT(CDATA_BIT)) acc_counter_inst (
+    core_acc_ctrl acc_counter_inst (
         .clk                (clk),
         .rstn                (rstn),
         .cfg_acc_num        (cfg_acc_num),
@@ -46,8 +43,6 @@ module core_acc #(
 
 endmodule
 
-// =============================================================================
-// FSM for Accumulation Counter
 
 module core_acc_ctrl #(
     parameter   CDATA_BIT = 8
@@ -68,7 +63,7 @@ module core_acc_ctrl #(
                 PSUM_UPDATE = 2'b10;
     reg [1:0]   psum_state;
 
-    reg     [`CDATA_BIT-1:0] psum_cnt;
+    reg     [CDATA_BIT-1:0] psum_cnt;
     reg     psum_warmup;
 
     always @(posedge clk or negedge rstn) begin
@@ -152,8 +147,6 @@ module core_acc_ctrl #(
 
 endmodule
 
-// =============================================================================
-// Computing Logic in Accumulation
 
 module core_acc_mac #(
     parameter ACC_IDATA_BIT = (16+$clog2(8)),
@@ -174,7 +167,7 @@ module core_acc_mac #(
 );
 
     // Input Gating
-    reg signed  [`IDATA_BIT-1:0] idata_reg;
+    reg signed  [ACC_IDATA_BIT-1:0] idata_reg;
     reg                         idata_valid_reg;
 
     always @(posedge clk or negedge rstn) begin
