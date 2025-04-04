@@ -1,6 +1,6 @@
 /////////////////////////////Core Mac/////////////////////////////
 module core_mac #(
-    parameter MAC_NUM = ${gbus_width/8},
+    parameter MAC_NUM = ${mac_num},
     parameter IDATA_BIT = 8,
     parameter MAC_ODATA_BIT = 16+$clog2(8)
 )(
@@ -41,7 +41,7 @@ module core_mac #(
 endmodule
 
 module mul_line #(
-    parameter MAC_NUM = 8,
+    parameter MAC_NUM = ${mac_num},
     parameter IDATA_BIT = 8,
     parameter MUL_ODATA_BIT = 16
 )(
@@ -128,7 +128,7 @@ endmodule
 module adder_tree #(
     parameter ADD_IDATA_BIT = 16,
     parameter ADD_ODATA_BIT = 16 + $clog2(8),
-    parameter MAC_NUM = 8
+    parameter MAC_NUM = ${mac_num}
 )(
     // Global Signals
     input                               clk,

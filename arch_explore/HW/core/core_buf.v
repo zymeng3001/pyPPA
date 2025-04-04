@@ -202,7 +202,7 @@ module align_s2p_abuf #(
 endmodule
 
 module mem_dp_abuf #(
-    parameter   ABUF_DATA = 64,
+    parameter   ABUF_DATA = ${gbus_width},
     parameter   ABUF_DEPTH = 64,
     parameter   ADDR_BIT = $clog2(64)
 )(
