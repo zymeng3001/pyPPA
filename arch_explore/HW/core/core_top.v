@@ -9,7 +9,7 @@ module core_top #(
     parameter   LBUF_DATA   = GBUS_DATA,
     parameter   LBUF_DEPTH  = 64,
 
-    parameter   MAC_NUM   = ${gbus_width/8},
+    parameter   MAC_NUM   = ${mac_num},
     parameter   IDATA_BIT = 8,
     parameter   ODATA_BIT = 16,
 
