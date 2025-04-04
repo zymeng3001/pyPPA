@@ -1,48 +1,44 @@
-`define GBUS_DATA = ${gbus_width}
-`define GBUS_ADDR = 12
-`define LBUF_DEPTH = 64
-`define LBUF_DATA =  `GBUS_DATA
-`define LBUF_ADDR   = $clog2(`GBUS_DATA)
-`define CDATA_BIT = 8
-`define ODATA_BIT = 16
-`define IDATA_BIT = 8
-`define MAC_NUM   = ${gbus_width/8}
-`define WMEM_DEPTH  = ${wmem_depth}
-`define WMEM_ADDR = $clog2(WMEM_DEPTH)
-`define CACHE_DEPTH = ${cache_depth}
-`define CACHE_ADDR = $clog2(CACHE_DEPTH)
-`define ALERT_DEPTH = 3
-module core_mem (
+///////////////////////////Core Mem//////////////////////////
+module core_mem #(
+    parameter GBUS_DATA = ${gbus_width},
+    parameter LBUF_DATA = GBUS_DATA,
+    parameter GBUS_ADDR = 12,
+    parameter LBUF_ADDR = 64,
+    parameter WMEM_ADDR = $clog2(${wmem_depth}),
+    parameter CACHE_ADDR = $clog2(${cache_depth}),
+    parameter LBUF_DEPTH = 64,
+    parameter ALERT_DEPTH = 3
+    )(
     // Global Signals
     input                       clk,
     input                       rstn,
 
     // Channel - Global Bus (GBUS) to Access Core Memory (WMEM and KV Cache)
     // Data Upload from (1) Chip Interface and (2) Vector Engine
-    input       [`GBUS_ADDR-1:0] gbus_addr,
+    input       [GBUS_ADDR-1:0] gbus_addr,
     input                       gbus_wen,
-    input       [`GBUS_DATA-1:0] gbus_wdata,
+    input       [GBUS_DATA-1:0] gbus_wdata,
     input                       gbus_ren,
-    output  reg [`GBUS_DATA-1:0] gbus_rdata,
+    output  reg [GBUS_DATA-1:0] gbus_rdata,
     output  reg                 gbus_rvalid,
 
     // Channel - Core-to-Core Link (CLINK)
     // Global Config Signals
     input                       clink_enable,
     // No WADDR. The data from neighboring core is sent to MAC directly.
-    input       [`GBUS_DATA-1:0] clink_wdata,
+    input       [GBUS_DATA-1:0] clink_wdata,
     input                       clink_wen,
     // No RADDR. The data to neighboring core is the same as the current operand.
-    output  reg [`GBUS_DATA-1:0] clink_rdata,
+    output  reg [GBUS_DATA-1:0] clink_rdata,
     output  reg                 clink_rvalid,
 
     // Channel - Core Memory for MAC Operation
     // Write back results from MAC directly.
-    input       [`GBUS_ADDR-1:0] cmem_waddr,         // Assume WMEM_ADDR >= CACHE_ADDR
+    input       [GBUS_ADDR-1:0] cmem_waddr,         // Assume WMEM_ADDR >= CACHE_ADDR
     input                       cmem_wen,
-    input       [`GBUS_DATA-1:0] cmem_wdata,
+    input       [GBUS_DATA-1:0] cmem_wdata,
     // Read data to LBUF. No RDATA, Sent data to LBUF directly in this module.
-    input       [`GBUS_ADDR-1:0] cmem_raddr,
+    input       [GBUS_ADDR-1:0] cmem_raddr,
     input                       cmem_ren,
 
     // Channel - Local Memory (LBUF) for MAC Operation
@@ -50,7 +46,7 @@ module core_mem (
     //input       [LBUF_ADDR-1:0] lbuf_waddr,         // No WDATA or WEN. Receive data from CMEM directly in this moduel.
     //input       [LBUF_ADDR-1:0] lbuf_raddr,
     input                       lbuf_ren,
-    output      [`LBUF_DATA-1:0] lbuf_rdata,         // To MAC
+    output      [LBUF_DATA-1:0] lbuf_rdata,         // To MAC
     output  reg                 lbuf_rvalid,
     output  reg                 lbuf_empty,
     output  reg                 lbuf_reuse_empty,
@@ -65,11 +61,11 @@ module core_mem (
     // Memory Instantization
 
     // 1. Single-Port Weight Memory
-    reg     [`WMEM_ADDR-1:0]     wmem_addr;
+    reg     [WMEM_ADDR-1:0]     wmem_addr;
     reg                         wmem_wen;
-    reg     [`GBUS_DATA-1:0]     wmem_wdata;
+    reg     [GBUS_DATA-1:0]     wmem_wdata;
     reg                         wmem_ren;
-    wire    [`GBUS_DATA-1:0]     wmem_rdata;
+    wire    [GBUS_DATA-1:0]     wmem_rdata;
     reg                         wmem_rvalid; //not used for anything
 
     mem_sp_wmem wmem_inst (
@@ -91,11 +87,11 @@ module core_mem (
     end
 
     // 2. Single-Port KV Cache
-    reg     [`CACHE_ADDR-1:0]    cache_addr;
+    reg     [CACHE_ADDR-1:0]    cache_addr;
     reg                         cache_wen;
-    reg     [`GBUS_DATA-1:0]     cache_wdata;
+    reg     [GBUS_DATA-1:0]     cache_wdata;
     reg                         cache_ren;
-    wire    [`GBUS_DATA-1:0]     cache_rdata;
+    wire    [GBUS_DATA-1:0]     cache_rdata;
     reg                         cache_rvalid;
 
     mem_sp_cache cache_inst (
@@ -118,14 +114,14 @@ module core_mem (
 
     // 3. Dual-Port or Double-Buffering LBUF
     // TODO: Design Exploration for DP/DB and SRAM/REGFILE/DFF.
-    wire    [`LBUF_DATA-1:0]     lbuf_wdata;     // Series_to_Parallel -> LBUF_WDATA
-    wire    [`LBUF_DATA-1:0]     lbuf_rdata_mem;
+    wire    [LBUF_DATA-1:0]     lbuf_wdata;     // Series_to_Parallel -> LBUF_WDATA
+    wire    [LBUF_DATA-1:0]     lbuf_rdata_mem;
     wire                        lbuf_wen;
-    reg    [`LBUF_ADDR:0]     lbuf_waddr; //was wire before
-    reg    [`LBUF_ADDR:0]     lbuf_raddr; //was wire before
-    reg    [`LBUF_ADDR:0]       reuse_raddr; //for reuse pointer.
-    reg    [`LBUF_ADDR-1:0]     lbuf_raddr_mux;
-    assign lbuf_raddr_mux= lbuf_reuse_ren ? reuse_raddr[`LBUF_ADDR-1:0] : lbuf_raddr[`LBUF_ADDR-1:0];
+    reg    [LBUF_ADDR:0]     lbuf_waddr; //was wire before
+    reg    [LBUF_ADDR:0]     lbuf_raddr; //was wire before
+    reg    [LBUF_ADDR:0]       reuse_raddr; //for reuse pointer.
+    reg    [LBUF_ADDR-1:0]     lbuf_raddr_mux;
+    assign lbuf_raddr_mux= lbuf_reuse_ren ? reuse_raddr[LBUF_ADDR-1:0] : lbuf_raddr[LBUF_ADDR-1:0];
     mem_dp_lbuf lbuf_inst (
         .clk                    (clk),
         .waddr                  (lbuf_waddr[LBUF_ADDR-1:0]),
@@ -171,15 +167,15 @@ module core_mem (
 
     assign lbuf_empty = (lbuf_raddr == lbuf_waddr);
     assign lbuf_reuse_empty = (reuse_raddr == lbuf_waddr);
-    assign lbuf_full = (lbuf_raddr[`LBUF_ADDR] ^ lbuf_waddr[`LBUF_ADDR]) & //should abuf_raddr[LBUF_ADDR] be  at [LBUF_ADDR-1] instead?
-        (lbuf_raddr[`LBUF_ADDR-1:0] == lbuf_waddr[`LBUF_ADDR-1:0]);
+    assign lbuf_full = (lbuf_raddr[LBUF_ADDR] ^ lbuf_waddr[LBUF_ADDR]) & //should abuf_raddr[LBUF_ADDR] be  at [LBUF_ADDR-1] instead?
+        (lbuf_raddr[LBUF_ADDR-1:0] == lbuf_waddr[LBUF_ADDR-1:0]);
     assign lbuf_rdata = lbuf_rdata_mem;
 
     always@(*) begin
-        if(lbuf_raddr[`LBUF_ADDR] ^ lbuf_waddr[`LBUF_ADDR])
-            lbuf_almost_full=((lbuf_raddr[`LBUF_ADDR-1:0]-lbuf_waddr[`LBUF_ADDR-1:0])<=`ALERT_DEPTH);
+        if(lbuf_raddr[LBUF_ADDR] ^ lbuf_waddr[LBUF_ADDR])
+            lbuf_almost_full=((lbuf_raddr[LBUF_ADDR-1:0]-lbuf_waddr[LBUF_ADDR-1:0])<=ALERT_DEPTH);
         else
-            lbuf_almost_full=((lbuf_waddr[`LBUF_ADDR-1:0]-lbuf_raddr[`LBUF_ADDR-1:0])>=`LBUF_DEPTH-`ALERT_DEPTH);
+            lbuf_almost_full=((lbuf_waddr[LBUF_ADDR-1:0]-lbuf_raddr[LBUF_ADDR-1:0])>=LBUF_DEPTH-ALERT_DEPTH);
     end
 
     always @(posedge clk or negedge rstn) begin
@@ -194,14 +190,14 @@ module core_mem (
     // =============================================================================
     // Weight Memory Interface
 
-    reg     [`WMEM_ADDR-1:0]     wmem_waddr;
-    reg     [`WMEM_ADDR-1:0]     wmem_raddr;
+    reg     [WMEM_ADDR-1:0]     wmem_waddr;
+    reg     [WMEM_ADDR-1:0]     wmem_raddr;
 
     // 1. Write Channel:
     //      1.1 GBUS -> WMEM for Weight Loading
     always @(*) begin
-        wmem_waddr = gbus_addr[`WMEM_ADDR-1:0];
-        wmem_wen   = gbus_wen && ~gbus_addr[`GBUS_ADDR-1]; //ask Guanchen about this
+        wmem_waddr = gbus_addr[WMEM_ADDR-1:0];
+        wmem_wen   = gbus_wen && ~gbus_addr[GBUS_ADDR-1]; //ask Guanchen about this
         wmem_wdata = gbus_wdata;
     end
 
@@ -210,12 +206,12 @@ module core_mem (
     //      2.2 WMEM -> MAC   for on-core AxW
     //      2.3 WMEM -> CLINK for off-core AxW (Solved in CLINK Bundle)
     always @(*) begin
-        wmem_ren = (gbus_ren && ~gbus_addr[`GBUS_ADDR-1]) || (cmem_ren && ~cmem_raddr[`GBUS_ADDR-1]);
-        if (gbus_ren && ~gbus_addr[`GBUS_ADDR-1]) begin // WMEM -> GBUS
-            wmem_raddr = gbus_addr[`WMEM_ADDR-1:0];
+        wmem_ren = (gbus_ren && ~gbus_addr[GBUS_ADDR-1]) || (cmem_ren && ~cmem_raddr[GBUS_ADDR-1]);
+        if (gbus_ren && ~gbus_addr[GBUS_ADDR-1]) begin // WMEM -> GBUS
+            wmem_raddr = gbus_addr[WMEM_ADDR-1:0];
         end
         else begin // WMEM -> MAC
-            wmem_raddr = cmem_raddr[`WMEM_ADDR-1:0];
+            wmem_raddr = cmem_raddr[WMEM_ADDR-1:0];
         end
     end
 
@@ -232,20 +228,20 @@ module core_mem (
     // =============================================================================
     // KV Cache Interface
 
-    reg     [`CACHE_ADDR-1:0]    cache_waddr;
-    reg     [`CACHE_ADDR-1:0]    cache_raddr;
+    reg     [CACHE_ADDR-1:0]    cache_waddr;
+    reg     [CACHE_ADDR-1:0]    cache_raddr;
 
     // 1. Write Channel:
     //      1.1 GBUS -> KV Cache
     //      1.2 Value Vector from MAC -> KV Cache
     always @(*) begin
-        cache_wen = (gbus_wen && gbus_addr[`GBUS_ADDR-1]) || (cmem_wen && cmem_waddr[`GBUS_ADDR-1]); //ask Guanchen: will always write global bus data to cache even if cache_wen = 0
-        if (cmem_wen && cmem_waddr[`GBUS_ADDR-1]) begin // GBUS -> KV Cache
-            cache_waddr = cmem_waddr[`CACHE_ADDR-1:0];
+        cache_wen = (gbus_wen && gbus_addr[GBUS_ADDR-1]) || (cmem_wen && cmem_waddr[GBUS_ADDR-1]); //ask Guanchen: will always write global bus data to cache even if cache_wen = 0
+        if (cmem_wen && cmem_waddr[GBUS_ADDR-1]) begin // GBUS -> KV Cache
+            cache_waddr = cmem_waddr[CACHE_ADDR-1:0];
             cache_wdata = cmem_wdata;
         end
         else begin // MAC -> KV Cache
-            cache_waddr = gbus_addr[`CACHE_ADDR-1:0];
+            cache_waddr = gbus_addr[CACHE_ADDR-1:0];
             cache_wdata = gbus_wdata;
         end
     end
@@ -255,12 +251,12 @@ module core_mem (
     //      2.2 KV Cache -> MAC   for On-Core QxK/PxV
     //      2.3 KV Cache -> CLINK for Off-Core QxK/PxV (Solved in CLINK Bundle)
     always @(*) begin
-        cache_ren = (gbus_ren && gbus_addr[`GBUS_ADDR-1]) || (cmem_ren && cmem_raddr[`GBUS_ADDR-1]);
-        if (gbus_ren && gbus_addr[`GBUS_ADDR-1]) begin // KV Cache -> GBUS
-            cache_raddr = gbus_addr[`CACHE_ADDR-1:0];
+        cache_ren = (gbus_ren && gbus_addr[GBUS_ADDR-1]) || (cmem_ren && cmem_raddr[GBUS_ADDR-1]);
+        if (gbus_ren && gbus_addr[GBUS_ADDR-1]) begin // KV Cache -> GBUS
+            cache_raddr = gbus_addr[CACHE_ADDR-1:0];
         end
         else begin // KV Cache -> MAC
-            cache_raddr = cmem_raddr[`CACHE_ADDR-1:0];
+            cache_raddr = cmem_raddr[CACHE_ADDR-1:0];
         end
     end
 
@@ -364,21 +360,22 @@ module core_mem (
         .odata                  (lbuf_wdata),
         .odata_valid            (lbuf_wen)
     );
-
 endmodule 
 
-
-module align_s2p_lbuf (
+module align_s2p_lbuf #(
+    parameter LBUF_DATA = ${gbus_width},
+    parameter GBUS_DATA = ${gbus_width}
+    )(
     input                       clk,
     input                       rstn, 
-    input       [`GBUS_DATA-1:0] idata,
+    input       [GBUS_DATA-1:0] idata,
     input                       idata_valid,
-    output  reg [`LBUF_DATA-1:0] odata,
+    output  reg [LBUF_DATA-1:0] odata,
     output  reg                 odata_valid
 );
-    localparam  REG_NUM = `LBUF_DATA / `GBUS_DATA;
+    localparam  REG_NUM = LBUF_DATA / GBUS_DATA;
     localparam  ADDR_BIT = $clog2(REG_NUM+1);
-    reg     [`GBUS_DATA-1:0] regfile [0:REG_NUM-1];
+    reg     [GBUS_DATA-1:0] regfile [0:REG_NUM-1];
     reg     [ADDR_BIT-1:0]  regfile_addr;           
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
@@ -407,21 +404,24 @@ module align_s2p_lbuf (
     generate
         for (i = 0; i < REG_NUM; i = i + 1) begin:gen_pal
             always @(*) begin
-                odata[i*`GBUS_DATA+:`GBUS_DATA] = regfile[i];
+                odata[i*GBUS_DATA+:GBUS_DATA] = regfile[i];
             end
         end
     endgenerate    
 endmodule
 
-module mem_sp_wmem (
+module mem_sp_wmem #(
+    parameter WMEM_DEPTH = ${wmem_depth},
+    parameter GBUS_DATA = ${gbus_width}
+)(
     input                       clk,
-    input       [$clog2(`WMEM_DEPTH)-1:0]  addr,
+    input       [$clog2(WMEM_DEPTH)-1:0]  addr,
     input                       wen,
-    input       [$clog2(`WMEM_DEPTH)-1:0]  wdata,
+    input       [GBUS_DATA-1:0]  wdata,
     input                       ren,
-    output  reg [$clog2(`WMEM_DEPTH)-1:0]  rdata
+    output  reg [GBUS_DATA-1:0]  rdata
 );
-    reg [`GBUS_DATA-1:0]  mem [0:`WMEM_DEPTH-1];
+    reg [GBUS_DATA-1:0]  mem [0:WMEM_DEPTH-1];
     always @(posedge clk) begin
         if (wen) begin
             mem[addr] <= wdata;
@@ -434,15 +434,18 @@ module mem_sp_wmem (
     end
 endmodule
 
-module mem_sp_cache (
+module mem_sp_cache #(
+    parameter CACHE_DEPTH = ${cache_depth},
+    parameter GBUS_DATA = ${gbus_width}
+)(
     input                       clk,
-    input       [$clog2(`CACHE_DEPTH)-1:0]  addr,
+    input       [$clog2(CACHE_DEPTH)-1:0]  addr,
     input                       wen,
-    input       [$clog2(`CACHE_DEPTH)-1:0]  wdata,
+    input       [GBUS_DATA-1:0]  wdata,
     input                       ren,
-    output  reg [$clog2(`CACHE_DEPTH)-1:0]  rdata
+    output  reg [GBUS_DATA-1:0]  rdata
 );
-    reg [`GBUS_DATA-1:0]  mem [0:`CACHE_DEPTH-1];
+    reg [GBUS_DATA-1:0]  mem [0:CACHE_DEPTH-1];
     always @(posedge clk) begin
         if (wen) begin
             mem[addr] <= wdata;
@@ -455,23 +458,38 @@ module mem_sp_cache (
     end
 endmodule
 
-module mem_sp_lbuf (
+module mem_dp_lbuf #(
+    parameter   LBUF_DATA = ${gbus_width},
+    parameter   LBUF_DEPTH = 64,
+    parameter   ADDR_BIT = $clog2(64)
+)(
+    // Global Signals
     input                       clk,
-    input       [$clog2(`LBUF_DEPTH)-1:0]  addr,
+
+    // Data Signals
+    input       [ADDR_BIT-1:0]  waddr,
     input                       wen,
-    input       [$clog2(`LBUF_DEPTH)-1:0]  wdata,
+    input       [LBUF_DATA-1:0]  wdata,
+    input       [ADDR_BIT-1:0]  raddr,
     input                       ren,
-    output  reg [$clog2(`LBUF_DEPTH)-1:0]  rdata
+    output  reg [LBUF_DATA-1:0]  rdata
 );
-    reg [`LBUF_DATA-1:0]  mem [0:`LBUF_DEPTH-1];
+
+    // 1, Memory initialization
+    reg [LBUF_DATA-1:0]  mem [0:LBUF_DEPTH-1];
+
+    // 2. Write channel
     always @(posedge clk) begin
         if (wen) begin
-            mem[addr] <= wdata;
+            mem[waddr] <= wdata;
         end
     end
+
+    // 3. Read channel
     always @(posedge clk) begin
         if (ren) begin
-            rdata <= mem[addr];
+            rdata <= mem[raddr];
         end
     end
+    
 endmodule

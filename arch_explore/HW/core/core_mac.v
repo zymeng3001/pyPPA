@@ -1,23 +1,22 @@
-`define MAC_NUM   = ${gbus_width/8}
-`define MUL_ODATA_BIT = 16
-`define ODATA_BIT = 16+$clog2(`MAC_NUM)
-`define IDATA_BIT = 8
-`define ADD_IDATA_BIT = 16
-`define ADD_ODATA_BIT = 16 + $clog2(`MAC_NUM)
-module core_mac (
+/////////////////////////////Core Mac/////////////////////////////
+module core_mac #(
+    parameter MAC_NUM = ${gbus_width/8},
+    parameter IDATA_BIT = 8,
+    parameter MAC_ODATA_BIT = 16+$clog2(8)
+)(
     // Global Signals
     input                               clk,
     input                               rstn,
 
     // Data Signals
-    input       [`IDATA_BIT*`MAC_NUM-1:0] idataA,
-    input       [`IDATA_BIT*`MAC_NUM-1:0] idataB,
+    input       [IDATA_BIT*MAC_NUM-1:0] idataA,
+    input       [IDATA_BIT*MAC_NUM-1:0] idataB,
     input                               idata_valid,
-    output      [`ODATA_BIT-1:0]         odata,
+    output      [MAC_ODATA_BIT-1:0]         odata,
     output                              odata_valid
 );
     // Multiplication
-    wire    [`IDATA_BIT*2*`MAC_NUM-1:0]   product;
+    wire    [IDATA_BIT*2*MAC_NUM-1:0]   product;
     wire                                product_valid;
 
     mul_line mul_inst (
@@ -30,7 +29,7 @@ module core_mac (
         .odata_valid                    (product_valid)
     );
     // Addition
-    adder_tree  #(.MAC_NUM(MAC_NUM), .IDATA_BIT(IDATA_BIT*2)) adt_inst (
+    adder_tree adt_inst (
         .clk                            (clk),
         .rstn                            (rstn),
         .idata                          (product),
@@ -41,47 +40,48 @@ module core_mac (
 
 endmodule
 
-// =============================================================================
-// MUL Line
-// 1 cycle delay
-module mul_line (
+module mul_line #(
+    parameter MAC_NUM = 8,
+    parameter IDATA_BIT = 8,
+    parameter MUL_ODATA_BIT = 16
+)(
     // Global Signals
     input                               clk,
     input                               rstn,
 
     // Data Signals
-    input       [`IDATA_BIT*`MAC_NUM-1:0] idataA,
-    input       [`IDATA_BIT*`MAC_NUM-1:0] idataB,
+    input       [IDATA_BIT*MAC_NUM-1:0] idataA,
+    input       [IDATA_BIT*MAC_NUM-1:0] idataB,
     input                               idata_valid,
-    output  reg [`MUL_ODATA_BIT*`MAC_NUM-1:0] odata,
+    output  reg [MUL_ODATA_BIT*MAC_NUM-1:0] odata,
     output  reg                         odata_valid
 );
 
     // Input Gating
-    reg     [`IDATA_BIT-1:0] idataA_reg  [0:`MAC_NUM-1];
-    reg     [`IDATA_BIT-1:0] idataB_reg  [0:`MAC_NUM-1];
+    reg     [IDATA_BIT-1:0] idataA_reg  [0:MAC_NUM-1];
+    reg     [IDATA_BIT-1:0] idataB_reg  [0:MAC_NUM-1];
 
     genvar i;
     generate
-        for (i = 0; i < `MAC_NUM; i = i + 1) begin: gen_mul_input
+        for (i = 0; i < MAC_NUM; i = i + 1) begin: gen_mul_input
             always @(posedge clk or negedge rstn) begin
                 if (!rstn) begin
                     idataA_reg[i] <= 'd0;
                     idataB_reg[i] <= 'd0;
                 end
                 else if (idata_valid) begin
-                    idataA_reg[i] <= idataA[i*`IDATA_BIT+:`IDATA_BIT];
-                    idataB_reg[i] <= idataB[i*`IDATA_BIT+:`IDATA_BIT];
+                    idataA_reg[i] <= idataA[i*IDATA_BIT+:IDATA_BIT];
+                    idataB_reg[i] <= idataB[i*IDATA_BIT+:IDATA_BIT];
                 end
             end
         end
     endgenerate
 
     // Mutiplication
-    wire    [`MUL_ODATA_BIT-1:0] product [0:`MAC_NUM-1];
+    wire    [MUL_ODATA_BIT-1:0] product [0:MAC_NUM-1];
 
     generate 
-        for (i = 0; i < `MAC_NUM; i = i + 1) begin: gen_mul
+        for (i = 0; i < MAC_NUM; i = i + 1) begin: gen_mul
             //$display(gen_mul);
             mul_int mul_inst (
                 .idataA                 (idataA_reg[i]), 
@@ -92,9 +92,9 @@ module mul_line (
     endgenerate
     // Output
     generate
-        for (i = 0; i < `MAC_NUM; i = i + 1) begin: gen_mul_output
+        for (i = 0; i < MAC_NUM; i = i + 1) begin: gen_mul_output
             always @(*) begin
-                odata[i*`MUL_ODATA_BIT+:`MUL_ODATA_BIT] = product[i]; 
+                odata[i*MUL_ODATA_BIT+:MUL_ODATA_BIT] = product[i]; 
             end
         end
     endgenerate
@@ -110,34 +110,38 @@ module mul_line (
 
 endmodule
 
-module mul_int (
-    input       [`IDATA_BIT-1:0] idataA,
-    input       [`IDATA_BIT-1:0] idataB,
-    output      [`MUL_ODATA_BIT-1:0] odata    
+module mul_int #(
+    parameter IDATA_BIT = 8,
+    parameter MUL_ODATA_BIT = 16
+)(
+    input       [IDATA_BIT-1:0] idataA,
+    input       [IDATA_BIT-1:0] idataB,
+    output      [MUL_ODATA_BIT-1:0] odata    
 );
-    reg signed  [`MUL_ODATA_BIT-1:0] odata_comb;
+    reg signed  [MUL_ODATA_BIT-1:0] odata_comb;
     always @(*) begin
         odata_comb = $signed(idataA) * $signed(idataB);
     end
     assign  odata = odata_comb;
 endmodule
 
-// =============================================================================
-// Configurable Adder Tree. Please double-check it's synthesizable.
-// (STAGE_NUM+1)/2 delay
-module adder_tree (
+module adder_tree #(
+    parameter ADD_IDATA_BIT = 16,
+    parameter ADD_ODATA_BIT = 16 + $clog2(8),
+    parameter MAC_NUM = 8
+)(
     // Global Signals
     input                               clk,
     input                               rstn,
 
     // Data Signals
-    input       [`ADD_IDATA_BIT*`MAC_NUM-1:0] idata,
+    input       [ADD_IDATA_BIT*MAC_NUM-1:0] idata,
     input                               idata_valid,
-    output  reg [`ADD_ODATA_BIT-1:0]         odata,
+    output  reg [ADD_ODATA_BIT-1:0]         odata,
     output  reg                         odata_valid
 );
 
-    localparam  STAGE_NUM = $clog2(`MAC_NUM);
+    localparam  STAGE_NUM = $clog2(MAC_NUM);
 
     // Insert a pipeline every two stages
     // Validation
@@ -177,8 +181,8 @@ module adder_tree (
     // Adder
     generate
         for (i = 0; i <STAGE_NUM; i = i + 1) begin: gen_adt_stage
-            localparam  OUT_BIT = `ADD_IDATA_BIT + (i + 1'b1);
-            localparam  OUT_NUM = `MAC_NUM  >> (i + 1'b1);
+            localparam  OUT_BIT = ADD_IDATA_BIT + (i + 1'b1);
+            localparam  OUT_NUM = MAC_NUM  >> (i + 1'b1);
 
             reg     [OUT_BIT-2:0]   add_idata   [0:OUT_NUM*2-1];
             wire    [OUT_BIT-1:0]   add_odata   [0:OUT_NUM-1];
@@ -193,8 +197,8 @@ module adder_tree (
                             add_idata[j*2+1] <= 'd0;
                         end
                         else if (idata_valid) begin
-                            add_idata[j*2]   <= idata[(j*2+0)*`ADD_IDATA_BIT+:`ADD_IDATA_BIT];
-                            add_idata[j*2+1] <= idata[(j*2+1)*`ADD_IDATA_BIT+:`ADD_IDATA_BIT];
+                            add_idata[j*2]   <= idata[(j*2+0)*ADD_IDATA_BIT+:ADD_IDATA_BIT];
+                            add_idata[j*2+1] <= idata[(j*2+1)*ADD_IDATA_BIT+:ADD_IDATA_BIT];
                         end
                     end
                 end
@@ -218,7 +222,7 @@ module adder_tree (
                 end
 
                 // Adder instantization
-                add_int #(.IDATA_BIT(OUT_BIT-1), .ODATA_BIT(OUT_BIT)) adder_inst (
+                add_int #(.ADD_INT_IDATA_BIT(OUT_BIT-1), .ADD_INT_ODATA_BIT(OUT_BIT)) adder_inst (
                     .idataA                 (add_idata[j*2]),
                     .idataB                 (add_idata[j*2+1]),
                     .odata                  (add_odata[j])
@@ -235,16 +239,16 @@ module adder_tree (
 endmodule 
 
 module add_int #(
-    parameter   IDATA_BIT = 8,
-    parameter   ODATA_BIT = 9
+    parameter   ADD_INT_IDATA_BIT = 8,
+    parameter   ADD_INT_ODATA_BIT = 9
 )(
     // Data Signals
-    input       [IDATA_BIT-1:0] idataA,
-    input       [IDATA_BIT-1:0] idataB,
-    output      [ODATA_BIT-1:0] odata
+    input       [ADD_INT_IDATA_BIT-1:0] idataA,
+    input       [ADD_INT_IDATA_BIT-1:0] idataB,
+    output      [ADD_INT_ODATA_BIT-1:0] odata
 );
 
-    reg signed  [ODATA_BIT-1:0] odata_comb;
+    reg signed  [ADD_INT_ODATA_BIT-1:0] odata_comb;
 
     always @(*) begin
         odata_comb = $signed(idataA) + $signed(idataB);
