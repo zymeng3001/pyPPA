@@ -1,6 +1,6 @@
-`define GBUS_DATA = 64
+`define GBUS_DATA = ${gbus_width}
 `define ABUF_DEPTH = 64
-`define ABUF_DATA =  64
+`define ABUF_DATA =  ${gbus_width}
 `define ABUF_ADDR  = $clog2(ABUF_DEPTH)
 `define ALERT_DEPTH = 3
 

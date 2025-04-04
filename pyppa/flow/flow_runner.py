@@ -133,7 +133,7 @@ class FlowRunner(FlowCommonConfig, FlowPlatformConfig, FlowDesignConfig):
 				clk_period_matches = re.search(pattern="^set\s+clk_period\s+(\S+).*|.*-period\s+(\S+).*", flags=re.MULTILINE, string=sdc_file.read())
 
 				if clk_period_matches is not None and len(clk_period_matches.groups()) > 0:
-					self.set('ABC_CLOCK_PERIOD_IN_PS', float(clk_period_matches.group(1)))
+					self.set('ABC_CLOCK_PERIOD_IN_PS', float(clk_period_matches.group(1))*1000)  # Convert to ps
 
 		elapsed_time = get_elapsed_time(start_time)
 

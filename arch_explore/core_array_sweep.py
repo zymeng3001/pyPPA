@@ -37,7 +37,13 @@ ppa_runner = PPARunner(
     global_flow_config={
         'VERILOG_FILES': [
             path.join(path.dirname(__file__), 'HW', 'core_array/core_array.v'),
+            path.join(path.dirname(__file__), 'HW', 'core/core_acc.v'),
+            path.join(path.dirname(__file__), 'HW', 'core/core_buf.v'),
+            path.join(path.dirname(__file__), 'HW', 'core/core_mac.v'),
+            path.join(path.dirname(__file__), 'HW', 'core/core_mem.v'),
+            path.join(path.dirname(__file__), 'HW', 'core/core_quant.v'),
             path.join(path.dirname(__file__), 'HW', 'core/core_top.v')
+
         ],
         'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
     }
@@ -143,6 +149,16 @@ def fom(area: float, period: float, total_power: float):
     # The objective function/figure of merit (which is minimized), is the product of the area, period, and power attempts to minimize all three.
     return out
 
+def get_cache_depth(suggestion):
+    """Get the cache depth based on the suggestion."""
+    n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['n_heads'])
+    n_cols = int(suggestion.parameters['n_cols'])
+    n_heads = int(suggestion.parameters['n_heads'])
+    max_context_length = int(suggestion.parameters['max_context_length'])
+    gbus_width = int(suggestion.parameters['gbus_width'])
+    mac_num = int(gbus_width/8)
+
+    return 2* n_model * max_context_length/ mac_num / n_cols / n_heads 
 
 def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], previous_suggestions):
     if prev_iter_ppa_runs is not None:
@@ -231,7 +247,9 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'n_cols': int(suggestion.parameters['n_cols']),
                     'head_dim': int(suggestion.parameters['head_dim']),
                     'max_context_length': int(suggestion.parameters['max_context_length']),
-                    'gbus_width': int(suggestion.parameters['gbus_width'])
+                    'gbus_width': int(suggestion.parameters['gbus_width']),
+                    'wmem_depth': 512,
+                    'cache_size': int(suggestion.parameters['n_cols'])
                 }
             } for suggestion in feasible_suggestions
         ],

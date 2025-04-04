@@ -1,4 +1,4 @@
-`define MAC_NUM   = 8
+`define MAC_NUM   = ${gbus_width/8}
 `define MUL_ODATA_BIT = 16
 `define ODATA_BIT = 16+$clog2(`MAC_NUM)
 `define IDATA_BIT = 8
