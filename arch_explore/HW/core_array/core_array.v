@@ -1,6 +1,8 @@
+`define N_COL ${n_cols}
+
 module core_array #(
 	parameter HNUM = ${n_heads},
-    parameter VNUM = ${n_cols},
+    parameter VNUM = `N_COL,
 
     parameter GBUS_DATA = ${gbus_width},
     parameter GBUS_ADDR = 12,
