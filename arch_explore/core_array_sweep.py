@@ -248,6 +248,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'head_dim': int(suggestion.parameters['head_dim']),
                     'max_context_length': int(suggestion.parameters['max_context_length']),
                     'gbus_width': int(suggestion.parameters['gbus_width']),
+                    'max_num': int(suggestion.parameters['gbus_width']/8),
                     'wmem_depth': 512,
                     'cache_depth': get_cache_depth(suggestion)
                 }
