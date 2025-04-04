@@ -158,7 +158,7 @@ def get_cache_depth(suggestion):
     gbus_width = int(suggestion.parameters['gbus_width'])
     mac_num = int(gbus_width/8)
 
-    return 2* n_model * max_context_length/ mac_num / n_cols / n_heads 
+    return int(2* n_model * max_context_length/ mac_num / n_cols / n_heads) 
 
 def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], previous_suggestions):
     if prev_iter_ppa_runs is not None:
