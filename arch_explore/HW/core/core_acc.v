@@ -8,7 +8,7 @@ module core_acc (
     input                       rstn,
 
     // Global Config Signals
-    input       [`CDATA_BIT-1:0] cfg_acc_num,
+    input       [7:0] cfg_acc_num,
 
     // Data Signals
     input       [`IDATA_BIT-1:0] idata,
