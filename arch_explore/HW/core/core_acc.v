@@ -1,19 +1,23 @@
-`define IDATA_BIT = 9 //(16+$clog2(8))
+`define IDATA_BIT = (16+$clog2(8))
 `define ODATA_BIT = 16
 `define CDATA_BIT = 8
 
-module core_acc (
+module core_acc #(
+    parameter IDATA_BIT = 9,   // Default: 16 + $clog2(8)
+    parameter ODATA_BIT = 16,
+    parameter CDATA_BIT = 8
+)(
     // Global Signals
     input                       clk,
     input                       rstn,
 
     // Global Config Signals
-    input       [7:0] cfg_acc_num,
+    input       [CDATA_BIT-1:0] cfg_acc_num,
 
     // Data Signals
-    input       [`IDATA_BIT-1:0] idata,
+    input       [IDATA_BIT-1:0] idata,
     input                       idata_valid,
-    output      [`ODATA_BIT-1:0] odata,
+    output      [ODATA_BIT-1:0] odata,
     output                      odata_valid
 );
 
