@@ -3,7 +3,7 @@ import json
 import csv
 
 # Base directory containing all folders with ppa.json files
-base_dir = "/home/ppa/xinting/PPA4LLMs/runs/core_top/1_core_top_opt"  
+base_dir = "/home/ppa/xinting/PPA4LLMs/runs/core_array/1_core_array_opt"  
 
 # Define the output CSV file path
 output_csv_path = "/home/ppa/xinting/PPA4LLMs/arch_explore/ppa_extracted_data.csv"
