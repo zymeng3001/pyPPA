@@ -18,7 +18,9 @@ module top_wrapper #(
     parameter MAT_BIT = 7,
     parameter LUT_DATA = EXP_BIT + MAT_BIT + 1,
     parameter LUT_ADDR = IDATA_BIT >> 1,
-    parameter LUT_DEPTH = 2 ** LUT_ADDR
+    parameter LUT_DEPTH = 2 ** LUT_ADDR,
+
+    parameter BUS_NUM = ${n_model}
 ) (
     input clk,
     input rstn
@@ -111,41 +113,80 @@ module top_wrapper #(
         
     endgenerate
 
-    // === LUT and Softmax I/O ===
-    wire [LUT_ADDR:0] lut_waddr;
-    wire [LUT_DATA-1:0] lut_wdata;
-    wire lut_wen;
+    // // === LUT and Softmax I/O ===
+    // wire [LUT_ADDR:0] lut_waddr;
+    // wire [LUT_DATA-1:0] lut_wdata;
+    // wire lut_wen;
 
-    wire [(GBUS_DATA * HNUM)-1:0] softmax_idata;
-    wire [HNUM-1:0] softmax_idata_valid;
-    wire [(GBUS_DATA * HNUM)-1:0] softmax_odata;
-    wire [(MAC_NUM * HNUM)-1:0] softmax_odata_valid;
+    // wire [(GBUS_DATA * HNUM)-1:0] softmax_idata;
+    // wire [HNUM-1:0] softmax_idata_valid;
+    // wire [(GBUS_DATA * HNUM)-1:0] softmax_odata;
+    // wire [(MAC_NUM * HNUM)-1:0] softmax_odata_valid;
 
-    // === Instantiate consmax_bus (Softmax) ===
-    consmax_bus #(
-        .IDATA_BIT(IDATA_BIT),
-        .ODATA_BIT(ODATA_BIT),
-        .CDATA_BIT(CDATA_BIT),
-        .EXP_BIT(EXP_BIT),
-        .MAT_BIT(MAT_BIT),
-        .LUT_DATA(LUT_DATA),
-        .LUT_ADDR(LUT_ADDR),
-        .LUT_DEPTH(LUT_DEPTH),
-        .GBUS_DATA(GBUS_DATA),
-        .GBUS_WIDTH(GBUS_DATA/8),
-        .NUM_HEAD(HNUM),
-        .NUM_COL(VNUM)
-    ) u_consmax_bus (
+    // // === Instantiate consmax_bus (Softmax) ===
+    // consmax_bus #(
+    //     .IDATA_BIT(IDATA_BIT),
+    //     .ODATA_BIT(ODATA_BIT),
+    //     .CDATA_BIT(CDATA_BIT),
+    //     .EXP_BIT(EXP_BIT),
+    //     .MAT_BIT(MAT_BIT),
+    //     .LUT_DATA(LUT_DATA),
+    //     .LUT_ADDR(LUT_ADDR),
+    //     .LUT_DEPTH(LUT_DEPTH),
+    //     .GBUS_DATA(GBUS_DATA),
+    //     .GBUS_WIDTH(GBUS_DATA/8),
+    //     .NUM_HEAD(HNUM),
+    //     .NUM_COL(VNUM)
+    // ) u_consmax_bus (
+    //     .clk(clk),
+    //     .rstn(rstn),
+    //     .cfg_consmax_shift(cfg_consmax_shift),
+    //     .lut_waddr(lut_waddr),
+    //     .lut_wen(lut_wen),
+    //     .lut_wdata(lut_wdata),
+    //     .idata(softmax_idata),
+    //     .idata_valid(softmax_idata_valid),
+    //     .odata(softmax_odata),
+    //     .odata_valid(softmax_odata_valid)
+    // );
+
+    //Ports
+    reg [CDATA_BIT-1:0] cfg_consmax_shift;
+    reg [LUT_ADDR-1:0] lut_waddr;
+    reg lut_wen;
+    reg [LUT_DATA-1:0] lut_wdata;
+    reg [7:0] idata;
+    reg idata_valid;
+    wire [7:0] odata;
+    wire odata_valid;
+
+    softmax  softmax_inst (
         .clk(clk),
-        .rstn(rstn),
+        .rst(rst),
         .cfg_consmax_shift(cfg_consmax_shift),
         .lut_waddr(lut_waddr),
         .lut_wen(lut_wen),
         .lut_wdata(lut_wdata),
-        .idata(softmax_idata),
-        .idata_valid(softmax_idata_valid),
-        .odata(softmax_odata),
-        .odata_valid(softmax_odata_valid)
+        .idata(idata),
+        .idata_valid(idata_valid),
+        .odata(odata),
+        .odata_valid(odata_valid)
+    );
+
+    
+    // Relu Instance
+    reg signed [BUS_NUM * 8 - 1 : 0] in_fixed_data;
+    reg [BUS_NUM-1:0] in_fixed_data_vld;
+    wire [BUS_NUM * 8 - 1 : 0] out_fixed_data;
+    wire [BUS_NUM-1:0] out_fixed_data_vld;
+
+    relu relu_inst (
+    .clk(clk),
+    .rst_n(rst_n),
+    .in_fixed_data(in_fixed_data),
+    .in_fixed_data_vld(in_fixed_data_vld),
+    .out_fixed_data(out_fixed_data),
+    .out_fixed_data_vld(out_fixed_data_vld)
     );
 
 endmodule
