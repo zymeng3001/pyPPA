@@ -83,8 +83,8 @@ seen_configs = set()
 def is_duplicate(suggestion):
     """Check if the suggestion has already been tried based on unique parameters."""
     config_tuple = (
-        int(suggestion.parameters['head_dim']),
-        int(suggestion.parameters['max_context_length']),
+        int(suggestion.parameters['cache_depth']),
+        int(suggestion.parameters['wmem_depth']),
         int(suggestion.parameters['gbus_width'])
     )
    
