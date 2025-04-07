@@ -69,7 +69,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_sweep_4_5'
+  study_id='ppa_core_array_sweep_4_7'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -84,8 +84,8 @@ def is_duplicate(suggestion):
         int(suggestion.parameters['n_heads']),
         int(suggestion.parameters['n_cols']),
         int(suggestion.parameters['max_context_length']),
-        int(suggestion.parameters['gbus_width']),
-        int(suggestion.parameters['wmem_depth'])
+        int(suggestion.parameters['head_dim']),
+        int(suggestion.parameters['gbus_width'])
     )
    
     if config_tuple in seen_configs:
@@ -144,23 +144,42 @@ def fom(area: float, period: float, total_power: float):
 
 def get_cache_depth(suggestion):
     """Get the cache depth based on the suggestion."""
-    n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['n_heads'])
+    n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['head_dim'])
     n_cols = int(suggestion.parameters['n_cols'])
     n_heads = int(suggestion.parameters['n_heads'])
     max_context_length = int(suggestion.parameters['max_context_length'])
     gbus_width = int(suggestion.parameters['gbus_width'])
     mac_num = int(gbus_width/8)
 
-    return int(2* n_model * max_context_length/ mac_num / n_cols / n_heads) 
+    raw_cache_depth = int(n_model * max_context_length / mac_num / n_cols / n_heads)
+    if raw_cache_depth < 32:    
+        return 32
+    elif raw_cache_depth < 64:
+        return 64
+    elif raw_cache_depth < 128:
+        return 128
+    elif raw_cache_depth < 256:
+        return int(math.ceil(raw_cache_depth / 256) * 256)
+    
+    # return int(n_model * max_context_length / mac_num / n_cols / n_heads) 
 
 def get_wmem_depth(suggestion):
     """Get the wmem depth based on the suggestion."""
-    n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['n_heads'])
+    n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['head_dim'])
     head_dim = int(suggestion.parameters['head_dim'])
+    n_cols = int(suggestion.parameters['n_cols'])
     gbus_width = int(suggestion.parameters['gbus_width'])
-    raw_wmem_depth = int(n_model * head_dim / gbus_width)
- 
-    return int(math.ceil(raw_wmem_depth / 256) * 256)
+    raw_wmem_depth = int(n_model * head_dim / n_cols / gbus_width)
+
+    if raw_wmem_depth < 32:
+        return 32
+    elif raw_wmem_depth < 64:
+        return 64
+    elif raw_wmem_depth < 128:
+        return 128
+    else :
+        # Round up to the nearest 256
+        return int(math.ceil(raw_wmem_depth / 256) * 256)
 
 def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], previous_suggestions):
     if prev_iter_ppa_runs is not None:

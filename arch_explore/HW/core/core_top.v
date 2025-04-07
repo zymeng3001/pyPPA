@@ -4,7 +4,7 @@ module core_top #(
     parameter   GBUS_ADDR   = 12,
 
     parameter   WMEM_DEPTH  = ${wmem_depth},
-    parameter   CACHE_DEPTH = ${max_context_length},
+    parameter   CACHE_DEPTH = ${cache_depth},
 
     parameter   LBUF_DATA   = GBUS_DATA,
     parameter   LBUF_DEPTH  = 64,
