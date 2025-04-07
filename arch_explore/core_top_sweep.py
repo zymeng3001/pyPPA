@@ -79,7 +79,6 @@ print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 # Store seen configurations (global set)
 seen_configs = set()
 
-
 def is_duplicate(suggestion):
     """Check if the suggestion has already been tried based on unique parameters."""
     config_tuple = (
@@ -164,7 +163,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
         print("Generating new suggestions")
         for i, suggestion in enumerate(suggestions):
             print(suggestion.parameters)
-            if not is_duplicate(suggestion):
+            if is_duplicate(suggestion):
                 print(f"Suggestion {i} is duplicated. Skipping.")
                 # suggestion.complete(vz.Measurement(), infeasibility_reason='Infeasible design.')  # mark as completed
                 suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
