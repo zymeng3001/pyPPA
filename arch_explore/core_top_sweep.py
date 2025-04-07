@@ -71,7 +71,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_top_4_6'
+  study_id='ppa_core_array_top_4_7'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
