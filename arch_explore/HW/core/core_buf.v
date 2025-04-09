@@ -1,8 +1,8 @@
 /////////////////////////////Core Buf////////////////////////////////
 module core_buf #(
     parameter ABUF_DATA = ${gbus_width},
-    parameter ABUF_ADDR = $clog2(ABUF_DATA),
     parameter ABUF_DEPTH = 64,
+    parameter ABUF_ADDR = $clog2(ABUF_DEPTH), 
     parameter ALERT_DEPTH = 3,
     parameter GBUS_DATA = ${gbus_width}
 )(
