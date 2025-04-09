@@ -3,10 +3,10 @@ import json
 import csv
 
 # Base directory containing all folders with ppa.json files
-base_dir = "../runs/core_top/1_core_top_opt"  
+base_dir = "/home/ppa/xinting/PPA4LLMs/runs/core_top/1_core_top_opt"  
 
 # Define the output CSV file path
-output_csv_path = "./ppa_core_top_extracted_data.csv"
+output_csv_path = "/home/ppa/xinting/PPA4LLMs/arch_explore/ppa_core_top_extracted_data.csv"
 
 # Column headers for CSV
 csv_columns = [
