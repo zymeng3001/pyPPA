@@ -1,10 +1,9 @@
 module relu
 #(
-    parameter integer BUS_NUM = ${n_model},      
+    parameter integer BUS_NUM = ${head_dim},      
     parameter integer BUS_NUM_WIDTH = $clog2(BUS_NUM), 
     parameter integer SCALA_POS_WIDTH = 5,
-    parameter integer FIXED_DATA_WIDTH = 8,
-    parameter integer MEM_WIDTH = (BUS_NUM * FIXED_DATA_WIDTH),
+    parameter integer FIXED_DATA_WIDTH = 8
 )
 (
     // Global Signals

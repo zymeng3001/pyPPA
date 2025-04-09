@@ -3,10 +3,10 @@ module core_mem #(
     parameter GBUS_DATA = ${gbus_width},
     parameter LBUF_DATA = GBUS_DATA,
     parameter GBUS_ADDR = 12,
-    parameter LBUF_ADDR = GBUS_DATA,
+    parameter LBUF_ADDR = 12,
     parameter WMEM_ADDR = $clog2(${wmem_depth}),
     parameter CACHE_ADDR = $clog2(${cache_depth}),
-    parameter LBUF_DEPTH = GBUS_DATA,
+    parameter LBUF_DEPTH = 64, 
     parameter ALERT_DEPTH = 3
     )(
     // Global Signals
