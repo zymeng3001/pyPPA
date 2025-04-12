@@ -138,9 +138,9 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 				feasible_suggestions.append(suggestion)
 		suggestions = study_client.suggest(count=10)
 
-    for suggestion in feasible_suggestions:
-        print("Feasible suggestions:")
-        print(suggestion.parameters)
+	for suggestion in feasible_suggestions:
+		print("Feasible suggestions:")
+		print(suggestion.parameters)
 	
 	return {
         'opt_complete': False,
