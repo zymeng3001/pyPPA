@@ -1,7 +1,7 @@
 module activation
 #(
     parameter integer BUS_NUM = ${head_dim},      
-    parameter string ACTIVATION = ${activation},
+    parameter string ACTIVATION = "${activation}",
     parameter integer SCALA_POS_WIDTH = 5,
     parameter integer FIXED_DATA_WIDTH = 8
 )
