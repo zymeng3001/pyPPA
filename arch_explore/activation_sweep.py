@@ -131,6 +131,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 	feasible_suggestions = []
 	suggestions = study_client.suggest(count=10)
 	while len(feasible_suggestions) < 1:
+		print("Suggestions:")
 		for suggestion in suggestions:
 			if is_duplicate(suggestion):
 				suggestion.complete(vz.Measurement({'fom': math.inf}))
