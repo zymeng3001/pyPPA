@@ -2,7 +2,7 @@ module softermax #(
     parameter integer DATA_SIZE = 8,
     parameter integer FRAC = 2,
     parameter integer LARGE_SIZE = 16,
-    parameter integer ROW_WIDTH = 64,
+    parameter integer ROW_WIDTH = ${max_context_length},
     parameter integer USE_PIPELINE = 1
 )(
     input rst_n,
