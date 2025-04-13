@@ -150,7 +150,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                 },
                 'hyperparameters': {
                     'clk_period': suggestion.parameters['constraint_period'],
-                    'head_dim': int(suggestion.parameters['head_dim'])
+                    'head_dim': int(suggestion.parameters['head_dim']),
+					'activation': suggestion.parameters['activation']
                 }
             } for suggestion in feasible_suggestions
         ],
