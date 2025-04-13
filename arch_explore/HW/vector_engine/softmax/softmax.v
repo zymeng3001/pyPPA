@@ -1,64 +1,54 @@
-// Copyright (c) 2024, Saligane's Group at University of Michigan and Google Research
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
+// define DATA_BIT 16 //input and output data width
+// define CDATA_BIT 8
 
-// you may not use this file except in compliance with the License.
+// define SOFTMAX_NUM ${max_context_length} //softmax total count.
+// define SOFTMAX_ADDR $clog2(SOFTMAX_NUM)
 
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// define I_EXP 8
+// define I_MAT 7
+// define LUT_ADDR 9
+// define LUT_DEPTH 2 ** LUT_ADDR
+// define LUT_DATA I_EXP + I_MAT + 1
 
-`define DATA_BIT 16 //input and output data width
-`define CDATA_BIT 8
+module softmax #(
+    parameter integer DATA_BIT = 16,
+    parameter integer CDATA_BIT = 8,
+    parameter integer I_EXP = 8,
+    parameter integer I_MAT = 7,
+    parameter integer LUT_ADDR = 9,
+    parameter integer SOFTMAX_NUM = ${max_context_length},
+    parameter integer LUT_DATA = I_EXP + I_MAT + 1,
+    parameter integer LUT_DEPTH = 2 ** LUT_ADDR
+)(
+    input                         clk,
+    input                         rst_n,
 
-`define SOFTMAX_NUM ${max_context_length} //softmax total count.
-`define SOFTMAX_ADDR $clog2(`SOFTMAX_NUM)
-
-`define I_EXP 8
-`define I_MAT 7
-`define LUT_ADDR 9
-`define LUT_DEPTH 2 ** `LUT_ADDR
-`define LUT_DATA `I_EXP + `I_MAT + 1
-
-module softmax
-(
-    // Global Signals
-    input                       clk,
-    input                       rst,
-
-    // Control Signals
-    input       [`CDATA_BIT-1:0] cfg_consmax_shift,
+    input       [CDATA_BIT-1:0]   cfg_consmax_shift,
 
     // LUT Interface
-    input       [`LUT_ADDR-1:0] lut_waddr,
-    input                       lut_wen,
-    input       [`LUT_DATA-1:0]  lut_wdata,
+    input       [LUT_ADDR-1:0]    lut_waddr,
+    input                         lut_wen,
+    input       [LUT_DATA-1:0]    lut_wdata,
 
     // Data Signals
-    input       [`DATA_BIT-1:0] idata,
-    input                       idata_valid,
-    output  reg [`DATA_BIT-1:0] odata,
-    output  reg                 odata_valid
+    input       [DATA_BIT-1:0]    idata,
+    input                         idata_valid,
+    output  reg [DATA_BIT-1:0]    odata,
+    output  reg                   odata_valid
 );  
     wire [18-1:0] fadd_in_a;
     wire [18-1:0] fadd_in_b;
     wire [18-1:0] fadd_out;
 	//input
-    reg     [`DATA_BIT-1:0] idata_reg [`SOFTMAX_NUM-1:0];
+    reg     [DATA_BIT-1:0] idata_reg [SOFTMAX_NUM-1:0];
     reg                     idata_valid_reg;
-    reg     [`SOFTMAX_ADDR-1:0] pointer;
+    reg     [SOFTMAX_ADDR-1:0] pointer;
     wire    full;
-	reg     [`DATA_BIT-1:0] comp_in;
+	reg     [DATA_BIT-1:0] comp_in;
 
-    assign full=(pointer==`SOFTMAX_NUM-1);
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    assign full=(pointer==SOFTMAX_NUM-1);
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             pointer<= 1'd0;
         end
         else if (idata_valid && !full) begin
@@ -70,9 +60,9 @@ module softmax
     end
 
 	integer i;
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
-            for(i=0;i<`SOFTMAX_NUM;i=i+1)
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
+            for(i=0;i<SOFTMAX_NUM;i=i+1)
                 idata_reg[i] <= 'd0;
 			// comp_in<=0;
         end
@@ -82,8 +72,8 @@ module softmax
         end
     end
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             idata_valid_reg <= 1'b0;
         end
         else begin
@@ -92,20 +82,20 @@ module softmax
     end
 
     //compare for max_buffer then update the max buffer
-    reg [`DATA_BIT-1:0] max_buffer_in;
-    reg [`DATA_BIT-1:0] max_buffer;
-    assign max_buffer_sign = max_buffer[`DATA_BIT-1];
-    assign max_buffer_exp = max_buffer[`DATA_BIT-2 -: `I_EXP];
-    assign max_buffer_m = max_buffer[`I_MAT-1:0];
+    reg [DATA_BIT-1:0] max_buffer_in;
+    reg [DATA_BIT-1:0] max_buffer;
+    assign max_buffer_sign = max_buffer[DATA_BIT-1];
+    assign max_buffer_exp = max_buffer[DATA_BIT-2 -: I_EXP];
+    assign max_buffer_m = max_buffer[I_MAT-1:0];
 
-    assign idata_sign = idata[`DATA_BIT-1];
-    assign idata_exp = idata[`DATA_BIT-2 -: `I_EXP];
-    assign idata_m = idata[`I_MAT-1:0];
+    assign idata_sign = idata[DATA_BIT-1];
+    assign idata_exp = idata[DATA_BIT-2 -: I_EXP];
+    assign idata_m = idata[I_MAT-1:0];
 
     assign max_buffer_in= (idata_sign<max_buffer_sign) ? idata : (idata_sign==max_buffer_sign)&&(idata_exp>max_buffer_exp) ? idata : (idata_sign==max_buffer_sign)&&(idata_exp==max_buffer_exp)&&(idata_m > max_buffer_m) ? idata : max_buffer;
     
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             max_buffer <= 1'd0;
         end
         else if(full)
@@ -117,20 +107,20 @@ module softmax
 
     //max buffer needs to propagate
     // genvar i;
-    // reg [`DATA_BIT-1:0] max_reg [`SOFTMAX_NUM-1:0];
+    // reg [DATA_BIT-1:0] max_reg [SOFTMAX_NUM-1:0];
     // generate
     //     for (i = 0; i < REG_NUM; i = i + 1) begin
     //         if(i==0) begin
-    //             always @(posedge clk or posedge rst) begin
-    //                 if (rst) 
+    //             always @(posedge clk or negedge rst_n) begin
+    //                 if (rst_n) 
     //                     max_reg[0]<='0;
     //                 else if(full)
     //                     max_reg[0]<=max_buffer;
     //             end
     //         end
     //         else begin
-    //             always @(posedge clk or posedge rst) begin
-    //                 if (rst) 
+    //             always @(posedge clk or negedge rst_n) begin
+    //                 if (rst_n) 
     //                     max_reg[i]<='0;
     //                 else
     //                     max_reg[i]<=max_reg[i-1];
@@ -138,9 +128,9 @@ module softmax
     //         end
     //     end
     // endgenerate
-    reg [`DATA_BIT-1:0] max_reg;
-    always @(posedge clk or posedge rst) begin
-        if (rst) 
+    reg [DATA_BIT-1:0] max_reg;
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) 
             max_reg<='0;
         else if(full)
             max_reg<=max_buffer;
@@ -149,15 +139,15 @@ module softmax
 
     //getting stored input and subtract with max
 
-    reg     [`SOFTMAX_ADDR-1:0] rd_pointer;
+    reg     [SOFTMAX_ADDR-1:0] rd_pointer;
     wire     rd_full;
 	reg 	buffer_valid;
-	reg [`DATA_BIT-1:0] lut_addr_fp;
+	reg [DATA_BIT-1:0] lut_addr_fp;
 	reg lut_addr_fp_valid;
 
-    assign rd_full=(rd_pointer==`SOFTMAX_NUM-1);
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    assign rd_full=(rd_pointer==SOFTMAX_NUM-1);
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             rd_pointer<= 1'd0;
         end
         else if (full) begin
@@ -168,16 +158,16 @@ module softmax
         end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             buffer_valid <= 1'b0;
         end
         else
             buffer_valid <=full;
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             lut_addr_fp<= 1'd0;
         end
         else if (buffer_valid) begin
@@ -186,8 +176,8 @@ module softmax
 
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             lut_addr_fp_valid <= 1'b0;
         end
         else begin
@@ -196,8 +186,8 @@ module softmax
     end
 
     //fp input to fixed point
-    reg [`LUT_ADDR-1:0] lut_addr_comb;
-    reg [`LUT_ADDR-1:0] lut_addr;
+    reg [LUT_ADDR-1:0] lut_addr_comb;
+    reg [LUT_ADDR-1:0] lut_addr;
     reg lut_addr_valid;
 
     fp2int fp2int_inst (
@@ -206,8 +196,8 @@ module softmax
         .odata                      (lut_addr_comb)
     ); 
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             lut_addr <= 'd0;
         end
         else if (lut_addr_fp_valid)begin
@@ -215,8 +205,8 @@ module softmax
         end
     end
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             lut_addr_valid <= 1'b0;
         end
         else begin
@@ -225,12 +215,12 @@ module softmax
     end
 
     //lut based exponential
-    wire    [`LUT_ADDR-1:0] lut_addr_w;
+    wire    [LUT_ADDR-1:0] lut_addr_w;
     wire                    lut_ren;
-    wire    [`LUT_DATA-1:0]  lut_rdata;
+    wire    [LUT_DATA-1:0]  lut_rdata;
     reg     exp_valid;
 
-    mem_sp lut_inst (
+    mem_sp_softmax lut_inst (
         .clk                    (clk),
         .addr                   (lut_addr_w),
         .wen                    (lut_wen),
@@ -242,8 +232,8 @@ module softmax
     assign  lut_addr_w = lut_wen ? lut_waddr : lut_addr;
     assign  lut_ren  = lut_wen ? 1'b0      : lut_addr_valid;
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             exp_valid <= 1'b0;
         end
         else begin
@@ -252,14 +242,14 @@ module softmax
     end
 
 	//store exponent
-	reg [`LUT_DATA-1:0] exp_reg [`SOFTMAX_NUM-1:0];
-	reg  [`SOFTMAX_ADDR-1:0] exp_pointer;
+	reg [LUT_DATA-1:0] exp_reg [SOFTMAX_NUM-1:0];
+	reg  [SOFTMAX_ADDR-1:0] exp_pointer;
 	wire exp_full;
 	reg exp_reg_valid; // all exponent have been stored.
 
-	assign exp_full=(exp_pointer==`SOFTMAX_NUM-1);
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	assign exp_full=(exp_pointer==SOFTMAX_NUM-1);
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             exp_pointer<= 1'd0;
         end
         else if (exp_valid && !exp_full) begin
@@ -270,9 +260,9 @@ module softmax
         end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
-            for(i=0;i<`SOFTMAX_NUM;i=i+1)
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
+            for(i=0;i<SOFTMAX_NUM;i=i+1)
                 exp_reg[i] <= 'd0;
         end
         else if (exp_valid) begin
@@ -280,8 +270,8 @@ module softmax
         end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             exp_reg_valid <= 1'b0;
         end
         else begin
@@ -290,15 +280,15 @@ module softmax
     end
 
 	//read exponent and accumulate
-    reg     [`SOFTMAX_ADDR-1:0] exp_rd_pointer;
+    reg     [SOFTMAX_ADDR-1:0] exp_rd_pointer;
     wire     exp_rd_full;
 	reg 	exp_read_valid;
-	reg [`LUT_DATA-1:0] exp_acc; //accumulated partial sum
+	reg [LUT_DATA-1:0] exp_acc; //accumulated partial sum
 	reg sum_valid; //exp sum valid
 
-    assign exp_rd_full=(rd_pointer==`SOFTMAX_NUM-1);
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    assign exp_rd_full=(rd_pointer==SOFTMAX_NUM-1);
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             exp_rd_pointer<= 1'd0;
         end
         else if (exp_read_valid && !exp_rd_full) begin
@@ -309,8 +299,8 @@ module softmax
         end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             exp_read_valid <= 1'b0;
         end
         else if(exp_reg_valid) begin
@@ -321,8 +311,8 @@ module softmax
 		end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             exp_acc<= 1'd0;
         end
         else if (exp_read_valid) begin
@@ -330,8 +320,8 @@ module softmax
         end
 	end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             sum_valid <= 1'b0;
         end
         else begin
@@ -346,20 +336,20 @@ module softmax
 	assign finv_in=exp_acc;
 	fpinv finv(.f1(finv_in),.fout(finv_out));
 	
-	reg [`LUT_DATA-1:0] denominator;
+	reg [LUT_DATA-1:0] denominator;
 	reg deno_valid;
 
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             denominator<= 1'd0;
         end
         else if(sum_valid) begin
             denominator<=finv_out; //need to change, denominator will be covered by next pipeline input
         end
     end
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             deno_valid <= 1'b0;
         end
         else begin
@@ -368,13 +358,13 @@ module softmax
     end
 
 	//divide each exp stored
-	reg     [`SOFTMAX_ADDR-1:0] out_pointer;
+	reg     [SOFTMAX_ADDR-1:0] out_pointer;
     wire     out_full;
 	reg 	out_valid;
 
-    assign out_full=(out_pointer==`SOFTMAX_NUM-1);
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    assign out_full=(out_pointer==SOFTMAX_NUM-1);
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             out_pointer<= 1'd0;
         end
         else if (out_valid && !out_full) begin
@@ -385,8 +375,8 @@ module softmax
         end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             out_valid <= 1'b0;
         end
         else if(deno_valid) begin
@@ -397,8 +387,8 @@ module softmax
 		end
     end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             odata<= 1'd0;
         end
         else if (odata_valid) begin
@@ -406,8 +396,8 @@ module softmax
         end
 	end
 
-	always @(posedge clk or posedge rst) begin
-        if (rst) begin
+	always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             odata_valid <= 1'b0;
         end
         else begin
@@ -427,7 +417,7 @@ module softmax
 
     fpadd fadd(fadd_out,fadd_in_a,fadd_in_b);
     assign fadd_in_a= buffer_valid ? idata_reg[rd_pointer] : exp_read_valid ? exp_reg[exp_rd_pointer] : exp_reg[exp_rd_pointer];
-    assign fadd_in_b= buffer_valid ? {!(max_reg[`DATA_BIT-1]),max_reg[`DATA_BIT-2:0]} : exp_read_valid ? exp_acc : exp_acc;  
+    assign fadd_in_b= buffer_valid ? {!(max_reg[DATA_BIT-1]),max_reg[DATA_BIT-2:0]} : exp_read_valid ? exp_acc : exp_acc;  
 
 endmodule
 
@@ -769,55 +759,60 @@ endmodule
 module fp2int 
 (
     // Control Signals
-    input       [`CDATA_BIT-1:0] cfg_shift,
+    input       [8-1:0] cfg_shift,
 
     // Data Signals
-    input       [`DATA_BIT-1:0] idata,
+    input       [16-1:0] idata,
     output      [9-1:0] odata
 );
 
     // Extrach Sign and Mantissa Field from FP
     reg                 idata_sig;
-    reg     [`I_MAT:0] idata_mat;
+    reg     [7:0] idata_mat;
 
     always @(*) begin
-        idata_sig = idata[`DATA_BIT-1];
-        idata_mat = {1'b1, idata[`I_MAT-1:0]};
+        idata_sig = idata[16-1];
+        idata_mat = {1'b1, idata[7-1:0]};
     end
 
     // Shift and Round Mantissa to Integer
-    reg     [`I_MAT:0] mat_shift;
-    reg     [`I_MAT:0] mat_round;
+    reg     [7:0] mat_shift;
+    reg     [7:0] mat_round;
 
     always @(*) begin
         mat_shift = idata_mat >> cfg_shift;
     end
 
     always @(*) begin
-        mat_round = mat_shift[`I_MAT:1] + mat_shift[0];
+        mat_round = mat_shift[7:1] + mat_shift[0];
     end
 
     // Convert to 2's Complementary Integer
-    //assign odata = {idata_sig, idata_sig ? (~mat_round[`I_MAT-:`DATA_BIT] + 1'b1) : mat_round[`I_MAT-:`DATA_BIT]};
+    //assign odata = {idata_sig, idata_sig ? (~mat_round[I_MAT-:DATA_BIT] + 1'b1) : mat_round[I_MAT-:DATA_BIT]};
 	assign odata = {idata_sig, mat_round};//for power est
 
 endmodule
 
-module mem_sp 
+module mem_sp_softmax
+#(
+    parameter integer LUT_ADDR = 9,
+    parameter integer LUT_DATA = 16,
+    parameter integer LUT_DEPTH = 2 ** LUT_ADDR
+)
 (
     // Global Signals
     input                       clk,
 
     // Data Signals
-    input       [`LUT_ADDR-1:0]  addr,
+    input       [LUT_ADDR-1:0]  addr,
     input                       wen,
-    input       [`LUT_DATA-1:0]  wdata,
+    input       [LUT_DATA-1:0]  wdata,
     input                       ren,
-    output  reg [`LUT_DATA-1:0]  rdata
+    output  reg [LUT_DATA-1:0]  rdata
 );
 
     // 1. RAM/Memory initialization
-    reg [`LUT_DATA-1:0]  mem [0:`LUT_DEPTH-1];
+    reg [LUT_DATA-1:0]  mem [0:LUT_DEPTH-1];
 
     // 2. Write channel
     always @(posedge clk) begin
