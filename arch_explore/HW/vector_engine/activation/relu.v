@@ -1,7 +1,6 @@
 module relu
 #(
     parameter integer BUS_NUM = ${head_dim},      
-    parameter integer BUS_NUM_WIDTH = $clog2(BUS_NUM), 
     parameter integer SCALA_POS_WIDTH = 5,
     parameter integer FIXED_DATA_WIDTH = 8
 )
