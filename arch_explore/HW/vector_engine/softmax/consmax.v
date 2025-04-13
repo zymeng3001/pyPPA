@@ -4,7 +4,7 @@
 `define LUT_DEPTH 2 ** `LUT_ADDR
 `define LUT_DATA `I_EXP + `I_MAT + 1
 
-module consmax_bus #(
+module consmax #(
     parameter   IDATA_BIT = 8,  // Input Data in INT
     parameter   ODATA_BIT = 8,  // Output Data in INT
     parameter   CDATA_BIT = 8,  // Global Config Data

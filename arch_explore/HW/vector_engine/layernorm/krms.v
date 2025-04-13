@@ -113,7 +113,7 @@ module krms #
     float_K <= nxt_float_K;
   end
 
-  DW_fp_i2flt #(sig_width, exp_width, isize, isign)
+  custom_fp_i2flt #(sig_width, exp_width, isize, isign)
     i2flt_K (
       .a(K_ext),
       .rnd(3'b000),
@@ -227,7 +227,7 @@ module krms #
     fixed_square_sum_ext = fixed_square_sum;
   end
 
-  DW_fp_i2flt #(sig_width, exp_width, isize, isign)
+  custom_fp_i2flt #(sig_width, exp_width, isize, isign)
     i2flt_square_sum (
       .a(fixed_square_sum_ext),
       .rnd(3'b000),
@@ -367,7 +367,7 @@ module krms #
 
   // Convert the floating–point value to an integer fixed–point value.
   wire [`RECOMPUTE_SCALE_WIDTH-1:0] nxt_rc_scale;
-  DW_fp_flt2i #(sig_width, exp_width, `RECOMPUTE_SCALE_WIDTH, isign)
+  custom_fp_flt2i #(sig_width, exp_width, `RECOMPUTE_SCALE_WIDTH, isign)
     i2flt_in_data (
       .a(one_over_rms_exp_shift),
       .rnd(3'b000),
@@ -386,3 +386,135 @@ module krms #
   end
 
 endmodule
+
+
+module custom_fp_i2flt #(
+    parameter integer sig_width = 23,   // Number of significand (mantissa) bits
+    parameter integer exp_width = 8,    // Number of exponent bits
+    parameter integer isize     = 32,   // Width of integer input
+    parameter integer isign     = 1     // 1 = signed, 0 = unsigned
+)(
+    input  wire [isize-1:0] a,                         // Input integer
+    input  wire [2:0]       rnd,                       // Rounding mode (unused)
+    output reg  [sig_width + exp_width:0] z,           // Floating-point result
+    output reg  [7:0]       status                     // Status flags
+);
+
+    // Constants
+    localparam integer EXP_BIAS = (1 << (exp_width - 1)) - 1;
+
+    // Internal wires
+    reg                  sign;
+    reg [isize-1:0]      abs_val;
+    integer              msb_index;
+
+    reg [exp_width-1:0]  exponent;
+    reg [sig_width-1:0]  mantissa;
+
+    // 1. Get sign and absolute value
+    always @(*) begin
+        if (isign && a[isize-1]) begin
+            sign = 1;
+            abs_val = -$signed(a);
+        end else begin
+            sign = 0;
+            abs_val = a;
+        end
+    end
+
+    // 2. Count leading zeros and calculate exponent
+    always @(*) begin
+        msb_index = -1;
+        for (integer i = isize-1; i >= 0; i = i - 1) begin
+            if (abs_val[i] == 1'b1 && msb_index == -1)
+                msb_index = i;
+        end
+
+        if (msb_index == -1) begin
+            exponent = 0;
+            mantissa = 0;
+        end else begin
+            exponent = msb_index + EXP_BIAS;
+            if (msb_index >= sig_width)
+                mantissa = abs_val[msb_index-1 -: sig_width];
+            else
+                mantissa = abs_val << (sig_width - msb_index);
+        end
+    end
+
+    // 3. Pack into FP format
+    always @(*) begin
+        if (abs_val == 0) begin
+            z = 0;
+            status = 8'h01;  // zero
+        end else begin
+            z = {sign, exponent, mantissa};
+            status = 8'h00;
+        end
+    end
+
+endmodule
+
+
+module custom_fp_flt2i #(
+    parameter integer sig_width = 23,                  // Mantissa bits
+    parameter integer exp_width = 8,                   // Exponent bits
+    parameter integer isize     = 16,                  // Output integer width
+    parameter integer isign     = 1                    // 1 = signed output, 0 = unsigned
+)(
+    input  wire [sig_width + exp_width:0] a,           // Input FP number
+    input  wire [2:0] rnd,                             // Rounding mode (ignored)
+    output reg  [isize-1:0] z,                         // Integer output
+    output reg  [7:0]       status                     // Status flags
+);
+
+    localparam integer FP_WIDTH = sig_width + exp_width + 1;
+    localparam integer EXP_BIAS = (1 << (exp_width - 1)) - 1;
+
+    // Unpack FP
+    wire sign = a[FP_WIDTH-1];
+    wire [exp_width-1:0] exp = a[FP_WIDTH-2:sig_width];
+    wire [sig_width-1:0] frac = a[sig_width-1:0];
+
+    wire [sig_width:0] mantissa = |exp ? {1'b1, frac} : {1'b0, frac}; // normalized or denorm
+    wire signed [exp_width:0] actual_exp = $signed(exp) - EXP_BIAS;
+
+    // Shift mantissa based on exponent
+    reg [isize-1:0] shifted;
+    reg overflow;
+
+    always @(*) begin
+        overflow = 0;
+
+        if (actual_exp < 0) begin
+            // Value < 1 → rounds to zero
+            shifted = 0;
+        end else if (actual_exp > sig_width) begin
+            // Too large to represent
+            shifted = {isize{1'b1}};
+            overflow = 1;
+        end else begin
+            shifted = mantissa << actual_exp;
+            if (shifted >= (1 << isize)) begin
+                shifted = {isize{1'b1}};
+                overflow = 1;
+            end
+        end
+    end
+
+    always @(*) begin
+        if (exp == 0 && frac == 0) begin
+            z = 0;
+            status = 8'h01;  // zero
+        end else if (overflow) begin
+            z = isign ? (sign ? {1'b1, {isize-1{1'b0}}} : {1'b0, {isize-1{1'b1}}})
+                      : {isize{1'b1}};
+            status = 8'h10;  // overflow
+        end else begin
+            z = isign && sign ? (~shifted + 1'b1) : shifted;
+            status = 8'h00;
+        end
+    end
+
+endmodule
+

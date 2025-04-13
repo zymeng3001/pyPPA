@@ -19,7 +19,7 @@ from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 
 
 ppa_runner = PPARunner(
-	design_name="activation",
+	design_name="krms",
 	tools={
 		'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
 		'synth_tool': Yosys(scripts_dir=path.join('scripts', 'synth')),
@@ -29,20 +29,17 @@ ppa_runner = PPARunner(
 	threads_per_job=3,
 	global_flow_config={
 		'VERILOG_FILES': [
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/activation.v'),
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/relu.v'),
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/silu.v'),
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/gelu.v'),
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/softplus.v')
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/krms.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/fp_div_pipe.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/fp_mult_pipe.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/fp_invsqrt_pipe.v')
 		],
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
 	}
 )
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
-problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(8,264,8).tolist(), default_value=8) # Number of softmax buffers
-problem.search_space.root.add_categorical_param(name='activation', feasible_values=['RELU', 'GELU', 'SILU', 'SOFTPLUS'], default_value='RELU') 
+problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[10], default_value=10) # Guessing that the optimal period is somewhere in between, based on previous results
 problem.metric_information.append(
     vz.MetricInformation(
         name='fom',
@@ -55,23 +52,23 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_activation_sweep_v3'
+  study_id='ppa_krms'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
 seen_configs = set()
 
-def is_duplicate(suggestion):
-    """Check if the suggestion has already been tried based on unique parameters."""
-    config_tuple = (
-        int(suggestion.parameters['head_dim']),
-		suggestion.parameters['activation']
-    )
+# def is_duplicate(suggestion):
+#     """Check if the suggestion has already been tried based on unique parameters."""
+#     config_tuple = (
+#         int(suggestion.parameters['head_dim']),
+# 		suggestion.parameters['activation']
+#     )
    
-    if config_tuple in seen_configs:
-        return True
-    seen_configs.add(config_tuple)
-    return False
+#     if config_tuple in seen_configs:
+#         return True
+#     seen_configs.add(config_tuple)
+#     return False
 
 def fom(area: float, period: float, total_power: float):
     w1 = 0.2
@@ -122,19 +119,19 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 		}
 
 	feasible_suggestions = []
-	suggestions = study_client.suggest(count=10)
-	while len(feasible_suggestions) < 1:
-		print("Suggestions:")
-		for suggestion in suggestions:
-			if is_duplicate(suggestion):
-				suggestion.complete(vz.Measurement({'fom': math.inf}))
-			else:
-				feasible_suggestions.append(suggestion)
-		suggestions = study_client.suggest(count=10)
+	feasible_suggestions = study_client.suggest(count=1)
+	# while len(feasible_suggestions) < 1:
+	# 	print("Suggestions:")
+	# 	for suggestion in suggestions:
+	# 		if is_duplicate(suggestion):
+	# 			suggestion.complete(vz.Measurement({'fom': math.inf}))
+	# 		else:
+	# 			feasible_suggestions.append(suggestion)
+	# 	suggestions = study_client.suggest(count=10)
 
-	for suggestion in feasible_suggestions:
-		print("Feasible suggestions:")
-		print(suggestion.parameters)
+	# for suggestion in feasible_suggestions:
+	# 	print("Feasible suggestions:")
+	# 	print(suggestion.parameters)
 	
 	return {
         'opt_complete': False,
@@ -144,9 +141,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'ABC_AREA': True
                 },
                 'hyperparameters': {
-                    'clk_period': suggestion.parameters['constraint_period'],
-                    'head_dim': int(suggestion.parameters['head_dim']),
-					'activation': suggestion.parameters['activation']
+                    'clk_period': suggestion.parameters['constraint_period']
                 }
             } for suggestion in feasible_suggestions
         ],
@@ -154,7 +149,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
     }
 
 ppa_runner.add_job({
-	'module_name': 'activation',
+	'module_name': 'krms',
 	'mode': 'opt',
 	'optimizer': vizier_optimizer
 })
