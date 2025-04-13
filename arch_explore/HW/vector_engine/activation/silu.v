@@ -5,7 +5,7 @@ module silu #(
 )(
     // Global Signals
     input wire clk,
-    input wire rst,
+    input wire rst_n,
 
     // Data Signals
     input wire signed [BUS_NUM * FIXED_DATA_WIDTH - 1 : 0] in_fixed_data,
