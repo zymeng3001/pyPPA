@@ -246,23 +246,25 @@ module custom_fp_sub #(
     end
 
     // 4. Normalize result
-    integer shift;
     reg [sig_width-1:0] frac_norm;
     reg [2*sig_width-1:0] frac_norms;
     reg [exp_width-1:0] exp_norm;
 
-    always @(*) begin
-        shift = 0;
-        for (integer i = sig_width+2; i >= 0; i = i - 1) begin
-            if (mant_sub[i]) begin
-                shift = sig_width + 2 - i;
-                break;
-            end
-        end
-        frac_norms = (mant_sub << shift);  
-        frac_norm = frac_norms[sig_width+2:3]; // truncate extra bits 
-        exp_norm = (exp_result > shift) ? (exp_result - shift) : 0;
-    end
+    wire [$clog2(sig_width+3)-1:0] shift;
+    wire                          valid;
+    priority_encoder #(
+        .WIDTH(sig_width + 3)
+    ) pe_inst (
+        .in(mant_sub),
+        .shift(shift),
+        .valid(valid)
+    );
+
+    // then use shift as before
+    assign frac_norms = mant_sub << shift;
+    assign frac_norm  = frac_norms[sig_width+2:3];
+    assign exp_norm   = (exp_result > shift) ? (exp_result - shift) : 0;
+
 
     // 5. Final packing
     always @(*) begin
@@ -272,4 +274,26 @@ module custom_fp_sub #(
             z = {1'b0, {exp_width{1'b0}}, {sig_width{1'b0}}};  // exact zero
     end
 
+endmodule
+
+module priority_encoder #(
+    parameter WIDTH = 16,
+    parameter SHIFT_WIDTH = $clog2(WIDTH)
+)(
+    input  wire [WIDTH-1:0] in,
+    output reg  [SHIFT_WIDTH-1:0] shift,
+    output wire valid
+);
+
+    integer i;
+    always @(*) begin
+        shift = 0;
+        for (i = WIDTH-1; i >= 0; i = i - 1) begin
+            if (in[i]) begin
+                shift = WIDTH - 1 - i;
+            end
+        end
+    end
+
+    assign valid = |in;
 endmodule
