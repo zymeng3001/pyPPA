@@ -61,7 +61,7 @@ def is_duplicate(suggestion):
     """Check if the suggestion has already been tried based on unique parameters."""
     config_tuple = (
         int(suggestion.parameters['head_dim']),
-		int(suggestion.parameters['activation'])
+		suggestion.parameters['activation']
     )
    
     if config_tuple in seen_configs:
