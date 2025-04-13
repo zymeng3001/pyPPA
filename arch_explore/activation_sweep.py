@@ -103,17 +103,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			area = run['synth_stats']['module_area']
 			period = run['ppa_stats']['sta']['clk']['clk_period']
 			total_power = run['ppa_stats']['power_report']['total']['total_power']
-    
-			objective = fom(
-				area=area,
-				period=period,
-				total_power=total_power
-			)
-
-			print(f'Iteration {prev_iter_number}, suggestion (constraint_period = {constraint_period} led to')
-			print(f'area {area} period {period} total_power {total_power} objective value {objective}.\n')
 			
-			final_measurement = vz.Measurement({'fom': objective})
+			final_measurement = vz.Measurement({'fom': 1})
 			suggestion.complete(final_measurement)
 
 	if prev_iter_number >= 128:  # stopping condition
