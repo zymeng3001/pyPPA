@@ -50,7 +50,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_softmax_optimizer_v3'
+  study_id='ppa_gelu'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
