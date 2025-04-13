@@ -33,7 +33,7 @@ ppa_runner = PPARunner(
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/relu.v'),
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/silu.v'),
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/gelu.v'),
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/softmax.v')
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/softplus.v')
 		],
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
 	}
@@ -55,7 +55,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_activation_sweep_v1'
+  study_id='ppa_activation_sweep_v2'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
