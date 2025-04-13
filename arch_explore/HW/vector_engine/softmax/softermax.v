@@ -413,20 +413,23 @@ end
 endmodule
 
 
-module IntMax (
-    input signed [`DATA_SIZE-1:0] pre_max,
-    input signed [`DATA_SIZE-1:0] input_vector,
-    output signed [`DATA_SIZE-1:0] current_max
+module IntMax #(
+    parameter integer DATA_SIZE = 8,
+    parameter integer FRAC = 2
+)(
+    input signed [DATA_SIZE-1:0] pre_max,
+    input signed [DATA_SIZE-1:0] input_vector,
+    output signed [DATA_SIZE-1:0] current_max
 );
-    reg signed [`DATA_SIZE-1:0] int_input;
+    reg signed [DATA_SIZE-1:0] int_input;
 
     //perform ceiling function, only keelp integer part and plus 1
     always @(*) begin : ceiling_function
-        if(input_vector[`FRAC-1:0] != 0) begin
-            int_input = input_vector[`DATA_SIZE-1:`FRAC] + 1;
+        if(input_vector[FRAC-1:0] != 0) begin
+            int_input = input_vector[DATA_SIZE-1:FRAC] + 1;
         end
         else begin
-            int_input = input_vector[`DATA_SIZE-1:`FRAC];
+            int_input = input_vector[DATA_SIZE-1:FRAC];
         end
     end
 

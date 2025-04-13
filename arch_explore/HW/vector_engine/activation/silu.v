@@ -18,7 +18,7 @@ module silu #(
     reg signed [FIXED_DATA_WIDTH-1:0] x, y;
 
     always @(posedge clk or negedge rst_n) begin
-        if (rst) begin
+        if (!rst_n) begin
             out_fixed_data <= 0;
             out_fixed_data_vld <= 0;
         end else begin
