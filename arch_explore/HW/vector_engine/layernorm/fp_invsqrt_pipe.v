@@ -248,6 +248,7 @@ module custom_fp_sub #(
     // 4. Normalize result
     integer shift;
     reg [sig_width-1:0] frac_norm;
+    reg [2*sig_width-1:0] frac_norms;
     reg [exp_width-1:0] exp_norm;
 
     always @(*) begin
@@ -258,7 +259,8 @@ module custom_fp_sub #(
                 break;
             end
         end
-        frac_norm = (mant_sub << shift)[sig_width+2:3];  // truncate extra bits
+        frac_norms = (mant_sub << shift);  
+        frac_norm = frac_norms[sig_width+2:3]; // truncate extra bits 
         exp_norm = (exp_result > shift) ? (exp_result - shift) : 0;
     end
 
