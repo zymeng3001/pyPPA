@@ -19,7 +19,7 @@ from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 
 
 ppa_runner = PPARunner(
-	design_name="gelu",
+	design_name="activation",
 	tools={
 		'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
 		'synth_tool': Yosys(scripts_dir=path.join('scripts', 'synth')),
@@ -29,7 +29,7 @@ ppa_runner = PPARunner(
 	threads_per_job=3,
 	global_flow_config={
 		'VERILOG_FILES': [
-			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/gelu.v')
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/activation.v')
 		],
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
 	}
@@ -51,7 +51,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_gelu'
+  study_id='ppa_activation'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -69,7 +69,7 @@ def is_duplicate(suggestion):
     seen_configs.add(config_tuple)
     return False
 
-def fom(area: float, period: float, total_power: float, num_softmax: int):
+def fom(area: float, period: float, total_power: float):
     w1 = 0.2
     w2 = 0.2
     w3 = 0.6
@@ -77,7 +77,7 @@ def fom(area: float, period: float, total_power: float, num_softmax: int):
     target_area = 3e6
     target_throughput = 6e7
 	
-    throughput = 1e9 / period / num_softmax
+    throughput = 1e9 / period
 
     out = w1 * (area / target_area) + w2 * (total_power / target_power) - w3 * (throughput / target_throughput)
 
@@ -94,24 +94,20 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 		for i, suggestion in enumerate(previous_suggestions):
 			constraint_period = suggestion.parameters['constraint_period']
-			num_softmax = suggestion.parameters['num_softmax']
-			map_effort = suggestion.parameters['ABC_MAP_EFFORT']
 
 			run = prev_iter_ppa_runs[i]
 			area = run['synth_stats']['module_area']
 			period = run['ppa_stats']['sta']['clk']['clk_period']
 			total_power = run['ppa_stats']['power_report']['total']['total_power']
-			throughput = 1e9 / period / num_softmax
     
 			objective = fom(
 				area=area,
 				period=period,
-				total_power=total_power,
-				num_softmax=num_softmax
+				total_power=total_power
 			)
 
-			print(f'Iteration {prev_iter_number}, suggestion (constraint_period = {constraint_period} MAP_EFFORT = {map_effort}) led to')
-			print(f'area {area} period {period} total_power {total_power} throughput {throughput} objective value {objective}.\n')
+			print(f'Iteration {prev_iter_number}, suggestion (constraint_period = {constraint_period} led to')
+			print(f'area {area} period {period} total_power {total_power} objective value {objective}.\n')
 			
 			final_measurement = vz.Measurement({'fom': objective})
 			suggestion.complete(final_measurement)
@@ -162,7 +158,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
     }
 
 ppa_runner.add_job({
-	'module_name': 'gelu',
+	'module_name': 'activation',
 	'mode': 'opt',
 	'optimizer': vizier_optimizer
 })
