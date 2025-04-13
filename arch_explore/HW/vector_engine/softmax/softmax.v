@@ -48,7 +48,7 @@ module softmax #(
 
     assign full=(pointer==SOFTMAX_NUM-1);
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             pointer<= 1'd0;
         end
         else if (idata_valid && !full) begin
@@ -61,7 +61,7 @@ module softmax #(
 
 	integer i;
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             for(i=0;i<SOFTMAX_NUM;i=i+1)
                 idata_reg[i] <= 'd0;
 			// comp_in<=0;
@@ -73,7 +73,7 @@ module softmax #(
     end
 
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             idata_valid_reg <= 1'b0;
         end
         else begin
@@ -95,7 +95,7 @@ module softmax #(
     assign max_buffer_in= (idata_sign<max_buffer_sign) ? idata : (idata_sign==max_buffer_sign)&&(idata_exp>max_buffer_exp) ? idata : (idata_sign==max_buffer_sign)&&(idata_exp==max_buffer_exp)&&(idata_m > max_buffer_m) ? idata : max_buffer;
     
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             max_buffer <= 1'd0;
         end
         else if(full)
@@ -112,7 +112,7 @@ module softmax #(
     //     for (i = 0; i < REG_NUM; i = i + 1) begin
     //         if(i==0) begin
     //             always @(posedge clk or negedge rst_n) begin
-    //                 if (rst_n) 
+    //                 if (!rst_n) 
     //                     max_reg[0]<='0;
     //                 else if(full)
     //                     max_reg[0]<=max_buffer;
@@ -120,7 +120,7 @@ module softmax #(
     //         end
     //         else begin
     //             always @(posedge clk or negedge rst_n) begin
-    //                 if (rst_n) 
+    //                 if (!rst_n) 
     //                     max_reg[i]<='0;
     //                 else
     //                     max_reg[i]<=max_reg[i-1];
@@ -130,7 +130,7 @@ module softmax #(
     // endgenerate
     reg [DATA_BIT-1:0] max_reg;
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) 
+        if (!rst_n) 
             max_reg<='0;
         else if(full)
             max_reg<=max_buffer;
@@ -147,7 +147,7 @@ module softmax #(
 
     assign rd_full=(rd_pointer==SOFTMAX_NUM-1);
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             rd_pointer<= 1'd0;
         end
         else if (full) begin
@@ -159,7 +159,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             buffer_valid <= 1'b0;
         end
         else
@@ -167,7 +167,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             lut_addr_fp<= 1'd0;
         end
         else if (buffer_valid) begin
@@ -177,7 +177,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             lut_addr_fp_valid <= 1'b0;
         end
         else begin
@@ -197,7 +197,7 @@ module softmax #(
     ); 
 
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             lut_addr <= 'd0;
         end
         else if (lut_addr_fp_valid)begin
@@ -206,7 +206,7 @@ module softmax #(
     end
 
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             lut_addr_valid <= 1'b0;
         end
         else begin
@@ -233,7 +233,7 @@ module softmax #(
     assign  lut_ren  = lut_wen ? 1'b0      : lut_addr_valid;
 
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             exp_valid <= 1'b0;
         end
         else begin
@@ -249,7 +249,7 @@ module softmax #(
 
 	assign exp_full=(exp_pointer==SOFTMAX_NUM-1);
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             exp_pointer<= 1'd0;
         end
         else if (exp_valid && !exp_full) begin
@@ -261,7 +261,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             for(i=0;i<SOFTMAX_NUM;i=i+1)
                 exp_reg[i] <= 'd0;
         end
@@ -271,7 +271,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             exp_reg_valid <= 1'b0;
         end
         else begin
@@ -288,7 +288,7 @@ module softmax #(
 
     assign exp_rd_full=(rd_pointer==SOFTMAX_NUM-1);
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             exp_rd_pointer<= 1'd0;
         end
         else if (exp_read_valid && !exp_rd_full) begin
@@ -300,7 +300,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             exp_read_valid <= 1'b0;
         end
         else if(exp_reg_valid) begin
@@ -312,7 +312,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             exp_acc<= 1'd0;
         end
         else if (exp_read_valid) begin
@@ -321,7 +321,7 @@ module softmax #(
 	end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             sum_valid <= 1'b0;
         end
         else begin
@@ -341,7 +341,7 @@ module softmax #(
 
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             denominator<= 1'd0;
         end
         else if(sum_valid) begin
@@ -349,7 +349,7 @@ module softmax #(
         end
     end
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             deno_valid <= 1'b0;
         end
         else begin
@@ -364,7 +364,7 @@ module softmax #(
 
     assign out_full=(out_pointer==SOFTMAX_NUM-1);
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             out_pointer<= 1'd0;
         end
         else if (out_valid && !out_full) begin
@@ -376,7 +376,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             out_valid <= 1'b0;
         end
         else if(deno_valid) begin
@@ -388,7 +388,7 @@ module softmax #(
     end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             odata<= 1'd0;
         end
         else if (odata_valid) begin
@@ -397,7 +397,7 @@ module softmax #(
 	end
 
 	always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             odata_valid <= 1'b0;
         end
         else begin

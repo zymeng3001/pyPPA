@@ -39,7 +39,7 @@ ppa_runner = PPARunner(
 )
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[10], default_value=10) # Guessing that the optimal period is somewhere in between, based on previous results
+problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=10) # Guessing that the optimal period is somewhere in between, based on previous results
 problem.metric_information.append(
     vz.MetricInformation(
         name='fom',
