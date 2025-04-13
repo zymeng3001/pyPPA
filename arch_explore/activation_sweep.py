@@ -51,7 +51,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_activation'
+  study_id='ppa_activation_sweep'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
