@@ -42,7 +42,7 @@ ppa_runner = PPARunner(
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(8,264,8).tolist(), default_value=8) # Number of softmax buffers
-problem.search_space.root.add_categorical_param(name='activation', feasible_values=['RELU', 'GELU', 'SILU', 'SOFTMAX'], default_value='RELU') 
+problem.search_space.root.add_categorical_param(name='activation', feasible_values=['RELU', 'GELU', 'SILU', 'SOFTPLUS'], default_value='RELU') 
 problem.metric_information.append(
     vz.MetricInformation(
         name='fom',
