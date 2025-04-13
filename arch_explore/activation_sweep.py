@@ -38,6 +38,7 @@ ppa_runner = PPARunner(
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
 problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(8,264,8).tolist(), default_value=8) # Number of softmax buffers
+problem.search_space.root.add_discrete_param(name='activation', feasible_values=['relu', 'gelu', 'silu', 'softmax'], default_value=8) 
 problem.metric_information.append(
     vz.MetricInformation(
         name='fom',
@@ -59,7 +60,8 @@ seen_configs = set()
 def is_duplicate(suggestion):
     """Check if the suggestion has already been tried based on unique parameters."""
     config_tuple = (
-        int(suggestion.parameters['head_dim'])
+        int(suggestion.parameters['head_dim']),
+		int(suggestion.parameters['activation'])
     )
    
     if config_tuple in seen_configs:
@@ -114,7 +116,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			final_measurement = vz.Measurement({'fom': objective})
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 32:  # stopping condition
+	if prev_iter_number >= 128:  # stopping condition
 		print("Optimization complete.")
 		for optimal_trial in study_client.optimal_trials():
 			optimal_trial = optimal_trial.materialize()
