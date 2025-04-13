@@ -150,7 +150,7 @@ module fp_invsqrt_pipe(
     end
   end
 
-  DW_fp_sub #(
+  custom_fp_sub #(
     .sig_width(7), 
     .exp_width(8), 
     .ieee_compliance(0)
@@ -196,5 +196,78 @@ module fp_invsqrt_pipe(
     .ab_valid(threehalfs_sub_vld),
     .z_valid (nxt_y_vld)
   );
+
+endmodule
+
+module custom_fp_sub #(
+    parameter integer sig_width = 7,   // number of fraction bits
+    parameter integer exp_width = 8,   // number of exponent bits
+    parameter integer ieee_compliance = 0  // only basic handling when 0
+)(
+    input  wire [sig_width+exp_width:0] a,  // input a
+    input  wire [sig_width+exp_width:0] b,  // input b
+    input  wire [2:0]                   rnd, // rounding mode (ignored)
+    output reg  [sig_width+exp_width:0] z,   // result = a - b
+    output reg  [7:0]                   status // status flags
+);
+
+    // Sign, exponent, mantissa extraction
+    wire sign_a = a[sig_width + exp_width];
+    wire sign_b = b[sig_width + exp_width];
+    wire [exp_width-1:0] exp_a = a[sig_width + exp_width - 1 : sig_width];
+    wire [exp_width-1:0] exp_b = b[sig_width + exp_width - 1 : sig_width];
+    wire [sig_width-1:0] frac_a = a[sig_width-1:0];
+    wire [sig_width-1:0] frac_b = b[sig_width-1:0];
+
+    // 1. Add implicit leading 1 for normalized values
+    wire [sig_width:0] mant_a = (|exp_a) ? {1'b1, frac_a} : {1'b0, frac_a};
+    wire [sig_width:0] mant_b = (|exp_b) ? {1'b1, frac_b} : {1'b0, frac_b};
+
+    // 2. Align mantissas
+    wire [exp_width:0] exp_diff = (exp_a > exp_b) ? (exp_a - exp_b) : (exp_b - exp_a);
+    wire [sig_width+2:0] mant_a_align = (exp_a >= exp_b) ? {mant_a, 2'b00} : ({mant_a, 2'b00} >> exp_diff);
+    wire [sig_width+2:0] mant_b_align = (exp_b > exp_a) ? {mant_b, 2'b00} : ({mant_b, 2'b00} >> exp_diff);
+
+    // 3. Determine result sign and subtract mantissas
+    reg [sig_width+2:0] mant_sub;
+    reg [exp_width-1:0] exp_result;
+    reg sign_result;
+
+    always @(*) begin
+        if ({exp_a, mant_a} >= {exp_b, mant_b}) begin
+            mant_sub = mant_a_align - mant_b_align;
+            exp_result = (exp_a >= exp_b) ? exp_a : exp_b;
+            sign_result = sign_a;
+        end else begin
+            mant_sub = mant_b_align - mant_a_align;
+            exp_result = (exp_b >= exp_a) ? exp_b : exp_a;
+            sign_result = ~sign_b;  // a - b = -(b - a)
+        end
+    end
+
+    // 4. Normalize result
+    integer shift;
+    reg [sig_width-1:0] frac_norm;
+    reg [exp_width-1:0] exp_norm;
+
+    always @(*) begin
+        shift = 0;
+        for (integer i = sig_width+2; i >= 0; i = i - 1) begin
+            if (mant_sub[i]) begin
+                shift = sig_width + 2 - i;
+                break;
+            end
+        end
+        frac_norm = (mant_sub << shift)[sig_width+2:3];  // truncate extra bits
+        exp_norm = (exp_result > shift) ? (exp_result - shift) : 0;
+    end
+
+    // 5. Final packing
+    always @(*) begin
+        z = {sign_result, exp_norm, frac_norm};
+        status = 8'b0;
+        if (mant_sub == 0)
+            z = {1'b0, {exp_width{1'b0}}, {sig_width{1'b0}}};  // exact zero
+    end
 
 endmodule
