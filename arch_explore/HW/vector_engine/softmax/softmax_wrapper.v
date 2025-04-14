@@ -1,12 +1,106 @@
+`define ${softmax_choice}
+
 module softmax_wrapper
 #(
-    parameter integer sig_width       = 8,
-    parameter integer exp_width       = 8,
-    parameter integer stages         = 2,
-    parameter string  ieee_compliance = "IEEE",
-    parameter integer en_ubr_flag     = 0
+    parameter integer SOFTMAX_NUM = ${max_context_length},
+    parameter   GBUS_DATA = ${gbus_width}, // Global Bus Data Width
+    parameter   GBUS_WIDTH = ${gbus_width/8},   // Global Bus Address Width
+    parameter   NUM_HEAD  = ${num_head},    // Number of Heads
+    parameter   NUM_COL  = ${num_col},     // Number of Columns
 )(
     // Global Signals
     input wire clk,
     input wire rst_n
 );
+
+`ifdef SOFTMAX
+    
+reg [CDATA_BIT-1:0] cfg_consmax_shift;
+reg [LUT_ADDR-1:0] lut_waddr;
+reg lut_wen;
+reg [LUT_DATA-1:0] lut_wdata;
+reg [DATA_BIT-1:0] idata;
+reg idata_valid;
+wire [DATA_BIT-1:0] odata;
+wire odata_valid;
+
+softmax # (
+  .SOFTMAX_NUM(SOFTMAX_NUM),
+)
+softmax_inst (
+  .clk(clk),
+  .rst_n(rst_n),
+  .cfg_consmax_shift(cfg_consmax_shift),
+  .lut_waddr(lut_waddr),
+  .lut_wen(lut_wen),
+  .lut_wdata(lut_wdata),
+  .idata(idata),
+  .idata_valid(idata_valid),
+  .odata(odata),
+  .odata_valid(odata_valid)
+);
+
+`endif
+
+`ifdef SOFTERMAX
+    
+reg input_valid;
+reg signed [DATA_SIZE-1:0] input_vector;
+reg [clog2(ROW_WIDTH)-1:0] read_addr;
+wire norm_valid;
+wire final_out_valid;
+wire [LARGE_SIZE:0] prob_buffer_out;
+
+softermax # (
+  .ROW_WIDTH(SOFTMAX_NUM)
+)
+softermax_inst (
+  .rst_n(rst_n),
+  .clk(clk),
+  .input_valid(input_valid),
+  .input_vector(input_vector),
+  .read_addr(read_addr),
+  .norm_valid(norm_valid),
+  .final_out_valid(final_out_valid),
+  .prob_buffer_out(prob_buffer_out)
+);
+
+`endif 
+
+`ifdef CONSMAX
+    
+
+//Ports
+reg [CDATA_BIT-1:0] cfg_consmax_shift;
+reg [LUT_ADDR:0] lut_waddr;
+reg lut_wen;
+reg [LUT_DATA-1:0] lut_wdata;
+reg [(GBUS_DATA*NUM_HEAD)-1:0] idata;
+reg [NUM_HEAD-1:0] idata_valid;
+wire [(GBUS_DATA*NUM_HEAD)-1:0] odata;
+wire [(GBUS_WIDTH*NUM_HEAD)-1:0] odata_valid;
+
+consmax # (
+  .GBUS_DATA(GBUS_DATA),
+  .GBUS_WIDTH(GBUS_WIDTH),
+  .NUM_HEAD(NUM_HEAD),
+  .NUM_COL(NUM_COL)
+)
+consmax_inst (
+  .clk(clk),
+  .rstn(rst_n),
+  .cfg_consmax_shift(cfg_consmax_shift),
+  .lut_waddr(lut_waddr),
+  .lut_wen(lut_wen),
+  .lut_wdata(lut_wdata),
+  .idata(idata),
+  .idata_valid(idata_valid),
+  .odata(odata),
+  .odata_valid(odata_valid)
+);
+
+    
+`endif
+
+
+endmodule
