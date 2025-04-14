@@ -5,8 +5,8 @@ module softmax_wrapper
     parameter integer SOFTMAX_NUM = ${max_context_length},
     parameter   GBUS_DATA = ${gbus_width}, // Global Bus Data Width
     parameter   GBUS_WIDTH = ${gbus_width/8},   // Global Bus Address Width
-    parameter   NUM_HEAD  = ${num_head},    // Number of Heads
-    parameter   NUM_COL  = ${num_col},     // Number of Columns
+    parameter   NUM_HEAD  = ${n_heads},    // Number of Heads
+    parameter   NUM_COL  = ${n_cols},     // Number of Columns
 )(
     // Global Signals
     input wire clk,
