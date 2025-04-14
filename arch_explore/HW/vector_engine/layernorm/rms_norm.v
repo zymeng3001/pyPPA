@@ -95,7 +95,7 @@ module rms_norm
   // (Using indexed array notation available in Verilog–2001; if not supported, further flatten them.)
   wire [sig_width+exp_width:0]     i2flt_in_data_z [0:BUS_NUM-1];
   reg  [sig_width+exp_width:0]     in_float_data [0:BUS_NUM-1];
-  reg                              in_float_data_vld [0:BUS_NUM-1];
+  reg  [0:BUS_NUM-1]                            in_float_data_vld ;
 
   // FIFOs for storing float input data and gamma (each slot holds BUS_NUM numbers)
   reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] in_float_data_array [0:IN_FLOAT_DATA_ARRAY_DEPTH-1];
