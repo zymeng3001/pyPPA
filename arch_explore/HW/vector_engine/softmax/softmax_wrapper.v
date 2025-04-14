@@ -11,7 +11,7 @@ module softmax_wrapper
     parameter integer  EXP_BIT = 8,    // Exponent
     parameter integer  MAT_BIT = 7,    // Mantissa
     parameter integer  LUT_DATA  = EXP_BIT + MAT_BIT + 1,  // LUT Data Width (in FP)
-    parameter integer  LUT_ADDR  = IDATA_BIT >> 1,         // LUT Address Width
+    parameter integer  LUT_ADDR  = 16,         // LUT Address Width
     parameter integer  LUT_DEPTH = 2 ** LUT_ADDR           // LUT Depth for INT2FP
 )(
     // Global Signals
