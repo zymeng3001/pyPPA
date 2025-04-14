@@ -17,6 +17,7 @@ module softmax #(
     parameter integer I_MAT = 7,
     parameter integer LUT_ADDR = 9,
     parameter integer SOFTMAX_NUM = ${max_context_length},
+    parameter integer SOFTMAX_ADDR = $clog2(SOFTMAX_NUM), //softmax total count.
     parameter integer LUT_DATA = I_EXP + I_MAT + 1,
     parameter integer LUT_DEPTH = 2 ** LUT_ADDR
 )(
