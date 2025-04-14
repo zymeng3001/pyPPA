@@ -568,7 +568,13 @@ module rms_norm
         end
       end
 
-      fp2int_rms #(sig_width, exp_width, isize, isign)
+      fp2int_rms #(
+          .EXP_BIT(exp_width),
+          .MAT_BIT(sig_width),
+          .IDATA_BIT(exp_width+sig_width+1),
+          .ODATA_BIT(8),
+          .CDATA_BIT(8)
+        )
         i2flt_in_data_inst ( 
           .a(float_RMSnorm_flt2i[i]), 
           .rnd(3'b000), 
