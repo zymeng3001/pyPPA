@@ -11,7 +11,7 @@
 // define LUT_DATA I_EXP + I_MAT + 1
 
 module softmax #(
-    parameter integer DATA_BIT = 16,
+    parameter integer DATA_BIT = 8,
     parameter integer CDATA_BIT = 8,
     parameter integer I_EXP = 8,
     parameter integer I_MAT = 7,
