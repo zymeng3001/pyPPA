@@ -3,16 +3,16 @@
 module softmax_wrapper
 #(
     parameter integer SOFTMAX_NUM = ${max_context_length},
-    parameter   GBUS_DATA = ${gbus_width}, // Global Bus Data Width
-    parameter   GBUS_WIDTH = ${gbus_width/8},   // Global Bus Address Width
-    parameter   NUM_HEAD  = ${n_heads},    // Number of Heads
-    parameter   NUM_COL  = ${n_cols},     // Number of Columns
+    parameter integer  GBUS_DATA = ${gbus_width}, // Global Bus Data Width
+    parameter integer  GBUS_WIDTH = ${gbus_width/8},   // Global Bus Address Width
+    parameter integer  NUM_HEAD  = ${n_heads},    // Number of Heads
+    parameter integer  NUM_COL  = ${n_cols},     // Number of Columns
 
-    parameter   EXP_BIT = 8,    // Exponent
-    parameter   MAT_BIT = 7,    // Mantissa
-    parameter   LUT_DATA  = EXP_BIT + MAT_BIT + 1,  // LUT Data Width (in FP)
-    parameter   LUT_ADDR  = IDATA_BIT >> 1,         // LUT Address Width
-    parameter   LUT_DEPTH = 2 ** LUT_ADDR,           // LUT Depth for INT2FP
+    parameter integer  EXP_BIT = 8,    // Exponent
+    parameter integer  MAT_BIT = 7,    // Mantissa
+    parameter integer  LUT_DATA  = EXP_BIT + MAT_BIT + 1,  // LUT Data Width (in FP)
+    parameter integer  LUT_ADDR  = IDATA_BIT >> 1,         // LUT Address Width
+    parameter integer  LUT_DEPTH = 2 ** LUT_ADDR           // LUT Depth for INT2FP
 )(
     // Global Signals
     input wire clk,
