@@ -7,6 +7,12 @@ module softmax_wrapper
     parameter   GBUS_WIDTH = ${gbus_width/8},   // Global Bus Address Width
     parameter   NUM_HEAD  = ${n_heads},    // Number of Heads
     parameter   NUM_COL  = ${n_cols},     // Number of Columns
+
+    parameter   EXP_BIT = 8,    // Exponent
+    parameter   MAT_BIT = 7,    // Mantissa
+    parameter   LUT_DATA  = EXP_BIT + MAT_BIT + 1,  // LUT Data Width (in FP)
+    parameter   LUT_ADDR  = IDATA_BIT >> 1,         // LUT Address Width
+    parameter   LUT_DEPTH = 2 ** LUT_ADDR,           // LUT Depth for INT2FP
 )(
     // Global Signals
     input wire clk,
@@ -15,13 +21,13 @@ module softmax_wrapper
 
 `ifdef SOFTMAX
     
-reg [CDATA_BIT-1:0] cfg_consmax_shift;
+reg [8-1:0] cfg_consmax_shift;
 reg [LUT_ADDR-1:0] lut_waddr;
 reg lut_wen;
 reg [LUT_DATA-1:0] lut_wdata;
-reg [DATA_BIT-1:0] idata;
+reg [8-1:0] idata;
 reg idata_valid;
-wire [DATA_BIT-1:0] odata;
+wire [8-1:0] odata;
 wire odata_valid;
 
 softmax # (
@@ -45,11 +51,11 @@ softmax_inst (
 `ifdef SOFTERMAX
     
 reg input_valid;
-reg signed [DATA_SIZE-1:0] input_vector;
+reg signed [7:0] input_vector;
 reg [clog2(ROW_WIDTH)-1:0] read_addr;
 wire norm_valid;
 wire final_out_valid;
-wire [LARGE_SIZE:0] prob_buffer_out;
+wire [15:0] prob_buffer_out;
 
 softermax # (
   .ROW_WIDTH(SOFTMAX_NUM)
@@ -71,7 +77,7 @@ softermax_inst (
     
 
 //Ports
-reg [CDATA_BIT-1:0] cfg_consmax_shift;
+reg [8-1:0] cfg_consmax_shift;
 reg [LUT_ADDR:0] lut_waddr;
 reg lut_wen;
 reg [LUT_DATA-1:0] lut_wdata;
