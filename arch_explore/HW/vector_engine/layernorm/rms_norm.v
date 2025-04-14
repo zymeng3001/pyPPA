@@ -74,7 +74,7 @@ module rms_norm
   // Two-dimensional array signals are declared as arrays of vectors.
   // For example, fixed_data_square[i] is a signed value of width 2*DATA_NUM_WIDTH.
   reg signed [2*DATA_NUM_WIDTH-1:0] fixed_data_square [0:BUS_NUM-1];
-  reg                             fixed_data_square_vld [0:BUS_NUM-1];
+  reg [0:BUS_NUM-1]                            fixed_data_square_vld ;
   
   reg [FIXED_SQUARE_SUM_WIDTH-1:0] fixed_square_sum, nxt_fixed_square_sum;
   reg [DATA_NUM_WIDTH-1:0]         square_sum_cnt, nxt_square_sum_cnt;
