@@ -260,7 +260,7 @@ module rms_norm
       in_float_data_array_wr_ptr <= 0;
     end else if (out_fixed_data_last) begin
       in_float_data_array_wr_ptr <= 0;  // reset for next vector input
-    end else if (|in_float_data_vld) begin  // At least one valid input
+    end else if (in_float_data_vld > 0) begin  // At least one valid input
       in_float_data_array[in_float_data_array_wr_ptr] <= in_float_data_array_wr_slot;
       in_float_data_vld_array[in_float_data_array_wr_ptr] <= in_float_data_vld_array_slot;
       in_float_data_array_wr_ptr <= in_float_data_array_wr_ptr + 1;
