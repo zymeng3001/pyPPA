@@ -17,18 +17,30 @@ module softmax_wrapper
     // Global Signals
     input wire clk,
     input wire rst_n
+
+    `ifdef SOFTMAX
+    , // Softmax
+    input wire [8-1:0] cfg_consmax_shift,
+    input wire [LUT_ADDR-1:0] lut_waddr,
+    input wire lut_wen,
+    input wire [LUT_DATA-1:0] lut_wdata,
+    input wire [8-1:0] idata,
+    input wire idata_valid,
+    output wire [8-1:0] odata,
+    output wire odata_valid
+    `endif
 );
 
 `ifdef SOFTMAX
     
-reg [8-1:0] cfg_consmax_shift;
-reg [LUT_ADDR-1:0] lut_waddr;
-reg lut_wen;
-reg [LUT_DATA-1:0] lut_wdata;
-reg [8-1:0] idata;
-reg idata_valid;
-wire [8-1:0] odata;
-wire odata_valid;
+// reg [8-1:0] cfg_consmax_shift;
+// reg [LUT_ADDR-1:0] lut_waddr;
+// reg lut_wen;
+// reg [LUT_DATA-1:0] lut_wdata;
+// reg [8-1:0] idata;
+// reg idata_valid;
+// wire [8-1:0] odata;
+// wire odata_valid;
 
 softmax # (
   .SOFTMAX_NUM(SOFTMAX_NUM),
