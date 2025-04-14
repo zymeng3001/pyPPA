@@ -304,8 +304,8 @@ module rms_norm
       if (fixed_data_square_vld[i]) begin
         nxt_square_sum_cnt   = nxt_square_sum_cnt + 1;
         nxt_fixed_square_sum = nxt_fixed_square_sum + fixed_data_square[i];
-        if(nxt_square_sum_cnt == K)
-          disable for;
+        // if(nxt_square_sum_cnt == K)
+        //   disable for;
       end
     end
   end
