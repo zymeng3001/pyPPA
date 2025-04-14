@@ -190,7 +190,7 @@ module softmax #(
     reg [LUT_ADDR-1:0] lut_addr;
     reg lut_addr_valid;
 
-    fp2int fp2int_inst (
+    fp2int_softmax fp2int_inst (
         .cfg_shift                  (cfg_consmax_shift),
         .idata                      (lut_addr_fp),
         .odata                      (lut_addr_comb)
@@ -756,7 +756,7 @@ endmodule
 // NO denorms, no flags, no NAN, no infinity, no rounding!
 /////////////////////////////////////////////////////////////////////////////
 // =============================================================================
-module fp2int 
+module fp2int_softmax 
 (
     // Control Signals
     input       [8-1:0] cfg_shift,
