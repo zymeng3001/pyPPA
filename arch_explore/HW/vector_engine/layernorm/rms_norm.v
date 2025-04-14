@@ -575,11 +575,9 @@ module rms_norm
           .ODATA_BIT(8),
           .CDATA_BIT(8)
         )
-        i2flt_in_data_inst ( 
-          .a(float_RMSnorm_flt2i[i]), 
-          .rnd(3'b000), 
-          .z(fixed_RMSnorm[i]), 
-          .status() 
+        fp2int_in_data_inst ( 
+          .idata(float_RMSnorm_flt2i[i]),
+          .odata(fixed_RMSnorm[i])
       );
 
       always @(*) begin
@@ -703,9 +701,6 @@ module fp2int_rms #(
     parameter   ODATA_BIT = 8,  // INT-Output
     parameter   CDATA_BIT = 8   // Config
 )(
-    // Control Signals
-    input   [CDATA_BIT-1:0] cfg_consmax_shift,
-
     // Data Signals
     input   [IDATA_BIT-1:0] idata,
     output  [ODATA_BIT-1:0] odata
@@ -730,22 +725,22 @@ module fp2int_rms #(
 
     always @(*) begin
         if (idata_exp >= EXP_BASE) begin    // >= 1.0
-            if (MAT_BIT <= (cfg_consmax_shift + (idata_exp - EXP_BASE))) begin // Overflow
+            if (MAT_BIT <= ((idata_exp - EXP_BASE))) begin // Overflow
                 mat_shift = {(MAT_BIT){1'b1}};
                 mat_round = mat_shift;
             end
             else begin
-                mat_shift = idata_mat >> (MAT_BIT - cfg_consmax_shift - (idata_exp - EXP_BASE));
+                mat_shift = idata_mat >> (MAT_BIT  - (idata_exp - EXP_BASE));
                 mat_round = mat_shift[MAT_BIT:1] + mat_shift[0];
             end
         end
         else begin  // <= 1.0
-            if (cfg_consmax_shift < (EXP_BASE - idata_exp)) begin // Underflow
+            if (0 < (EXP_BASE - idata_exp)) begin // Underflow
                 mat_shift = {(MAT_BIT){1'b0}};
                 mat_round = mat_shift;
             end
             else begin
-                mat_shift = idata_mat >> (MAT_BIT - cfg_consmax_shift + (EXP_BASE - idata_exp));
+                mat_shift = idata_mat >> (MAT_BIT + (EXP_BASE - idata_exp));
                 mat_round = mat_shift[MAT_BIT:1] + mat_shift[0];
             end
         end
