@@ -19,7 +19,7 @@ from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 
 
 ppa_runner = PPARunner(
-	design_name="rms_norm",
+	design_name="krms",
 	tools={
 		'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
 		'synth_tool': Yosys(scripts_dir=path.join('scripts', 'synth')),
@@ -53,7 +53,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_rms'
+  study_id='ppa_krms'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -152,7 +152,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
     }
 
 ppa_runner.add_job({
-	'module_name': 'rms_norm',
+	'module_name': 'krms',
 	'mode': 'opt',
 	'optimizer': vizier_optimizer
 })
