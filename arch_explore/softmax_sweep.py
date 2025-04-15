@@ -120,7 +120,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			final_measurement = vz.Measurement({'fom': 1})
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 1:  # stopping condition
+	if prev_iter_number >= 14:  # stopping condition
 		print("Optimization complete.")
 		for optimal_trial in study_client.optimal_trials():
 			optimal_trial = optimal_trial.materialize()
