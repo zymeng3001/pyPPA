@@ -54,7 +54,9 @@ for gbus_width in gbus_width_range:
                         core_power = database.get((gbus_width, wmem_depth, cache_depth), {}).get('power', 'N/A') 
                         core_area = database.get((gbus_width, wmem_depth, cache_depth), {}).get('area', 'N/A')
                         clk_period = database.get((gbus_width, wmem_depth, cache_depth), {}).get('clk_period', 'N/A')
-                        
+                        clk_min_period = database.get((gbus_width, wmem_depth, cache_depth), {}).get('clk_min_period', 'N/A')
+                        slack = database.get((gbus_width, wmem_depth, cache_depth), {}).get('slack', 'N/A')
+
                         if core_power != 'N/A' and core_area != 'N/A' and clk_period != 'N/A':
                         
                             total_power = core_power * n_heads *n_cols
@@ -82,10 +84,14 @@ for gbus_width in gbus_width_range:
                                 'n_heads': n_heads,
                                 'n_cols': n_cols,
                                 'head_fim': int(n_model / n_heads),
+                                'max_context_length': max_context_length,
                                 'core_wmem_size': core_wmem_size,
                                 'core_cache_size': core_cache_size,
                                 'total_wmem_size': total_wmem_size,
                                 'total_cache_size': total_cache_size,
+                                'clk_period': clk_period,
+                                'clk_min_period': clk_min_period,
+                                'slack': slack,
                                 'Wmem Depth': wmem_depth,
                                 'Cache Depth': cache_depth,
                                 'Max Context Length': max_context_length,
@@ -103,6 +109,6 @@ print(f"Total number of feasible configurations: {total_count}")
 feasible_df = pd.DataFrame(feasible_configs)
 
 # Save to CSV
-feasible_csv_path = './sweep_data.csv'
+feasible_csv_path = './sweep_data_5ns.csv'
 feasible_df.to_csv(feasible_csv_path, index=True)
 

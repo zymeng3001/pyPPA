@@ -40,11 +40,16 @@ ppa_runner = PPARunner(
 
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
-problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX']) 
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(32,64,32).tolist(), default_value=128)
-problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
-problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=4, default_value=4)
-problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=4, default_value=4)
+softmax_choice = problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX', 'SOFTERMAX', 'CONSMAX'], default_value='SOFTMAX') # Number of softmax buffers
+# problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(32,64,32).tolist(), default_value=128)
+softmax_choice.select_value(['SOFTMAX', 'SOFTERMAX']).add_discrete_param(name='max_context_length', feasible_values=[64, 128, 192, 256, 512, 768, 1024], default_value=128)
+softmax_choice.select_value(['CONSMAX']).add_discrete_param(name='gbus_width', feasible_values=[16, 32, 64, 128], default_value=32)
+softmax_choice.select_value(['CONSMAX']).add_discrete_param(name='n_cols', feasible_values=[1, 2, 4, 6, 8, 12, 16, 24], default_value=8)
+softmax_choice.select_value(['CONSMAX']).add_discrete_param(name='n_heads', feasible_values=[1, 2, 4, 6, 8, 12, 16, 24], default_value=8)
+
+# problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
+# problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=4, default_value=4)
+# problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=4, default_value=4)
 
 
 problem.metric_information.append(
@@ -59,7 +64,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_softmax_sweep_v3'
+  study_id='ppa_softmax_sweep_v4'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -68,7 +73,11 @@ seen_configs = set()
 def is_duplicate(suggestion):
     """Check if the suggestion has already been tried based on unique parameters."""
     config_tuple = (
-        int(suggestion.parameters['n_cols'])
+        int(suggestion.parameters['n_cols']),
+		int(suggestion.parameters['n_heads']),
+        int(suggestion.parameters['gbus_width']),
+		int(suggestion.parameters['max_context_length']),
+		suggestion.parameters['softmax_choice']
     )
    
     if config_tuple in seen_configs:
@@ -125,7 +134,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 		}
 
 	feasible_suggestions = []
-	suggestions = study_client.suggest(count=1)
+	suggestions = study_client.suggest(count=10)
 	while len(feasible_suggestions) < 1:
 		print("Suggestions:")
 		for suggestion in suggestions:
@@ -133,7 +142,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 				suggestion.complete(vz.Measurement({'fom': math.inf}))
 			else:
 				feasible_suggestions.append(suggestion)
-		suggestions = study_client.suggest(count=1)
+		suggestions = study_client.suggest(count=10)
 
 	for suggestion in feasible_suggestions:
 		print("Feasible suggestions:")
