@@ -40,7 +40,7 @@ ppa_runner = PPARunner(
 
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
-softmax_choice = problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX', 'SOFTERMAX', 'CONSMAX'], default_value='SOFTMAX') # Number of softmax buffers
+softmax_choice = problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX', 'SOFTERMAX'], default_value='SOFTMAX') # Number of softmax buffers
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[64, 128, 192, 256, 512, 768, 1024], default_value=128)
 
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
@@ -65,7 +65,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_softmax_sweep_v4'
+  study_id='ppa_softmax_sweep_v5'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
