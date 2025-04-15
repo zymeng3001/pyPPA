@@ -42,10 +42,10 @@ problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
 softmax_choice = problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX', 'SOFTERMAX', 'CONSMAX'], default_value='SOFTMAX') # Number of softmax buffers
 # problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(32,64,32).tolist(), default_value=128)
-softmax_choice.select_value(['SOFTMAX', 'SOFTERMAX']).add_discrete_param(name='max_context_length', feasible_values=[64, 128, 192, 256, 512, 768, 1024], default_value=128)
-softmax_choice.select_value(['CONSMAX']).add_discrete_param(name='gbus_width', feasible_values=[16, 32, 64, 128], default_value=32)
-softmax_choice.select_value(['CONSMAX']).add_discrete_param(name='n_cols', feasible_values=[1, 2, 4, 6, 8, 12, 16, 24], default_value=8)
-softmax_choice.select_value(['CONSMAX']).add_discrete_param(name='n_heads', feasible_values=[1, 2, 4, 6, 8, 12, 16, 24], default_value=8)
+softmax_choice.select_values(['SOFTMAX', 'SOFTERMAX']).add_discrete_param(name='max_context_length', feasible_values=[64, 128, 192, 256, 512, 768, 1024], default_value=128)
+softmax_choice.select_values(['CONSMAX']).add_discrete_param(name='gbus_width', feasible_values=[16, 32, 64, 128], default_value=32)
+softmax_choice.select_values(['CONSMAX']).add_discrete_param(name='n_cols', feasible_values=[1, 2, 4, 6, 8, 12, 16, 24], default_value=8)
+softmax_choice.select_values(['CONSMAX']).add_discrete_param(name='n_heads', feasible_values=[1, 2, 4, 6, 8, 12, 16, 24], default_value=8)
 
 # problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)
 # problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=4, default_value=4)
