@@ -40,7 +40,7 @@ ppa_runner = PPARunner(
 
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
-softmax_choice = problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX', 'SOFTERMAX'], default_value='SOFTMAX') # Number of softmax buffers
+problem.search_space.root.add_categorical_param(name='softmax_choice', feasible_values=['SOFTMAX', 'SOFTERMAX'], default_value='SOFTMAX') # Number of softmax buffers
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=[64, 128, 192, 256, 512, 768, 1024], default_value=128)
 
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[32], default_value=32)

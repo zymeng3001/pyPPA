@@ -18,7 +18,7 @@
 // The overall width is computed below.
 module krms #
 (
-    parameter integer BUS_NUM               = 8,    // Number of input buses
+    parameter integer BUS_NUM               = ${bus_num},    // Number of input buses
     parameter integer DATA_NUM_WIDTH        = 10,   // Bit–width for vector length/count
     parameter integer FIXED_SQUARE_SUM_WIDTH= 24,
     parameter integer sig_width             = 7,
