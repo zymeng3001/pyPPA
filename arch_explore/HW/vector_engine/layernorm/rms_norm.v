@@ -19,7 +19,7 @@ module rms_norm
     parameter integer SCALA_POS_WIDTH = 5,
     parameter integer FIXED_SQUARE_SUM_WIDTH = 24,
     // flatten the arrays into a one-dimensional vector
-    parameter integer IN_FLOAT_DATA_ARRAY_DEPTH = (256 / BUS_NUM + 1), 
+    parameter integer IN_FLOAT_DATA_ARRAY_DEPTH = (${n_embd} / BUS_NUM + 1), 
     parameter integer GAMMA_ARRAY_DEPTH         = IN_FLOAT_DATA_ARRAY_DEPTH,
     parameter integer sig_width = 7,
     parameter integer exp_width = 8,
