@@ -3,6 +3,7 @@
 module softmax_wrapper
 #(
     parameter integer SOFTMAX_NUM = ${max_context_length},
+    parameter integer ROW_WIDTH = SOFTMAX_NUM, // Row Width
     parameter integer  GBUS_DATA = ${gbus_width}, // Global Bus Data Width
     parameter integer  GBUS_WIDTH = ${gbus_width/8},   // Global Bus Address Width
     parameter integer  NUM_HEAD  = ${n_heads},    // Number of Heads
@@ -20,7 +21,7 @@ module softmax_wrapper
 
     `ifdef SOFTMAX
     , // Softmax
-    input wire [8-1:0] cfg_consmax_shift,
+    input wire [8-1:0] cfg_shift,
     input wire [LUT_ADDR-1:0] lut_waddr,
     input wire lut_wen,
     input wire [LUT_DATA-1:0] lut_wdata,
@@ -28,6 +29,28 @@ module softmax_wrapper
     input wire idata_valid,
     output wire [8-1:0] odata,
     output wire odata_valid
+    `endif
+
+    `ifdef CONSMAX
+    , // Softermax
+    input wire [8-1:0] cfg_consmax_shift,
+    input wire [LUT_ADDR-1:0] lut_waddr,
+    input wire lut_wen,
+    input wire [LUT_DATA-1:0] lut_wdata,
+    input wire [(GBUS_DATA*NUM_HEAD)-1:0] idata,
+    input wire [NUM_HEAD-1:0] idata_valid,
+    output wire [(GBUS_DATA*NUM_HEAD)-1:0] odata,
+    output wire [(GBUS_WIDTH*NUM_HEAD)-1:0] odata_valid
+    `endif
+
+    `ifdef SOFTERMAX
+    , // Softermax
+    input wire input_valid,
+    input wire signed [7:0] input_vector,
+    input wire [$clog2(ROW_WIDTH)-1:0] read_addr,
+    output wire norm_valid,
+    output wire final_out_valid,
+    output wire [15:0] prob_buffer_out
     `endif
 );
 
@@ -48,7 +71,7 @@ softmax # (
 softmax_inst (
   .clk(clk),
   .rst_n(rst_n),
-  .cfg_consmax_shift(cfg_consmax_shift),
+  .cfg_shift(cfg_shift),
   .lut_waddr(lut_waddr),
   .lut_wen(lut_wen),
   .lut_wdata(lut_wdata),
@@ -62,12 +85,12 @@ softmax_inst (
 
 `ifdef SOFTERMAX
     
-reg input_valid;
-reg signed [7:0] input_vector;
-reg [clog2(ROW_WIDTH)-1:0] read_addr;
-wire norm_valid;
-wire final_out_valid;
-wire [15:0] prob_buffer_out;
+// reg input_valid;
+// reg signed [7:0] input_vector;
+// reg [clog2(ROW_WIDTH)-1:0] read_addr;
+// wire norm_valid;
+// wire final_out_valid;
+// wire [15:0] prob_buffer_out;
 
 softermax # (
   .ROW_WIDTH(SOFTMAX_NUM)
@@ -89,14 +112,14 @@ softermax_inst (
     
 
 //Ports
-reg [8-1:0] cfg_consmax_shift;
-reg [LUT_ADDR:0] lut_waddr;
-reg lut_wen;
-reg [LUT_DATA-1:0] lut_wdata;
-reg [(GBUS_DATA*NUM_HEAD)-1:0] idata;
-reg [NUM_HEAD-1:0] idata_valid;
-wire [(GBUS_DATA*NUM_HEAD)-1:0] odata;
-wire [(GBUS_WIDTH*NUM_HEAD)-1:0] odata_valid;
+// reg [8-1:0] cfg_consmax_shift;
+// reg [LUT_ADDR:0] lut_waddr;
+// reg lut_wen;
+// reg [LUT_DATA-1:0] lut_wdata;
+// reg [(GBUS_DATA*NUM_HEAD)-1:0] idata;
+// reg [NUM_HEAD-1:0] idata_valid;
+// wire [(GBUS_DATA*NUM_HEAD)-1:0] odata;
+// wire [(GBUS_WIDTH*NUM_HEAD)-1:0] odata_valid;
 
 consmax # (
   .GBUS_DATA(GBUS_DATA),

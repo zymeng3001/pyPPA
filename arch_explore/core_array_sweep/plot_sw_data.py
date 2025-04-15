@@ -14,6 +14,9 @@ df.rename(columns={
 # Filter relevant columns and drop NA
 df_subset = df[['val_loss', 'n_embd', 'n_heads', 'max_context_length']].dropna()
 
+# drop the data with n_embd == 768
+df_subset = df_subset[df_subset['n_embd'] != 768]
+
 # Create 3D plot with val_loss as both color and size
 fig = px.scatter_3d(
     df_subset,

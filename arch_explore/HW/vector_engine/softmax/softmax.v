@@ -24,7 +24,7 @@ module softmax #(
     input                         clk,
     input                         rst_n,
 
-    input       [CDATA_BIT-1:0]   cfg_consmax_shift,
+    input       [CDATA_BIT-1:0]   cfg_shift,
 
     // LUT Interface
     input       [LUT_ADDR-1:0]    lut_waddr,
@@ -192,7 +192,7 @@ module softmax #(
     reg lut_addr_valid;
 
     fp2int_softmax fp2int_inst (
-        .cfg_shift                  (cfg_consmax_shift),
+        .cfg_shift                  (cfg_shift),
         .idata                      (lut_addr_fp),
         .odata                      (lut_addr_comb)
     ); 
