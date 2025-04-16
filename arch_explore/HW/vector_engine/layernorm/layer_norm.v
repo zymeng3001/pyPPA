@@ -42,7 +42,7 @@ parameter integer COMPUTE_MEAN = 2'b00;
 parameter integer COMPUTE_VAR  = 2'b01;
 parameter integer COMPUTE_NORM = 2'b10;
 
-genvar i;
+integer i;
 
 reg [1:0] state;
 reg [1:0] next_state;
@@ -55,6 +55,10 @@ reg signed [SCALA_POS_WIDTH-1:0] out_scale_pos_reg;
 // reg for calculating mean value
 reg signed [FIXED_ACC_WIDTH-1:0] adder_tree_value;
 reg signed adder_tree_value_vld;
+
+reg signed [FIXED_ACC_WIDTH-1:0] adder_tree_value_var;
+reg signed adder_tree_value_var_vld;
+
 reg signed [FIXED_ACC_WIDTH-1:0] mean_value;
 reg signed mean_value_vld;
 
@@ -174,32 +178,47 @@ always @(posedge clk or negedge rstn) begin
     end
 end
 
+adder_tree_layernorm #(
+    .ADD_IDATA_BIT(8),
+    .ADD_ODATA_BIT(FIXED_ACC_WIDTH),
+    .MAC_NUM(BUS_NUM)
+) adder_tree_layernorm_var_inst (
+    .clk(clk),
+    .rstn(rstn),
+    .idata(x_sub_mean),
+    .idata_valid((state == COMPUTE_VAR) ? in_fixed_data_vld : 0),
+    .odata(adder_tree_value_var),
+    .odata_valid(adder_tree_value_var_vld)
+);
 // calculate variance
-generate
 always @(posedge clk or negedge rstn) begin
     if (!rstn) begin
         x_sub_mean <= 0;
         x_sub_mean_vld <= 0;
         data_var_reg_cntr <= 0;
-        data_var_acc_reg <= 0;
         data_var_reg_vld <= 0;
 
     end else if (state == COMPUTE_VAR && data_fifo_rden) begin
         for (i = 0; i < BUS_NUM; i = i + 1) begin
-            x_sub_mean[i*8+:8] <= data_fifo_dout[i*8+:8] - mean_value_reg;
+            x_sub_mean[i*8+:8] <= (data_fifo_dout[i*8+:8] - mean_value_reg);
         end
         x_sub_mean_vld <= 1;
-        data_var_reg_cntr <= data_var_reg_cntr + 1;
-        data_var_acc_reg <= data_var_acc_reg + (x_sub_mean * x_sub_mean) >> (DATA_ARRAY_DEPTH_WIDTH*3);
+        data_var_reg_cntr <= data_var_reg_cntr + 1;            
     end else if (state == COMPUTE_VAR && data_fifo_rden && data_var_reg_cntr == IN_FIXED_DATA_ARRAY_DEPTH - 1) begin
         x_sub_mean <= 0;
         x_sub_mean_vld <= 0;
         data_var_reg_cntr <= 0;
-        data_var_acc_reg <= 0;
         data_var_reg_vld <= 1;
     end
 end
-endgenerate
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        data_var_acc_reg <= 0;
+    end else if (data_var_reg_cntr < IN_FIXED_DATA_ARRAY_DEPTH && adder_tree_value_var_vld) begin
+        data_var_acc_reg <= data_var_acc_reg + adder_tree_value_var;
+    end
+end
 
 i2flt_rms #(
     .sig_width(sig_width),
@@ -409,7 +428,7 @@ fifo #(
     .rstn(rstn),
     .wr_en(data_fifo_wren),
     .rd_en(data_fifo_rden),
-    .din(data_fifo_din),
+    .din((state == COMPUTE_MEAN) ? in_fixed_data : ((state == COMPUTE_VAR) ? x_sub_mean : 0)),
     .dout(data_fifo_dout),
     .full(data_fifo_full),
     .empty(data_fifo_empty)
