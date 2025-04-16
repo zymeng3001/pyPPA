@@ -175,6 +175,7 @@ always @(posedge clk or negedge rstn) begin
 end
 
 // calculate variance
+generate
 always @(posedge clk or negedge rstn) begin
     if (!rstn) begin
         x_sub_mean <= 0;
@@ -198,6 +199,7 @@ always @(posedge clk or negedge rstn) begin
         data_var_reg_vld <= 1;
     end
 end
+endgenerate
 
 i2flt_rms #(
     .sig_width(sig_width),
