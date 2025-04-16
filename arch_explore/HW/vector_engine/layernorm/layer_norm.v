@@ -53,7 +53,7 @@ reg signed [SCALA_POS_WIDTH-1:0] in_scale_pos_reg;
 reg signed [SCALA_POS_WIDTH-1:0] out_scale_pos_reg;
 
 // reg for calculating mean value
-reg signed [ADDER_TREE_OUT_WIDTH-1:0] adder_tree_value;
+reg signed [FIXED_ACC_WIDTH-1:0] adder_tree_value;
 reg signed adder_tree_value_vld;
 reg signed [FIXED_ACC_WIDTH-1:0] mean_value;
 reg signed mean_value_vld;
