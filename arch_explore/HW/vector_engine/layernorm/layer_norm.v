@@ -255,7 +255,7 @@ end
 wire [BUS_NUM*(sig_width+exp_width)-1:0] flt_x_sub_mean_z;
 genvar j;
   generate
-    for(j = 0; j < NUM_INST; j = j + 1) begin : i2flt_array_gen
+    for(j = 0; j < BUS_NUM; j = j + 1) begin : i2flt_array_gen
       i2flt_rms #(
          .sig_width(sig_width),
          .exp_width(exp_width),
