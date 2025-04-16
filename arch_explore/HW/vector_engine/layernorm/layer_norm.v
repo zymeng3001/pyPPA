@@ -220,12 +220,8 @@ always @(posedge clk or negedge rstn) begin
     end
 end
 
-i2flt_rms #(
-    .sig_width(sig_width),
-    .exp_width(exp_width),
-    .isize(isize),
-    .isign(isign)
-) i2flt_inv_sqrt (
+i2flt_rms #(sig_width, exp_width, isize, isign)
+i2flt_inv_sqrt (
     .a(data_var_acc_reg + 1),  // set the constant to 1 
     .rnd(3'b00),
     .z(inv_sqrt_in_temp),
@@ -394,7 +390,7 @@ generate
           .ODATA_BIT(8),
           .CDATA_BIT(8)
         )
-        fp2int_in_data_inst ( 
+        fp2int_out_data_inst ( 
           .idata(float_layernorm_flt2i[j]),
           .odata(fixed_layernorm[j])
       );
