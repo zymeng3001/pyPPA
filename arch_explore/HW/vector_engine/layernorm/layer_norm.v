@@ -178,7 +178,7 @@ always @(posedge clk or negedge rstn) begin
     end
 end
 
-adder_tree_layernorm #(
+adder_tree #(
     .ADD_IDATA_BIT(8),
     .ADD_ODATA_BIT(FIXED_ACC_WIDTH),
     .MAC_NUM(BUS_NUM)
