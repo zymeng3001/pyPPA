@@ -308,8 +308,9 @@ generate
             .rst_n(rstn),
             .a(flt_x_sub_mean[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
             .b(gamma_fifo_dout[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .ab_valid(state == COMPUTE_NORM && data_fifo_rden),
             .z(x_times_gamma[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
-            .z_vld(x_times_gamma_vld)
+            .z_valid(x_times_gamma_vld)
         );
     end
 endgenerate
@@ -327,8 +328,9 @@ generate
             .rst_n(rstn),
             .a(x_times_gamma[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
             .b(inv_sqrt_out_reg),
+            .ab_valid(inv_sqrt_out_reg_vld),
             .z(x_times_gamma_over_sqrt_var[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
-            .z_vld(x_times_gamma_over_sqrt_var_vld)
+            .z_valid(x_times_gamma_over_sqrt_var_vld)
         );
     end
 endgenerate
