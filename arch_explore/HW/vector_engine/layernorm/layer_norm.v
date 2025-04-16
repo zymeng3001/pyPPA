@@ -372,16 +372,16 @@ end
 
 // output the result in fixed data
 generate
-    for (i = 0; i < BUS_NUM; i = i+1) begin : fixed_layernorm_generate_array
+    for (j = 0; j < BUS_NUM; j = j+1) begin : fixed_layernorm_generate_array
       always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
           float_layernorm_flt2i <= 0;
-          float_layernorm_flt2i_vld[i] <= 0;
+          float_layernorm_flt2i_vld[j] <= 0;
         end else begin
-          float_layernorm_flt2i[i*(sig_width+exp_width+1)+:sig_width+exp_width] <= x_times_gamma_over_sqrt_var_plus_beta[i*(sig_width+exp_width+1)+:sig_width+exp_width] +
+          float_layernorm_flt2i[j*(sig_width+exp_width+1)+:sig_width+exp_width] <= x_times_gamma_over_sqrt_var_plus_beta[j*(sig_width+exp_width+1)+:sig_width+exp_width] +
                                                                 $signed({out_scale_pos_reg, {sig_width{1'b0}}});
-          float_layernorm_flt2i[i*(sig_width+exp_width+1)+sig_width+exp_width] <= x_times_gamma_over_sqrt_var_plus_beta[i*(sig_width+exp_width+1)+sig_width+exp_width];
-          float_layernorm_flt2i_vld[i] <= x_times_gamma_over_sqrt_var_plus_beta_vld;
+          float_layernorm_flt2i[j*(sig_width+exp_width+1)+sig_width+exp_width] <= x_times_gamma_over_sqrt_var_plus_beta[j*(sig_width+exp_width+1)+sig_width+exp_width];
+          float_layernorm_flt2i_vld[j] <= x_times_gamma_over_sqrt_var_plus_beta_vld;
         end
       end
 
@@ -393,25 +393,25 @@ generate
           .CDATA_BIT(8)
         )
         fp2int_in_data_inst ( 
-          .idata(float_layernorm_flt2i[i]),
-          .odata(fixed_layernorm[i])
+          .idata(float_layernorm_flt2i[j]),
+          .odata(fixed_layernorm[j])
       );
 
       always @(*) begin
-        nxt_out_fixed_data[i] = fixed_layernorm[i];
-        if ($signed(fixed_layernorm[i]) > 127)
-          nxt_out_fixed_data[i] = 8'd127;
-        else if ($signed(fixed_layernorm[i]) < -128)
-          nxt_out_fixed_data[i] = -8'd128;
+        nxt_out_fixed_data[j] = fixed_layernorm[j];
+        if ($signed(fixed_layernorm[j]) > 127)
+          nxt_out_fixed_data[j] = 8'd127;
+        else if ($signed(fixed_layernorm[j]) < -128)
+          nxt_out_fixed_data[j] = -8'd128;
       end
 
       always @(posedge clk or negedge rst_n) begin
         if (!rstn) begin
-          out_fixed_data_vld[i] <= 0;
-          out_fixed_data[i*8 +: 8] <= 0;
+          out_fixed_data_vld[j] <= 0;
+          out_fixed_data[j*8 +: 8] <= 0;
         end else begin
-          out_fixed_data_vld[i] <= float_layernorm_flt2i_vld[i];
-          out_fixed_data[i*8 +: 8] <= nxt_out_fixed_data[i];
+          out_fixed_data_vld[j] <= float_layernorm_flt2i_vld[j];
+          out_fixed_data[j*8 +: 8] <= nxt_out_fixed_data[j];
         end
       end
     end
