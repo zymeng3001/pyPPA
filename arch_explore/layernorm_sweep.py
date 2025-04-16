@@ -35,6 +35,7 @@ ppa_runner = PPARunner(
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/fp_invsqrt_pipe.v'),
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/fifo.v'),
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/layer_norm.v'),
+			path.join(path.dirname(__file__), 'HW', 'core/core_mac.v'),
 			path.join(path.dirname(__file__), 'HW', 'vector_engine/layernorm/rms_norm.v')
 		],
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
