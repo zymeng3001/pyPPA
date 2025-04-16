@@ -367,6 +367,9 @@ always @(posedge clk or negedge rstn) begin
 end
 
 // output the result in fixed data
+reg signed [7:0]                nxt_out_fixed_data [0:BUS_NUM-1];
+wire signed [8-1:0]         fixed_layernorm [0:BUS_NUM-1];
+
 generate
     for (j = 0; j < BUS_NUM; j = j+1) begin : fixed_layernorm_generate_array
       always @(posedge clk or negedge rstn) begin
@@ -389,7 +392,7 @@ generate
           .CDATA_BIT(8)
         )
         fp2int_out_data_inst ( 
-          .idata(float_layernorm_flt2i[j]),
+          .idata(float_layernorm_flt2i[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
           .odata(fixed_layernorm[j])
       );
 
