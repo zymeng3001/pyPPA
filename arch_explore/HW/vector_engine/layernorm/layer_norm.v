@@ -110,7 +110,7 @@ reg signed [BUS_NUM*8-1:0] x_sub_mean;
 reg x_sub_mean_vld;
 
 // instantiate adder_tree_layernorm
-adder_tree_layernorm #(
+adder_tree #(
     .ADD_IDATA_BIT(8),
     .ADD_ODATA_BIT(FIXED_ACC_WIDTH),
     .MAC_NUM(BUS_NUM)
@@ -498,117 +498,117 @@ endmodule
 
 
 
-module adder_tree_layernorm #(
-    parameter ADD_IDATA_BIT = 16,
-    parameter ADD_ODATA_BIT = 16 + $clog2(8),
-    parameter MAC_NUM = 8
-)(
-    // Global Signals
-    input                               clk,
-    input                               rstn,
+// module adder_tree_layernorm #(
+//     parameter ADD_IDATA_BIT = 16,
+//     parameter ADD_ODATA_BIT = 16 + $clog2(8),
+//     parameter MAC_NUM = 8
+// )(
+//     // Global Signals
+//     input                               clk,
+//     input                               rstn,
 
-    // Data Signals
-    input       [ADD_IDATA_BIT*MAC_NUM-1:0] idata,
-    input                               idata_valid,
-    output  reg [ADD_ODATA_BIT-1:0]         odata,
-    output  reg                         odata_valid
-);
+//     // Data Signals
+//     input       [ADD_IDATA_BIT*MAC_NUM-1:0] idata,
+//     input                               idata_valid,
+//     output  reg [ADD_ODATA_BIT-1:0]         odata,
+//     output  reg                         odata_valid
+// );
 
-    localparam  STAGE_NUM = $clog2(MAC_NUM);
+//     localparam  STAGE_NUM = $clog2(MAC_NUM);
 
-    // Insert a pipeline every two stages
-    // Validation
-    genvar i, j;
-    generate
-        for (i = 0; i < STAGE_NUM; i = i + 1) begin: gen_adt_valid
-            reg             add_valid;
+//     // Insert a pipeline every two stages
+//     // Validation
+//     genvar i, j;
+//     generate
+//         for (i = 0; i < STAGE_NUM; i = i + 1) begin: gen_adt_valid
+//             reg             add_valid;
 
-            if (i == 0) begin   // Input Stage
-                always @(posedge clk or negedge rstn) begin
-                    if (!rstn) begin
-                        add_valid <= 1'b0;
-                    end
-                    else begin
-                        add_valid <= idata_valid;
-                    end
-                end
-            end
-            else if (i % 2 == 1'b0) begin   // Even Stage, Insert a pipeline, Start from 0, 2, 4...
-                always @(posedge clk or negedge rstn) begin
-                    if (!rstn) begin
-                        add_valid <= 1'b0;
-                    end
-                    else begin
-                        add_valid <= gen_adt_valid[i-1].add_valid;
-                    end
-                end
-            end
-            else begin  // Odd Stage, Combinational, Start from 1, 3, 5...
-                always @(*) begin
-                    add_valid = gen_adt_valid[i-1].add_valid;
-                end
-            end
-        end
-    endgenerate
+//             if (i == 0) begin   // Input Stage
+//                 always @(posedge clk or negedge rstn) begin
+//                     if (!rstn) begin
+//                         add_valid <= 1'b0;
+//                     end
+//                     else begin
+//                         add_valid <= idata_valid;
+//                     end
+//                 end
+//             end
+//             else if (i % 2 == 1'b0) begin   // Even Stage, Insert a pipeline, Start from 0, 2, 4...
+//                 always @(posedge clk or negedge rstn) begin
+//                     if (!rstn) begin
+//                         add_valid <= 1'b0;
+//                     end
+//                     else begin
+//                         add_valid <= gen_adt_valid[i-1].add_valid;
+//                     end
+//                 end
+//             end
+//             else begin  // Odd Stage, Combinational, Start from 1, 3, 5...
+//                 always @(*) begin
+//                     add_valid = gen_adt_valid[i-1].add_valid;
+//                 end
+//             end
+//         end
+//     endgenerate
 
-    // Adder
-    generate
-        for (i = 0; i <STAGE_NUM; i = i + 1) begin: gen_adt_stage
-            localparam  OUT_BIT = ADD_IDATA_BIT + (i + 1'b1);
-            localparam  OUT_NUM = MAC_NUM  >> (i + 1'b1);
+//     // Adder
+//     generate
+//         for (i = 0; i <STAGE_NUM; i = i + 1) begin: gen_adt_stage
+//             localparam  OUT_BIT = ADD_IDATA_BIT + (i + 1'b1);
+//             localparam  OUT_NUM = MAC_NUM  >> (i + 1'b1);
 
-            reg     [OUT_BIT-2:0]   add_idata   [0:OUT_NUM*2-1];
-            wire    [OUT_BIT-1:0]   add_odata   [0:OUT_NUM-1];
+//             reg     [OUT_BIT-2:0]   add_idata   [0:OUT_NUM*2-1];
+//             wire    [OUT_BIT-1:0]   add_odata   [0:OUT_NUM-1];
 
-            for (j = 0; j < OUT_NUM; j = j + 1) begin: gen_adt_adder
+//             for (j = 0; j < OUT_NUM; j = j + 1) begin: gen_adt_adder
 
-                // Organize adder inputs
-                if (i == 0) begin   // Input Stage
-                    always @(posedge clk or negedge rstn) begin
-                        if (!rstn) begin
-                            add_idata[j*2]   <= 'd0;
-                            add_idata[j*2+1] <= 'd0;
-                        end
-                        else if (idata_valid) begin
-                            add_idata[j*2]   <= idata[(j*2+0)*ADD_IDATA_BIT+:ADD_IDATA_BIT];
-                            add_idata[j*2+1] <= idata[(j*2+1)*ADD_IDATA_BIT+:ADD_IDATA_BIT];
-                        end
-                    end
-                end
-                else if (i % 2 == 0) begin  // Even Stage, Insert a pipeline
-                    always @(posedge clk or negedge rstn) begin
-                        if (!rstn) begin
-                            add_idata[j*2]   <= 'd0;
-                            add_idata[j*2+1] <= 'd0;
-                        end
-                        else if (gen_adt_valid[i-1].add_valid) begin
-                            add_idata[j*2]   <= gen_adt_stage[i-1].add_odata[j*2];
-                            add_idata[j*2+1] <= gen_adt_stage[i-1].add_odata[j*2+1];
-                        end
-                    end
-                end
-                else begin  // Odd Stage, Combinational
-                    always @(*) begin
-                        add_idata[j*2]   = gen_adt_stage[i-1].add_odata[j*2];
-                        add_idata[j*2+1] = gen_adt_stage[i-1].add_odata[j*2+1];
-                    end
-                end
+//                 // Organize adder inputs
+//                 if (i == 0) begin   // Input Stage
+//                     always @(posedge clk or negedge rstn) begin
+//                         if (!rstn) begin
+//                             add_idata[j*2]   <= 'd0;
+//                             add_idata[j*2+1] <= 'd0;
+//                         end
+//                         else if (idata_valid) begin
+//                             add_idata[j*2]   <= idata[(j*2+0)*ADD_IDATA_BIT+:ADD_IDATA_BIT];
+//                             add_idata[j*2+1] <= idata[(j*2+1)*ADD_IDATA_BIT+:ADD_IDATA_BIT];
+//                         end
+//                     end
+//                 end
+//                 else if (i % 2 == 0) begin  // Even Stage, Insert a pipeline
+//                     always @(posedge clk or negedge rstn) begin
+//                         if (!rstn) begin
+//                             add_idata[j*2]   <= 'd0;
+//                             add_idata[j*2+1] <= 'd0;
+//                         end
+//                         else if (gen_adt_valid[i-1].add_valid) begin
+//                             add_idata[j*2]   <= gen_adt_stage[i-1].add_odata[j*2];
+//                             add_idata[j*2+1] <= gen_adt_stage[i-1].add_odata[j*2+1];
+//                         end
+//                     end
+//                 end
+//                 else begin  // Odd Stage, Combinational
+//                     always @(*) begin
+//                         add_idata[j*2]   = gen_adt_stage[i-1].add_odata[j*2];
+//                         add_idata[j*2+1] = gen_adt_stage[i-1].add_odata[j*2+1];
+//                     end
+//                 end
 
-                // Adder instantization
-                add_int #(.ADD_INT_IDATA_BIT(OUT_BIT-1), .ADD_INT_ODATA_BIT(OUT_BIT)) adder_inst (
-                    .idataA                 (add_idata[j*2]),
-                    .idataB                 (add_idata[j*2+1]),
-                    .odata                  (add_odata[j])
-                );
-            end
-        end
-    endgenerate
+//                 // Adder instantization
+//                 add_int #(.ADD_INT_IDATA_BIT(OUT_BIT-1), .ADD_INT_ODATA_BIT(OUT_BIT)) adder_inst (
+//                     .idataA                 (add_idata[j*2]),
+//                     .idataB                 (add_idata[j*2+1]),
+//                     .odata                  (add_odata[j])
+//                 );
+//             end
+//         end
+//     endgenerate
 
-    // Output
-    always @(*) begin
-        odata       = gen_adt_stage[STAGE_NUM-1].add_odata[0];
-        odata_valid = gen_adt_valid[STAGE_NUM-1].add_valid;
-    end
-endmodule 
+//     // Output
+//     always @(*) begin
+//         odata       = gen_adt_stage[STAGE_NUM-1].add_odata[0];
+//         odata_valid = gen_adt_valid[STAGE_NUM-1].add_valid;
+//     end
+// endmodule 
 
 
