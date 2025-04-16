@@ -149,7 +149,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                 },
                 'hyperparameters': {
                     'clk_period': suggestion.parameters['constraint_period'],
-                    'n_embd': int(suggestion.parameters['n_embd'])
+                    'n_embd': int(suggestion.parameters['n_embd']),
+					'mac_num': 8
                 }
             } for suggestion in feasible_suggestions
         ],
