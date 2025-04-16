@@ -3,10 +3,10 @@ module layer_norm #(
     parameter integer DATA_NUM_WIDTH = 10,
     parameter integer SCALA_POS_WIDTH = 5,
     parameter integer FIXED_ACC_WIDTH = 32,
-    parameter integer ADDER_TREE_OUT_WIDTH = 16,
-    parameter integer IN_FLOAT_DATA_ARRAY_DEPTH = (${n_embd} / BUS_NUM + 1), 
-    parameter integer GAMMA_ARRAY_DEPTH = IN_FLOAT_DATA_ARRAY_DEPTH,
-    parameter integer BETA_ARRAY_DEPTH = IN_FLOAT_DATA_ARRAY_DEPTH,
+    parameter integer IN_FIXED_DATA_ARRAY_DEPTH = (256 / BUS_NUM + 1),
+    parameter integer DATA_ARRAY_DEPTH_WIDTH = $clog2(IN_FIXED_DATA_ARRAY_DEPTH), 
+    parameter integer GAMMA_ARRAY_DEPTH = IN_FIXED_DATA_ARRAY_DEPTH,
+    parameter integer BETA_ARRAY_DEPTH = IN_FIXED_DATA_ARRAY_DEPTH,
     parameter integer sig_width = 7,
     parameter integer exp_width = 8,
     parameter integer isize     = 32,
@@ -14,7 +14,7 @@ module layer_norm #(
     parameter integer ieee_compliance = 0
 )(
     input clk,
-    input rst_n,
+    input rstn,
 
     input [DATA_NUM_WIDTH-1:0] in_data_num,
     input                      in_data_num_vld,
@@ -40,25 +40,17 @@ module layer_norm #(
 
 parameter inetger COMPUTE_MEAN = 2'b00;
 parameter integer COMPUTE_VAR  = 2'b01;
-parameter integer COMPUTE_norm = 2'b10;
+parameter integer COMPUTE_NORM = 2'b10;
+
+integer i;
+
+reg [2:0] state;
+reg [2:0] next_state;
 
 reg [DATA_NUM_WIDTH-1:0] data_num;
 
 reg signed [SCALA_POS_WIDTH-1:0] in_scale_pos_reg;
 reg signed [SCALA_POS_WIDTH-1:0] out_scale_pos_reg;
-
-reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] gamma_array [0:GAMMA_ARRAY_DEPTH-1];
-reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] gamma_array_wr_slot;
-reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] gamma_array_rd_slot;
-reg [BUS_NUM-1:0]                           gamma_vld_array [0:GAMMA_ARRAY_DEPTH-1];
-reg [$clog2(GAMMA_ARRAY_DEPTH)-1:0]           gamma_array_wr_ptr, gamma_array_rd_ptr;
-
-// reg for beta array
-reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] beta_array [0:BETA_ARRAY_DEPTH-1];
-reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] beta_array_wr_slot;
-reg [ (sig_width+exp_width+1)*BUS_NUM -1:0 ] beta_array_rd_slot;
-reg [BUS_NUM-1:0]                           beta_vld_array [0:BETA_ARRAY_DEPTH-1];
-reg [$clog2(BETA_ARRAY_DEPTH)-1:0]           beta_array_wr_ptr, beta_array_rd_ptr;
 
 // reg for calculating mean value
 reg signed [ADDER_TREE_OUT_WIDTH-1:0] adder_tree_value;
@@ -66,103 +58,425 @@ reg signed adder_tree_value_vld;
 reg signed [FIXED_ACC_WIDTH-1:0] mean_value;
 reg signed mean_value_vld;
 
-reg signed [8*IN_FLOAT_DATA_ARRAY_DEPTH*BUS_NUM-1:0] in_fixed_data_temp;
-reg [IN_FLOAT_DATA_ARRAY_DEPTH-1:0] in_fixed_data_vld_temp;
+reg data_fifo_wren, data_fifo_rden, gamma_fifo_wren, gamma_fifo_rden, beta_fifo_wren, beta_fifo_rden;
+reg [BUS_NUM*8-1:0] data_fifo_din;
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] gamma_fifo_din;
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] beta_fifo_din;
+
+wire [BUS_NUM*8-1:0] data_fifo_dout;
+wire [BUS_NUM*(sig_width+exp_width+1)-1:0] gamma_fifo_dout;
+wire [BUS_NUM*(sig_width+exp_width+1)-1:0] beta_fifo_dout;
+
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] flt_x_sub_mean;
+reg flt_x_sub_mean_vld;
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] x_times_gamma;
+reg x_times_gamma_vld;
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] x_times_gamma_over_sqrt_var;
+reg x_times_gamma_over_sqrt_var_vld;
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] x_times_gamma_over_sqrt_var_plus_beta;
+reg x_times_gamma_over_sqrt_var_plus_beta_vld;
+reg [BUS_NUM*(sig_width+exp_width+1)-1:0] float_layernorm_flt2i;
+reg [BUS_NUM-1] float_layernorm_flt2i_vld;
+
+
+wire data_fifo_full, data_fifo_empty;
+wire gamma_fifo_full, gamma_fifo_empty;
+wire beta_fifo_full, beta_fifo_empty;
+
+reg [FIXED_ACC_WIDTH-1: 0] data_sum_acc_reg;
+reg                        data_sum_acc_reg_vld;
+reg [DATA_ARRAY_DEPTH_WIDTH-1:0] data_sum_acc_reg_cntr;
+
+reg [FIXED_ACC_WIDTH-1: 0] data_var_acc_reg;
+reg                        data_var_reg_vld;
+reg [DATA_ARRAY_DEPTH_WIDTH-1:0] data_var_reg_cntr;
+
+reg [sig_width+exp_width:0] inv_sqrt_in_reg, inv_sqrt_in_temp;
+reg inv_sqrt_in_reg_vld;
+
+reg [sig_width+exp_width:0] inv_sqrt_out_reg;
+reg inv_sqrt_out_reg_vld;
+
+// mean value register
+reg signed [7:0] mean_value_reg;
+reg mean_value_reg_vld;
+
+// x-mean registers
+reg signed [BUS_NUM*8-1:0] x_sub_mean;
+reg x_sub_mean_vld;
+
+// instantiate adder_tree_layernorm
+adder_tree_layernorm #(
+    .ADD_IDATA_BIT(8),
+    .ADD_ODATA_BIT(FIXED_ACC_WIDTH),
+    .MAC_NUM(BUS_NUM)
+) adder_tree_layernorm_inst (
+    .clk(clk),
+    .rstn(rstn),
+    .idata(in_fixed_data),
+    .idata_valid((state == COMPUTE_MEAN) ? in_fixed_data_vld : 0),
+    .odata(adder_tree_value),
+    .odata_valid(adder_tree_value_vld)
+);
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        data_sum_acc_reg <= 0;
+        data_sum_acc_reg_vld <= 0;
+        data_sum_acc_reg_cntr <= 0;
+        state <= 0;
+    end else begin
+        data_sum_acc_reg <= (data_sum_acc_reg_cntr < IN_FIXED_DATA_ARRAY_DEPTH && adder_tree_value_vld) ? data_sum_acc_reg + adder_tree_value :
+                            (data_sum_acc_reg_cntr >= IN_FIXED_DATA_ARRAY_DEPTH) ? 0 : data_sum_acc_reg;
+        data_sum_acc_reg_vld <= (data_sum_acc_reg_cntr == IN_FIXED_DATA_ARRAY_DEPTH - 1);
+        data_sum_acc_reg_cntr <= (data_sum_acc_reg_cntr < IN_FIXED_DATA_ARRAY_DEPTH && adder_tree_value_vld) ? data_sum_acc_reg_cntr + 1 :
+                                 (data_sum_acc_reg_cntr >= IN_FIXED_DATA_ARRAY_DEPTH) ? 0 : data_sum_acc_reg_cntr;
+        state <= next_state;
+    end
+end
+
+// state machine
+always @(*) begin
+    next_state = state;
+    case (state)
+        COMPUTE_MEAN: begin
+            if (data_sum_acc_reg_vld) begin
+                next_state = COMPUTE_VAR;
+            end
+        end
+        COMPUTE_VAR: begin
+            if (data_var_reg_vld) begin
+                next_state = COMPUTE_NORM;
+            end
+        end
+        COMPUTE_NORM: begin
+            if (x_times_gamma_over_sqrt_var_plus_beta_vld) begin
+                next_state = COMPUTE_MEAN;
+            end
+        end
+        default: begin
+            next_state = COMPUTE_MEAN;
+        end
+    endcase
+end
+
+// mean value register update
+// use shift for division
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        mean_value_reg <= 0;
+        mean_value_reg_vld <= 0;
+    end else if (data_sum_acc_reg_vld) begin
+        mean_value_reg <= data_sum_acc_reg >> (DATA_ARRAY_DEPTH_WIDTH*3);
+        mean_value_reg_vld <= 1;
+    end else begin
+        mean_value_reg_vld <= 0;
+    end
+end
+
+// calculate variance
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        x_sub_mean <= 0;
+        x_sub_mean_vld <= 0;
+        data_var_reg_cntr <= 0;
+        data_var_acc_reg <= 0;
+        data_var_reg_vld <= 0;
+
+    end else if (state == COMPUTE_VAR && data_fifo_rden) begin
+        for (i = 0; i < BUS_NUM; i = i + 1) begin
+            x_sub_mean[i*8+:8] <= data_fifo_dout[i*8+:8] - mean_value_reg;
+        end
+        x_sub_mean_vld <= 1;
+        data_var_reg_cntr <= data_var_reg_cntr + 1;
+        data_var_acc_reg <= data_var_acc_reg + (x_sub_mean * x_sub_mean) >> (DATA_ARRAY_DEPTH_WIDTH*3);
+    end else if (state == COMPUTE_VAR && data_fifo_rden && data_var_reg_cntr == IN_FIXED_DATA_ARRAY_DEPTH - 1) begin
+        x_sub_mean <= 0;
+        x_sub_mean_vld <= 0;
+        data_var_reg_cntr <= 0;
+        data_var_acc_reg <= 0;
+        data_var_reg_vld <= 1;
+    end
+end
+
+i2flt_rms #(
+    .sig_width(sig_width),
+    .exp_width(exp_width),
+    .isize(isize),
+    .isign(isign)
+) i2flt_inv_sqrt (
+    .a(data_var_acc_reg + 1),  // set the constant to 1 
+    .rnd(3'b00),
+    .z(inv_sqrt_in_temp),
+    .status()
+);
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        inv_sqrt_in_reg <= 0;
+        inv_sqrt_in_reg_vld <= 0;
+    end else if (data_var_reg_vld) begin
+        inv_sqrt_in_reg <= inv_sqrt_in_temp;
+        inv_sqrt_in_reg_vld <= 1;
+    end
+end
+
+wire [sig_width+exp_width:0] inv_sqrt_out_z;
+wire inv_sqrt_out_z_vld;
+fp_invsqrt_pipe inst_fp_invsqrt_pipe(
+    .clk(clk),
+    .rst_n(rstn),
+    .x(inv_sqrt_in_reg),
+    .x_vld(inv_sqrt_in_reg_vld),
+    .y(inv_sqrt_out_z),
+    .y_vld(inv_sqrt_out_z_vld)
+  );
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        inv_sqrt_out_reg <= 0;
+        inv_sqrt_out_reg_vld <= 0;
+    end else begin
+        inv_sqrt_out_reg <= inv_sqrt_out_z;
+        inv_sqrt_out_reg_vld <= inv_sqrt_out_z_vld;
+    end
+end
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        inv_sqrt_out_reg <= 0;
+        inv_sqrt_out_reg_vld <= 0;
+    end else begin
+        inv_sqrt_out_reg <= inv_sqrt_out_z;
+        inv_sqrt_out_reg_vld <= inv_sqrt_out_z_vld;
+    end
+end
+
+wire [BUS_NUM*(sig_width+exp_width)-1:0] flt_x_sub_mean_z;
+genvar j;
+  generate
+    for(j = 0; j < NUM_INST; j = j + 1) begin : i2flt_array_gen
+      i2flt_rms #(
+         .sig_width(sig_width),
+         .exp_width(exp_width),
+         .isize(isize),
+         .isign(isign)
+      ) i2flt_inv_sqrt_inst (
+         .a(data_fifo_dout[j*8+:8]), // set the constant to 1
+         .rnd(3'b00),
+         .z(flt_x_sub_mean_z[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+         .status() // leave unconnected if you don't need to use it
+      );
+    end
+  endgenerate
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        flt_x_sub_mean <= 0;
+        flt_x_sub_mean_vld <= 0;
+    end else if (state == COMPUTE_NORM && data_fifo_rden) begin
+        flt_x_sub_mean <= flt_x_sub_mean_z;
+        flt_x_sub_mean_vld <= 1;
+    end else begin
+        flt_x_sub_mean_vld <= 0;
+    end 
+end
+
+// multiply x-mean with gamma
+generate 
+    for (j = 0; j < BUS_NUM; j = j + 1) begin : x_times_gamma_gen
+        fp_mult_pipe #(
+            .sig_width(sig_width),
+            .exp_width(exp_width),
+            .ieee_compliance(ieee_compliance)
+        ) fp_mult_x_times_gamma (
+            .clk(clk),
+            .rst_n(rstn),
+            .a(flt_x_sub_mean[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .b(gamma_fifo_dout[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .z(x_times_gamma[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .z_vld(x_times_gamma_vld)
+        );
+    end
+endgenerate
+
+// multiply x-mean with gamma and multiply by inv_sqrt(var)
+generate 
+    for (j = 0; j < BUS_NUM; j = j + 1) begin : x_times_gamma_over_sqrt_var_gen
+        fp_mult_pipe #(
+            .sig_width(sig_width),
+            .exp_width(exp_width),
+            .ieee_compliance(ieee_compliance)
+        ) fp_mult_x_times_gamma_over_sqrt_var (
+            .clk(clk),
+            .rst_n(rstn),
+            .a(x_times_gamma[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .b(inv_sqrt_out_reg),
+            .z(x_times_gamma_over_sqrt_var[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .z_vld(x_times_gamma_over_sqrt_var_vld)
+        );
+    end
+endgenerate
+
+// multiply x-mean with gamma and multiply by inv_sqrt(var) and add beta
+
+wire [BUS_NUM*(sig_width+exp_width+1)-1:0] layer_norm_flt_out_z;
+generate 
+    for (j = 0; j < BUS_NUM; j = j + 1) begin : x_times_gamma_over_sqrt_var_plus_beta_gen
+        custom_fp_sub #(
+            .sig_width(sig_width),
+            .exp_width(exp_width),
+            .ieee_compliance(ieee_compliance)
+        ) fp_add_x_times_gamma_over_sqrt_var_plus_beta (
+            .a(x_times_gamma_over_sqrt_var[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .b(beta_fifo_dout[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .rnd(3'b00),
+            .z(layer_norm_flt_out_z[j*(sig_width+exp_width+1)+:sig_width+exp_width+1]),
+            .status()
+        );
+    end
+endgenerate
+
+always @(posedge clk or negedge rstn) begin
+    if (!rstn) begin
+        x_times_gamma_over_sqrt_var_plus_beta <= 0;
+        x_times_gamma_over_sqrt_var_plus_beta_vld <= 0;
+    end else if (state == COMPUTE_NORM && data_fifo_rden) begin
+        x_times_gamma_over_sqrt_var_plus_beta <= layer_norm_flt_out_z;
+        x_times_gamma_over_sqrt_var_plus_beta_vld <= 1;
+    end else begin
+        x_times_gamma_over_sqrt_var_plus_beta_vld <= 0;
+    end
+end
+
+// output the result in fixed data
+generate
+    for (i = 0; i < BUS_NUM; i = i+1) begin : fixed_layernorm_generate_array
+      always @(posedge clk or negedge rstn) begin
+        if (!rstn) begin
+          float_layernorm_flt2i <= 0;
+          float_layernorm_flt2i_vld[i] <= 0;
+        end else begin
+          float_layernorm_flt2i[i*(sig_width+exp_width+1)+:sig_width+exp_width] <= x_times_gamma_over_sqrt_var_plus_beta[i*(sig_width+exp_width+1)+:sig_width+exp_width] +
+                                                                $signed({out_scale_pos_reg, {sig_width{1'b0}}});
+          float_layernorm_flt2i[i*(sig_width+exp_width+1)+sig_width+exp_width] <= x_times_gamma_over_sqrt_var_plus_beta[i*(sig_width+exp_width+1)+sig_width+exp_width];
+          float_layernorm_flt2i_vld[i] <= x_times_gamma_over_sqrt_var_plus_beta_vld;
+        end
+      end
+
+      fp2int_rms #(
+          .EXP_BIT(exp_width),
+          .MAT_BIT(sig_width),
+          .IDATA_BIT(exp_width+sig_width+1),
+          .ODATA_BIT(8),
+          .CDATA_BIT(8)
+        )
+        fp2int_in_data_inst ( 
+          .idata(float_layernorm_flt2i[i]),
+          .odata(fixed_layernorm[i])
+      );
+
+      always @(*) begin
+        nxt_out_fixed_data[i] = fixed_layernorm[i];
+        if ($signed(fixed_layernorm[i]) > 127)
+          nxt_out_fixed_data[i] = 8'd127;
+        else if ($signed(fixed_layernorm[i]) < -128)
+          nxt_out_fixed_data[i] = -8'd128;
+      end
+
+      always @(posedge clk or negedge rst_n) begin
+        if (!rstn) begin
+          out_fixed_data_vld[i] <= 0;
+          out_fixed_data[i*8 +: 8] <= 0;
+        end else begin
+          out_fixed_data_vld[i] <= float_layernorm_flt2i_vld[i];
+          out_fixed_data[i*8 +: 8] <= nxt_out_fixed_data[i];
+        end
+      end
+    end
+  endgenerate
+
+
 
 // load the iin_fixed_data_temp fifo from in_fixed_data
-always @(posedge clk or negedge rst_n) begin
-if (!rst_n) begin
-    in_fixed_data_temp <= 0;
-    in_fixed_data_vld_temp <= 0;
-end else if (state == COMPUTE_MEAN) begin
-    in_fixed_data_temp <= {in_fixed_data_temp[BUS_NUM*8-1:0], in_fixed_data};
-    in_fixed_data_vld_temp <= {in_fixed_data_vld_temp[BUS_NUM-1:0], in_fixed_data_vld};
-end
-end
+fifo #(
+    .DEPTH(IN_FIXED_DATA_ARRAY_DEPTH),
+    .WIDTH(BUS_NUM*8)
+) in_fixed_data_fifo (
+    .clk(clk),
+    .rstn(rstn),
+    .wr_en(data_fifo_wren),
+    .rd_en(data_fifo_rden),
+    .din(data_fifo_din),
+    .dout(data_fifo_dout),
+    .full(data_fifo_full),
+    .empty(data_fifo_empty)
+);
 
+// Gamma array write slot generation. 
+fifo #(
+    .DEPTH(GAMMA_ARRAY_DEPTH),
+    .WIDTH(BUS_NUM*(sig_width+exp_width+1))
+) gamma_array_fifo (
+    .clk(clk),
+    .rstn(rstn),
+    .wr_en(gamma_fifo_wren),
+    .rd_en(gamma_fifo_rden),
+    .din(gamma_fifo_din),
+    .dout(gamma_fifo_dout),
+    .full(gamma_fifo_full),
+    .empty(gamma_fifo_empty)
+);
+
+// Beta array write slot generation. 
+fifo #(
+    .DEPTH(BETA_ARRAY_DEPTH),
+    .WIDTH(BUS_NUM*(sig_width+exp_width+1))
+) beta_array_fifo (
+    .clk(clk),
+    .rstn(rstn),
+    .wr_en(beta_fifo_wren),
+    .rd_en(beta_fifo_rden),
+    .din(beta_fifo_din),
+    .dout(beta_fifo_dout),
+    .full(beta_fifo_full),
+    .empty(beta_fifo_empty)
+);
+
+
+// gamma_array_wr_ptr and storage of the gamma array and its valid bits
 
 // data_num register
-always @(posedge clk or negedge rst_n) begin
-if (!rst_n)
+always @(posedge clk or negedge rstn) begin
+if (!rstn)
     data_num <= 0;
 else if (in_data_num_vld)
     data_num <= in_data_num;
 end
 
 // in_scale_pos_reg
-always @(posedge clk or negedge rst_n) begin
-if (!rst_n)
+always @(posedge clk or negedge rstn) begin
+if (!rstn)
     in_scale_pos_reg <= 0;
 else if (in_scale_pos_vld)
     in_scale_pos_reg <= in_scale_pos;
 end
 
 // out_scale_pos_reg
-always @(posedge clk or negedge rst_n) begin
-if (!rst_n)
+always @(posedge clk or negedge rstn) begin
+if (!rstn)
     out_scale_pos_reg <= 0;
 else if (out_scale_pos_vld)
     out_scale_pos_reg <= out_scale_pos;
 end
 
-// Gamma array write slot generation. (The flattened vector in_gamma is sliced.)
-genvar i;
-generate
-  for (i = 0; i < BUS_NUM; i = i+1) begin : gamma_array_wr_slot_generate_array
-    // Using the "-:" slicing operator to extract each BUS_NUM element slice.
-    assign gamma_array_wr_slot[(i+1)*(sig_width+exp_width+1)-1 -: (sig_width+exp_width+1)] =
-           in_gamma[(i+1)*(sig_width+exp_width+1)-1 -: (sig_width+exp_width+1)];
-  end
-endgenerate
 
-// gamma_array_wr_ptr and storage of the gamma array and its valid bits
-always @(posedge clk or negedge rst_n) begin
-  if (!rst_n)
-    gamma_array_wr_ptr <= 0;
-  else if (out_fixed_data_last)
-    gamma_array_wr_ptr <= 0;  // reset for next vector input
-  else if (|in_gamma_vld) begin // At least one valid input
-    gamma_array[gamma_array_wr_ptr] <= gamma_array_wr_slot;
-    gamma_vld_array[gamma_array_wr_ptr] <= in_gamma_vld;
-    gamma_array_wr_ptr <= gamma_array_wr_ptr + 1;
-  end
-end
 
-// beta array write slot generation. (The flattened vector in_beta is sliced.)
-generate
-  for (i = 0; i < BUS_NUM; i = i+1) begin : beta_array_wr_slot_generate_array
-    // Using the "-:" slicing operator to extract each BUS_NUM element slice.
-    assign beta_array_wr_slot[(i+1)*(sig_width+exp_width+1)-1 -: (sig_width+exp_width+1)] =
-           in_beta[(i+1)*(sig_width+exp_width+1)-1 -: (sig_width+exp_width+1)];
-  end
-endgenerate
 
-// beta_array_wr_ptr and storage of the beta array and its valid bits
-always @(posedge clk or negedge rst_n) begin
-  if (!rst_n)
-    beta_array_wr_ptr <= 0;
-  else if (out_fixed_data_last)
-    beta_array_wr_ptr <= 0;  // reset for next vector input
-  else if (|in_beta_vld) begin // At least one valid input
-    beta_array[beta_array_wr_ptr] <= beta_array_wr_slot;
-    beta_vld_array[beta_array_wr_ptr] <= in_beta_vld;
-    beta_array_wr_ptr <= beta_array_wr_ptr + 1;
-  end
-end
 
-// instantiate adder_tree_layernorm
-adder_tree_layernorm #(
-    .ADD_IDATA_BIT(8),
-    .ADD_ODATA_BIT(ADDER_TREE_OUT_WIDTH),
-    .DATA_NUM(IN_FLOAT_DATA_ARRAY_DEPTH*BUS_NUM)
-) adder_tree_layernorm_inst (
-    .clk(clk),
-    .rstn(rst_n),
-    .idata(in_fixed_data_temp),
-    .idata_valid(in_fixed_data_vld_temp),
-    .odata(adder_tree_value),
-    .odata_valid(adder_tree_value_vld)
-);
+
+
+
 
 
 
@@ -170,7 +484,7 @@ adder_tree_layernorm #(
 module adder_tree_layernorm #(
     parameter ADD_IDATA_BIT = 16,
     parameter ADD_ODATA_BIT = 16 + $clog2(8),
-    parameter DATA_NUM = ${n_embd}
+    parameter MAC_NUM = 8
 )(
     // Global Signals
     input                               clk,
