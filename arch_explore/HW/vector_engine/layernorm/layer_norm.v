@@ -471,7 +471,7 @@ else if (out_scale_pos_vld)
 end
 
 
-
+endmodule
 
 
 
@@ -595,7 +595,3 @@ module adder_tree_layernorm #(
 endmodule 
 
 
-
-
-
-endmodule
