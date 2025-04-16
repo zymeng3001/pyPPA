@@ -269,7 +269,7 @@ always @(posedge clk or negedge rstn) begin
     end
 end
 
-wire [BUS_NUM*(sig_width+exp_width)-1:0] flt_x_sub_mean_z;
+wire [BUS_NUM*(sig_width+exp_width+1)-1:0] flt_x_sub_mean_z;
 genvar j;
   generate
     for(j = 0; j < BUS_NUM; j = j + 1) begin : i2flt_array_gen
