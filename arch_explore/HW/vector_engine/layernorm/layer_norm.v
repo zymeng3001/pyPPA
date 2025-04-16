@@ -76,7 +76,7 @@ reg x_times_gamma_over_sqrt_var_vld;
 reg [BUS_NUM*(sig_width+exp_width+1)-1:0] x_times_gamma_over_sqrt_var_plus_beta;
 reg x_times_gamma_over_sqrt_var_plus_beta_vld;
 reg [BUS_NUM*(sig_width+exp_width+1)-1:0] float_layernorm_flt2i;
-reg [BUS_NUM-1] float_layernorm_flt2i_vld;
+reg [BUS_NUM-1:0] float_layernorm_flt2i_vld;
 
 
 wire data_fifo_full, data_fifo_empty;
