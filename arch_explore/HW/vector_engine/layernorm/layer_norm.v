@@ -38,14 +38,14 @@ module layer_norm #(
     output reg out_fixed_data_last
 );
 
-parameter inetger COMPUTE_MEAN = 2'b00;
+parameter integer COMPUTE_MEAN = 2'b00;
 parameter integer COMPUTE_VAR  = 2'b01;
 parameter integer COMPUTE_NORM = 2'b10;
 
 integer i;
 
-reg [2:0] state;
-reg [2:0] next_state;
+reg [1:0] state;
+reg [1:0] next_state;
 
 reg [DATA_NUM_WIDTH-1:0] data_num;
 
