@@ -42,7 +42,7 @@ parameter integer COMPUTE_MEAN = 2'b00;
 parameter integer COMPUTE_VAR  = 2'b01;
 parameter integer COMPUTE_NORM = 2'b10;
 
-integer i;
+genvar i;
 
 reg [1:0] state;
 reg [1:0] next_state;
