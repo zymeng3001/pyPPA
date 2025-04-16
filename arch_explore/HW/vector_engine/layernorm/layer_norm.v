@@ -309,7 +309,8 @@ generate
         fp_mult_pipe #(
             .sig_width(sig_width),
             .exp_width(exp_width),
-            .ieee_compliance(ieee_compliance)
+            .ieee_compliance(ieee_compliance),
+            .stages(5)
         ) fp_mult_x_times_gamma (
             .clk(clk),
             .rst_n(rstn),
@@ -327,7 +328,8 @@ generate
         fp_mult_pipe #(
             .sig_width(sig_width),
             .exp_width(exp_width),
-            .ieee_compliance(ieee_compliance)
+            .ieee_compliance(ieee_compliance),
+            .stages(5)
         ) fp_mult_x_times_gamma_over_sqrt_var (
             .clk(clk),
             .rst_n(rstn),
