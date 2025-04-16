@@ -404,7 +404,7 @@ generate
           nxt_out_fixed_data[j] = -8'd128;
       end
 
-      always @(posedge clk or negedge rst_n) begin
+      always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
           out_fixed_data_vld[j] <= 0;
           out_fixed_data[j*8 +: 8] <= 0;
