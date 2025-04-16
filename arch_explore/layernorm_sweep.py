@@ -43,6 +43,7 @@ ppa_runner = PPARunner(
 
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
+problem.sarch_space.root.add_discrete_param(name='n_embd', feasible_values=[64]) # Number of softmax buffers
 problem.metric_information.append(
     vz.MetricInformation(
         name='fom',
@@ -55,7 +56,7 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_layernorm'
+  study_id='ppa_layernorm_v1'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -146,7 +147,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'ABC_AREA': True
                 },
                 'hyperparameters': {
-                    'clk_period': suggestion.parameters['constraint_period']
+                    'clk_period': suggestion.parameters['constraint_period'],
+                    'n_embd': int(suggestion.parameters['n_embd']),
                 }
             } for suggestion in feasible_suggestions
         ],
