@@ -3,7 +3,7 @@ module layer_norm #(
     parameter integer DATA_NUM_WIDTH = 10,
     parameter integer SCALA_POS_WIDTH = 5,
     parameter integer FIXED_ACC_WIDTH = 32,
-    parameter integer IN_FIXED_DATA_ARRAY_DEPTH = (256 / BUS_NUM + 1),
+    parameter integer IN_FIXED_DATA_ARRAY_DEPTH = (${n_embd} / BUS_NUM + 1),
     parameter integer DATA_ARRAY_DEPTH_WIDTH = $clog2(IN_FIXED_DATA_ARRAY_DEPTH), 
     parameter integer GAMMA_ARRAY_DEPTH = IN_FIXED_DATA_ARRAY_DEPTH,
     parameter integer BETA_ARRAY_DEPTH = IN_FIXED_DATA_ARRAY_DEPTH,
