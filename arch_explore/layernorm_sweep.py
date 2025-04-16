@@ -44,7 +44,7 @@ ppa_runner = PPARunner(
 
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
-problem.search_space.root.add_discrete_param(name='n_embd', feasible_values=[64]) # Number of softmax buffers
+problem.search_space.root.add_discrete_param(name='n_embd', feasible_values=[64,128,256,512]) # Number of softmax buffers
 problem.metric_information.append(
     vz.MetricInformation(
         name='fom',
@@ -110,7 +110,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			print("ppa completed")
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 1:  # stopping condition
+	if prev_iter_number >= 4:  # stopping condition
 		print("Optimization complete.")
 		for optimal_trial in study_client.optimal_trials():
 			optimal_trial = optimal_trial.materialize()
