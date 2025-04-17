@@ -1,6 +1,7 @@
 __pycache__
 runs/
-data/
+data/openwebtext/train.bin
+data/openwebtext/val.bin
 csv_logs/
 logs/
 scripts/
