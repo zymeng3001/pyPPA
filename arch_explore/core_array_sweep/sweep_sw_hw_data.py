@@ -73,7 +73,7 @@ for idx, row in df.iterrows():
                         'n_embed': n_model,
                         'n_heads': n_heads,
                         'n_cols': n_cols,
-                        'head_fim': int(n_model / n_heads),
+                        'head_dim': int(n_model / n_heads),
                         'max_context_length': max_context_length,
                         'core_wmem_size': core_wmem_size,
                         'core_cache_size': core_cache_size,

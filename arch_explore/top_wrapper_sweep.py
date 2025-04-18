@@ -269,7 +269,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                 'flow_config': {
                     'ABC_MAX_FANOUT': suggestion.parameters['ABC_MAX_FANOUT'],
                     'ABC_MAP_EFFORT': suggestion.parameters['ABC_MAP_EFFORT'],
-                    'ABC_AREC_EFFORT': suggestion.parameters['ABC_MAP_EFFORT']
+                    'ABC_AREC_EFFORT': suggestion.parameters['ABC_AREC_EFFORT']
                 },
                 'hyperparameters': {
                     'clk_period': suggestion.parameters['constraint_period'],

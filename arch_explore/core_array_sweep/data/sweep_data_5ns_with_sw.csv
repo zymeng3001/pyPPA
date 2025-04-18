@@ -1,4 +1,4 @@
-,Gbus Width,n_embed,n_heads,n_cols,head_fim,max_context_length,core_wmem_size,core_cache_size,total_wmem_size,total_cache_size,clk_period,clk_min_period,slack,Wmem Depth,Cache Depth,Max Context Length,Total MAC Num,Power(mW),Area(um^2),Token Delay(ms),Token Per Second,Energy per Token(mJ),val_loss
+,Gbus Width,n_embed,n_heads,n_cols,head_dim,max_context_length,core_wmem_size,core_cache_size,total_wmem_size,total_cache_size,clk_period,clk_min_period,slack,Wmem Depth,Cache Depth,Max Context Length,Total MAC Num,Power(mW),Area(um^2),Token Delay(ms),Token Per Second,Energy per Token(mJ),val_loss
 0,64,128,1,1,128,64,16384.0,8192.0,16384.0,8192.0,5.0,3.979,0.811,2048,1024,64,8,1.89,7924396.374393,17.511680000000002,57.10474380527739,0.0330970752,4.8201
 1,128,128,1,1,128,64,16384.0,8192.0,16384.0,8192.0,5.0,3.841,0.957,1024,512,64,16,2.04,8308384.649594,9.319680000000002,107.29982145309708,0.019012147200000006,4.8201
 2,32,128,1,2,128,64,8192.0,4096.0,16384.0,8192.0,5.0,3.626,1.183,2048,1024,64,8,1.892,7940653.216002,17.511680000000002,57.10474380527739,0.03313209856,4.8201
