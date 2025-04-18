@@ -57,14 +57,31 @@ ppa_runner = PPARunner(
 
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5 ], default_value=6) # Guessing that the optimal period is somewhere in between, based on previous results
-# problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
-# problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
-problem.saerch_space.root.add_discrete_param(name='n_embd', feasible_values=[64, 128, 196, 256, 384, 512, 768], default_value=256)
+problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
+
+problem.saerch_space.root.add_discrete_param(name='n_embd', feasible_values=np.arange(128,544,32).tolist(), default_value=256)
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=16, default_value=4)
 problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=32, default_value=4)
-problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(32,1056,32).tolist(), default_value=128)
+problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(64,544,32).tolist(), default_value=128)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,32,64,128], default_value=32)
+problem.search_space.root.add_int_param(name='mlp_expansion_factor', min_value=1, max_value=4)
+
+problem.search_space.root.add_categorical_param(                                                                 
+        name='activation_variant', 
+        feasible_values=['gelu', 'silu', 'relu', 'softplus']
+    )                                                                                           # Activation Variations
+problem.search_space.root.add_categorical_param(
+        name='softmax_variant_attn', 
+        feasible_values=['softmax', 'softermax', 'consmax', 'relumax']
+    )                                                                                           # Softmax Variations
+problem.search_space.root.add_categorical_param(
+        name='norm_variant_attn', 
+        feasible_values=['rmsnorm']
+    ) 
+
+problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) 
+problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) 
+problem.search_space.root.add_int_param(name='ABC_AREC_EFFORT', min_value=0, max_value=1, default_value=0.6) 
 
 
 problem.metric_information.append(
@@ -76,11 +93,11 @@ problem.metric_information.append(
 
 
 study_config = vz.StudyConfig.from_problem(problem)
-study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
+study_config.algorithm = 'NSGA-II' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_array_sweep_4_5'
+  study_id='ppa_top_optimization'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -225,7 +242,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
     # Assign new suggestions
     feasible_suggestions = []
-    suggestions = study_client.suggest(count=10) # Since 3 threads per job
+    suggestions = study_client.suggest(count=1) # Since 3 threads per job
     while len(feasible_suggestions) < 1:
         print("Generating new suggestions")
         for i, suggestion in enumerate(suggestions):
@@ -236,7 +253,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                 suggestion.complete(vz.Measurement({'fom':math.inf}))  # mark as completed
             else:
                 feasible_suggestions.append(suggestion)
-        suggestions = study_client.suggest(count=10)
+        suggestions = study_client.suggest(count=1)
     # feasible_suggestions = suggestions
 
 
@@ -252,7 +269,9 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
         'next_suggestions': [
             {
                 'flow_config': {
-                    'ABC_AREA': True
+                    'ABC_MAX_FANOUT': suggestion.parameters['ABC_MAX_FANOUT'],
+                    'ABC_MAP_EFFORT': suggestion.parameters['ABC_MAP_EFFORT'],
+                    'ABC_AREC_EFFORT': suggestion.parameters['ABC_MAP_EFFORT']
                 },
                 'hyperparameters': {
                     'clk_period': suggestion.parameters['constraint_period'],
