@@ -126,18 +126,16 @@ def is_feasible(suggestion) -> bool:
     """Check if the suggestion is feasible."""
     n_cols = int(suggestion.parameters['n_cols'])
     n_heads = int(suggestion.parameters['n_heads'])
-    head_dim = int(suggestion.parameters['head_dim'])
+    n_embd = int(suggestion.parameters['n_embd'])
     max_context_length = int(suggestion.parameters['max_context_length'])
     gbus_width = int(suggestion.parameters['gbus_width'])
     mac_num = int(gbus_width/8)
 
-    if head_dim * n_heads > 10:
-        print(f"head_dim * n_heads {head_dim * n_heads} is greater than 1024. Reject suggestion.")
+    if n_embd % n_heads != 0:
+        print(f"n_embd {n_embd} is not divisible by n_heads {n_heads}. Reject suggestion.")
         return False
     
-    if head_dim * n_heads < 128:
-        print(f"head_dim * n_heads {head_dim * n_heads} is less than 128. Reject suggestion.")
-        return False
+    head_dim = int(n_embd / n_heads)
     
     if head_dim % n_cols != 0:
         print(f"head_dim {head_dim} is not divisible by n_cols {n_cols}. Reject suggestion.")
