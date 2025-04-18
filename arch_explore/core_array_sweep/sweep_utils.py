@@ -63,17 +63,39 @@ def get_wmem_depth(n_model, n_heads, n_cols, gbus_width):
         # Round up to the nearest 512
         return int(math.ceil(raw_wmem_depth / 512) * 512)
     
-def get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length):
+def get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length, n_layers=1, ffn_ratio=4, softmax_choice='SOFTMAX', activation_choice='RELU'):
     """
     Calculate the token delay based on the design parameters.
     """
-    efficiency_ratio = 0.7
     mac_num = int(gbus_width / 8)
-    tokens_per_second = 1e9 * efficiency_ratio * (n_heads*n_cols*mac_num)/ (clk_period*(4*n_model*n_model + 2*max_context_length*n_model + 2*4*n_model*n_model))
     # Calculate the token delay
-    token_delay = 1 / tokens_per_second
-    
-    return token_delay
+    # for GEMM ops
+
+    sequence_length = 128 # set the sequence length to 128
+
+    # Number of cycles = Total MACs / (Number of MAC units)
+    num_loading_cycles = (4*n_model*n_model*sequence_length + 2*max_context_length*max_context_length*n_model + 2*ffn_ratio*n_model*n_model*sequence_length) / (n_heads*n_cols*mac_num)
+    token_delay = num_loading_cycles * clk_period * 1e-9 # seconds
+
+    # add 2 residual delay
+    token_delay += 2 * n_model * 1e-9 * clk_period # residual add delay
+
+    # add memory loading delay
+    token_delay += (4*n_model*n_model + 2*ffn_ratio*n_model*n_model) * 1e-9 * clk_period # load and store delay
+
+    # add softmax delay
+    if softmax_choice == 'SOFTMAX':
+        token_delay += 7 * max_context_length * max_context_length * 1e-9 * clk_period 
+    elif softmax_choice == 'SOFTERMAX':
+        token_delay += 2 * max_context_length * max_context_length * 1e-9 * clk_period 
+    elif softmax_choice == 'CONSMAX':
+        token_delay += 4 * 1e-9 * clk_period     #fully pipelined
+
+    # activation delay is negligible
+
+    token_delay *= n_layers
+
+    return token_delay * 1000 # convert to ms
     
 
     
