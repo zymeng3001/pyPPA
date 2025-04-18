@@ -1,2 +1,10 @@
 __pycache__
 runs/
+data/openwebtext/train.bin
+data/openwebtext/val.bin
+csv_logs/
+logs/
+scripts/
+vizier_report/
+vizier_results/
+input.txt
