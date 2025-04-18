@@ -49,6 +49,7 @@ def create_study_config() -> vz.StudyConfig:
     root.add_discrete_param(name='n_head', feasible_values=[1, 2, 4, 6, 8, 12])                 # n_head
     root.add_discrete_param(name='block_size', feasible_values=[64, 128, 256, 512])             # max_context_length
     root.add_int_param(name='n_cols', min_value=1, max_value=32, default_value=4)
+    root.add_discrete_param(name='Gbus Width', feasible_values=[16, 32, 64, 128])                 # Gbus Width
 
     root.add_discrete_param(name='n_layer', feasible_values=[6])        # n_layer
     # root.add_int_param(name='mlp_expansion_factor', min_value=1, max_value=4)                   # ffn_size
