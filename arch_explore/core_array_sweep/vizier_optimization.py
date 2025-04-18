@@ -207,18 +207,18 @@ print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
 for trial_idx in range(NUM_TRIALS):
     print(f"\n=== Trial {trial_idx+1}/{NUM_TRIALS} ===")
-    print(f"Config: n_embd: {trial.parameters['n_embd']}, n_head: {trial.parameters['n_head']}, block_size: {trial.parameters['block_size']}, n_layer: {trial.parameters['n_layer']}")
-    print(f"Config: Gbus Width: {trial.parameters['Gbus Width']}, n_cols: {trial.parameters['n_cols']}")
-
-    # Check for duplicate configurations
-    if is_duplicate(trial):
-        print("Duplicate configuration, skipping...")
-        trial.complete(vz.Measurement(metrics={'fom': float('inf')}))
-        continue
 
     # Get parameter suggestion from Vizier
     suggestions = study.suggest(count=1)
     trial = suggestions[0]
+
+    print(f"Config: n_embd: {trial.parameters['n_embd']}, n_head: {trial.parameters['n_head']}, block_size: {trial.parameters['block_size']}, n_layer: {trial.parameters['n_layer']}")
+    print(f"Config: Gbus Width: {trial.parameters['Gbus Width']}, n_cols: {trial.parameters['n_cols']}")
+
+    if not is_feasible(trial):
+        print("@@@@@@@Invalid configuration, skipping...")
+        trial.complete(vz.Measurement(metrics={'fom': float('inf')}))
+        continue
 
     # Execute training run
     validation_loss = get_val_loss(
