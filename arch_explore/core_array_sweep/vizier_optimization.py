@@ -16,7 +16,7 @@ VIZIER_OWNER = 'xinting'
 VIZIER_STUDY_ID = 'optma_vizier_dry_run'
 NUM_TRIALS = 100                           # TODO: Number of parameter combinations to test
 
-trainied_data = 'data/sweep_results.csv'
+trainied_data = 'data/Sweeping_sw.csv'
 core_top_path = '../../ppa_core_top_extracted_data.csv'
 data = pd.read_csv(core_top_path)
 
