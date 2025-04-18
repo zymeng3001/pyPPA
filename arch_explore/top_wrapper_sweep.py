@@ -279,7 +279,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'max_context_length': int(suggestion.parameters['max_context_length']),
                     'gbus_width': int(suggestion.parameters['gbus_width']),
                     'mac_num': int(suggestion.parameters['gbus_width']/8),
-                    'n_model': int(suggestion.parameters['n_heads'] * (suggestion.parameters['head_dim'])),
+                    'n_model': int(suggestion.parameters['n_embd']),
                     'wmem_depth': get_wmem_depth(suggestion),
                     'cache_depth': get_cache_depth(suggestion),
                     'activation': suggestion.parameters['activation_variant'],
