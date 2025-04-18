@@ -191,6 +191,7 @@ for trial_idx in range(NUM_TRIALS):
     )
 
     if validation_loss == float('inf'):
+        print("Validation loss not found, skipping...")
         print("Invalid configuration, skipping...")
         trial.complete(vz.Measurement(metrics={'fom': float('inf')}))
 
@@ -198,6 +199,7 @@ for trial_idx in range(NUM_TRIALS):
     mj_per_token, area, token_delay = get_hw_metrics(trial)
 
     if mj_per_token is None or area is None or token_delay is None:
+        print("Cannot give hw metrics...")
         print("Invalid configuration, skipping...")
         trial.complete(vz.Measurement(metrics={'fom': float('inf')}))
         continue
