@@ -13,7 +13,7 @@ import sweep_utils
 
 # Configuration for local Vizier database
 VIZIER_OWNER = 'xinting'
-VIZIER_STUDY_ID = 'optma_vizier_dry_run'
+VIZIER_STUDY_ID = 'optma_vizier_dry_run2'
 NUM_TRIALS = 100                           # TODO: Number of parameter combinations to test
 
 trainied_data = 'data/Sweeping_sw.csv'
