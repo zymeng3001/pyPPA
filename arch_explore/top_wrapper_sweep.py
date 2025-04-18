@@ -37,7 +37,18 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW', 'core/core_mac.v'),
             path.join(path.dirname(__file__), 'HW', 'core/core_mem.v'),
             path.join(path.dirname(__file__), 'HW', 'core/core_quant.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_top.v')
+            path.join(path.dirname(__file__), 'HW', 'core/core_top.v'),
+
+            path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/activation.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/relu.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/silu.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/gelu.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/activation/softplus.v'),
+
+            path.join(path.dirname(__file__), 'HW', 'vector_engine/softmax/softmax_wrapper.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/softmax/consmax.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/softmax/softmax.v'),
+			path.join(path.dirname(__file__), 'HW', 'vector_engine/softmax/softermax.v')
 
         ],
         'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
@@ -46,12 +57,12 @@ ppa_runner = PPARunner(
 
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[6], default_value=6) # Guessing that the optimal period is somewhere in between, based on previous results
+problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5 ], default_value=6) # Guessing that the optimal period is somewhere in between, based on previous results
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
+problem.saerch_space.root.add_discrete_param(name='n_embd', feasible_values=[64, 128, 196, 256, 384, 512, 768], default_value=256)
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=16, default_value=4)
 problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=32, default_value=4)
-problem.search_space.root.add_discrete_param(name='head_dim', feasible_values=np.arange(8,264,8).tolist(), default_value=32)
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(32,1056,32).tolist(), default_value=128)
 problem.search_space.root.add_discrete_param(name='gbus_width', feasible_values=[16,32,64,128], default_value=32)
 
@@ -103,7 +114,7 @@ def is_feasible(suggestion) -> bool:
     gbus_width = int(suggestion.parameters['gbus_width'])
     mac_num = int(gbus_width/8)
 
-    if head_dim * n_heads > 1024:
+    if head_dim * n_heads > 10:
         print(f"head_dim * n_heads {head_dim * n_heads} is greater than 1024. Reject suggestion.")
         return False
     
@@ -131,12 +142,13 @@ def fom(area: float, period: float, total_power: float):
     w1 = 0.5
     w2 = 0.5
     w3 = 0.6
-    target_power = 0.8
+    w4 = 0.2
+    target_energy_per_token = 0.8
     target_area = 3e6
-    target_throughput = 6e7
+    target_token_delay = 1e4
 
 
-    out = w1 * (area / target_area) + w2 * (total_power / target_power)
+    out = w1 * (area / target_area) + w2 * (total_power / target_energy_per_token)
 
 
     # The objective function/figure of merit (which is minimized), is the product of the area, period, and power attempts to minimize all three.
@@ -246,13 +258,15 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'clk_period': suggestion.parameters['constraint_period'],
                     'n_heads': int(suggestion.parameters['n_heads']),
                     'n_cols': int(suggestion.parameters['n_cols']),
-                    'head_dim': int(suggestion.parameters['head_dim']),
+                    'head_dim': int(suggestion.parameters['n_embd'] / suggestion.parameters['n_heads']),
                     'max_context_length': int(suggestion.parameters['max_context_length']),
                     'gbus_width': int(suggestion.parameters['gbus_width']),
                     'mac_num': int(suggestion.parameters['gbus_width']/8),
                     'n_model': int(suggestion.parameters['n_heads'] * (suggestion.parameters['head_dim'])),
                     'wmem_depth': get_wmem_depth(suggestion),
-                    'cache_depth': get_cache_depth(suggestion)
+                    'cache_depth': get_cache_depth(suggestion),
+                    'activation': suggestion.parameters['activation'],
+                    'softmax_choice': suggestion.parameters['softmax_choice']
                 }
             } for suggestion in feasible_suggestions
         ],
@@ -261,7 +275,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 
 ppa_runner.add_job({
-    'module_name': 'core_array',
+    'module_name': 'top_wrapper',
     'mode': 'opt',
     'optimizer': vizier_optimizer
 })

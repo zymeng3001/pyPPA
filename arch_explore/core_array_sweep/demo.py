@@ -34,7 +34,7 @@ print(f"Query result for configuration {query_example}: {query_result.get('power
 gbus_width_range = [16, 32, 64, 128]
 n_embed_range = [128, 192, 256, 384, 512, 768, 1024]
 n_heads_range = np.arange(1, 17).tolist()
-n_cols_range = np.arange(1, 32).tolist()
+n_cols_range = np.arange(1, 33).tolist()
 max_context_length_range = [64, 128, 192, 256, 512, 768, 1024]
 
 # count the total number of feasible configurations
@@ -63,7 +63,7 @@ for gbus_width in gbus_width_range:
                             total_area = core_area * n_heads * n_cols
 
                             token_delay = sweep_utils.get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
-                            energy_per_token = total_power * token_delay
+                            energy_per_token = total_power * token_delay / 1000
                             total_mac_num = int(gbus_width / 8) * n_heads * n_cols
                             # print(f"Feasible configuration: Gbus Width: {gbus_width}, n_embed: {n_model}, n_heads: {n_heads}, n_cols: {n_cols}, Max Context Length: {max_context_length}")
                             # print(f"Power: {core_power} W, Area: {core_area} um^2")
@@ -98,8 +98,8 @@ for gbus_width in gbus_width_range:
                                 'Total MAC Num': total_mac_num,
                                 'Power(mW)': total_power,
                                 'Area(um^2)': total_area,
-                                'Token Delay(s)': token_delay,
-                                'Token Per Second': 1 / token_delay,
+                                'Token Delay(ms)': token_delay,
+                                'Token Per Second': 1000 / token_delay,
                                 'Energy per Token(mJ)': energy_per_token
                             })
                             total_count += 1
@@ -109,6 +109,6 @@ print(f"Total number of feasible configurations: {total_count}")
 feasible_df = pd.DataFrame(feasible_configs)
 
 # Save to CSV
-feasible_csv_path = './sweep_data_5ns.csv'
+feasible_csv_path = './sweep_data_5ns_new.csv'
 feasible_df.to_csv(feasible_csv_path, index=True)
 
