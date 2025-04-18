@@ -70,7 +70,7 @@ def create_study_config() -> vz.StudyConfig:
     root = problem.search_space.root
 
     # TODO
-    root.add_int_param(name='max_iters', min_value=20, max_value=20)
+    root.add_int_param(name='max_iters', min_value=20000, max_value=20000)
     root.add_discrete_param(name='n_embd', feasible_values=[192, 384, 768])                     # n_embd
     root.add_discrete_param(name='n_head', feasible_values=[1, 2, 3, 4, 6, 12])                 # n_head
     root.add_discrete_param(name='block_size', feasible_values=[64, 128, 256, 512])             # max_context_length
