@@ -59,7 +59,7 @@ ppa_runner = PPARunner(
 problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
 
-problem.saerch_space.root.add_discrete_param(name='n_embd', feasible_values=np.arange(128,544,32).tolist(), default_value=256)
+problem.search_space.root.add_discrete_param(name='n_embd', feasible_values=np.arange(128,544,32).tolist(), default_value=256)
 problem.search_space.root.add_int_param(name='n_heads', min_value=1, max_value=16, default_value=4)
 problem.search_space.root.add_int_param(name='n_cols', min_value=1, max_value=32, default_value=4)
 problem.search_space.root.add_discrete_param(name='max_context_length', feasible_values=np.arange(64,544,32).tolist(), default_value=128)
