@@ -81,7 +81,7 @@ problem.search_space.root.add_categorical_param(
 
 problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) 
 problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) 
-problem.search_space.root.add_int_param(name='ABC_AREC_EFFORT', min_value=0, max_value=1, default_value=0.6) 
+problem.search_space.root.add_float_param(name='ABC_AREC_EFFORT', min_value=0, max_value=1, default_value=0.6) 
 
 
 problem.metric_information.append(
