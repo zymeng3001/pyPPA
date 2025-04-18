@@ -182,8 +182,8 @@ def get_cache_depth(suggestion):
 
 def get_wmem_depth(suggestion):
     """Get the wmem depth based on the suggestion."""
-    n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['n_heads'])
-    head_dim = int(suggestion.parameters['head_dim'])
+    n_model = int(suggestion.parameters['n_embd'])
+    head_dim = int(suggestion.parameters['n_embd'] / suggestion.parameters['n_heads'])
     gbus_width = int(suggestion.parameters['gbus_width'])
     raw_wmem_depth = int(n_model * head_dim / gbus_width)
  
