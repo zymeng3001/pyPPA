@@ -21,7 +21,7 @@ import math
 
 
 ppa_runner = PPARunner(
-    design_name="core_array",
+    design_name="top_wrapper",
     tools={
         'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
         'synth_tool': Yosys(scripts_dir=path.join('scripts', 'synth')),
