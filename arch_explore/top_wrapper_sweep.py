@@ -284,8 +284,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                     'n_model': int(suggestion.parameters['n_heads'] * (suggestion.parameters['head_dim'])),
                     'wmem_depth': get_wmem_depth(suggestion),
                     'cache_depth': get_cache_depth(suggestion),
-                    'activation': suggestion.parameters['activation'],
-                    'softmax_choice': suggestion.parameters['softmax_choice']
+                    'activation': suggestion.parameters['activation_variant'],
+                    'softmax_choice': suggestion.parameters['softmax_variant_attn']
                 }
             } for suggestion in feasible_suggestions
         ],
