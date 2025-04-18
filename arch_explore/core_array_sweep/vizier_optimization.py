@@ -126,9 +126,9 @@ def get_val_loss(n_head, n_embd, block_size, n_layer):
 def is_feasible(suggestion) -> bool:
     """Check if the suggestion is feasible."""
     n_cols = int(suggestion.parameters['n_cols'])
-    n_heads = int(suggestion.parameters['n_heads'])
+    n_heads = int(suggestion.parameters['n_head'])
     n_embd = int(suggestion.parameters['n_embd'])
-    max_context_length = int(suggestion.parameters['max_context_length'])
+    max_context_length = int(suggestion.parameters['block_size']) # max_context_length
     gbus_width = int(suggestion.parameters['Gbus Width']) # Gbus Width
     mac_num = int(gbus_width/8)
 
