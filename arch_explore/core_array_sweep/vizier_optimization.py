@@ -122,6 +122,36 @@ def get_val_loss(n_head, n_embd, block_size, n_layer):
     else:
         # Assume unique combination; take the first match
         return float(subset["Val_loss"].iloc[0])
+    
+def is_feasible(suggestion) -> bool:
+    """Check if the suggestion is feasible."""
+    n_cols = int(suggestion.parameters['n_cols'])
+    n_heads = int(suggestion.parameters['n_heads'])
+    n_embd = int(suggestion.parameters['n_embd'])
+    max_context_length = int(suggestion.parameters['max_context_length'])
+    gbus_width = int(suggestion.parameters['Gbus Width']) # Gbus Width
+    mac_num = int(gbus_width/8)
+
+    if n_embd % n_heads != 0:
+        print(f"n_embd {n_embd} is not divisible by n_heads {n_heads}. Reject suggestion.")
+        return False
+    
+    head_dim = int(n_embd / n_heads)
+    
+    if head_dim % n_cols != 0:
+        print(f"head_dim {head_dim} is not divisible by n_cols {n_cols}. Reject suggestion.")
+        return False
+    
+    core_dim = int(head_dim/n_cols)
+    if core_dim % mac_num != 0:
+        print(f"core_dim {core_dim} is not divisible by mac_num {mac_num}. Reject suggestion.")
+        return False
+    
+    if max_context_length % n_cols != 0:
+      print(f"max_context_length {max_context_length} is not divisible by n_cols {n_cols}. Reject suggestion.")
+      return False
+
+    return True
 
 def get_hw_metrics(suggestion):
     """
@@ -177,6 +207,14 @@ print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
 for trial_idx in range(NUM_TRIALS):
     print(f"\n=== Trial {trial_idx+1}/{NUM_TRIALS} ===")
+    print(f"Config: n_embd: {trial.parameters['n_embd']}, n_head: {trial.parameters['n_head']}, block_size: {trial.parameters['block_size']}, n_layer: {trial.parameters['n_layer']}")
+    print(f"Config: Gbus Width: {trial.parameters['Gbus Width']}, n_cols: {trial.parameters['n_cols']}")
+
+    # Check for duplicate configurations
+    if is_duplicate(trial):
+        print("Duplicate configuration, skipping...")
+        trial.complete(vz.Measurement(metrics={'fom': float('inf')}))
+        continue
 
     # Get parameter suggestion from Vizier
     suggestions = study.suggest(count=1)
@@ -194,6 +232,7 @@ for trial_idx in range(NUM_TRIALS):
         print("Validation loss not found, skipping...")
         print("Invalid configuration, skipping...")
         trial.complete(vz.Measurement(metrics={'fom': float('inf')}))
+        continue
 
     # Get hardware metrics
     mj_per_token, area, token_delay = get_hw_metrics(trial)
