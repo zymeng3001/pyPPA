@@ -172,6 +172,8 @@ def get_hw_metrics(suggestion):
     max_context_length = int(suggestion.parameters['block_size'])
 
     if sweep_utils.is_valid_design(n_model, n_heads, n_cols, gbus_width, max_context_length):
+        print("Valid design")
+        # Calculate hardware metrics
 
         wmem_depth = sweep_utils.get_wmem_depth(n_model, n_heads, n_cols, gbus_width)
         cache_depth = sweep_utils.get_cache_depth(n_model, n_heads, n_cols, gbus_width, max_context_length)
@@ -181,6 +183,7 @@ def get_hw_metrics(suggestion):
         clk_min_period = database.get((gbus_width, wmem_depth, cache_depth), {}).get('clk_min_period', 'N/A')
         slack = database.get((gbus_width, wmem_depth, cache_depth), {}).get('slack', 'N/A')
         if core_power != 'N/A' and core_area != 'N/A' and clk_period != 'N/A':
+            print("Calculating hardware metrics...")
                         
             total_power = core_power * n_heads *n_cols
             total_area = core_area * n_heads * n_cols
