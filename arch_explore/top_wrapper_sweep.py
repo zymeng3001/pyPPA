@@ -93,7 +93,7 @@ problem.metric_information.append(
 
 
 study_config = vz.StudyConfig.from_problem(problem)
-study_config.algorithm = 'NSGA-II' # Use random search for random sampling
+study_config.algorithm = 'NSGA2' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
