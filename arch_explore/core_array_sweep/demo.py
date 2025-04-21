@@ -100,7 +100,7 @@ for gbus_width in gbus_width_range:
                                 'Area(um^2)': total_area,
                                 'Token Delay(ms)': token_delay,
                                 'Token Per Second': 1000 / token_delay,
-                                'Energy per Token(mJ)': energy_per_token
+                                'Energy per Token(uJ)': energy_per_token
                             })
                             total_count += 1
 

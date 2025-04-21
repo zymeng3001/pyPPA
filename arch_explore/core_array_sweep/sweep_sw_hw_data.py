@@ -24,7 +24,7 @@ for _, row in data.iterrows():
         # Additional metrics can be added here as needed
     }
 
-df = pd.read_csv("Sweeping_sw.csv")
+df = pd.read_csv("data/Sweeping_sw.csv")
 
 n_cols_range = np.arange(1, 33).tolist()
 gbus_width_range = [16, 32, 64, 128]
@@ -53,6 +53,8 @@ for idx, row in df.iterrows():
                 clk_min_period = database.get((gbus_width, wmem_depth, cache_depth), {}).get('clk_min_period', 'N/A')
                 slack = database.get((gbus_width, wmem_depth, cache_depth), {}).get('slack', 'N/A')
 
+                ffn_ratio = 4
+
                 core_wmem_size = wmem_depth * gbus_width / 8
                 core_cache_size = cache_depth * gbus_width / 8
 
@@ -63,7 +65,12 @@ for idx, row in df.iterrows():
                     total_power = core_power * n_heads * n_cols
                     total_area = core_area * n_heads * n_cols
 
-                    token_delay = sweep_utils.get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
+                    # token_delay = sweep_utils.get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
+                    token_delay = sweep_utils.get_token_delay(clk_min_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
+                    
+                    # calculate total parameter number
+                    total_param_num = 4 * n_model * n_model + 2*ffn_ratio*n_model*n_model
+
                     energy_per_token = total_power * token_delay / 1000
                     total_mac_num = int(gbus_width / 8) * n_heads * n_cols
 
@@ -86,11 +93,12 @@ for idx, row in df.iterrows():
                         'Cache Depth': cache_depth,
                         'Max Context Length': max_context_length,
                         'Total MAC Num': total_mac_num,
+                        'Total Param Num': total_param_num,
                         'Power(mW)': total_power,
                         'Area(um^2)': total_area,
                         'Token Delay(ms)': token_delay,
                         'Token Per Second': 1000 / token_delay,
-                        'Energy per Token(mJ)': energy_per_token,
+                        'Energy per Token(uJ)': energy_per_token,
                         "val_loss": val_loss
                     })
                     total_count += 1

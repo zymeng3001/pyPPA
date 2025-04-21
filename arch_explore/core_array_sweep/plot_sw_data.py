@@ -11,7 +11,7 @@ df = pd.read_csv("data/sweep_data_5ns_with_sw.csv")
 df = df[df['val_loss'] < 5.0]
 
 # Get relevant metrics
-x = df['Energy per Token(mJ)'].values
+x = df['Energy per Token(uJ)'].values
 y = df['val_loss'].values
 z = df['Token Delay(ms)'].values
 
@@ -29,7 +29,7 @@ pareto_mask = is_pareto_efficient(costs)
 pareto_df = df[pareto_mask]
 
 # Surface fit to Pareto front
-X = np.vstack((pareto_df['Energy per Token(mJ)'], pareto_df['Token Delay(ms)'])).T
+X = np.vstack((pareto_df['Energy per Token(uJ)'], pareto_df['Token Delay(ms)'])).T
 Y = pareto_df['val_loss']
 reg = LinearRegression().fit(X, Y)
 
@@ -55,7 +55,7 @@ fig = go.Figure()
 
 # Plot all points
 fig.add_trace(go.Scatter3d(
-    x=df['Energy per Token(mJ)'],
+    x=df['Energy per Token(uJ)'],
     y=df['val_loss'],
     z=df['Token Delay(ms)'],
     mode='markers',
@@ -67,7 +67,7 @@ fig.add_trace(go.Scatter3d(
 
 # Plot Pareto front points
 fig.add_trace(go.Scatter3d(
-    x=pareto_df['Energy per Token(mJ)'],
+    x=pareto_df['Energy per Token(uJ)'],
     y=pareto_df['val_loss'],
     z=pareto_df['Token Delay(ms)'],
     mode='markers+text',
@@ -87,7 +87,7 @@ fig.add_trace(go.Surface(
 fig.update_layout(
     title="Design Space: Energy vs Val_loss vs Delay (Interactive)",
     scene=dict(
-        xaxis_title="Energy per Token (mJ)",
+        xaxis_title="Energy per Token (uJ)",
         yaxis_title="Validation Loss",
         zaxis_title="Token Delay (ms)"
     ),
