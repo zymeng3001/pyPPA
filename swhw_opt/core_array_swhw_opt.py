@@ -136,59 +136,59 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
             final_measurement = vz.Measurement({'fom': objective})
             suggestion.complete(final_measurement)
 
-        if prev_iter_number >= 5:  # stopping condition
-            print("Optimization complete.")
-            for optimal_trial in study_client.optimal_trials():
-                optimal_trial = optimal_trial.materialize()
-                print(
-                    "Optimal Trial Suggestion and Objective:",
-                    optimal_trial.parameters,
-                    optimal_trial.final_measurement
-                )
-
-            return {
-                'opt_complete': True
-                }
-        
-        print(f'Iteration {prev_iter_number}, Generating new suggestions')
-
-        feasible_suggestions = []
-        suggestions = study_client.suggest(count=1)
-        while len(feasible_suggestions) < 1:
-            print("Suggestions:")
-            for suggestion in suggestions:
-                if not is_feasible(suggestion):
-                    suggestion.complete(vz.Measurement({'fom': math.inf}))
-                    print("Rejecting suggestion due to infeasibility")
-                else:
-                    feasible_suggestions.append(suggestion)
-            suggestions = study_client.suggest(count=1)
-
-        for suggestion in feasible_suggestions:
-            print("Feasible suggestions:")
-            print(suggestion.parameters)
-
-
-        # start Sw training here
+    if prev_iter_number >= 5:  # stopping condition
+        print("Optimization complete.")
+        for optimal_trial in study_client.optimal_trials():
+            optimal_trial = optimal_trial.materialize()
+            print(
+                "Optimal Trial Suggestion and Objective:",
+                optimal_trial.parameters,
+                optimal_trial.final_measurement
+            )
 
         return {
-        'opt_complete': False,
-        'next_suggestions': [
-            {
-                'flow_config': {
-                    'ABC_AREA': True
-                },
-                'hyperparameters': {
-                    'clk_period': suggestion.parameters['constraint_period'],
-                    'n_heads': int(suggestion.parameters['n_heads']),
-                    'n_cols': int(suggestion.parameters['n_cols']),
-                    'gbus_width': int(suggestion.parameters['gbus_width']),
-                    'wmem_depth': get_wmem_depth(suggestion),
-                    'cache_depth': get_cache_depth(suggestion)
-                }
-            } for suggestion in feasible_suggestions
-        ],
-        'context': feasible_suggestions # Send suggestions as context, and they will be sent as arguments for the next run of the optimizer.
+            'opt_complete': True
+            }
+    
+    print(f'Iteration {prev_iter_number}, Generating new suggestions')
+
+    feasible_suggestions = []
+    suggestions = study_client.suggest(count=1)
+    while len(feasible_suggestions) < 1:
+        print("Suggestions:")
+        for suggestion in suggestions:
+            if not is_feasible(suggestion):
+                suggestion.complete(vz.Measurement({'fom': math.inf}))
+                print("Rejecting suggestion due to infeasibility")
+            else:
+                feasible_suggestions.append(suggestion)
+        suggestions = study_client.suggest(count=1)
+
+    for suggestion in feasible_suggestions:
+        print("Feasible suggestions:")
+        print(suggestion.parameters)
+
+
+    # start Sw training here
+
+    return {
+    'opt_complete': False,
+    'next_suggestions': [
+        {
+            'flow_config': {
+                'ABC_AREA': True
+            },
+            'hyperparameters': {
+                'clk_period': suggestion.parameters['constraint_period'],
+                'n_heads': int(suggestion.parameters['n_heads']),
+                'n_cols': int(suggestion.parameters['n_cols']),
+                'gbus_width': int(suggestion.parameters['gbus_width']),
+                'wmem_depth': get_wmem_depth(suggestion),
+                'cache_depth': get_cache_depth(suggestion)
+            }
+        } for suggestion in feasible_suggestions
+    ],
+    'context': feasible_suggestions # Send suggestions as context, and they will be sent as arguments for the next run of the optimizer.
     }
 
 
