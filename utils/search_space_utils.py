@@ -12,7 +12,7 @@ from os import path
 
 import math
 
-def is_feasible(suggestion: vz.Suggestion) -> bool:
+def is_feasible(suggestion) -> bool:
     """Check if the suggestion is feasible."""
     n_cols = int(suggestion.parameters['n_cols'])
     n_heads = int(suggestion.parameters['n_heads'])
@@ -44,7 +44,7 @@ def is_feasible(suggestion: vz.Suggestion) -> bool:
 
     return True
 
-def get_cache_depth(suggestion: vz.Suggestion) -> int:
+def get_cache_depth(suggestion) -> int:
     """Get the cache depth based on the suggestion."""
     n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['head_dim'])
     n_cols = int(suggestion.parameters['n_cols'])
@@ -65,7 +65,7 @@ def get_cache_depth(suggestion: vz.Suggestion) -> int:
     
     # return int(n_model * max_context_length / mac_num / n_cols / n_heads) 
 
-def get_wmem_depth(suggestion: vz.Suggestion) -> int:
+def get_wmem_depth(suggestion) -> int:
     """Get the wmem depth based on the suggestion."""
     n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['head_dim'])
     head_dim = int(suggestion.parameters['head_dim'])
