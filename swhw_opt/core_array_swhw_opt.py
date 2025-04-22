@@ -120,15 +120,21 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
             energy_per_token = (total_power * token_delay) / 1000 # Convert to mJ
 
             # Calculate perplexity
+            val_loss = 3
             
 
             objective = fom(
                 mj_per_token=energy_per_token,
                 area=area,
                 token_delay=token_delay,
-                val_loss=3
+                val_loss=val_loss
 
             )
+            print("Iteration: ", prev_iter_number)
+            print(f"Objective: {objective}, Area: {area}, Token Delay: {token_delay}, Energy per token: {energy_per_token}, Val Loss: {val_loss}")
+
+            final_measurement = vz.Measurement({'fom': objective})
+            suggestion.complete(final_measurement)
 
         if prev_iter_number >= 5:  # stopping condition
             print("Optimization complete.")
