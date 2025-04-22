@@ -94,7 +94,7 @@ def is_duplicate(suggestion):
     return False
 
 
-def is_feasible(suggestion) -> bool:
+def is_feasible(suggestion: vz.Suggestion, max_n_embd = 1024) -> bool:
     """Check if the suggestion is feasible."""
     n_cols = int(suggestion.parameters['n_cols'])
     n_heads = int(suggestion.parameters['n_heads'])
@@ -103,7 +103,7 @@ def is_feasible(suggestion) -> bool:
     gbus_width = int(suggestion.parameters['gbus_width'])
     mac_num = int(gbus_width/8)
 
-    if head_dim * n_heads > 1024:
+    if head_dim * n_heads > max_n_embd:
         print(f"head_dim * n_heads {head_dim * n_heads} is greater than 1024. Reject suggestion.")
         return False
     
@@ -142,7 +142,7 @@ def fom(area: float, period: float, total_power: float):
     # The objective function/figure of merit (which is minimized), is the product of the area, period, and power attempts to minimize all three.
     return out
 
-def get_cache_depth(suggestion):
+def get_cache_depth(suggestion: vz.Suggestion) -> int:
     """Get the cache depth based on the suggestion."""
     n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['head_dim'])
     n_cols = int(suggestion.parameters['n_cols'])
@@ -163,7 +163,7 @@ def get_cache_depth(suggestion):
     
     # return int(n_model * max_context_length / mac_num / n_cols / n_heads) 
 
-def get_wmem_depth(suggestion):
+def get_wmem_depth(suggestion: vz.Suggestion) -> int:
     """Get the wmem depth based on the suggestion."""
     n_model = int(suggestion.parameters['n_heads']) * int(suggestion.parameters['head_dim'])
     head_dim = int(suggestion.parameters['head_dim'])

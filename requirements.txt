@@ -1,5 +1,7 @@
 mako
 torch
+matplotlib
+plotly
 google-vizier[jax]
 numpy
 transformers
@@ -25,3 +27,4 @@ wandb==0.18.3
 onnx==1.17.0
 mamba_ssm==2.2.4
 causal_conv1d==1.5.0
+seaborn
