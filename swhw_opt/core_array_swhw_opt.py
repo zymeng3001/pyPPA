@@ -31,16 +31,16 @@ ppa_runner = PPARunner(
     threads_per_job=3,
     global_flow_config={
         'VERILOG_FILES': [
-            path.join(path.dirname(__file__), 'HW', 'core_array/core_array.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_acc.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_buf.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_mac.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_mem.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_quant.v'),
-            path.join(path.dirname(__file__), 'HW', 'core/core_top.v')
+            path.join(path.dirname(__file__), '../HW', 'core_array/core_array.v'),
+            path.join(path.dirname(__file__), '../HW', 'core/core_acc.v'),
+            path.join(path.dirname(__file__), '../HW', 'core/core_buf.v'),
+            path.join(path.dirname(__file__), '../HW', 'core/core_mac.v'),
+            path.join(path.dirname(__file__), '../HW', 'core/core_mem.v'),
+            path.join(path.dirname(__file__), '../HW', 'core/core_quant.v'),
+            path.join(path.dirname(__file__), '../HW', 'core/core_top.v')
 
         ],
-        'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
+        'SDC_FILE': path.join(path.dirname(__file__), '../HW', 'constraint.sdc')
     }
 )
 
