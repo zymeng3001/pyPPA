@@ -184,7 +184,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
                 'n_cols': int(suggestion.parameters['n_cols']),
                 'gbus_width': int(suggestion.parameters['gbus_width']),
                 'wmem_depth': get_wmem_depth(suggestion),
-                'cache_depth': get_cache_depth(suggestion)
+                'cache_depth': get_cache_depth(suggestion),
+                'mac_num': int(suggestion.parameters['gbus_width']/8)
             }
         } for suggestion in feasible_suggestions
     ],
