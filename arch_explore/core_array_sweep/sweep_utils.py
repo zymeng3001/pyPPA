@@ -74,7 +74,9 @@ def get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_contex
 
     # Number of cycles = Total MACs / (Number of MAC units)
     # num_loading_cycles = (4*n_model*n_model*sequence_length + 2*max_context_length*max_context_length*n_model + 2*ffn_ratio*n_model*n_model*sequence_length) / (n_heads*n_cols*mac_num)
-    num_loading_cycles = (4*n_model*n_model + 2*max_context_length*max_context_length*n_model + 2*ffn_ratio*n_model*n_model) / (n_heads*n_cols*mac_num)
+    # num_loading_cycles = (4*n_model*n_model + 2*max_context_length*max_context_length*n_model + 2*ffn_ratio*n_model*n_model) / (n_heads*n_cols*mac_num)
+    num_loading_cycles = (4*n_model*n_model + 2*max_context_length*n_model + 2*ffn_ratio*n_model*n_model) / (n_heads*n_cols*mac_num)
+    
     token_delay = num_loading_cycles * clk_period * 1e-9 # seconds
 
     # add 2 residual delay

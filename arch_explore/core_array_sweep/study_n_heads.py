@@ -15,7 +15,7 @@ print("Columns in the DataFrame:")
 print(df.columns.tolist())
 
 # Select and clean relevant data
-# relevant_cols = ['n_heads', 'n_embed', 'max_context_length', 'val_loss', 'energy_per_token(uj)', 'token_delay(ms)']
+# relevant_cols = ['n_heads', 'n_embed', 'max_context_length', 'val_loss', 'energy_per_token(uj)', 'token_delay(us)']
 # df_filtered = df[relevant_cols].dropna()
 
 # select max_context_length = 128
@@ -75,14 +75,14 @@ plt.figure(figsize=(10, 6))
 sns.lineplot(
     data=df,
     x='n_heads',
-    y='token_delay(ms)',
+    y='token_delay(us)',
     hue='n_embed',
     marker='o'
 )
 
 plt.title('Token Delay vs Number of Heads (Grouped by n_embed)')
 plt.xlabel('Number of Attention Heads')
-plt.ylabel('Token Delay (ms)')
+plt.ylabel('Token Delay (us)')
 plt.grid(True)
 plt.legend(title='n_embed', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
