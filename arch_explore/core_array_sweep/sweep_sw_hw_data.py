@@ -61,17 +61,20 @@ for idx, row in df.iterrows():
                 total_wmem_size = core_wmem_size * n_heads * n_cols
                 total_cache_size = core_cache_size * n_heads * n_cols
 
+                # calculate perplexity
+                perplexity = math.exp(val_loss) if val_loss != 'N/A' else 'N/A'
+
                 if core_power != 'N/A' and core_area != 'N/A' and clk_period != 'N/A':
                     total_power = core_power * n_heads * n_cols
                     total_area = core_area * n_heads * n_cols
 
                     # token_delay = sweep_utils.get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
-                    token_delay = sweep_utils.get_token_delay(clk_min_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
+                    token_delay = sweep_utils.get_token_delay(clk_min_period, n_model, gbus_width, n_heads, n_cols, max_context_length, n_layers=6)
                     
                     # calculate total parameter number
                     total_param_num = 4 * n_model * n_model + 2*ffn_ratio*n_model*n_model
 
-                    energy_per_token = total_power * token_delay / 1000
+                    energy_per_token = total_power * token_delay
                     total_mac_num = int(gbus_width / 8) * n_heads * n_cols
 
                     # Store the results in a list or print them
@@ -82,6 +85,7 @@ for idx, row in df.iterrows():
                         'n_cols': n_cols,
                         'head_dim': int(n_model / n_heads),
                         'max_context_length': max_context_length,
+                        'n_layers': 6,
                         'core_wmem_size': core_wmem_size,
                         'core_cache_size': core_cache_size,
                         'total_wmem_size': total_wmem_size,
@@ -99,7 +103,8 @@ for idx, row in df.iterrows():
                         'Token Delay(ms)': token_delay,
                         'Token Per Second': 1000 / token_delay,
                         'Energy per Token(uJ)': energy_per_token,
-                        "val_loss": val_loss
+                        "val_loss": val_loss,
+                        "Perplexity": perplexity
                     })
                     total_count += 1
 

@@ -88,3 +88,38 @@ plt.legend(title='n_embed', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 
 plt.savefig("plots/token_delay_vs_n_heads.png", dpi=300)
+
+
+plt.figure(figsize=(10, 6))
+sns.lineplot(
+    data=df,
+    x='n_heads',
+    y='area(um^2)',
+    hue='n_embed',
+    marker='o'
+)
+
+plt.title('Area vs Number of Heads (Grouped by n_embed)')
+plt.xlabel('Number of Attention Heads')
+plt.ylabel('Area (um^2)')
+plt.grid(True)
+plt.legend(title='n_embed', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+plt.savefig("plots/area_vs_n_heads.png", dpi=300)
+
+plt.figure(figsize=(10, 6))
+sns.lineplot(
+    data=df,
+    x='n_heads',
+    y='power(mw)',
+    hue='n_embed',
+    marker='o'
+)
+
+plt.title('Power vs Number of Heads (Grouped by n_embed)')
+plt.xlabel('Number of Attention Heads')
+plt.ylabel('Power (uW)')
+plt.grid(True)
+plt.legend(title='n_embed', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+plt.savefig("plots/power_vs_n_heads.png", dpi=300)
