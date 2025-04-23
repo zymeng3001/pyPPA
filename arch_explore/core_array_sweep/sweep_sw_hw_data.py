@@ -66,6 +66,8 @@ for idx, row in df.iterrows():
                 # calculate perplexity
                 perplexity = math.exp(val_loss) if val_loss != 'N/A' else 'N/A'
 
+                next_token_accuracy = 1/perplexity if perplexity != 'N/A' else 'N/A'
+
                 if core_power != 'N/A' and core_area != 'N/A' and clk_period != 'N/A':
                     total_power = core_power * n_heads * n_cols
                     total_area = core_area * n_heads * n_cols
@@ -106,7 +108,8 @@ for idx, row in df.iterrows():
                         'Token Per Second': 1000000 / token_delay,
                         'Energy per Token(uJ)': energy_per_token,
                         "val_loss": val_loss,
-                        "Perplexity": perplexity
+                        "Perplexity": perplexity,
+                        "Next Token Accuracy": next_token_accuracy
                     })
                     total_count += 1
 

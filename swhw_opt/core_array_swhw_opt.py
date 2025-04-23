@@ -168,6 +168,8 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
         print("Feasible suggestions:")
         print(suggestion.parameters)
 
+    print("PPA Starting...")
+    print("\n\n")
 
     # start Sw training here
 

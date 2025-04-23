@@ -12,7 +12,7 @@ from os import path
 
 import math
 
-def is_feasible(suggestion) -> bool:
+def is_feasible(suggestion, max_n_embd = 512) -> bool:
     """Check if the suggestion is feasible."""
     n_cols = int(suggestion.parameters['n_cols'])
     n_heads = int(suggestion.parameters['n_heads'])
@@ -21,11 +21,11 @@ def is_feasible(suggestion) -> bool:
     gbus_width = int(suggestion.parameters['gbus_width'])
     mac_num = int(gbus_width/8)
 
-    if head_dim * n_heads > 1024:
+    if head_dim * n_heads > max_n_embd:
         print(f"head_dim * n_heads {head_dim * n_heads} is greater than 1024. Reject suggestion.")
         return False
     
-    if head_dim * n_heads < 128:
+    if head_dim * n_heads < 64:
         print(f"head_dim * n_heads {head_dim * n_heads} is less than 128. Reject suggestion.")
         return False
     

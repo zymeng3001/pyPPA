@@ -96,8 +96,8 @@ plt.savefig("plots/Energy_vs_TokenDelay_by_n_embed_small.png", dpi=300)
 plt.figure(figsize=(10, 6))
 scatter = plt.scatter(
     filtered_df["Energy per Token(uJ)"],
-    filtered_df["val_loss"],
-    c=filtered_df["Total Param Num"],  # Assuming val_loss is used as a proxy for perplexity
+    filtered_df["Next Token Accuracy"],
+    c=filtered_df["Area(um^2)"],  # Assuming val_loss is used as a proxy for perplexity
     cmap="plasma",
     alpha=0.85,
     edgecolor="k"
@@ -105,16 +105,16 @@ scatter = plt.scatter(
 
 # Add colorbar for perplexity
 cbar = plt.colorbar(scatter)
-cbar.set_label("Total Param Num")
+cbar.set_label("Area(um^2)")
 
 # Axis labels and title
-plt.ylabel("Validation Loss")
+plt.ylabel("Next Token Accuracy")
 plt.xlabel("Energy per Token (uJ)")
-plt.title("Energy vs. Token Delay (Colored by param_size)")
+plt.title("Energy vs. Token Delay (Colored by Area)")
 plt.grid(True)
 plt.tight_layout()
 
 # Save the plot
-plt.savefig("plots/Energy_vs_Perplexity_by_param_size.png", dpi=300)
+plt.savefig("plots/Energy_vs_Next_Token_Accuracy_by_Area.png", dpi=300)
 
 
