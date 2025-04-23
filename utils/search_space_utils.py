@@ -60,7 +60,8 @@ def get_cache_depth(suggestion) -> int:
         return 64
     elif raw_cache_depth < 128:
         return 128
-    elif raw_cache_depth < 256:
+    else:
+        # Round up to the nearest 256
         return int(math.ceil(raw_cache_depth / 256) * 256)
     
     # return int(n_model * max_context_length / mac_num / n_cols / n_heads) 
@@ -115,5 +116,5 @@ def get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_contex
 
     token_delay *= n_layers
 
-    return token_delay * 1000 # convert to ms
+    return token_delay * 1000 # convert to us
     

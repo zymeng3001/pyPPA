@@ -95,7 +95,7 @@ def get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_contex
 
     token_delay *= n_layers
 
-    return token_delay * 1000 # convert to ms
+    return token_delay * 1000 # convert to us
     
 
     

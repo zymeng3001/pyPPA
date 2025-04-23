@@ -38,6 +38,8 @@ for idx, row in df.iterrows():
     n_heads = row['n_head']
     max_context_length = row['block_size']
     val_loss = row['Val_loss']
+    n_layers = row['n_layer']
+    ffn_ratio = 4
 
     for n_cols in n_cols_range:
         for gbus_width in gbus_width_range:
@@ -69,12 +71,12 @@ for idx, row in df.iterrows():
                     total_area = core_area * n_heads * n_cols
 
                     # token_delay = sweep_utils.get_token_delay(clk_period, n_model, gbus_width, n_heads, n_cols, max_context_length)
-                    token_delay = sweep_utils.get_token_delay(clk_min_period, n_model, gbus_width, n_heads, n_cols, max_context_length, n_layers=6)
+                    token_delay = sweep_utils.get_token_delay(clk_min_period, n_model, gbus_width, n_heads, n_cols, max_context_length, n_layers=n_layers, ffn_ratio=ffn_ratio)
                     
                     # calculate total parameter number
                     total_param_num = 4 * n_model * n_model + 2*ffn_ratio*n_model*n_model
 
-                    energy_per_token = total_power * token_delay
+                    energy_per_token = total_power * token_delay / 1000
                     total_mac_num = int(gbus_width / 8) * n_heads * n_cols
 
                     # Store the results in a list or print them
@@ -100,8 +102,8 @@ for idx, row in df.iterrows():
                         'Total Param Num': total_param_num,
                         'Power(mW)': total_power,
                         'Area(um^2)': total_area,
-                        'Token Delay(ms)': token_delay,
-                        'Token Per Second': 1000 / token_delay,
+                        'Token Delay(us)': token_delay,
+                        'Token Per Second': 1000000 / token_delay,
                         'Energy per Token(uJ)': energy_per_token,
                         "val_loss": val_loss,
                         "Perplexity": perplexity

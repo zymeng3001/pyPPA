@@ -15,7 +15,7 @@ print(f"Number of datapoints with Val_Loss < 5.0: {num_datapoints}")
 # Create scatter plot: Energy vs. Token Delay, colored by Perplexity
 plt.figure(figsize=(10, 6))
 scatter = plt.scatter(
-    filtered_df["Token Delay(ms)"],
+    filtered_df["Token Delay(us)"],
     filtered_df["Energy per Token(uJ)"],
     c=filtered_df["val_loss"],  # Assuming val_loss is used as a proxy for perplexity
     cmap="plasma",
@@ -29,7 +29,7 @@ cbar.set_label("Validation Loss")
 
 # Axis labels and title
 plt.ylabel("Energy per Token (uJ)")
-plt.xlabel("Token Delay (ms)")
+plt.xlabel("Token Delay (us)")
 plt.title("Energy vs. Token Delay (Colored by Perplexity)")
 plt.grid(True)
 plt.tight_layout()
