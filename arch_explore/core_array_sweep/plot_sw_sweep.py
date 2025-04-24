@@ -32,7 +32,7 @@ cbar.set_label("Validation Loss")
 # Axis labels and title
 plt.ylabel("Energy per Token (uJ)")
 plt.xlabel("Token Delay (us)")
-plt.title("Energy vs. Token Delay (Colored by Perplexity)")
+plt.title("Energy vs. Token Delay (Colored by Validation Loss)")
 plt.grid(True)
 plt.tight_layout()
 
@@ -64,7 +64,7 @@ plt.grid(True)
 plt.tight_layout()
 
 # Save the plot
-plt.savefig("plots/Energy_vs_Perplexity_by_n_embed.png", dpi=300)
+plt.savefig("plots/Energy_vs_Val_Loss_by_n_embed.png", dpi=300)
 
 # Create scatter plot: Energy vs. Token Delay, colored by Perplexity
 plt.figure(figsize=(10, 6))
@@ -116,5 +116,60 @@ plt.tight_layout()
 
 # Save the plot
 plt.savefig("plots/Energy_vs_Next_Token_Accuracy_by_Area.png", dpi=300)
+
+# plot the same graph but with log scale on energy per token
+plt.figure(figsize=(10, 6))
+
+# Plot the same graph but with log scale on Energy per Token (x-axis)
+plt.figure(figsize=(10, 6))
+scatter_log = plt.scatter(
+    filtered_df["Energy per Token(uJ)"],
+    filtered_df["Next Token Accuracy"],
+    c=filtered_df["Area(um^2)"],
+    cmap="plasma",
+    alpha=0.85,
+    edgecolor="k"
+)
+
+# Add colorbar for Area
+cbar_log = plt.colorbar(scatter_log)
+cbar_log.set_label("Area (um^2)")
+
+# Axis labels and title
+plt.xlabel("Energy per Token (uJ) [Log Scale]")
+plt.ylabel("Next Token Accuracy")
+plt.title("Energy vs. Next Token Accuracy (Log Scale on Energy, Colored by Area)")
+plt.xscale("log")  # Set log scale for x-axis
+plt.grid(True, which="both", linestyle='--', linewidth=0.5)
+plt.tight_layout()
+
+# Save the plot
+plt.savefig("plots/Energy_vs_Next_Token_Accuracy_by_Area_logscale.png", dpi=300)
+
+# Plot the graph with log scale on Energy per Token (x-axis), colored by Total Param Num
+plt.figure(figsize=(10, 6))
+scatter_log = plt.scatter(
+    filtered_df["Energy per Token(uJ)"],
+    filtered_df["Next Token Accuracy"],
+    c=filtered_df["Total Param Num"],  # Change color mapping to total parameters
+    cmap="plasma",
+    alpha=0.85,
+    edgecolor="k"
+)
+
+# Add colorbar for Total Param Num
+cbar_log = plt.colorbar(scatter_log)
+cbar_log.set_label("Total Parameter Count")
+
+# Axis labels and title
+plt.xlabel("Energy per Token (uJ) [Log Scale]")
+plt.ylabel("Next Token Accuracy")
+plt.title("Energy vs. Next Token Accuracy (Log Scale on Energy, Colored by Total Parameters)")
+plt.xscale("log")  # Set log scale for x-axis
+plt.grid(True, which="both", linestyle='--', linewidth=0.5)
+plt.tight_layout()
+
+# Save the plot
+plt.savefig("plots/Energy_vs_Next_Token_Accuracy_by_Total_Params_logscale.png", dpi=300)
 
 
