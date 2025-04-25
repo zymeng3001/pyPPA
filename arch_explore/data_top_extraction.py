@@ -6,7 +6,7 @@ import csv
 base_dir = "/home/ppa/xinting/PPA4LLMs/runs/core_top/1_core_top_opt"  
 
 # Define the output CSV file path
-output_csv_path = "/home/ppa/xinting/PPA4LLMs/arch_explore/ppa_core_top_extracted_data.csv"
+output_csv_path = "/home/ppa/xinting/PPA4LLMs/arch_explore/ppa_core_top_extracted_data_10ns.csv"
 
 # Column headers for CSV
 csv_columns = [
