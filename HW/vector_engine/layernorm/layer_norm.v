@@ -520,7 +520,7 @@ adder_tree #(
     .clk(clk),
     .rstn(rstn),
     .idata(in_fixed_data_reg),
-    .idata_valid({BUS_NUM{adder_tree_sum_input_vld}}),
+    .idata_valid(adder_tree_sum_input_vld),
     .odata(adder_tree_value),
     .odata_valid(adder_tree_value_vld)
 );
@@ -533,7 +533,7 @@ adder_tree #(
     .clk(clk),
     .rstn(rstn),
     .idata(in_data_sqr_reg),
-    .idata_valid({BUS_NUM{adder_tree_sqr_sum_input_vld}}),
+    .idata_valid(adder_tree_sqr_sum_input_vld),
     .odata(adder_tree_value_sqr),
     .odata_valid(adder_tree_value_sqr_vld)
 );
