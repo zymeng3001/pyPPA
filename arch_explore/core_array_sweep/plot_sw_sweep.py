@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Load updated data
 df = pd.read_csv("./data/sweep_data_5ns_with_sw.csv")
@@ -65,6 +66,7 @@ plt.tight_layout()
 
 # Save the plot
 plt.savefig("plots/Energy_vs_Val_Loss_by_n_embed.png", dpi=300)
+
 
 # Create scatter plot: Energy vs. Token Delay, colored by Perplexity
 plt.figure(figsize=(10, 6))
@@ -172,4 +174,34 @@ plt.tight_layout()
 # Save the plot
 plt.savefig("plots/Energy_vs_Next_Token_Accuracy_by_Total_Params_logscale.png", dpi=300)
 
+small_df = filtered_df[filtered_df["Token Delay(us)"] < 50]
+small_df = small_df[small_df["Energy per Token(uJ)"] < 1]
 
+
+sizes = np.where(small_df['max_context_length'] == 128, 30, 6)
+alpha = np.where(small_df['max_context_length'] == 128, 0.85, 0.2)
+
+plt.figure(figsize=(10, 6))
+scatter = plt.scatter(
+    small_df["Token Delay(us)"],
+    small_df["Energy per Token(uJ)"],
+    c=small_df["Perplexity"],  # Assuming val_loss is used as a proxy for perplexity
+    cmap="plasma",
+    s=sizes,
+    alpha=alpha,
+    edgecolor="k"
+)
+
+# Add colorbar for perplexity
+cbar = plt.colorbar(scatter)
+cbar.set_label("Perplexity")
+
+# Axis labels and title
+plt.ylabel("Energy per Token (uJ)")
+plt.xlabel("Token Delay (us)")
+plt.title("Energy vs. Token Delay")
+plt.grid(True)
+plt.tight_layout()
+
+# Save the plot
+plt.savefig("plots/Energy_vs_TokenDelay_by_ppl_small.png", dpi=800)
