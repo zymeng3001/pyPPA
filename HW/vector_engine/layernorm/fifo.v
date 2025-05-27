@@ -15,7 +15,7 @@ module fifo #(parameter DEPTH = 16, WIDTH = 8)(
     reg [ADDR_WIDTH-1:0] wr_ptr, rd_ptr; // Write and read pointers
     reg [ADDR_WIDTH:0] count; // Counter to track FIFO occupancy
 
-    always_ff @(posedge clk or negedge rstn) begin
+    always @(posedge clk or negedge rstn) begin
         if (!rstn) begin
             wr_ptr <= 0;
             rd_ptr <= 0;
