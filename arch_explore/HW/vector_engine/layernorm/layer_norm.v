@@ -156,7 +156,7 @@ reg  out_data_flt_reg_vld;
 reg beta_rden_pre1, beta_rden_pre2;
 
 // wire for convert output to int8
-reg [BF_WIDTH-1:0] layernorm_flt2fp [0:BUS_NUM-1];
+wire [BF_WIDTH-1:0] layernorm_flt2fp [0:BUS_NUM-1];
 wire [BUS_NUM*8-1:0] layernorm_fp;
 
 always @(posedge clk or negedge rstn) begin
@@ -405,12 +405,22 @@ always @(*) begin
   gamma_fifo_din = in_gamma;
   beta_fifo_din = in_beta;
 
-  for (i = 0; i < BUS_NUM; i = i + 1) begin
-      layernorm_flt2fp[i][sig_width+:exp_width] = out_data_flt_reg[i][sig_width+:exp_width] + out_scale_pos_reg;
-      layernorm_flt2fp[i][sig_width-1:0] = out_data_flt_reg[i][sig_width-1:0];
-      layernorm_flt2fp[i][sig_width+exp_width] = out_data_flt_reg[i][sig_width+exp_width];
-  end
+//   for (i = 0; i < BUS_NUM; i = i + 1) begin
+//       layernorm_flt2fp[i][sig_width+:exp_width] = out_data_flt_reg[i][sig_width+:exp_width] + out_scale_pos_reg;
+//       layernorm_flt2fp[i][sig_width-1:0] = out_data_flt_reg[i][sig_width-1:0];
+//       layernorm_flt2fp[i][sig_width+exp_width] = out_data_flt_reg[i][sig_width+exp_width];
+//   end
 end
+
+genvar k;
+generate
+    for (k = 0; k < BUS_NUM; k = k + 1) begin
+        assign layernorm_flt2fp[k][sig_width+:exp_width] = out_data_flt_reg[k][sig_width+:exp_width] + out_scale_pos_reg;
+        assign layernorm_flt2fp[k][sig_width-1:0] = out_data_flt_reg[k][sig_width-1:0];
+        assign layernorm_flt2fp[k][sig_width+exp_width] = out_data_flt_reg[k][sig_width+exp_width];
+    end
+endgenerate
+
 
 always @(posedge clk or negedge rstn) begin
     if (!rstn) begin
