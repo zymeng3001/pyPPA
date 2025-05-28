@@ -131,6 +131,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 		print("Suggestions:")
 		for suggestion in suggestions:
 			if is_duplicate(suggestion):
+				print("Skipping duplicate suggestion:", suggestion.parameters)
 				suggestion.complete(vz.Measurement({'fom': math.inf}))
 			else:
 				feasible_suggestions.append(suggestion)
