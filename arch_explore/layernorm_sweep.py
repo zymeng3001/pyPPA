@@ -44,7 +44,7 @@ ppa_runner = PPARunner(
 )
 
 problem = vz.ProblemStatement()
-problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[5], default_value=5) # Guessing that the optimal period is somewhere in between, based on previous results
+problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[30], default_value=30) # Guessing that the optimal period is somewhere in between, based on previous results
 problem.search_space.root.add_discrete_param(name='n_embd', feasible_values=[64,128,256,384,512,640,768,1024]) # Number of softmax buffers
 problem.metric_information.append(
     vz.MetricInformation(
@@ -58,23 +58,23 @@ study_config.algorithm = 'RANDOM_SEARCH'
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_layernorm_try1'
+  study_id='ppa_layernorm_v1'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
 seen_configs = set()
 
-# def is_duplicate(suggestion):
-#     """Check if the suggestion has already been tried based on unique parameters."""
-#     config_tuple = (
-#         int(suggestion.parameters['head_dim']),
-# 		suggestion.parameters['activation']
-#     )
+def is_duplicate(suggestion):
+    """Check if the suggestion has already been tried based on unique parameters."""
+    config_tuple = (
+        int(suggestion.parameters['constraint_period']),
+		int(suggestion.parameters['n_embd']),
+    )
    
-#     if config_tuple in seen_configs:
-#         return True
-#     seen_configs.add(config_tuple)
-#     return False
+    if config_tuple in seen_configs:
+        return True
+    seen_configs.add(config_tuple)
+    return False
 
 def fom(area: float, period: float, total_power: float):
     w1 = 0.2
@@ -111,7 +111,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			print("ppa completed")
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 4:  # stopping condition
+	if prev_iter_number >= 8:  # stopping condition
 		print("Optimization complete.")
 		for optimal_trial in study_client.optimal_trials():
 			optimal_trial = optimal_trial.materialize()
@@ -127,19 +127,18 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 	feasible_suggestions = []
 	feasible_suggestions = study_client.suggest(count=1)
-	print("Feasible suggestions:")
-	# while len(feasible_suggestions) < 1:
-	# 	print("Suggestions:")
-	# 	for suggestion in suggestions:
-	# 		if is_duplicate(suggestion):
-	# 			suggestion.complete(vz.Measurement({'fom': math.inf}))
-	# 		else:
-	# 			feasible_suggestions.append(suggestion)
-	# 	suggestions = study_client.suggest(count=10)
+	while len(feasible_suggestions) < 1:
+		print("Suggestions:")
+		for suggestion in suggestions:
+			if is_duplicate(suggestion):
+				suggestion.complete(vz.Measurement({'fom': math.inf}))
+			else:
+				feasible_suggestions.append(suggestion)
+		suggestions = study_client.suggest(count=10)
 
-	# for suggestion in feasible_suggestions:
-	# 	print("Feasible suggestions:")
-	# 	print(suggestion.parameters)
+	for suggestion in feasible_suggestions:
+		print("Feasible suggestions:")
+		print(suggestion.parameters)
 	
 	return {
         'opt_complete': False,
