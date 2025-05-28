@@ -67,7 +67,7 @@ seen_configs = set()
 def is_duplicate(suggestion):
     """Check if the suggestion has already been tried based on unique parameters."""
     config_tuple = (
-        int(suggestion.parameters['constraint_period']),
+        # int(suggestion.parameters['constraint_period']),
 		int(suggestion.parameters['n_embd']),
     )
    
@@ -111,7 +111,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 			print("ppa completed")
 			suggestion.complete(final_measurement)
 
-	if prev_iter_number >= 8:  # stopping condition
+	if prev_iter_number >= 16:  # stopping condition
 		print("Optimization complete.")
 		for optimal_trial in study_client.optimal_trials():
 			optimal_trial = optimal_trial.materialize()
