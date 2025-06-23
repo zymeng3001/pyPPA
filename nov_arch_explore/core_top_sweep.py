@@ -48,7 +48,7 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v')
         ],
-        'SDC_FILE': path.join(path.dirname(__file__), 'HW', 'constraint.sdc')
+        'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
     }
 )
 
