@@ -38,6 +38,7 @@ ppa_runner = PPARunner(
     threads_per_job=3,
     global_flow_config={
         'VERILOG_FILES': [
+            path.join(path.dirname(__file__), 'HW_NOV', 'sysdef.svh'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_acc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_buf.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_ctrl.v'),
@@ -46,7 +47,9 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_quant.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_rc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v')
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
         ],
         'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
     }

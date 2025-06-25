@@ -90,10 +90,10 @@ module mem_dp #(
     output  reg [DATA_BIT-1:0]  rdata
 );
 
-    always @(negedge clk) begin
-    assert (!(wen && ren && (waddr == raddr))) 
-        else $error("Error: Read and write addresses cannot be the same when both are enabled.");
-    end
+    // always @(negedge clk) begin
+    // assert (!(wen && ren && (waddr == raddr))) 
+    //     else $error("Error: Read and write addresses cannot be the same when both are enabled.");
+    // end
  
 
     // 1, Memory initialization

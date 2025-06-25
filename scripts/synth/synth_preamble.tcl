@@ -33,7 +33,6 @@ if {$::env(USE_YOSYS_SV_PLUGIN)} {
   }
 }
 
-
 # Read standard cells and macros as blackbox inputs
 # These libs have their dont_use properties set accordingly
 read_liberty -lib {*}$::env(DONT_USE_LIBS)
@@ -61,6 +60,11 @@ if {[info exist ::env(PRESERVE_HIERARCHY_MODULES)] } {
     select -clear
   }
 }
+
+
+blackbox kv_cache_pkt 
+# blackbox mem_sp
+blackbox wmem
 
 if {[info exist ::env(BLOCKS)]} {
   hierarchy -check -top $::env(DESIGN_NAME)

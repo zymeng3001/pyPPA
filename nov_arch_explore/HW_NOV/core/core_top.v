@@ -48,7 +48,7 @@ module core_top (
 	parameter CMEM_DATA_WIDTH = 128;
 	parameter VLINK_DATA_WIDTH = 128;
 	parameter HLINK_DATA_WIDTH = 128;
-	parameter MAC_MULT_NUM = ${mac_num} // 16;
+	parameter MAC_MULT_NUM = ${mac_num}; // 16;
 	parameter IDATA_WIDTH = 8;
 	parameter ODATA_BIT = 25;
 	parameter CDATA_ACCU_NUM_WIDTH = 10;
