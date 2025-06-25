@@ -179,13 +179,13 @@ module core_mem (
 		end
 	end
 	assign cache_wdata_byte_flag = 1;
-	kv_cache_pkt #(
-		.IDATA_WIDTH(CMEM_DATA_WIDTH),
-		.ODATA_BIT(CMEM_DATA_WIDTH),
-		.CACHE_NUM(CACHE_NUM),
-		.CACHE_DEPTH(SINGLE_USR_CACHE_DEPTH),
-		.CACHE_ADDR_WIDTH(SINGLE_USR_CACHE_ADDR_WIDTH)
-	) kv_cache_inst(
+	// kv_cache_pkt #(
+	// 	.IDATA_WIDTH(CMEM_DATA_WIDTH),
+	// 	.ODATA_BIT(CMEM_DATA_WIDTH),
+	// 	.CACHE_NUM(CACHE_NUM),
+	// 	.CACHE_DEPTH(SINGLE_USR_CACHE_DEPTH),
+	// 	.CACHE_ADDR_WIDTH(SINGLE_USR_CACHE_ADDR_WIDTH)
+	kv_cache_pkt kv_cache_inst(
 		.clk(clk),
 		.rstn(rstn),
 		.clean_kv_cache(clean_kv_cache),
