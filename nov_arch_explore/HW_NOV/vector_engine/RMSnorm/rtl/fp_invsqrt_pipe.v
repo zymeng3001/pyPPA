@@ -126,7 +126,18 @@ module fp_invsqrt_pipe (
 			threehalfs_sub <= nxt_threehlafs_sub;
 			threehalfs_sub_vld <= nxt_threehalfs_sub_vld;
 		end
-	DW_fp_sub #(
+	// DW_fp_sub #(
+	// 	.sig_width(7),
+	// 	.exp_width(8),
+	// 	.ieee_compliance(0)
+	// ) threehalfs_sub_inst(
+	// 	.a(threehalfs),
+	// 	.b(half_x_mult_startpoint_square),
+	// 	.rnd(3'b000),
+	// 	.z(nxt_threehlafs_sub),
+	// 	.status()
+	// );
+	custom_fp_sub #(
 		.sig_width(7),
 		.exp_width(8),
 		.ieee_compliance(0)
@@ -162,3 +173,103 @@ module fp_invsqrt_pipe (
 		.z_valid(nxt_y_vld)
 	);
 endmodule
+
+module custom_fp_sub #(
+    parameter integer sig_width = 7,   // number of fraction bits
+    parameter integer exp_width = 8,   // number of exponent bits
+    parameter integer ieee_compliance = 0  // only basic handling when 0
+)(
+    input  wire [sig_width+exp_width:0] a,  // input a
+    input  wire [sig_width+exp_width:0] b,  // input b
+    input  wire [2:0]                   rnd, // rounding mode (ignored)
+    output reg  [sig_width+exp_width:0] z,   // result = a - b
+    output reg  [7:0]                   status // status flags
+);
+
+    // Sign, exponent, mantissa extraction
+    wire sign_a = a[sig_width + exp_width];
+    wire sign_b = b[sig_width + exp_width];
+    wire [exp_width-1:0] exp_a = a[sig_width + exp_width - 1 : sig_width];
+    wire [exp_width-1:0] exp_b = b[sig_width + exp_width - 1 : sig_width];
+    wire [sig_width-1:0] frac_a = a[sig_width-1:0];
+    wire [sig_width-1:0] frac_b = b[sig_width-1:0];
+
+    // 1. Add implicit leading 1 for normalized values
+    wire [sig_width:0] mant_a = (|exp_a) ? {1'b1, frac_a} : {1'b0, frac_a};
+    wire [sig_width:0] mant_b = (|exp_b) ? {1'b1, frac_b} : {1'b0, frac_b};
+
+    // 2. Align mantissas
+    wire [exp_width:0] exp_diff = (exp_a > exp_b) ? (exp_a - exp_b) : (exp_b - exp_a);
+    wire [sig_width+2:0] mant_a_align = (exp_a >= exp_b) ? {mant_a, 2'b00} : ({mant_a, 2'b00} >> exp_diff);
+    wire [sig_width+2:0] mant_b_align = (exp_b > exp_a) ? {mant_b, 2'b00} : ({mant_b, 2'b00} >> exp_diff);
+
+    // 3. Determine result sign and subtract mantissas
+    reg [sig_width+2:0] mant_sub;
+    reg [exp_width-1:0] exp_result;
+    reg sign_result;
+
+    always @(*) begin
+        if ({exp_a, mant_a} >= {exp_b, mant_b}) begin
+            mant_sub = mant_a_align - mant_b_align;
+            exp_result = (exp_a >= exp_b) ? exp_a : exp_b;
+            sign_result = sign_a;
+        end else begin
+            mant_sub = mant_b_align - mant_a_align;
+            exp_result = (exp_b >= exp_a) ? exp_b : exp_a;
+            sign_result = ~sign_b;  // a - b = -(b - a)
+        end
+    end
+
+    // 4. Normalize result
+    reg [sig_width-1:0] frac_norm;
+    reg [2*sig_width-1:0] frac_norms;
+    reg [exp_width-1:0] exp_norm;
+
+    wire [$clog2(sig_width+3)-1:0] shift;
+    wire                          valid;
+    priority_encoder #(
+        .WIDTH(sig_width + 3)
+    ) pe_inst (
+        .in(mant_sub),
+        .shift(shift),
+        .valid(valid)
+    );
+
+    // then use shift as before
+    assign frac_norms = mant_sub << shift;
+    assign frac_norm  = frac_norms[sig_width+2:3];
+    assign exp_norm   = (exp_result > shift) ? (exp_result - shift) : 0;
+
+
+    // 5. Final packing
+    always @(*) begin
+        z = {sign_result, exp_norm, frac_norm};
+        status = 8'b0;
+        if (mant_sub == 0)
+            z = {1'b0, {exp_width{1'b0}}, {sig_width{1'b0}}};  // exact zero
+    end
+
+endmodule
+
+module priority_encoder #(
+    parameter WIDTH = 16,
+    parameter SHIFT_WIDTH = $clog2(WIDTH)
+)(
+    input  wire [WIDTH-1:0] in,
+    output reg  [SHIFT_WIDTH-1:0] shift,
+    output wire valid
+);
+
+    integer i;
+    always @(*) begin
+        shift = 0;
+        for (i = WIDTH-1; i >= 0; i = i - 1) begin
+            if (in[i]) begin
+                shift = WIDTH - 1 - i;
+            end
+        end
+    end
+
+    assign valid = |in;
+endmodule
+
