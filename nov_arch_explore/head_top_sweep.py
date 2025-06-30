@@ -28,7 +28,7 @@ import math
 
 
 ppa_runner = PPARunner(
-    design_name="two_heads",
+    design_name="head_top",
     tools={
         'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
         'synth_tool': Yosys(scripts_dir=path.join('scripts', 'synth')),
@@ -42,12 +42,12 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/fadd_tree.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/open_fp_cores.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'gbus/arbiter.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'gbus/bus_controller.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'gbus/bus_packet_fifo.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'gbus/gbus_top.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/fadd_tree.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/krms_recompute/rtl/krms.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/RMSnorm/rtl/RMSnorm.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/RMSnorm/rtl/fp_div_pipe.v'),
@@ -93,7 +93,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_two_heads_nov_0'
+  study_id='ppa_two_heads_nov_1'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -195,7 +195,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
 
 
 ppa_runner.add_job({
-    'module_name': 'two_heads',
+    'module_name': 'head_top',
     'mode': 'opt',
     'optimizer': vizier_optimizer
 })

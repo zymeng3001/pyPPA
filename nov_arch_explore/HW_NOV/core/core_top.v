@@ -1,4 +1,21 @@
-module core_top (
+module core_top #(
+	parameter GBUS_DATA_WIDTH = 32,
+	parameter GBUS_ADDR_WIDTH = 19,
+	parameter CMEM_ADDR_WIDTH = 13,
+	parameter CMEM_DATA_WIDTH = 128,
+	parameter VLINK_DATA_WIDTH = 128,
+	parameter HLINK_DATA_WIDTH = 128,
+	parameter MAC_MULT_NUM = 16,
+	parameter IDATA_WIDTH = 8,
+	parameter ODATA_BIT = 25,
+	parameter CDATA_ACCU_NUM_WIDTH = 10,
+	parameter CDATA_SCALE_WIDTH = 10,
+	parameter CDATA_BIAS_WIDTH = 16,
+	parameter CDATA_SHIFT_WIDTH = 5,
+	parameter HEAD_INDEX = 0,
+	parameter CORE_INDEX = 0
+)
+(
 	clk,
 	rstn,
 	clean_kv_cache,
@@ -42,21 +59,21 @@ module core_top (
 	hlink_rvalid
 );
 	reg _sv2v_0;
-	parameter GBUS_DATA_WIDTH = 32;
-	parameter GBUS_ADDR_WIDTH = 19;
-	parameter CMEM_ADDR_WIDTH = 13;
-	parameter CMEM_DATA_WIDTH = 128;
-	parameter VLINK_DATA_WIDTH = 128;
-	parameter HLINK_DATA_WIDTH = 128;
-	parameter MAC_MULT_NUM = ${mac_num}; // 16;
-	parameter IDATA_WIDTH = 8;
-	parameter ODATA_BIT = 25;
-	parameter CDATA_ACCU_NUM_WIDTH = 10;
-	parameter CDATA_SCALE_WIDTH = 10;
-	parameter CDATA_BIAS_WIDTH = 16;
-	parameter CDATA_SHIFT_WIDTH = 5;
-	parameter HEAD_INDEX = 0;
-	parameter CORE_INDEX = 0;
+	// parameter GBUS_DATA_WIDTH = 32;
+	// parameter GBUS_ADDR_WIDTH = 19;
+	// parameter CMEM_ADDR_WIDTH = 13;
+	// parameter CMEM_DATA_WIDTH = 128;
+	// parameter VLINK_DATA_WIDTH = 128;
+	// parameter HLINK_DATA_WIDTH = 128;
+	// parameter MAC_MULT_NUM = 16;
+	// parameter IDATA_WIDTH = 8;
+	// parameter ODATA_BIT = 25;
+	// parameter CDATA_ACCU_NUM_WIDTH = 10;
+	// parameter CDATA_SCALE_WIDTH = 10;
+	// parameter CDATA_BIAS_WIDTH = 16;
+	// parameter CDATA_SHIFT_WIDTH = 5;
+	// parameter HEAD_INDEX = 0;
+	// parameter CORE_INDEX = 0;
 	input clk;
 	input rstn;
 	input wire clean_kv_cache;

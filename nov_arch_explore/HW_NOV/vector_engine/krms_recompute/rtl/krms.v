@@ -56,16 +56,25 @@ module krms (
 	wire [sig_width + exp_width:0] nxt_float_K;
 	assign K_ext = rc_cfg_reg[78-:10];
 	always @(posedge clk) float_K <= nxt_float_K;
-	DW_fp_i2flt #(
+	// DW_fp_i2flt #(
+	// 	sig_width,
+	// 	exp_width,
+	// 	isize,
+	// 	isign
+	// ) i2flt_K(
+	// 	.a(K_ext),
+	// 	.rnd(3'b000),
+	// 	.z(nxt_float_K),
+	// 	.status()
+	// );
+	fp_i2flt #(
 		sig_width,
 		exp_width,
 		isize,
 		isign
 	) i2flt_K(
 		.a(K_ext),
-		.rnd(3'b000),
 		.z(nxt_float_K),
-		.status()
 	);
 	reg [sig_width + exp_width:0] rms_dequant_scale_square_reg;
 	always @(*) begin
@@ -155,16 +164,25 @@ module krms (
 	wire [sig_width + exp_width:0] flt_square_sum;
 	wire flt_square_sum_vld;
 	assign fixed_square_sum_ext = fixed_square_sum;
-	DW_fp_i2flt #(
+	// DW_fp_i2flt #(
+	// 	sig_width,
+	// 	exp_width,
+	// 	isize,
+	// 	isign
+	// ) i2flt_square_sum(
+	// 	.a(fixed_square_sum_ext),
+	// 	.rnd(3'b000),
+	// 	.z(i2flt_square_sum_z),
+	// 	.status()
+	// );
+	fp_i2flt #(
 		sig_width,
 		exp_width,
 		isize,
 		isign
 	) i2flt_square_sum(
 		.a(fixed_square_sum_ext),
-		.rnd(3'b000),
 		.z(i2flt_square_sum_z),
-		.status()
 	);
 	fp_mult_pipe #(
 		.sig_width(sig_width),
@@ -271,16 +289,25 @@ module krms (
 			one_over_rms_exp_shift[(sig_width + exp_width) - 1:0] <= one_over_rms[(sig_width + exp_width) - 1:0] + $unsigned({rc_cfg_reg[83-:5], {sig_width {1'b0}}});
 		end
 	wire [23:0] nxt_rc_scale;
-	DW_fp_flt2i #(
+	// DW_fp_flt2i #(
+	// 	sig_width,
+	// 	exp_width,
+	// 	24,
+	// 	isign
+	// ) i2flt_in_data(
+	// 	.a(one_over_rms_exp_shift),
+	// 	.rnd(3'b000),
+	// 	.z(nxt_rc_scale),
+	// 	.status()
+	// );
+	fp_flt2i #(
 		sig_width,
 		exp_width,
 		24,
 		isign
 	) i2flt_in_data(
 		.a(one_over_rms_exp_shift),
-		.rnd(3'b000),
-		.z(nxt_rc_scale),
-		.status()
+		.z(nxt_rc_scale)
 	);
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n) begin
