@@ -191,16 +191,14 @@ module softmax_rc (
 			wire [sig_width + exp_width:0] i2flt_xi_max_w;
 			reg [sig_width + exp_width:0] i2flt_xi_max;
 			assign xi_max_ext = $signed(xi_max[(FIXED_DATA_WIDTH >= 0 ? 0 : FIXED_DATA_WIDTH) + (i * (FIXED_DATA_WIDTH >= 0 ? FIXED_DATA_WIDTH + 1 : 1 - FIXED_DATA_WIDTH))+:(FIXED_DATA_WIDTH >= 0 ? FIXED_DATA_WIDTH + 1 : 1 - FIXED_DATA_WIDTH)]);
-			DW_fp_i2flt #(
+			fp_i2flt #(
 				sig_width,
 				exp_width,
 				isize,
 				isign
 			) i2flt_xi_max_inst(
 				.a(xi_max_ext),
-				.rnd(3'b000),
 				.z(i2flt_xi_max_w),
-				.status()
 			);
 			always @(posedge clk or negedge rst_n)
 				if (~rst_n)
@@ -231,15 +229,22 @@ module softmax_rc (
 	generate
 		for (_gv_i_1 = 0; _gv_i_1 < BUS_NUM; _gv_i_1 = _gv_i_1 + 1) begin : exp_xi_max_stage
 			localparam i = _gv_i_1;
-			DW_fp_exp #(
+			// DW_fp_exp #(
+			// 	sig_width,
+			// 	exp_width,
+			// 	ieee_compliance,
+			// 	exp_arch
+			// ) iexp_xi_max(
+			// 	.a(i2flt_xi_max_dequant[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
+			// 	.z(exp_xi_max_w[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
+			// 	.status()
+			// );
+			fp_exp #(
 				sig_width,
-				exp_width,
-				ieee_compliance,
-				exp_arch
+				exp_width
 			) iexp_xi_max(
 				.a(i2flt_xi_max_dequant[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
 				.z(exp_xi_max_w[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
-				.status()
 			);
 			always @(posedge clk or negedge rst_n)
 				if (~rst_n)
@@ -309,16 +314,14 @@ module softmax_rc (
 				.z_valid(exp_xi_max_scaled_vld[i])
 			);
 			wire [31:0] exp_xi_max_flt2i;
-			DW_fp_flt2i #(
+			fp_flt2i #(
 				sig_width,
 				exp_width,
 				isize,
 				isign
 			) exp_flt2i_inst(
 				.a(exp_xi_max_scaled),
-				.rnd(3'b000),
 				.z(exp_xi_max_flt2i),
-				.status()
 			);
 			reg signed [FIXED_DATA_WIDTH - 1:0] nxt_out_fixed_data;
 			always @(*) begin
@@ -385,7 +388,7 @@ module softmax_rc (
 			end
 		end
 	end
-	always @(posedge clk or negedge rst_n)
+	always @(posedge clk or negedge rst_n) begin
 		if (~rst_n) begin
 			fadd_tree_in <= 0;
 			fadd_tree_vld <= 0;
@@ -398,6 +401,7 @@ module softmax_rc (
 			exp_sum_cnt <= nxt_exp_sum_cnt;
 			fadd_tree_in_last <= nxt_fadd_tree_in_last;
 		end
+	end
 	fadd_tree #(
 		.sig_width(sig_width),
 		.exp_width(exp_width),
@@ -412,10 +416,9 @@ module softmax_rc (
 		.odata_valid(adder_out_vld),
 		.last_out(adder_out_last)
 	);
-	DW_fp_add_DG #(
+	fp_add_DG #(
 		sig_width,
-		exp_width,
-		ieee_compliance
+		exp_width
 	) acc_inst(
 		.a(acc_out),
 		.b(adder_out),
@@ -424,28 +427,34 @@ module softmax_rc (
 		.z(acc_out_w),
 		.status()
 	);
-	always @(posedge clk or negedge rst_n)
+	always @(posedge clk or negedge rst_n) begin
 		if (~rst_n)
 			acc_out <= 0;
 		else if (clear)
 			acc_out <= 0;
 		else if (adder_out_vld)
 			acc_out <= acc_out_w;
-	always @(posedge clk or negedge rst_n)
+	end
+	always @(posedge clk or negedge rst_n) begin
 		if (~rst_n)
 			acc_vld <= 0;
 		else
 			acc_vld <= adder_out_last;
-	DW_fp_recip #(
-		sig_width,
-		exp_width,
-		ieee_compliance,
-		0
-	) inst_recip(
+	end
+	// DW_fp_recip #(
+	// 	sig_width,
+	// 	exp_width,
+	// 	ieee_compliance,
+	// 	0
+	// ) inst_recip(
+	// 	.a(acc_out),
+	// 	.rnd(3'b000),
+	// 	.z(one_over_exp_sum_w),
+	// 	.status()
+	// );
+	bf16_fp_recip fp_recip_inst (
 		.a(acc_out),
-		.rnd(3'b000),
-		.z(one_over_exp_sum_w),
-		.status()
+		.z(one_over_exp_sum_w)
 	);
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n) begin
@@ -469,16 +478,25 @@ module softmax_rc (
 				one_over_exp_sum_shift[(sig_width + exp_width) - 1:0] <= one_over_exp_sum[(sig_width + exp_width) - 1:0] + $unsigned({rc_cfg_reg[36-:5], {sig_width {1'b0}}});
 			end
 		end
-	DW_fp_flt2i #(
+	// DW_fp_flt2i #(
+	// 	sig_width,
+	// 	exp_width,
+	// 	24,
+	// 	isign
+	// ) i2flt_in_data(
+	// 	.a(one_over_exp_sum_shift),
+	// 	.rnd(3'b000),
+	// 	.z(nxt_rc_scale),
+	// 	.status()
+	// );
+	fp_flt2i #(
 		sig_width,
 		exp_width,
 		24,
 		isign
 	) i2flt_in_data(
 		.a(one_over_exp_sum_shift),
-		.rnd(3'b000),
 		.z(nxt_rc_scale),
-		.status()
 	);
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n) begin
