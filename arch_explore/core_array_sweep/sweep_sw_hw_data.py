@@ -24,7 +24,8 @@ for _, row in data.iterrows():
         # Additional metrics can be added here as needed
     }
 
-df = pd.read_csv("data/Sweeping_sw.csv")
+# df = pd.read_csv("data/Sweeping_sw.csv")
+df = pd.read_csv("data/sweep_data_100M_filtered.csv")
 
 n_cols_range = np.arange(1, 33).tolist()
 gbus_width_range = [16, 32, 64, 128]
@@ -37,9 +38,9 @@ for idx, row in df.iterrows():
     n_model = row['n_embd']
     n_heads = row['n_head']
     max_context_length = row['block_size']
-    val_loss = row['Val_loss']
+    val_loss = row['best_val_loss']
     n_layers = row['n_layer']
-    ffn_ratio = 4
+    ffn_ratio = row['mlp_expansion_factor']
 
     for n_cols in n_cols_range:
         for gbus_width in gbus_width_range:
@@ -55,7 +56,7 @@ for idx, row in df.iterrows():
                 clk_min_period = database.get((gbus_width, wmem_depth, cache_depth), {}).get('clk_min_period', 'N/A')
                 slack = database.get((gbus_width, wmem_depth, cache_depth), {}).get('slack', 'N/A')
 
-                ffn_ratio = 4
+                # ffn_ratio = 4
 
                 core_wmem_size = wmem_depth * gbus_width / 8
                 core_cache_size = cache_depth * gbus_width / 8
@@ -89,7 +90,8 @@ for idx, row in df.iterrows():
                         'n_cols': n_cols,
                         'head_dim': int(n_model / n_heads),
                         'max_context_length': max_context_length,
-                        'n_layers': 6,
+                        'ffn_ratio': ffn_ratio,
+                        'n_layers': n_layers,
                         'core_wmem_size': core_wmem_size,
                         'core_cache_size': core_cache_size,
                         'total_wmem_size': total_wmem_size,
@@ -117,7 +119,7 @@ print(f"Total number of feasible configurations: {total_count}")
 feasible_df = pd.DataFrame(feasible_configs)
 
 # Save to CSV
-feasible_csv_path = './data/sweep_data_5ns_with_sw.csv'
+feasible_csv_path = './data/sweep_data_5ns_with_sw_100M.csv'
 feasible_df.to_csv(feasible_csv_path, index=True)
 
     # Print the values
