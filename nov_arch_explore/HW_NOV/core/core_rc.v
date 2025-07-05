@@ -17,19 +17,20 @@ module core_rc (
 	parameter OUT_DATA_WIDTH = 24;
 	parameter RECOMPUTE_FIFO_DEPTH = 4;
 	parameter RETIMING_REG_NUM = 4;
+	parameter RECOMPUTE_SCALE_WIDTH = 16;
 	input wire clk;
 	input wire rst_n;
 	input wire recompute_needed;
-	input wire [23:0] rc_scale;
+	input wire [RECOMPUTE_SCALE_WIDTH - 1:0] rc_scale;
 	input wire rc_scale_vld;
 	input wire rc_scale_clear;
-	input wire [4:0] rms_rc_shift;
+	input wire [RECOMPUTE_SHIFT_WIDTH - 1:0] rms_rc_shift;
 	input wire [IN_DATA_WIDTH - 1:0] in_data;
 	input wire in_data_vld;
 	output reg [OUT_DATA_WIDTH - 1:0] out_data;
 	output reg out_data_vld;
 	output wire error;
-	reg [23:0] rc_scale_reg;
+	reg [RECOMPUTE_SCALE_WIDTH - 1:0] rc_scale_reg;
 	reg rc_scale_reg_available;
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n) begin
@@ -62,7 +63,7 @@ module core_rc (
 			fifo_rvld <= 0;
 		else
 			fifo_rvld <= ~fifo_empty & fifo_rd_en;
-	reg signed [(24 + IN_DATA_WIDTH) - 1:0] rc_data_rt_array [RETIMING_REG_NUM - 1:0];
+	reg signed [(RECOMPUTE_SCALE_WIDTH + IN_DATA_WIDTH) - 1:0] rc_data_rt_array [RETIMING_REG_NUM - 1:0];
 	reg rc_data_vld_rt_array [RETIMING_REG_NUM - 1:0];
 	genvar _gv_i_1;
 	generate
@@ -95,7 +96,7 @@ module core_rc (
 			end
 		end
 	endgenerate
-	reg signed [(24 + IN_DATA_WIDTH) - 1:0] rc_data_shift;
+	reg signed [(RECOMPUTE_SCALE_WIDTH + IN_DATA_WIDTH) - 1:0] rc_data_shift;
 	reg rc_data_shift_vld;
 	reg round;
 	always @(posedge clk or negedge rst_n)
@@ -115,8 +116,8 @@ module core_rc (
 		end
 		else
 			rc_data_shift_vld <= 0;
-	reg signed [(24 + IN_DATA_WIDTH) - 1:0] rc_data_rnd;
-	reg signed [(24 + IN_DATA_WIDTH) - 1:0] nxt_rc_data_rnd;
+	reg signed [(RECOMPUTE_SCALE_WIDTH + IN_DATA_WIDTH) - 1:0] rc_data_rnd;
+	reg signed [(RECOMPUTE_SCALE_WIDTH + IN_DATA_WIDTH) - 1:0] nxt_rc_data_rnd;
 	reg rc_data_rnd_vld;
 	always @(*) begin
 		if (_sv2v_0)
