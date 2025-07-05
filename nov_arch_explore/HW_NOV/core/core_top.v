@@ -5,7 +5,7 @@ module core_top #(
 	parameter CMEM_DATA_WIDTH = 128,
 	parameter VLINK_DATA_WIDTH = 128,
 	parameter HLINK_DATA_WIDTH = 128,
-	parameter MAC_MULT_NUM = 16,
+	parameter MAC_MULT_NUM = ${mac_num}, 
 	parameter IDATA_WIDTH = 8,
 	parameter ODATA_BIT = 25,
 	parameter CDATA_ACCU_NUM_WIDTH = 10,
@@ -245,7 +245,7 @@ module core_top #(
 	wire signed [ODATA_BIT - 1:0] mac_odata;
 	wire mac_odata_valid;
 	core_mac #(
-		.MAC_MULT_NUM(MAC_MULT_NUM),
+		.MAC_MULT_NUM(${mac_num}),
 		.IDATA_WIDTH(IDATA_WIDTH),
 		.ODATA_BIT(ODATA_BIT)
 	) mac_inst(

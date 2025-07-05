@@ -16,7 +16,7 @@
 
 module core_buf #(
     // Core-to-Core Link (Access Activation Buffer)
-    parameter   CACHE_DATA_WIDTH = (`MAC_MULT_NUM * `IDATA_WIDTH)
+    parameter   CACHE_DATA_WIDTH = (${mac_num} * `IDATA_WIDTH)
 )(
     // Global Signals
     input                              clk,

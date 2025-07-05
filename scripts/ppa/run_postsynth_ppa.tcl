@@ -39,7 +39,7 @@ report_checks -slack_min 4
 puts "report paths with clk group"
 report_checks -path_group clk
 
-set power_report_file [file join $::env(REPORTS_DIR) "${step}_timing_report.txt"]
+set timing_report_file [file join $::env(REPORTS_DIR) "timing_report.txt"]
 
 report_checks \
   -path_delay min_max \
@@ -47,4 +47,4 @@ report_checks \
   -unconstrained \
   -group_path_count 1000 \
   -endpoint_path_count 1000 \
-  > $power_report_file
+  > $timing_report_file
