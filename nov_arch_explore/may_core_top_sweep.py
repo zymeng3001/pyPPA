@@ -22,21 +22,16 @@ ppa_runner = PPARunner(
 	global_flow_config={
 		# Source Verilog files.
 		'VERILOG_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'sysdef.svh'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_acc.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_buf.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_ctrl.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_mac.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_mem.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_quant.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_rc.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
+            path.join(path.dirname(__file__), '..', 'HW', 'sysdef.svh'),
+            path.join(path.dirname(__file__), '..', 'HW', 'core/core_acc.v'),
+            path.join(path.dirname(__file__), '..', 'HW', 'core/core_buf.v'),
+            path.join(path.dirname(__file__), '..', 'HW', 'core/core_mac.v'),
+            path.join(path.dirname(__file__), '..', 'HW', 'core/core_mem.v'),
+            path.join(path.dirname(__file__), '..', 'HW', 'core/core_quant.v'),
+            path.join(path.dirname(__file__), '..', 'HW', 'core/core_top.v'),
         ],
 		# The constraint SDC file path.
-		'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
+		'SDC_FILE': path.join(path.dirname(__file__), '..', 'HW', 'constraint.sdc')
 	}
 )
 
@@ -88,9 +83,9 @@ ppa_runner.add_job({
 			'values': [5]
 		},
 		'mac_num': {
-			'values': [8,16,32]
+			'values': [16,32]
 		},
-		'wmem_size': {
+		'wmem_depth': {
 			'values': [512, 256]
 		}
 	}

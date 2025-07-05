@@ -31,7 +31,7 @@ module core_mem (
 	parameter CMEM_DATA_WIDTH = 128;
 	parameter CMEM_USER_WIDTH = 2;
 	parameter VLINK_DATA_WIDTH = 128;
-	parameter WMEM_DEPTH = 1536;
+	parameter WMEM_DEPTH = ${wmem_size};
 	parameter WMEM_ADDR_WIDTH = $clog2(WMEM_DEPTH);
 	parameter SINGLE_USR_CACHE_DEPTH = 128;
 	parameter CACHE_NUM = 16;
