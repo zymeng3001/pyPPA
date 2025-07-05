@@ -17,10 +17,6 @@
 // =============================================================================
 // Accumulation Top Module
 
-`define IDATA_WIDTH   8
-`define MAC_MULT_NUM  16
-`define ODATA_WIDTH   (`IDATA_WIDTH*2+$clog2(`MAC_MULT_NUM)+5)
-
 module core_acc #(
     parameter   IDATA_WIDTH = `ODATA_WIDTH, // Set a Higher Bitwidth for Accumulation
     parameter   ODATA_BIT = `ODATA_WIDTH,
