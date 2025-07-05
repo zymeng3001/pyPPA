@@ -17,7 +17,7 @@
 // MAC Top Module
 
 module core_mac #(
-    parameter   MAC_MULT_NUM   = ${mac_num}, // MAC Line Size
+    parameter   MAC_MULT_NUM   = `MAC_MULT_NUM, // MAC Line Size
     parameter   IDATA_WIDTH = `IDATA_WIDTH,  // Input
     parameter   ODATA_BIT = (IDATA_WIDTH*2+$clog2(MAC_MULT_NUM)) // Output
 )(
@@ -66,7 +66,7 @@ endmodule
 // MUL Line
 // 1 cycle delay
 module mul_line #(
-    parameter   MAC_MULT_NUM = ${mac_num},
+    parameter   MAC_MULT_NUM = 64,
     parameter   IDATA_WIDTH = 8,
     parameter   ODATA_BIT = IDATA_WIDTH * 2
 )(
@@ -145,7 +145,7 @@ endmodule
 // Configurable Adder Tree. Please double-check it's synthesizable.
 // (STAGE_NUM+1)/2 delay
 module adder_tree #(
-    parameter   MAC_MULT_NUM = {mac_num},
+    parameter   MAC_MULT_NUM = 64,
     parameter   IDATA_WIDTH = 16,
     parameter   ODATA_BIT = IDATA_WIDTH + $clog2(MAC_MULT_NUM) 
 )(

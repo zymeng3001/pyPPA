@@ -13,6 +13,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+`include "sys_defs.svh"
 
 module core_quant #(
     parameter   IDATA_WIDTH = `ODATA_WIDTH,
@@ -21,6 +22,7 @@ module core_quant #(
     parameter   CDATA_SCALE_WIDTH = `CDATA_SCALE_WIDTH,
     parameter   CDATA_BIAS_WIDTH = `CDATA_BIAS_WIDTH,
     parameter   CDATA_SHIFT_WIDTH = `CDATA_SHIFT_WIDTH,
+    parameter   QUANT_SCALE_RETIMING = `QUANT_SCALE_RETIMING,
     parameter   TEMP_BIT  = (IDATA_WIDTH+CDATA_SCALE_WIDTH)
 )(
     // Global Signals
@@ -68,7 +70,7 @@ module core_quant #(
     //scale retiming
     genvar i;
     generate;
-        for(i = 0; i < `QUANT_SCALE_RETIMING; i=i+1)begin : quant_scale_retiming_gen_array
+        for(i = 0; i < QUANT_SCALE_RETIMING; i=i+1)begin : quant_scale_retiming_gen_array
             reg quantized_product_valid_delay;
             reg signed  [(TEMP_BIT-1):0]   quantized_product_delay; 
             if(i==0)begin
@@ -100,7 +102,7 @@ module core_quant #(
 
     // Adding Bias and Shifting
     always @(*) begin
-        quantized_bias = $signed(quant_scale_retiming_gen_array[`QUANT_SCALE_RETIMING-1].quantized_product_delay) + $signed(cfg_quant_bias);
+        quantized_bias = $signed(quant_scale_retiming_gen_array[QUANT_SCALE_RETIMING-1].quantized_product_delay) + $signed(cfg_quant_bias);
         // quantized_round = quantized_bias[cfg_quant_shift-1];
         quantized_round = (cfg_quant_shift > 0) ? quantized_bias[cfg_quant_shift-1] : 0;
     end
@@ -109,7 +111,7 @@ module core_quant #(
             quantized_bias_reg <= 'd0;
             quantized_round_reg <= 1'b0;
         end
-        else if(quant_scale_retiming_gen_array[`QUANT_SCALE_RETIMING-1].quantized_product_valid_delay)begin
+        else if(quant_scale_retiming_gen_array[QUANT_SCALE_RETIMING-1].quantized_product_valid_delay)begin
             quantized_bias_reg <= quantized_bias;
             quantized_round_reg <= quantized_round;
         end
@@ -119,7 +121,7 @@ module core_quant #(
             quantized_bias_valid <= 1'b0;
         end
         else begin
-            quantized_bias_valid <= quant_scale_retiming_gen_array[`QUANT_SCALE_RETIMING-1].quantized_product_valid_delay;
+            quantized_bias_valid <= quant_scale_retiming_gen_array[QUANT_SCALE_RETIMING-1].quantized_product_valid_delay;
         end
     end
 
