@@ -51,7 +51,7 @@ def estimate_power(width, depth, freq,
     I_leak_total = I_leak_per_bit * n_bits
     P_leak = I_leak_total * Vdd
     
-    return P_dyn, P_leak
+    return P_dyn, P_leak    
 
 def main():
     parser = argparse.ArgumentParser(
