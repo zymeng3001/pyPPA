@@ -61,8 +61,8 @@ if {[info exist ::env(PRESERVE_HIERARCHY_MODULES)] } {
   }
 }
 
-blackbox abuf
-blackbox headsram
+# blackbox abuf
+# blackbox headsram
 blackbox kv_cache_pkt 
 blackbox wmem
 

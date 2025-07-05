@@ -48,7 +48,7 @@
     //////////////////////////////////////////////////
 
 `define IDATA_WIDTH   8
-`define MAC_MULT_NUM  16
+`define MAC_MULT_NUM  ${mac_num} //This is the number of MACs in one core, this is also the number of multipliers in one core
 `define ODATA_WIDTH   (`IDATA_WIDTH*2+$clog2(`MAC_MULT_NUM)+5) //5 for no overflow in acc -BUCK
 
 // `define ARR_CDATA_BIT   5 
@@ -99,7 +99,8 @@
 //Calculate the DEPTH here
 //https://docs.google.com/spreadsheets/d/1xzBwB_yHY48no7eCyaSvvRwQojUWLVjq/edit?gid=1117410533#gid=1117410533
 
-`define WMEM_DEPTH   (3072/2)
+// `define WMEM_DEPTH   (3072/2)
+`define WMEM_DEPTH   ${wmem_size} 
 `define WMEM_NUM_PER_CORE 3 //one for qkvproj,one for ffn0, one for ffn1 each 1024 in depth
 
 `define KV_CACHE_DEPTH_SINGLE_USER  (256/2) //This is for one user, two user share one KV Cache, so one KV Cache depth is 512
