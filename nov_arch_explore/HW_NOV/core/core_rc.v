@@ -15,9 +15,10 @@ module core_rc (
 	reg _sv2v_0;
 	parameter IN_DATA_WIDTH = 24;
 	parameter OUT_DATA_WIDTH = 24;
-	parameter RECOMPUTE_FIFO_DEPTH = 4;
+	parameter RECOMPUTE_FIFO_DEPTH = 16;
+	parameter RECOMPUTE_SHIFT_WIDTH = 5;
 	parameter RETIMING_REG_NUM = 4;
-	parameter RECOMPUTE_SCALE_WIDTH = 16;
+	parameter RECOMPUTE_SCALE_WIDTH = 24;
 	input wire clk;
 	input wire rst_n;
 	input wire recompute_needed;
