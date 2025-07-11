@@ -38,7 +38,7 @@ ppa_runner = PPARunner(
     threads_per_job=3,
     global_flow_config={
         'VERILOG_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'sysdef.svh'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'sys_defs.svh'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_acc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_buf.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_ctrl.v'),
@@ -60,7 +60,7 @@ problem = vz.ProblemStatement()
 problem.search_space.root.add_discrete_param(name='constraint_period', feasible_values=[10], default_value=10) # Guessing that the optimal period is somewhere in between, based on previous results
 # problem.search_space.root.add_int_param(name='ABC_MAX_FANOUT', min_value=12, max_value=28, default_value=20) # Guessing the ABC max fanout is somewhere between 12 and 28
 # problem.search_space.root.add_float_param(name='ABC_MAP_EFFORT', min_value=0, max_value=1, default_value=0.6) # Guessing the ABC map effort is somewhere between 0 and 1
-problem.search_space.root.add_discrete_param(name='mac_num', feasible_values=[16,32], default_value=32)
+problem.search_space.root.add_discrete_param(name='mac_num', feasible_values=[8,16,32], default_value=32)
 
 problem.metric_information.append(
     vz.MetricInformation(
@@ -75,7 +75,7 @@ study_config.algorithm = 'RANDOM_SEARCH' # Use random search for random sampling
 study_client = clients.Study.from_study_config(
   study_config,
   owner='ppa_runner',
-  study_id='ppa_core_top_nov'
+  study_id='ppa_core_top_nov22'
 )
 print('Local SQL database file located at: ', service.VIZIER_DB_PATH)
 
@@ -125,7 +125,7 @@ def vizier_optimizer(prev_iter_number, prev_iter_ppa_runs: list[PPARunner], prev
             suggestion.complete(final_measurement)
 
 
-    if prev_iter_number >= 2: # Run for 10 iterations and then stop
+    if prev_iter_number >= 4: # Run for 10 iterations and then stop
         print("Optimization complete.")
 
         # Print the optimal Vizier trials

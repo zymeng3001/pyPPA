@@ -1,3 +1,5 @@
+`include "sys_defs.svh"
+
 module core_top (
 	clk,
 	rstn,
@@ -42,27 +44,30 @@ module core_top (
 	hlink_rvalid
 );
 	reg _sv2v_0;
-	parameter GBUS_DATA_WIDTH = 32;
-	parameter GBUS_ADDR_WIDTH = 19;
-	parameter CMEM_ADDR_WIDTH = 13;
-	parameter CMEM_DATA_WIDTH = 128;
-	parameter VLINK_DATA_WIDTH = 128;
-	parameter HLINK_DATA_WIDTH = 128;
-	parameter MAC_MULT_NUM = ${mac_num};
-	parameter IDATA_WIDTH = 8;
-	parameter ODATA_BIT = 25;
-	parameter RECOMPUTE_SCALE_WIDTH = 24;
-	parameter RECOMPUTE_SHIFT_WIDTH = 5;
-	parameter RC_RETIMING_REG_NUM = 7;
-	parameter CDATA_ACCU_NUM_WIDTH = 10;
-	parameter CDATA_SCALE_WIDTH = 10;
-	parameter CDATA_BIAS_WIDTH = 16;
-	parameter CDATA_SHIFT_WIDTH = 5;
-	parameter USER_ID_WIDTH = 2;
-	parameter CORE_MEM_ADDR_WIDTH = 14;
-	parameter INTERFACE_DATA_WIDTH = 16;
+	parameter GBUS_DATA_WIDTH = `GBUS_DATA_WIDTH;
+	parameter GBUS_ADDR_WIDTH = `GBUS_ADDR_WIDTH;
+	parameter CMEM_ADDR_WIDTH = `CMEM_ADDR_WIDTH;
+	parameter MAC_MULT_NUM = `MAC_MULT_NUM;
+	parameter IDATA_WIDTH = `IDATA_WIDTH;
+	parameter VLINK_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
+	parameter HLINK_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
+	parameter CMEM_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
+	parameter ODATA_BIT = `ODATA_WIDTH;
+	parameter RECOMPUTE_SCALE_WIDTH = `RECOMPUTE_SCALE_WIDTH;
+	parameter RECOMPUTE_SHIFT_WIDTH = `RECOMPUTE_SHIFT_WIDTH;
+	parameter RC_RETIMING_REG_NUM = `RC_RETIMING_REG_NUM;
+	parameter CDATA_ACCU_NUM_WIDTH = `CDATA_ACCU_NUM_WIDTH;
+	parameter CDATA_SCALE_WIDTH = `CDATA_SCALE_WIDTH;
+	parameter CDATA_BIAS_WIDTH = `CDATA_BIAS_WIDTH;
+	parameter CDATA_SHIFT_WIDTH = `CDATA_SHIFT_WIDTH;
+	parameter USER_ID_WIDTH = `USER_ID_WIDTH;
+	parameter CORE_MEM_ADDR_WIDTH = `CORE_MEM_ADDR_WIDTH;
+	parameter INTERFACE_DATA_WIDTH = `INTERFACE_DATA_WIDTH;
 	parameter HEAD_INDEX = 0;
 	parameter CORE_INDEX = 0;
+	parameter CACHE_DEPTH = `KV_CACHE_DEPTH_SINGLE_USER;
+	parameter CACHE_NUM = `MAC_MULT_NUM;
+
 	input clk;
 	input rstn;
 	input wire clean_kv_cache;
@@ -260,7 +265,7 @@ module core_top (
 		.odata_valid(acc_odata_valid)
 	);
 	wire recompute_needed;
-	wire [ODATA_BIT - 1:0] rc_out_data;
+	wire [IDATA_WIDTH*2+$clog2(MAC_MULT_NUM) + 5 - 1:0] rc_out_data;  // copied from 
 	wire rc_out_data_vld;
 	wire rc_error;
 	wire [RECOMPUTE_SHIFT_WIDTH - 1:0] rms_rc_shift;
@@ -279,10 +284,10 @@ module core_top (
 			rc_cfg_vld_reg <= 0;
 	assign rms_rc_shift = rc_cfg_reg[83-:5];
 	core_rc #(
-		.IN_DATA_WIDTH(ODATA_BIT),
-		.OUT_DATA_WIDTH(ODATA_BIT),
-		.RECOMPUTE_FIFO_DEPTH(RECOMPUTE_FIFO_DEPTH),
-		.RETIMING_REG_NUM(RC_RETIMING_REG_NUM)
+		.IN_DATA_WIDTH(`ODATA_WIDTH),
+		.OUT_DATA_WIDTH(`ODATA_WIDTH),
+		.RECOMPUTE_FIFO_DEPTH(`RECOMPUTE_FIFO_DEPTH),
+		.RETIMING_REG_NUM(`RC_RETIMING_REG_NUM)
 	) rc_inst(
 		.clk(clk),
 		.rst_n(rstn),
@@ -300,8 +305,8 @@ module core_top (
 	wire signed [IDATA_WIDTH - 1:0] quant_odata;
 	wire quant_odata_valid;
 	core_quant #(
-		.IDATA_WIDTH(ODATA_BIT),
-		.ODATA_BIT(IDATA_WIDTH)
+		.IDATA_WIDTH(`ODATA_WIDTH),
+		.ODATA_BIT(`IDATA_WIDTH)
 	) quant_inst(
 		.clk(clk),
 		.rstn(rstn),
@@ -326,7 +331,31 @@ module core_top (
 		.odata(parallel_data),
 		.odata_valid(parallel_data_valid)
 	);
-	core_ctrl #(.CORE_INDEX(CORE_INDEX)) inst_core_ctrl(
+	core_ctrl #(
+		.HLINK_DATA_WIDTH(CMEM_DATA_WIDTH),
+		.VLINK_DATA_WIDTH(VLINK_DATA_WIDTH),
+		.GBUS_DATA_WIDTH(GBUS_DATA_WIDTH),
+		.IDATA_WIDTH(IDATA_WIDTH),
+		.CMEM_ADDR_WIDTH(CMEM_ADDR_WIDTH),
+		.CMEM_DATA_WIDTH(CMEM_DATA_WIDTH),
+		.ODATA_BIT(`ODATA_WIDTH),
+		.CORE_INDEX(CORE_INDEX),
+		.CACHE_DEPTH(CACHE_DEPTH),
+		.CACHE_NUM(CACHE_NUM),
+		.CACHE_ADDR_WIDTH($clog2(CACHE_NUM) + $clog2(CACHE_DEPTH)),
+		.MAX_EMBD_SIZE(`MAX_EMBD_SIZE),
+		.HEAD_NUM(`HEAD_NUM),
+		.HEAD_CORE_NUM(`HEAD_CORE_NUM),
+		.MAC_MULT_NUM(`MAC_MULT_NUM),
+		.WMEM_DEPTH(`WMEM_DEPTH),
+		.WMEM_NUM_PER_CORE(`WMEM_NUM_PER_CORE),
+		.MAX_CONTEXT_LENGTH(`MAX_CONTEXT_LENGTH),
+		.OP_GEN_CNT_WIDTH(`OP_GEN_CNT_WIDTH),
+		.TOKEN_PER_CORE_WIDTH(`TOKEN_PER_CORE_WIDTH),
+		.HEAD_SRAM_DEPTH(`HEAD_SRAM_DEPTH),
+		.GLOBAL_SRAM_DEPTH(`GLOBAL_SRAM_DEPTH)
+		) 
+	inst_core_ctrl(
 		.clk(clk),
 		.rst_n(rstn),
 		.control_state(control_state),

@@ -22,7 +22,7 @@ ppa_runner = PPARunner(
 	global_flow_config={
 		# Source Verilog files.
 		'VERILOG_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'sysdef.svh'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'sys_defs.svh'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_acc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_buf.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_ctrl.v'),
@@ -88,10 +88,10 @@ ppa_runner.add_job({
 			'values': [5]
 		},
 		'mac_num': {
-			'values': [8,16,32]
+			'values': [4,8,16,32,64]
 		},
-		'wmem_size': {
-			'values': [512, 256]
+		'wmem_depth': {
+			'values': [256]
 		}
 	}
 })
@@ -113,13 +113,15 @@ for job_run in ppa_runner.job_runs:
 		power.append(ppa_run['ppa_stats']['power_report']['total']['total_power'])
 		area.append(ppa_run['synth_stats']['module_area'])
 		
+		print("\n")
 		print(f"Results for run #{ppa_run['run_number']}:")
 		# print(f"ABC max fanout: {ppa_run['flow_config']['ABC_MAX_FANOUT']}")  # This is the value of the ABC_MAX_FANOUT option
 		# print(f"ABC map effort: {ppa_run['flow_config']['ABC_MAP_EFFORT']}")  # This is the value of the ABC_MAP_EFFORT option
-		print(f"wmem_size: {ppa_run['hyperparameters']['wmem_size']}, mac_num: {ppa_run['hyperparameters']['mac_num']}, clk_period: {ppa_run['hyperparameters']['clk_period']}")
+		print(f"wmem_depth: {ppa_run['hyperparameters']['wmem_depth']}, mac_num: {ppa_run['hyperparameters']['mac_num']}, clk_period: {ppa_run['hyperparameters']['clk_period']}")
 		print(f"PPA stats: {ppa_run['ppa_stats']['power_report']['total']['total_power']} W")
 		print(f"STA report: slack {ppa_run['ppa_stats']['sta']['clk']['clk_slack']} period {ppa_run['ppa_stats']['sta']['clk']['clk_period']} total {ppa_run['ppa_stats']['sta']['clk']['clk_period']+ppa_run['ppa_stats']['sta']['clk']['clk_slack']}")
 		print(f"Total cells={ppa_run['synth_stats']['num_cells']}, Area={ppa_run['synth_stats']['module_area']}, Seq/Comb cells = {ppa_run['ppa_stats']['num_sequential_cells']}/{ppa_run['ppa_stats']['num_combinational_cells']};")
+		print("=========================================================")
 
 print(clk_period)
 print(power)

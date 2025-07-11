@@ -37,7 +37,7 @@
 `define MAX_CONTEXT_LENGTH_WITH_GQA (`MAX_CONTEXT_LENGTH*2)
 
 `define HEAD_CORE_NUM  16   //How many cores for one head
-`define MAX_NUM_USER 4 //needs to be even number, because of 2 user share one mem
+`define MAX_NUM_USER 1 //needs to be even number, because of 2 user share one mem
 
 `define MAX_QKV_WEIGHT_COLS_PER_CORE (`MAX_EMBD_SIZE/`HEAD_NUM/`HEAD_CORE_NUM) 
 `define MAX_TOKEN_PER_CORE (`MAX_CONTEXT_LENGTH_WITH_GQA/`HEAD_CORE_NUM) //每个core里面存放了多少个token，针对K矩阵
@@ -100,7 +100,7 @@
 //https://docs.google.com/spreadsheets/d/1xzBwB_yHY48no7eCyaSvvRwQojUWLVjq/edit?gid=1117410533#gid=1117410533
 
 // `define WMEM_DEPTH   (3072/2)
-`define WMEM_DEPTH   ${wmem_size} 
+`define WMEM_DEPTH   ${wmem_depth} 
 `define WMEM_NUM_PER_CORE 3 //one for qkvproj,one for ffn0, one for ffn1 each 1024 in depth
 
 `define KV_CACHE_DEPTH_SINGLE_USER  (256/2) //This is for one user, two user share one KV Cache, so one KV Cache depth is 512
@@ -118,7 +118,7 @@
 `define CMEM_ADDR_WIDTH (1 + ($clog2(`MAC_MULT_NUM) +  $clog2(`KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA))) //if $clog2(`WMEM_DEPTH) <= $clog2(`MAC_MULT_NUM) +  $clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)
                          //This bit determine weight of cache -BUCK
                          //1: cache, 0: wmem
-                         //CMEM use same data width as GBUS
+                         //CMEM use same data width as GBUS                  
 
 `define GBUS_ADDR_WIDTH   (2 + $clog2(`HEAD_CORE_NUM) + `CMEM_ADDR_WIDTH)
                         //2 for residual sram
