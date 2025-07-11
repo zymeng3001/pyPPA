@@ -77,7 +77,7 @@ ppa_runner.add_job({
             'values': [0.5]
 		},
 		'SYNTH_HIERARCHICAL': {
-			'values': [False,True]
+			'values': [True]
 		}
 	},
 	# Hyperparameters are used defined parameters that can be inserted in the source files using the Mako templating syntax. See https://www.makotemplates.org/ for more information.
@@ -91,7 +91,7 @@ ppa_runner.add_job({
 			'values': [5]
 		},
 		'mac_num': {
-			'values': [4,8,16,32,64]
+			'values': [4,8,16,32]
 		},
 		'wmem_depth': {
 			'values': [64,128,256,512,768,1024,1536,2048]
@@ -102,9 +102,17 @@ ppa_runner.add_job({
 	}
 })
 
+# set the timer in python
+import time
+start_time = time.time()
+
 # Finally, run all the jobs. They will be run concurrently, and each job will be assigned a number of threads to parallelize the sweep.
 # To change the number of threads assigned per job, change the `threads_per_job` argument to the PPARunner. To change the number of concurrent jobs, change the `max_concurrent_jobs` argument to the PPARunner.
 ppa_runner.run_all_jobs()
+
+# Print the total time taken for the PPA runs
+end_time = time.time()
+total_time = end_time - start_time
 
 clk_period = []
 power = []
@@ -132,6 +140,8 @@ for job_run in ppa_runner.job_runs:
 print(clk_period)
 print(power)
 print(area)
+print(f"Total time taken for PPA runs: {total_time:.2f} seconds")
+
 
 # coefficients = np.polyfit(clk_period, power, 2)  # 2 is the degree of the polynomial
 # poly_fit = np.poly1d(coefficients)
