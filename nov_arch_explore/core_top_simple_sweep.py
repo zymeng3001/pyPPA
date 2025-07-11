@@ -66,8 +66,8 @@ ppa_runner.add_job({
 		# 	'values': [True]
 		# }
 		,'ABC_MAX_FANOUT': {
-			'start': 16,
-			'end': 16,
+			'start': 40,
+			'end': 40,
 			'step': 4
 		},
 		'ABC_MAP_EFFORT': {
@@ -75,6 +75,9 @@ ppa_runner.add_job({
 		},
 		'ABC_AREC_EFFORT': {
             'values': [0.5]
+		},
+		'SYNTH_HIERARCHICAL': {
+			'values': [False,True]
 		}
 	},
 	# Hyperparameters are used defined parameters that can be inserted in the source files using the Mako templating syntax. See https://www.makotemplates.org/ for more information.
@@ -91,7 +94,10 @@ ppa_runner.add_job({
 			'values': [4,8,16,32,64]
 		},
 		'wmem_depth': {
-			'values': [256]
+			'values': [64,128,256,512,768,1024,1536,2048]
+		},
+		'kv_cache_depth': {
+			'values': [64,128,256,512,768,1024,1536,2048]
 		}
 	}
 })

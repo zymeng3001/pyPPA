@@ -103,7 +103,8 @@
 `define WMEM_DEPTH   ${wmem_depth} 
 `define WMEM_NUM_PER_CORE 3 //one for qkvproj,one for ffn0, one for ffn1 each 1024 in depth
 
-`define KV_CACHE_DEPTH_SINGLE_USER  (256/2) //This is for one user, two user share one KV Cache, so one KV Cache depth is 512
+// `define KV_CACHE_DEPTH_SINGLE_USER  (256/2) //This is for one user, two user share one KV Cache, so one KV Cache depth is 512
+`define KV_CACHE_DEPTH_SINGLE_USER  ${kv_cache_depth} 
 `define KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA (`KV_CACHE_DEPTH_SINGLE_USER*2)
 
 // `define KV_CACHE_DEPTH_ALL_USER (`KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA*`MAX_NUM_USER)
