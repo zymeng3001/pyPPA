@@ -44,7 +44,7 @@ module core_top (
 	hlink_rvalid
 );
 	reg _sv2v_0;
-	parameter GBUS_DATA_WIDTH = `GBUS_DATA_WIDTH;
+	parameter GBUS_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
 	parameter GBUS_ADDR_WIDTH = `GBUS_ADDR_WIDTH;
 	parameter CMEM_ADDR_WIDTH = `CMEM_ADDR_WIDTH;
 	parameter MAC_MULT_NUM = `MAC_MULT_NUM;
