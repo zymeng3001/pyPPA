@@ -608,10 +608,10 @@ module kv_cache_pkt (
 		if (clean_kv_cache) begin
 			nxt_clean_wen = 0;
 			nxt_clean_wen = 1;
-			nxt_clean_addr = clean_kv_cache_user_id * 128;
+			nxt_clean_addr = clean_kv_cache_user_id * CACHE_DEPTH;
 		end
 		else if (clean_kv_cache_flag && clean_wen) begin
-			if (clean_addr == ((clean_kv_cache_user_id_reg * 128) + 127)) begin
+			if (clean_addr == ((clean_kv_cache_user_id_reg * CACHE_DEPTH) + CACHE_DEPTH - 1)) begin
 				nxt_clean_kv_cache_finish = 1;
 				nxt_clean_wen = 0;
 				nxt_clean_addr = 0;
