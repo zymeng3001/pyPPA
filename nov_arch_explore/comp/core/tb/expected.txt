@@ -1,0 +1,8 @@
+acc_result =      -48276, quant_bias =      -48276, quant_result =         -95, rnd_result =         -94, Result =         -94,i=         31
+acc_result =      -90023, quant_bias =      -90023, quant_result =        -176, rnd_result =        -176, Result =        -128,i=         63
+acc_result =       37478, quant_bias =       37478, quant_result =          73, rnd_result =          73, Result =          73,i=         95
+acc_result =      -66280, quant_bias =      -66280, quant_result =        -130, rnd_result =        -129, Result =        -128,i=        127
+acc_result =       -3032, quant_bias =       -3032, quant_result =          -6, rnd_result =          -6, Result =          -6,i=        159
+acc_result =      -47705, quant_bias =      -47705, quant_result =         -94, rnd_result =         -93, Result =         -93,i=        191
+acc_result =      -58817, quant_bias =      -58817, quant_result =        -115, rnd_result =        -115, Result =        -115,i=        223
+acc_result =       77112, quant_bias =       77112, quant_result =         150, rnd_result =         151, Result =         127,i=        255

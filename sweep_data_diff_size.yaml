@@ -1,0 +1,654 @@
+---
+best_val_iter: 20000
+best_val_loss: 3.8774309158325195
+better_than_chance: 1041.0
+btc_per_param: 3.455e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_172856_ppa_sweep_1ppa_sweep_1-20000-6-4-384-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-384-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-384-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 32.2
+num_params: 30117120
+peak_gpu_mb: 15724.2
+---
+best_val_iter: 19750
+best_val_loss: 3.819411277770996
+better_than_chance: 1103.0
+btc_per_param: 3.649e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_174823_ppa_sweep_1ppa_sweep_1-20000-6-4-384-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-384-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-384-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 46.3
+num_params: 30215424
+peak_gpu_mb: 23337.9
+---
+best_val_iter: 20000
+best_val_loss: 3.7456884384155273
+better_than_chance: 1187.0
+btc_per_param: 3.916e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_181257_ppa_sweep_1ppa_sweep_1-20000-6-4-384-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-384-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-384-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 60.8
+num_params: 30313728
+peak_gpu_mb: 30947.1
+---
+best_val_iter: 20000
+best_val_loss: 3.753807306289673
+better_than_chance: 1177.0
+btc_per_param: 2.624e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_184428_ppa_sweep_1ppa_sweep_1-20000-6-4-512-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-512-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-512-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 37.4
+num_params: 44874752
+peak_gpu_mb: 16811.1
+---
+best_val_iter: 250
+best_val_loss: 6.317073345184326
+better_than_chance: 90.72
+btc_per_param: 2.016e-06
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_190551_ppa_sweep_1ppa_sweep_1-20000-6-4-512-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-512-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-512-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 55.0
+num_params: 45005824
+peak_gpu_mb: 24863.7
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_190644_ppa_sweep_1ppa_sweep_1-20000-6-4-512-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-512-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-512-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250626_190647_ppa_sweep_1pp---
+best_val_iter: 20000
+best_val_loss: 3.7046616077423096
+better_than_chance: 1237.0
+btc_per_param: 1.518e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_054903_ppa_sweep_1ppa_sweep_1-20000-6-4-768-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-768-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-768-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 52.8
+num_params: 81467904
+peak_gpu_mb: 19102.3
+---
+best_val_iter: 19750
+best_val_loss: 3.572413682937622
+better_than_chance: 1412.0
+btc_per_param: 1.729e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_062021_ppa_sweep_1ppa_sweep_1-20000-6-4-768-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-768-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-768-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 78.2
+num_params: 81664512
+peak_gpu_mb: 28028.5
+---
+best_val_iter: 20000
+best_val_loss: 3.493173599243164
+better_than_chance: 1528.0
+btc_per_param: 1.867e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_070356_ppa_sweep_1ppa_sweep_1-20000-6-4-768-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-768-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-768-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 103.8
+num_params: 81861120
+peak_gpu_mb: 36958.9
+---
+best_val_iter: 750
+best_val_loss: 6.308717727661133
+better_than_chance: 91.49
+btc_per_param: 7.175e-07
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 1024
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_080013_ppa_sweep_1ppa_sweep_1-20000-6-4-1024-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-1024-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-1024-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 68.8
+num_params: 127498240
+peak_gpu_mb: 24595.0
+---
+best_val_iter: 8750
+best_val_loss: 5.889936447143555
+better_than_chance: 139.1
+btc_per_param: 1.089e-06
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 1024
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_081436_ppa_sweep_1ppa_sweep_1-20000-6-4-1024-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-1024-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-1024-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 97.0
+num_params: 127760384
+peak_gpu_mb: 36012.9
+---
+best_val_iter: 500
+best_val_loss: 6.109701633453369
+better_than_chance: 111.6
+btc_per_param: 8.72e-07
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 1024
+  n_head: 4
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_084319_ppa_sweep_1ppa_sweep_1-20000-6-4-1024-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-4-1024-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-4-1024-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 133.6
+num_params: 128022528
+peak_gpu_mb: 47428.3
+---
+best_val_iter: 20000
+best_val_loss: 3.8884060382843018
+better_than_chance: 1029.0
+btc_per_param: 3.417e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_091119_ppa_sweep_1ppa_sweep_1-20000-6-8-384-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-384-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-384-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 32.6
+num_params: 30117120
+peak_gpu_mb: 15727.2
+---
+best_val_iter: 19750
+best_val_loss: 3.797271490097046
+better_than_chance: 1127.0
+btc_per_param: 3.731e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_092930_ppa_sweep_1ppa_sweep_1-20000-6-8-384-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-384-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-384-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 47.9
+num_params: 30215424
+peak_gpu_mb: 23340.4
+---
+best_val_iter: 20000
+best_val_loss: 3.7276527881622314
+better_than_chance: 1209.0
+btc_per_param: 3.987e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_095456_ppa_sweep_1ppa_sweep_1-20000-6-8-384-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-384-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-384-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 62.8
+num_params: 30313728
+peak_gpu_mb: 30951.8
+---
+best_val_iter: 20000
+best_val_loss: 3.7948269844055176
+better_than_chance: 1130.0
+btc_per_param: 2.518e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_102801_ppa_sweep_1ppa_sweep_1-20000-6-8-512-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-512-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-512-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 37.5
+num_params: 44874752
+peak_gpu_mb: 16814.1
+---
+best_val_iter: 19750
+best_val_loss: 3.65165638923645
+better_than_chance: 1304.0
+btc_per_param: 2.898e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_104924_ppa_sweep_1ppa_sweep_1-20000-6-8-512-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-512-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-512-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 55.2
+num_params: 45005824
+peak_gpu_mb: 24867.2
+---
+best_val_iter: 20000
+best_val_loss: 3.6435494422912598
+better_than_chance: 1315.0
+btc_per_param: 2.913e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_111920_ppa_sweep_1ppa_sweep_1-20000-6-8-512-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-512-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-512-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 72.0
+num_params: 45136896
+peak_gpu_mb: 32919.1
+---
+best_val_iter: 20000
+best_val_loss: 3.6350104808807373
+better_than_chance: 1326.0
+btc_per_param: 1.628e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_115735_ppa_sweep_1ppa_sweep_1-20000-6-8-768-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-768-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-768-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 53.1
+num_params: 81467904
+peak_gpu_mb: 19103.6
+---
+best_val_iter: 19750
+best_val_loss: 3.5514845848083496
+better_than_chance: 1441.0
+btc_per_param: 1.765e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_122842_ppa_sweep_1ppa_sweep_1-20000-6-8-768-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-768-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-768-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 78.7
+num_params: 81664512
+peak_gpu_mb: 28030.9
+---
+best_val_iter: 20000
+best_val_loss: 3.5246517658233643
+better_than_chance: 1481.0
+btc_per_param: 1.809e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_131225_ppa_sweep_1ppa_sweep_1-20000-6-8-768-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-768-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-768-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 104.5
+num_params: 81861120
+peak_gpu_mb: 36964.0
+---
+best_val_iter: 500
+best_val_loss: 6.163206577301025
+better_than_chance: 105.8
+btc_per_param: 8.299e-07
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 1024
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_140826_ppa_sweep_1ppa_sweep_1-20000-6-8-1024-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-1024-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-1024-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 68.7
+num_params: 127498240
+peak_gpu_mb: 24597.1
+---
+best_val_iter: 500
+best_val_loss: 6.13819694519043
+better_than_chance: 108.5
+btc_per_param: 8.492e-07
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 1024
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_142338_ppa_sweep_1ppa_sweep_1-20000-6-8-1024-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-1024-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-1024-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 101.3
+num_params: 127760384
+peak_gpu_mb: 36018.1
+---
+best_val_iter: 1250
+best_val_loss: 5.95964241027832
+better_than_chance: 129.7
+btc_per_param: 1.013e-06
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 1024
+  n_head: 8
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_144949_ppa_sweep_1ppa_sweep_1-20000-6-8-1024-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-8-1024-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-8-1024-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 132.5
+num_params: 128022528
+peak_gpu_mb: 47433.7
+---
+best_val_iter: 20000
+best_val_loss: 3.8923022747039795
+better_than_chance: 1025.0
+btc_per_param: 3.404e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_155550_ppa_sweep_1ppa_sweep_1-20000-6-16-384-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-384-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-384-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 34.7
+num_params: 30117120
+peak_gpu_mb: 15733.7
+---
+best_val_iter: 19750
+best_val_loss: 3.8012421131134033
+better_than_chance: 1123.0
+btc_per_param: 3.716e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_161459_ppa_sweep_1ppa_sweep_1-20000-6-16-384-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-384-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-384-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 50.6
+num_params: 30215424
+peak_gpu_mb: 23349.4
+---
+best_val_iter: 19250
+best_val_loss: 3.7438459396362305
+better_than_chance: 1189.0
+btc_per_param: 3.923e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 384
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_164220_ppa_sweep_1ppa_sweep_1-20000-6-16-384-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-384-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-384-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 67.2
+num_params: 30313728
+peak_gpu_mb: 30964.3
+---
+best_val_iter: 20000
+best_val_loss: 3.7938344478607178
+better_than_chance: 1131.0
+btc_per_param: 2.521e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_171754_ppa_sweep_1ppa_sweep_1-20000-6-16-512-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-512-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-512-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 38.5
+num_params: 44874752
+peak_gpu_mb: 16820.1
+---
+best_val_iter: 19750
+best_val_loss: 3.68437123298645
+better_than_chance: 1262.0
+btc_per_param: 2.804e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_174000_ppa_sweep_1ppa_sweep_1-20000-6-16-512-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-512-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-512-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 56.8
+num_params: 45005824
+peak_gpu_mb: 24879.9
+---
+best_val_iter: 20000
+best_val_loss: 3.632563829421997
+better_than_chance: 1329.0
+btc_per_param: 2.945e-05
+config:
+  block_size: 1024
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 512
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_181104_ppa_sweep_1ppa_sweep_1-20000-6-16-512-1024-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-512-1024-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-512-1024-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 75.5
+num_params: 45136896
+peak_gpu_mb: 32931.1
+---
+best_val_iter: 20000
+best_val_loss: 3.62451171875
+better_than_chance: 1340.0
+btc_per_param: 1.645e-05
+config:
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_185100_ppa_sweep_1ppa_sweep_1-20000-6-16-768-512-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-768-512-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-768-512-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 55.0
+num_params: 81467904
+peak_gpu_mb: 19108.1
+---
+best_val_iter: 19750
+best_val_loss: 3.513833999633789
+better_than_chance: 1497.0
+btc_per_param: 1.833e-05
+config:
+  block_size: 768
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  n_embd: 768
+  n_head: 16
+  n_layer: 6
+  out_dir: out/ppa_sweep_1/20250627_192345_ppa_sweep_1ppa_sweep_1-20000-6-16-768-768-cuda-openwebtext-True-ppa_exploration_1
+  tensorboard_run_name: ppa_sweep_1ppa_sweep_1-20000-6-16-768-768-cuda-openwebtext-True-ppa_exploration_1
+formatted_name: ppa_sweep_1ppa_sweep_1-20000-6-16-768-768-cuda-openwebtext-True-ppa_exploration_1
+iter_latency_avg: 82.3
+num_params: 81664512
+peak_gpu_mb: 28040.6

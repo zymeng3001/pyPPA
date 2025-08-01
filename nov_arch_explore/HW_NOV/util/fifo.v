@@ -69,10 +69,13 @@ module async_fifo #(
 
     always @(posedge rclk or posedge rrst) begin
         if (rrst) begin
-            {rbin, rptr} <= 'd0;
+            rbin <= 'd0;
+            rptr <= 'd0;
         end
         else begin
-            {rbin, rptr} <= rbinnext, rgraynext;
+            rbin <= rbinnext;
+            rptr <= rgraynext;
+
         end
     end
 
@@ -89,10 +92,12 @@ module async_fifo #(
 
     always @(posedge wclk or posedge wrst) begin
         if (wrst) begin
-            {wbin, wptr} <= 'd0;
+            wbin <= 'd0;
+            wptr <= 'd0;
         end
         begin
-            {wbin, wptr} <= wbinnext, wgraynext;
+            wbin <= wbinnext;
+            wptr <= wgraynext;
         end
     end
 

@@ -1,5 +1,3 @@
-`include "sys_defs.svh"
-
 module core_mem (
 	clk,
 	rstn,
@@ -29,34 +27,24 @@ module core_mem (
 	cmem_rvalid
 );
 	reg _sv2v_0;
-	parameter IDATA_WIDTH = `IDATA_WIDTH;
-	parameter CMEM_ADDR_WIDTH = `CMEM_ADDR_WIDTH;
-	parameter CMEM_DATA_WIDTH = (`MAC_MULT_NUM * `IDATA_WIDTH);
+	parameter CMEM_ADDR_WIDTH = 13;
+	parameter CMEM_DATA_WIDTH = 128;
 	parameter CMEM_USER_WIDTH = 2;
-	parameter VLINK_DATA_WIDTH = (`MAC_MULT_NUM * `IDATA_WIDTH);
-	parameter WMEM_DEPTH = `WMEM_DEPTH;
+	parameter VLINK_DATA_WIDTH = 128;
+	parameter WMEM_DEPTH = 1536;
 	parameter WMEM_ADDR_WIDTH = $clog2(WMEM_DEPTH);
-	parameter INTERFACE_DATA_WIDTH = `INTERFACE_DATA_WIDTH;
-	parameter SINGLE_USR_CACHE_DEPTH = `KV_CACHE_DEPTH_SINGLE_USER;
-	parameter KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA = `KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA;
-	parameter CACHE_NUM = `MAC_MULT_NUM;
+	parameter SINGLE_USR_CACHE_DEPTH = 128;
+	parameter CACHE_NUM = 16;
 	parameter SINGLE_USR_CACHE_ADDR_WIDTH = $clog2(CACHE_NUM) + $clog2(SINGLE_USR_CACHE_DEPTH);
 	parameter HEAD_INDEX = 0;
-	parameter USER_ID_WIDTH = `USER_ID_WIDTH;
-	parameter CORE_MEM_ADDR_WIDTH = `CORE_MEM_ADDR_WIDTH;
-	parameter MAX_EMBD_SIZE = `MAX_EMBD_SIZE;
-	parameter HEAD_NUM = `HEAD_NUM;
-	parameter HEAD_CORE_NUM = `HEAD_CORE_NUM;
-	parameter MAC_MULT_NUM = `MAC_MULT_NUM;
-	parameter MAX_CONTEXT_LENGTH = 256;
 	input clk;
 	input rstn;
 	input wire clean_kv_cache;
-	input wire [USER_ID_WIDTH - 1:0] clean_kv_cache_user_id;
-	input wire [CORE_MEM_ADDR_WIDTH - 1:0] core_mem_addr;
-	input wire [INTERFACE_DATA_WIDTH - 1:0] core_mem_wdata;
+	input wire [1:0] clean_kv_cache_user_id;
+	input wire [13:0] core_mem_addr;
+	input wire [15:0] core_mem_wdata;
 	input wire core_mem_wen;
-	output reg [INTERFACE_DATA_WIDTH - 1:0] core_mem_rdata;
+	output reg [15:0] core_mem_rdata;
 	input wire core_mem_ren;
 	output reg core_mem_rvld;
 	input wire [VLINK_DATA_WIDTH - 1:0] vlink_data_in;
@@ -76,7 +64,7 @@ module core_mem (
 	output reg [CMEM_DATA_WIDTH - 1:0] cmem_rdata;
 	output reg cmem_rvalid;
 	localparam K_CACHE_ADDR_BASE = 0;
-	localparam V_CACHE_ADDR_BASE = (((MAX_CONTEXT_LENGTH * MAX_EMBD_SIZE) / HEAD_NUM) / HEAD_CORE_NUM) / MAC_MULT_NUM;
+	localparam V_CACHE_ADDR_BASE = 64;
 	reg [31:0] control_state_reg;
 	reg [31:0] control_state_reg_d;
 	wire state_changed;
@@ -133,18 +121,9 @@ module core_mem (
 				end
 			end
 		end
-	wire [INTERFACE_DATA_WIDTH - 1:0] weight_mem_rdata;
+	wire [15:0] weight_mem_rdata;
 	wire weight_mem_rvld;
-	wmem #(
-		.DATA_BIT(CMEM_DATA_WIDTH),
-		.IDATA_WIDTH(IDATA_WIDTH),
-		.MAC_MULT_NUM(MAC_MULT_NUM),
-		.CORE_MEM_ADDR_WIDTH(CORE_MEM_ADDR_WIDTH),
-		.INTERFACE_DATA_WIDTH(INTERFACE_DATA_WIDTH),
-		.WMEM_DEPTH(WMEM_DEPTH),
-		.WMEM_ADDR_WIDTH(WMEM_ADDR_WIDTH)
-	)
-	wmem_inst(
+	wmem wmem_inst(
 		.clk(clk),
 		.rstn(rstn),
 		.wmem_addr(wmem_addr),
@@ -183,7 +162,7 @@ module core_mem (
 	wire [CMEM_DATA_WIDTH - 1:0] cache_rdata;
 	reg cache_rvalid;
 	wire cache_wdata_byte_flag;
-	wire [INTERFACE_DATA_WIDTH - 1:0] kv_mem_rdata;
+	wire [15:0] kv_mem_rdata;
 	wire kv_mem_rvld;
 	always @(*) begin
 		if (_sv2v_0)
@@ -243,18 +222,18 @@ module core_mem (
 			if (model_cfg[0] == 1) begin
 				if (control_state_reg == 32'd4) begin
 					if ((HEAD_INDEX % 2) == 0) begin
-						if (cmem_raddr_delay1[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] >= (K_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+						if (cmem_raddr_delay1[0+:8] >= 64)
 							cmem_rdata = vlink_data_in;
 					end
-					else if (cmem_raddr_delay1[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] < (K_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+					else if (cmem_raddr_delay1[0+:8] < 64)
 						cmem_rdata = vlink_data_in;
 				end
 				else if (control_state_reg == 32'd5) begin
 					if ((HEAD_INDEX % 2) == 0) begin
-						if (cmem_raddr_delay1[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] >= (V_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+						if (cmem_raddr_delay1[0+:8] >= 128)
 							cmem_rdata = vlink_data_in;
 					end
-					else if (cmem_raddr_delay1[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] < (V_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+					else if (cmem_raddr_delay1[0+:8] < 128)
 						cmem_rdata = vlink_data_in;
 				end
 			end
@@ -287,46 +266,46 @@ module core_mem (
 			;
 		nxt_cache_wen = cmem_wen && cmem_waddr[CMEM_ADDR_WIDTH - 1];
 		nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)];
-		nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)+:$clog2(MAC_MULT_NUM)];
+		nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[8+:4];
 		nxt_cache_wdata = cmem_wdata;
 		if (model_cfg[0] == 1) begin
 			if (control_state_reg == 32'd2) begin
 				if ((HEAD_INDEX % 2) == 0) begin
-					if (cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] >= (K_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+					if (cmem_waddr[0+:8] >= 64)
 						nxt_cache_wen = 0;
 					else begin
 						nxt_cache_wen = cmem_wen && cmem_waddr[CMEM_ADDR_WIDTH - 1];
-						nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)];
-						nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)+:$clog2(MAC_MULT_NUM)];
+						nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:8];
+						nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[8+:4];
 						nxt_cache_wdata = cmem_wdata;
 					end
 				end
-				else if (cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] < (K_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+				else if (cmem_waddr[0+:8] < 64)
 					nxt_cache_wen = 0;
 				else begin
 					nxt_cache_wen = cmem_wen && cmem_waddr[CMEM_ADDR_WIDTH - 1];
-					nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] - V_CACHE_ADDR_BASE;
-					nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)+:$clog2(MAC_MULT_NUM)];
+					nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:8] - V_CACHE_ADDR_BASE;
+					nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[8+:4];
 					nxt_cache_wdata = cmem_wdata;
 				end
 			end
 			else if (control_state_reg == 32'd3) begin
 				if ((HEAD_INDEX % 2) == 0) begin
-					if (cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] >= (V_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+					if (cmem_waddr[0+:8] >= 128)
 						nxt_cache_wen = 0;
 					else begin
 						nxt_cache_wen = cmem_wen && cmem_waddr[CMEM_ADDR_WIDTH - 1];
-						nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)];
-						nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)+:$clog2(MAC_MULT_NUM)];
+						nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:8];
+						nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[8+:4];
 						nxt_cache_wdata = cmem_wdata;
 					end
 				end
-				else if (cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] < (V_CACHE_ADDR_BASE + V_CACHE_ADDR_BASE))
+				else if (cmem_waddr[0+:8] < 128)
 					nxt_cache_wen = 0;
 				else begin
 					nxt_cache_wen = cmem_wen && cmem_waddr[CMEM_ADDR_WIDTH - 1];
-					nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] - V_CACHE_ADDR_BASE;
-					nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)+:$clog2(MAC_MULT_NUM)];
+					nxt_cache_waddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_waddr[0+:8] - V_CACHE_ADDR_BASE;
+					nxt_cache_waddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = cmem_waddr[8+:4];
 					nxt_cache_wdata = cmem_wdata;
 				end
 			end
@@ -348,7 +327,7 @@ module core_mem (
 			;
 		cache_ren = cmem_ren && cmem_raddr[CMEM_ADDR_WIDTH - 1];
 		if ((model_cfg[0] == 1) && ((HEAD_INDEX % 2) == 1))
-			cache_raddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_raddr[0+:$clog2(KV_CACHE_DEPTH_SINGLE_USER_WITH_GQA)] - V_CACHE_ADDR_BASE;
+			cache_raddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_raddr[0+:8] - V_CACHE_ADDR_BASE;
 		else
 			cache_raddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)] = cmem_raddr[0+:$clog2(SINGLE_USR_CACHE_DEPTH)];
 		cache_raddr[SINGLE_USR_CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)] = 0;
@@ -388,10 +367,6 @@ module wmem (
 );
 	reg _sv2v_0;
 	parameter DATA_BIT = 128;
-	parameter IDATA_WIDTH = 8;
-	parameter MAC_MULT_NUM = 16;
-	parameter CORE_MEM_ADDR_WIDTH = 14;
-	parameter INTERFACE_DATA_WIDTH = 16;
 	parameter WMEM_DEPTH = 1536;
 	parameter WMEM_ADDR_WIDTH = $clog2(WMEM_DEPTH);
 	input wire clk;
@@ -402,10 +377,10 @@ module wmem (
 	input wire wmem_512_attn_deepslp;
 	input wire wmem_512_attn_bc1;
 	input wire wmem_512_attn_bc2;
-	input wire [CORE_MEM_ADDR_WIDTH - 1:0] weight_mem_addr;
-	input wire [INTERFACE_DATA_WIDTH - 1:0] weight_mem_wdata;
+	input wire [13:0] weight_mem_addr;
+	input wire [15:0] weight_mem_wdata;
 	input wire weight_mem_wen;
-	output wire [INTERFACE_DATA_WIDTH - 1:0] weight_mem_rdata;
+	output wire [15:0] weight_mem_rdata;
 	input wire weight_mem_ren;
 	output reg weight_mem_rvld;
 	input wire [WMEM_ADDR_WIDTH - 1:0] wmem_addr;
@@ -433,10 +408,10 @@ module wmem (
 			interface_inst_bwe <= 0;
 		end
 		else if (weight_mem_wen) begin
-			interface_inst_wen <= weight_mem_addr[CORE_MEM_ADDR_WIDTH - 1:CORE_MEM_ADDR_WIDTH - 2] != 0;
-			interface_inst_waddr <= {weight_mem_addr[CORE_MEM_ADDR_WIDTH - 1-:2] - 1'b1, weight_mem_addr[CORE_MEM_ADDR_WIDTH - 3:$clog2(MAC_MULT_NUM / 2)]};
-			interface_inst_wdata[weight_mem_addr[$clog2(MAC_MULT_NUM / 2) - 1:0] * (2 * IDATA_WIDTH)+:2 * IDATA_WIDTH] <= weight_mem_wdata;
-			interface_inst_bwe[weight_mem_addr[$clog2(MAC_MULT_NUM / 2) - 1:0] * (2 * IDATA_WIDTH)+:2 * IDATA_WIDTH] <= 16'hffff;
+			interface_inst_wen <= weight_mem_addr[13:12] != 0;
+			interface_inst_waddr <= {weight_mem_addr[13-:2] - 1'b1, weight_mem_addr[11:3]};
+			interface_inst_wdata[weight_mem_addr[2:0] * 16+:16] <= weight_mem_wdata;
+			interface_inst_bwe[weight_mem_addr[2:0] * 16+:16] <= 16'hffff;
 		end
 		else begin
 			interface_inst_bwe <= 0;
@@ -448,13 +423,13 @@ module wmem (
 			interface_inst_raddr <= 0;
 		end
 		else if (weight_mem_ren) begin
-			interface_inst_ren <= weight_mem_addr[CORE_MEM_ADDR_WIDTH - 1:CORE_MEM_ADDR_WIDTH - 2] != 0;
-			interface_inst_raddr <= {weight_mem_addr[CORE_MEM_ADDR_WIDTH - 1-:2] - 1'b1, weight_mem_addr[CORE_MEM_ADDR_WIDTH - 3:$clog2(MAC_MULT_NUM / 2)]};
+			interface_inst_ren <= weight_mem_addr[13:12] != 0;
+			interface_inst_raddr <= {weight_mem_addr[13-:2] - 1'b1, weight_mem_addr[11:3]};
 		end
 		else
 			interface_inst_ren <= 0;
-	reg [CORE_MEM_ADDR_WIDTH - 1:0] interface_addr_delay1;
-	reg [CORE_MEM_ADDR_WIDTH - 1:0] interface_addr_delay2;
+	reg [13:0] interface_addr_delay1;
+	reg [13:0] interface_addr_delay2;
 	reg weight_mem_ren_delay1;
 	always @(posedge clk or negedge rstn)
 		if (~rstn) begin
@@ -465,7 +440,7 @@ module wmem (
 			weight_mem_ren_delay1 <= weight_mem_ren;
 			weight_mem_rvld <= interface_inst_ren;
 		end
-	assign weight_mem_rdata = wmem_rdata[interface_addr_delay2[$clog2(MAC_MULT_NUM / 2) - 1:0] * (2 * IDATA_WIDTH)+:2 * IDATA_WIDTH];
+	assign weight_mem_rdata = wmem_rdata[interface_addr_delay2[2:0] * 16+:16];
 	always @(posedge clk or negedge rstn)
 		if (~rstn) begin
 			interface_addr_delay1 <= 0;
@@ -494,13 +469,12 @@ module wmem (
 			wmem_addr_f = interface_inst_raddr;
 		end
 	end
-	// mem_sp #(
-	// 	.DATA_BIT(DATA_BIT),
-	// 	.DEPTH(WMEM_DEPTH),
-	// 	.ADDR_BIT(WMEM_ADDR_WIDTH),
-	// 	.BWE(1)
-	// ) inst_mem_sp(
-	mem_sp_wmem mem_sp_wmem_inst(
+	wmem_sp_wrapper #(
+		.DATA_BIT(DATA_BIT),
+		.DEPTH(WMEM_DEPTH),
+		.ADDR_BIT(WMEM_ADDR_WIDTH),
+		.BWE(1)
+	) inst_mem_sp(
 		.clk(clk),
 		.addr(wmem_addr_f),
 		.wen(wmem_wen_f),
@@ -531,51 +505,45 @@ module kv_cache_pkt (
 	usr_cfg
 );
 	reg _sv2v_0;
-	parameter DATA_WIDTH = (`IDATA_WIDTH * `MAC_MULT_NUM);
-	parameter IDATA_WIDTH = `IDATA_WIDTH;
-	parameter ODATA_BIT = (`IDATA_WIDTH * `MAC_MULT_NUM);
-	parameter CACHE_NUM = `MAC_MULT_NUM;
-	parameter MAC_MULT_NUM = `MAC_MULT_NUM;
-	parameter MAX_NUM_USER = `MAX_NUM_USER;
-	parameter CACHE_DEPTH = `KV_CACHE_DEPTH_SINGLE_USER;
-	parameter USER_ID_WIDTH = $clog2(MAX_NUM_USER);
+	parameter IDATA_WIDTH = 128;
+	parameter ODATA_BIT = 128;
+	parameter CACHE_NUM = 16;
+	parameter CACHE_DEPTH = 128;
 	parameter CACHE_ADDR_WIDTH = $clog2(CACHE_NUM) + $clog2(CACHE_DEPTH);
-	parameter CORE_MEM_ADDR_WIDTH = `CORE_MEM_ADDR_WIDTH;
-	parameter INTERFACE_DATA_WIDTH = `INTERFACE_DATA_WIDTH;
 	input clk;
 	input rstn;
 	input wire clean_kv_cache;
-	input wire [USER_ID_WIDTH - 1:0] clean_kv_cache_user_id;
-	input wire [CORE_MEM_ADDR_WIDTH - 1:0] kv_mem_addr;
-	input wire [INTERFACE_DATA_WIDTH - 1:0] kv_mem_wdata;
+	input wire [1:0] clean_kv_cache_user_id;
+	input wire [13:0] kv_mem_addr;
+	input wire [15:0] kv_mem_wdata;
 	input wire kv_mem_wen;
-	output wire [INTERFACE_DATA_WIDTH - 1:0] kv_mem_rdata;
+	output wire [15:0] kv_mem_rdata;
 	input wire kv_mem_ren;
 	output reg kv_mem_rvld;
 	input [CACHE_ADDR_WIDTH - 1:0] cache_addr;
 	input cache_ren;
 	output wire [ODATA_BIT - 1:0] cache_rdata;
 	input cache_wen;
-	input [DATA_WIDTH - 1:0] cache_wdata;
+	input [IDATA_WIDTH - 1:0] cache_wdata;
 	input cache_wdata_byte_flag;
 	input wire [11:0] usr_cfg;
 	reg inst_wen;
 	reg inst_ren;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] inst_waddr;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] inst_raddr;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] inst_addr;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] inst_waddr;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] inst_raddr;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] inst_addr;
 	reg [ODATA_BIT - 1:0] inst_wdata;
-	reg [ODATA_BIT - 1:0] inst_rdata;
 	reg [ODATA_BIT - 1:0] inst_bwe;
+	wire [ODATA_BIT - 1:0] inst_rdata;
 	wire [$clog2(CACHE_NUM) - 1:0] bank_sel;
 	wire [$clog2(CACHE_DEPTH) - 1:0] bank_addr;
 	assign bank_sel = cache_addr[CACHE_ADDR_WIDTH - 1-:$clog2(CACHE_NUM)];
 	assign bank_addr = cache_addr[0+:$clog2(CACHE_DEPTH)];
 	reg inst_wen_w;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] inst_waddr_w;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] inst_waddr_w;
 	reg [ODATA_BIT - 1:0] inst_wdata_w;
 	reg [ODATA_BIT - 1:0] inst_bwe_w;
-	reg [USER_ID_WIDTH - 1:0] clean_kv_cache_user_id_reg;
+	reg [1:0] clean_kv_cache_user_id_reg;
 	always @(posedge clk or negedge rstn)
 		if (~rstn)
 			clean_kv_cache_user_id_reg <= 0;
@@ -585,9 +553,9 @@ module kv_cache_pkt (
 	reg nxt_clean_kv_cache_finish;
 	reg clean_kv_cache_flag;
 	reg clean_wen;
-	reg [$clog2(MAC_MULT_NUM * CACHE_DEPTH) - 1:0] clean_addr;
+	reg [$clog2(16 * CACHE_DEPTH) - 1:0] clean_addr;
 	reg nxt_clean_wen;
-	reg [$clog2(MAC_MULT_NUM * CACHE_DEPTH) - 1:0] nxt_clean_addr;
+	reg [$clog2(16 * CACHE_DEPTH) - 1:0] nxt_clean_addr;
 	wire [ODATA_BIT - 1:0] clean_wdata;
 	assign clean_wdata = 0;
 	wire clean_finish;
@@ -635,14 +603,14 @@ module kv_cache_pkt (
 		inst_wen_w = 'b0;
 		inst_waddr_w = bank_addr + (usr_cfg[11-:2] * CACHE_DEPTH);
 		inst_wdata_w = 'b0;
-		inst_bwe_w = {DATA_WIDTH {1'b0}};
+		inst_bwe_w = {IDATA_WIDTH {1'b0}};
 		begin : sv2v_autoblock_1
 			integer i;
 			for (i = 0; i < CACHE_NUM; i = i + 1)
 				if ((i == bank_sel) && cache_wen) begin
 					inst_wen_w = 1'b1;
-					inst_wdata_w[(i * `IDATA_WIDTH) +:`IDATA_WIDTH] = cache_wdata[`IDATA_WIDTH - 1:0];
-					inst_bwe_w[(i * `IDATA_WIDTH) +:`IDATA_WIDTH] = {`IDATA_WIDTH {1'b1}};
+					inst_wdata_w[i * 8+:8] = cache_wdata[7:0];
+					inst_bwe_w[i * 8+:8] = {8 {1'b1}};
 				end
 		end
 	end
@@ -664,7 +632,7 @@ module kv_cache_pkt (
 			inst_bwe <= 0;
 		end
 	reg inst_ren_w;
-	reg [$clog2(`MAX_NUM_USER * CACHE_DEPTH) - 1:0] inst_raddr_w;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] inst_raddr_w;
 	always @(*) begin
 		inst_ren_w = 1'b0;
 		inst_raddr_w = 'b0;
@@ -677,24 +645,24 @@ module kv_cache_pkt (
 		inst_ren = inst_ren_w;
 		inst_raddr = inst_raddr_w;
 	end
-	reg [CORE_MEM_ADDR_WIDTH - 1:0] interface_addr_delay1;
-	reg [CORE_MEM_ADDR_WIDTH - 1:0] interface_addr_delay2;
+	reg [13:0] interface_addr_delay1;
+	reg [13:0] interface_addr_delay2;
 	assign cache_rdata = inst_rdata;
-	assign kv_mem_rdata = inst_rdata[interface_addr_delay2[$clog2(MAC_MULT_NUM / 2) - 1:0] * (2 * IDATA_WIDTH)+:2 * IDATA_WIDTH];
-	wire [$clog2(MAX_NUM_USER * CACHE_DEPTH):1] sv2v_tmp_CE7E6;
+	assign kv_mem_rdata = inst_rdata[interface_addr_delay2[2:0] * 16+:16];
+	wire [$clog2(4 * CACHE_DEPTH):1] sv2v_tmp_CE7E6;
 	assign sv2v_tmp_CE7E6 = (inst_wen ? inst_waddr : inst_raddr);
 	always @(*) inst_addr = sv2v_tmp_CE7E6;
 	reg inst_wen_f;
 	reg inst_ren_f;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] inst_addr_f;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] inst_addr_f;
 	reg [ODATA_BIT - 1:0] inst_wdata_f;
 	reg [ODATA_BIT - 1:0] inst_bwe_f;
 	reg interface_inst_ren;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] interface_inst_raddr;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] interface_inst_raddr;
 	reg interface_inst_wen;
-	reg [$clog2(MAX_NUM_USER * CACHE_DEPTH) - 1:0] interface_inst_waddr;
-	reg [DATA_WIDTH - 1:0] interface_inst_wdata;
-	reg [DATA_WIDTH - 1:0] interface_inst_bwe;
+	reg [$clog2(4 * CACHE_DEPTH) - 1:0] interface_inst_waddr;
+	reg [IDATA_WIDTH - 1:0] interface_inst_wdata;
+	reg [IDATA_WIDTH - 1:0] interface_inst_bwe;
 	always @(posedge clk or negedge rstn)
 		if (~rstn) begin
 			interface_inst_wen <= 0;
@@ -703,10 +671,10 @@ module kv_cache_pkt (
 			interface_inst_bwe <= 0;
 		end
 		else if (kv_mem_wen) begin
-			interface_inst_wen <= kv_mem_addr[CORE_MEM_ADDR_WIDTH - 1:CORE_MEM_ADDR_WIDTH - 2] == 0;
-			interface_inst_waddr <= kv_mem_addr[$clog2(MAC_MULT_NUM / 2)+:$clog2(MAX_NUM_USER * CACHE_DEPTH)];
-			interface_inst_wdata[kv_mem_addr[$clog2(MAC_MULT_NUM / 2) - 1:0] * (2 * IDATA_WIDTH)+:2 * IDATA_WIDTH] <= kv_mem_wdata;
-			interface_inst_bwe[kv_mem_addr[$clog2(MAC_MULT_NUM / 2) - 1:0] * (2 * IDATA_WIDTH)+:2 * IDATA_WIDTH] <= 16'hffff;
+			interface_inst_wen <= kv_mem_addr[13:12] == 0;
+			interface_inst_waddr <= kv_mem_addr[3+:$clog2(4 * CACHE_DEPTH)];
+			interface_inst_wdata[kv_mem_addr[2:0] * 16+:16] <= kv_mem_wdata;
+			interface_inst_bwe[kv_mem_addr[2:0] * 16+:16] <= 16'hffff;
 		end
 		else begin
 			interface_inst_bwe <= 0;
@@ -718,8 +686,8 @@ module kv_cache_pkt (
 			interface_inst_raddr <= 0;
 		end
 		else if (kv_mem_ren) begin
-			interface_inst_ren <= kv_mem_addr[CORE_MEM_ADDR_WIDTH - 1:CORE_MEM_ADDR_WIDTH - 2] == 0;
-			interface_inst_raddr <= kv_mem_addr[$clog2(MAC_MULT_NUM / 2)+:$clog2(MAX_NUM_USER * CACHE_DEPTH)];
+			interface_inst_ren <= kv_mem_addr[13:12] == 0;
+			interface_inst_raddr <= kv_mem_addr[3+:$clog2(4 * CACHE_DEPTH)];
 		end
 		else
 			interface_inst_ren <= 0;
@@ -754,7 +722,7 @@ module kv_cache_pkt (
 			inst_wen_f = clean_wen;
 			inst_addr_f = clean_addr;
 			inst_wdata_f = clean_wdata;
-			inst_bwe_f = {DATA_WIDTH {1'b1}};
+			inst_bwe_f = {IDATA_WIDTH {1'b1}};
 		end
 		else if (interface_inst_wen) begin
 			inst_wen_f = interface_inst_wen;
@@ -767,7 +735,11 @@ module kv_cache_pkt (
 			inst_addr_f = interface_inst_raddr;
 		end
 	end
-	mem_sp_kv_cache kv_cache_mem (
+	kv_cache_mem_sp_wrapper #(
+		.DATA_BIT(128),
+		.DEPTH(CACHE_DEPTH * 4),
+		.BWE(1)
+	) kv_cache(
 		.clk(clk),
 		.addr(inst_addr_f),
 		.wen(inst_wen_f),
@@ -777,102 +749,4 @@ module kv_cache_pkt (
 		.rdata(inst_rdata)
 	);
 	initial _sv2v_0 = 0;
-endmodule
-
-module mem_sp_kv_cache #(
-    parameter   DATA_BIT = (`MAC_MULT_NUM * `IDATA_WIDTH),
-    parameter   DEPTH = `KV_CACHE_DEPTH_SINGLE_USER,
-    parameter   ADDR_BIT = $clog2(DEPTH),
-    parameter   BWE = 0 //bit write enable
-)(
-    // Global Signals
-    input                       clk,
-
-    // Data Signals
-    input       [ADDR_BIT-1:0]  addr,
-    input                       wen,
-    input       [DATA_BIT-1:0]  bwe,
-
-    input       [DATA_BIT-1:0]  wdata,
-    input                       ren,
-    output  reg [DATA_BIT-1:0]  rdata
-);
-
-    // 1. RAM/Memory initialization
-    reg [DATA_BIT-1:0]  mem [0:DEPTH-1];
-
-    // 2. Write channel
-generate
-    if (BWE == 0) begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= wdata;
-            end
-        end
-    end
-    else begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= (wdata & bwe) | (mem[addr] & (~bwe));
-            end
-        end
-    end
-endgenerate
-
-    // 3. Read channel
-    always @(posedge clk) begin
-        if (ren) begin
-            rdata <= mem[addr];
-        end
-    end
-
-endmodule
-
-module mem_sp_wmem #(
-    parameter   DATA_BIT = `MAC_MULT_NUM*`IDATA_WIDTH,
-    parameter   DEPTH = `WMEM_DEPTH,
-    parameter   ADDR_BIT = $clog2(DEPTH),
-    parameter   BWE = 0 //bit write enable
-)(
-    // Global Signals
-    input                       clk,
-
-    // Data Signals
-    input       [ADDR_BIT-1:0]  addr,
-    input                       wen,
-    input       [DATA_BIT-1:0]  bwe,
-
-    input       [DATA_BIT-1:0]  wdata,
-    input                       ren,
-    output  reg [DATA_BIT-1:0]  rdata
-);
-
-    // 1. RAM/Memory initialization
-    reg [DATA_BIT-1:0]  mem [0:DEPTH-1];
-
-    // 2. Write channel
-generate
-    if (BWE == 0) begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= wdata;
-            end
-        end
-    end
-    else begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= (wdata & bwe) | (mem[addr] & (~bwe));
-            end
-        end
-    end
-endgenerate
-
-    // 3. Read channel
-    always @(posedge clk) begin
-        if (ren) begin
-            rdata <= mem[addr];
-        end
-    end
-
 endmodule

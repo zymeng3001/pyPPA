@@ -221,9 +221,9 @@ module custom_fp_sub #(
     end
 
     // 4. Normalize result
-    reg [sig_width-1:0] frac_norm;
-    reg [2*sig_width-1:0] frac_norms;
-    reg [exp_width-1:0] exp_norm;
+    wire [sig_width-1:0] frac_norm;
+    wire [2*sig_width-1:0] frac_norms;
+    wire [exp_width-1:0] exp_norm;
 
     wire [$clog2(sig_width+3)-1:0] shift;
     wire                          valid;

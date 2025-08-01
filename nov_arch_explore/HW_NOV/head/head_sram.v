@@ -41,8 +41,8 @@ module head_sram (
 	reg [$clog2(BANK_DEPTH) - 1:0] inst_waddr;
 	reg [$clog2(BANK_DEPTH) - 1:0] inst_raddr;
 	reg [DATA_WIDTH - 1:0] inst_wdata;
-	reg [DATA_WIDTH - 1:0] inst_rdata;
 	reg [DATA_WIDTH - 1:0] inst_bwe;
+	wire [DATA_WIDTH - 1:0] inst_rdata;
 	wire [$clog2(BANK_NUM) - 1:0] bank_wsel;
 	wire [$clog2(BANK_DEPTH) - 1:0] bank_waddr;
 	assign bank_wsel = waddr[ADDR_WIDTH - 1-:$clog2(BANK_NUM)];
@@ -72,7 +72,7 @@ module head_sram (
 					end
 				end
 				else if (wdata_byte_flag == 2) begin
-					if (((i == bank_wsel) && ((((i == 0) || (i == 4)) || (i == 8)) || (i == 12))) && wen) begin
+					if (((i == bank_wsel) && ((((i == 0) || (i == 4)) || (i == 8)) || (i == 12))) && wen && ((i * 8 + 32) <= 128)) begin
 						nxt_inst_wdata[i * 8+:32] = wdata[31:0];
 						nxt_inst_bwe[i * 8+:32] = {32 {1'b1}};
 					end
@@ -195,7 +195,7 @@ module head_sram (
 			interface_addr_delay1 <= interface_addr;
 			interface_addr_delay2 <= interface_addr_delay1;
 		end
-	mem_dp #(
+	mem_dp_sky130_wrapper #(
 		.DATA_BIT(SINGLE_SLICE_DATA_BIT * 16),
 		.DEPTH(BANK_DEPTH),
 		.BWE(1)
@@ -210,4 +210,39 @@ module head_sram (
 		.rdata(inst_rdata)
 	);
 	initial _sv2v_0 = 0;
+endmodule
+
+
+module mem_dp_sky130_wrapper #(
+    parameter   DATA_BIT = 32,         
+    parameter   DEPTH = 128,          
+    parameter   ADDR_BIT = $clog2(DEPTH),  
+    parameter   BWE = 0               
+)(
+    input                       clk,
+    input       [ADDR_BIT-1:0]  waddr, 
+    input                       wen,    
+    input       [DATA_BIT-1:0]  wdata,  
+    input       [DATA_BIT-1:0]  bwe,    
+    input       [ADDR_BIT-1:0]  raddr,  
+    input                       ren,    
+    output wire [DATA_BIT-1:0]  rdata   
+);
+
+sky130_sram_0kbytes_1r1w_32x128_32 sky130_sram_inst (
+`ifdef USE_POWER_PINS
+    .vccd1(vccd1),  
+    .vssd1(vssd1),  
+`endif
+
+    .clk0(clk),            
+    .csb0(~wen),           
+    .addr0(waddr),         
+    .din0(wdata),          
+    .clk1(clk),            
+    .csb1(~ren),           
+    .addr1(raddr),         
+    .dout1(rdata)          
+);
+
 endmodule

@@ -138,32 +138,28 @@ module rms_norm (
 		else if (in_K_vld)
 			K <= in_K;
 	always @(posedge clk) float_K <= nxt_float_K;
-	DW_fp_i2flt #(
+	fp_i2flt #(
 		sig_width,
 		exp_width,
 		isize,
 		isign
 	) i2flt_K(
 		.a(K_ext),
-		.rnd(3'b000),
-		.z(nxt_float_K),
-		.status()
+		.z(nxt_float_K)
 	);
 	wire signed [(BUS_NUM * 32) - 1:0] in_fixed_data_ext;
 	generate
 		for (_gv_i_1 = 0; _gv_i_1 < BUS_NUM; _gv_i_1 = _gv_i_1 + 1) begin : i2flt_in_data_generate_array
 			localparam i = _gv_i_1;
 			assign in_fixed_data_ext[i * 32+:32] = $signed(in_fixed_data[i * 8+:8]);
-			DW_fp_i2flt #(
+			fp_i2flt #(
 				sig_width,
 				exp_width,
 				isize,
 				isign
 			) i2flt_in_data(
 				.a($signed(in_fixed_data_ext[i * 32+:32])),
-				.rnd(3'b000),
-				.z(i2flt_in_data_z[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
-				.status()
+				.z(i2flt_in_data_z[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))])
 			);
 		end
 		for (_gv_i_1 = 0; _gv_i_1 < BUS_NUM; _gv_i_1 = _gv_i_1 + 1) begin : in_fix2float_generate_array
@@ -271,16 +267,14 @@ module rms_norm (
 			fixed_square_sum_vld <= 1;
 	wire [31:0] fixed_square_sum_ext;
 	assign fixed_square_sum_ext = fixed_square_sum;
-	DW_fp_i2flt #(
+	fp_i2flt #(
 		sig_width,
 		exp_width,
 		isize,
 		isign
 	) i2flt_square_sum(
 		.a(fixed_square_sum_ext),
-		.rnd(3'b000),
-		.z(i2flt_square_sum_z),
-		.status()
+		.z(i2flt_square_sum_z)
 	);
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n) begin
@@ -467,16 +461,14 @@ module rms_norm (
 					end
 					float_RMSnorm_flt2i_vld[i] <= float_RMSnorm_vld[i];
 				end
-			DW_fp_flt2i #(
+			fp_flt2i #(
 				sig_width,
 				exp_width,
 				isize,
 				isign
 			) i2flt_in_data(
 				.a(float_RMSnorm_flt2i[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
-				.rnd(3'b000),
-				.z(fixed_RMSnorm[i * 32+:32]),
-				.status()
+				.z(fixed_RMSnorm[i * 32+:32])
 			);
 			always @(*) begin
 				if (_sv2v_0)

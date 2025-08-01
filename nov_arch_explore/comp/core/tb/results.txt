@@ -1,0 +1,8 @@
+Result =         -94, time: 5800000
+Result =        -128, time: 9000000
+Result =          73, time: 12200000
+Result =        -128, time: 15400000
+Result =          -6, time: 18600000
+Result =         -93, time: 21800000
+Result =        -115, time: 25000000
+Result =         127, time: 28200000

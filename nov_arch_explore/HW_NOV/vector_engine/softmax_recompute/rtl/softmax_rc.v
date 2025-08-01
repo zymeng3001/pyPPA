@@ -198,7 +198,7 @@ module softmax_rc (
 				isign
 			) i2flt_xi_max_inst(
 				.a(xi_max_ext),
-				.z(i2flt_xi_max_w),
+				.z(i2flt_xi_max_w)
 			);
 			always @(posedge clk or negedge rst_n)
 				if (~rst_n)
@@ -244,7 +244,7 @@ module softmax_rc (
 				exp_width
 			) iexp_xi_max(
 				.a(i2flt_xi_max_dequant[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
-				.z(exp_xi_max_w[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))]),
+				.z(exp_xi_max_w[((sig_width + exp_width) >= 0 ? 0 : sig_width + exp_width) + (i * ((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width)))+:((sig_width + exp_width) >= 0 ? (sig_width + exp_width) + 1 : 1 - (sig_width + exp_width))])
 			);
 			always @(posedge clk or negedge rst_n)
 				if (~rst_n)
@@ -321,7 +321,7 @@ module softmax_rc (
 				isign
 			) exp_flt2i_inst(
 				.a(exp_xi_max_scaled),
-				.z(exp_xi_max_flt2i),
+				.z(exp_xi_max_flt2i)
 			);
 			reg signed [FIXED_DATA_WIDTH - 1:0] nxt_out_fixed_data;
 			always @(*) begin
@@ -340,50 +340,46 @@ module softmax_rc (
 					out_bus_data[i * FIXED_DATA_WIDTH+:FIXED_DATA_WIDTH] <= nxt_out_fixed_data;
 		end
 	endgenerate
+	reg [1:0] _sv2v_jump;
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n)
 			out_bus_data_vld <= 0;
 		else
 			out_bus_data_vld <= exp_xi_max_scaled_vld_out;
-	always @(*) begin : sv2v_autoblock_2
-		reg [0:1] _sv2v_jump;
-		_sv2v_jump = 2'b00;
-		if (_sv2v_0)
-			;
+	always @(*) begin: sv2v_autoblock_2
+		// 默认赋值（避免锁存器）
+		integer m;
+		// reg [31:0] _sv2v_value_on_break;
+		m = 0;                         // 初始化循环变量
+		// _sv2v_value_on_break = 0;      // 初始化临时变量
+
+		// 原有逻辑（保持 _sv2v_jump 结构）
 		nxt_exp_sum_cnt = exp_sum_cnt;
-		nxt_fadd_tree_in = 0;
-		nxt_fadd_tree_vld = 0;
-		nxt_fadd_tree_in_last = 0;
-		if (clear)
-			nxt_exp_sum_cnt = 0;
+		nxt_fadd_tree_in = {((sig_width + exp_width + 1) * BUS_NUM){1'b0}};
+		nxt_fadd_tree_vld = {BUS_NUM{1'b0}};
+		nxt_fadd_tree_in_last = 1'b0;
+		_sv2v_jump = 2'b00;
+
+		if (clear) begin
+			nxt_exp_sum_cnt = 10'b0;
+		end
 		else if (exp_xi_max_vld_delay) begin
 			nxt_fadd_tree_in = exp_xi_max_delay;
-			nxt_exp_sum_cnt = exp_sum_cnt;
-			begin : sv2v_autoblock_3
-				reg signed [31:0] m;
-				begin : sv2v_autoblock_4
-					reg signed [31:0] _sv2v_value_on_break;
-					for (m = 0; m < BUS_NUM; m = m + 1)
-						if (_sv2v_jump < 2'b10) begin
-							_sv2v_jump = 2'b00;
-							nxt_fadd_tree_vld[m] = 1'b1;
-							nxt_exp_sum_cnt = (exp_sum_cnt + m) + 1;
-							if (usr_cfg_reg[0]) begin
-								if (nxt_exp_sum_cnt == (usr_cfg_reg[9-:9] + 1)) begin
-									nxt_fadd_tree_in_last = 1'b1;
-									_sv2v_jump = 2'b10;
-								end
-							end
-							else if (nxt_exp_sum_cnt == model_cfg_reg[29-:10]) begin
-								nxt_fadd_tree_in_last = 1'b1;
-								_sv2v_jump = 2'b10;
-							end
-							_sv2v_value_on_break = m;
-						end
-					if (!(_sv2v_jump < 2'b10))
-						m = _sv2v_value_on_break;
-					if (_sv2v_jump != 2'b11)
-						_sv2v_jump = 2'b00;
+			for (m = 0; m < BUS_NUM; m = m + 1) begin
+				if (_sv2v_jump < 2'b10) begin
+					_sv2v_jump = 2'b00;
+					nxt_fadd_tree_vld[m] = 1'b1;
+					nxt_exp_sum_cnt = exp_sum_cnt + 1;
+					// _sv2v_value_on_break = m;  // 记录当前 m 的值
+
+					if (usr_cfg_reg[0] && (nxt_exp_sum_cnt == usr_cfg_reg[9-:9] + 1)) begin
+						nxt_fadd_tree_in_last = 1'b1;
+						_sv2v_jump = 2'b10;     // 标记跳出循环
+					end
+					else if (!usr_cfg_reg[0] && (nxt_exp_sum_cnt == model_cfg_reg[29-:10])) begin
+						nxt_fadd_tree_in_last = 1'b1;
+						_sv2v_jump = 2'b10;     // 标记跳出循环
+					end
 				end
 			end
 		end
@@ -496,7 +492,7 @@ module softmax_rc (
 		isign
 	) i2flt_in_data(
 		.a(one_over_exp_sum_shift),
-		.z(nxt_rc_scale),
+		.z(nxt_rc_scale)
 	);
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n) begin

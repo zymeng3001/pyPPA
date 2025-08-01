@@ -1,0 +1,235 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.38+92 (git sha1 84116c9a3, x86_64-conda-linux-gnu-cc 11.2.0 -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -fdebug-prefix-map=/root/conda-eda/conda-eda/workdir/conda-env/conda-bld/yosys_1708682838165/work=/usr/local/src/conda/yosys-0.38_93_g84116c9a3 -fdebug-prefix-map=/home/yimengz/miniconda3/envs/pyppa=/usr/local/src/conda-prefix -fPIC -Os -fno-merge-constants)
+
+
+-- Executing script file `synth_sv.ys' --
+
+1. Executing Verilog-2005 frontend: comp/util/rtl/pe.v
+Parsing Verilog input from `comp/util/rtl/pe.v' to AST representation.
+Generating RTLIL representation for module `\mul_int'.
+Generating RTLIL representation for module `\add_int'.
+Generating RTLIL representation for module `\mul_fp'.
+Generating RTLIL representation for module `\add_fp'.
+Generating RTLIL representation for module `\lead_one'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: comp/util/rtl/mem.v
+Parsing Verilog input from `comp/util/rtl/mem.v' to AST representation.
+Generating RTLIL representation for module `\mem_sp'.
+Generating RTLIL representation for module `\mem_dp'.
+Generating RTLIL representation for module `\mem_db'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: comp/util/rtl/align.v
+Parsing Verilog input from `comp/util/rtl/align.v' to AST representation.
+Generating RTLIL representation for module `\align_s2p'.
+Generating RTLIL representation for module `\align_p2s'.
+Warning: Replacing memory \regfile with list of registers. See comp/util/rtl/align.v:113
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: HW_NOV/util/open_fp_cores.v
+Parsing Verilog input from `HW_NOV/util/open_fp_cores.v' to AST representation.
+Generating RTLIL representation for module `\bf16_fp_recip'.
+Generating RTLIL representation for module `\fp_i2flt'.
+Generating RTLIL representation for module `\fp_flt2i'.
+Generating RTLIL representation for module `\fp_add_DG'.
+Generating RTLIL representation for module `\fp_exp'.
+Generating RTLIL representation for module `\fp_add'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: HW_NOV/util/fadd_tree.v
+Parsing Verilog input from `HW_NOV/util/fadd_tree.v' to AST representation.
+Generating RTLIL representation for module `\fadd_tree'.
+Warning: Replacing memory \gen_adt_stage[2].add_idata with list of registers. See HW_NOV/util/fadd_tree.v:101
+Warning: Replacing memory \gen_adt_stage[1].add_idata with list of registers. See HW_NOV/util/fadd_tree.v:101
+Warning: Replacing memory \gen_adt_stage[0].add_idata with list of registers. See HW_NOV/util/fadd_tree.v:76
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend: comp/sys_defs.svh
+Parsing SystemVerilog input from `comp/sys_defs.svh' to AST representation.
+Successfully finished Verilog frontend.
+
+7. Executing Verilog-2005 frontend: comp/core/rtl/core_acc.sv
+Parsing SystemVerilog input from `comp/core/rtl/core_acc.sv' to AST representation.
+Generating RTLIL representation for module `\core_acc'.
+Generating RTLIL representation for module `\core_acc_ctrl'.
+Generating RTLIL representation for module `\core_acc_mac'.
+Successfully finished Verilog frontend.
+
+8. Executing Verilog-2005 frontend: comp/core/rtl/core_buf.sv
+Parsing SystemVerilog input from `comp/core/rtl/core_buf.sv' to AST representation.
+Generating RTLIL representation for module `\core_buf'.
+Successfully finished Verilog frontend.
+
+9. Executing Verilog-2005 frontend: comp/gbus/rtl/arbiter.sv
+Parsing SystemVerilog input from `comp/gbus/rtl/arbiter.sv' to AST representation.
+Generating RTLIL representation for module `\arbiter'.
+Successfully finished Verilog frontend.
+
+10. Executing Verilog-2005 frontend: comp/gbus/rtl/bus_controller.sv
+Parsing SystemVerilog input from `comp/gbus/rtl/bus_controller.sv' to AST representation.
+Generating RTLIL representation for module `\bus_controller'.
+Warning: wire '\nxt_bus_packet.bus_addr.core_addr' is assigned in a block at comp/gbus/rtl/bus_controller.sv:43.5-43.43.
+comp/gbus/rtl/bus_controller.sv:43: Warning: Identifier `\nxt_bus_packet.bus_addr.core_addr' is implicitly declared.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range [1:1] select out of bounds on signal `\in_bus_packet_array': Setting 1 LSB bits to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/bus_controller.sv:46: Warning: Range select out of bounds on signal `\in_bus_packet_array': Setting result bit to undef.
+Successfully finished Verilog frontend.
+
+11. Executing Verilog-2005 frontend: comp/gbus/rtl/bus_packet_fifo.sv
+Parsing SystemVerilog input from `comp/gbus/rtl/bus_packet_fifo.sv' to AST representation.
+Generating RTLIL representation for module `\bus_packet_fifo'.
+Successfully finished Verilog frontend.
+
+12. Executing Verilog-2005 frontend: comp/gbus/rtl/gbus_top.sv
+Parsing SystemVerilog input from `comp/gbus/rtl/gbus_top.sv' to AST representation.
+Generating RTLIL representation for module `\gbus_top'.
+Warning: wire '\fifo_in_bus_packet_array[0].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[0].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[1].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[1].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[2].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[2].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[3].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[3].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[4].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[4].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[5].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[5].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[6].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[6].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[7].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[7].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[8].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[8].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[9].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[9].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[10].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[10].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[11].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[11].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[12].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[12].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[13].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[13].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[14].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[14].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+Warning: wire '\fifo_in_bus_packet_array[15].bus_data' is assigned in a block at comp/gbus/rtl/gbus_top.sv:32.9-32.72.
+Warning: wire '\fifo_in_bus_packet_array[15].bus_addr' is assigned in a block at comp/gbus/rtl/gbus_top.sv:33.9-33.70.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[0].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[0].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[1].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[1].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[2].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[2].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[3].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[3].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[4].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[4].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[5].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[5].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[6].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[6].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[7].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[7].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[8].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[8].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[9].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[9].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[10].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[10].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[11].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[11].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[12].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[12].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[13].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[13].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[14].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[14].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:32: Warning: Identifier `\fifo_in_bus_packet_array[15].bus_data' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Identifier `\fifo_in_bus_packet_array[15].bus_addr' is implicitly declared.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range [1:1] select out of bounds on signal `\hca_gbus_addr_array': Setting 1 LSB bits to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:33: Warning: Range select out of bounds on signal `\hca_gbus_addr_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:66: Warning: Range [18:0] select out of bounds on signal `\bus_packet': Setting 18 LSB bits to undef.
+comp/gbus/rtl/gbus_top.sv:67: Warning: Range select [31:0] out of bounds on signal `\bus_packet': Setting all 32 result bits to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range [1:1] select out of bounds on signal `\fifo_in_bus_packet_array': Setting 1 LSB bits to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range [1:1] select out of bounds on signal `\fifo_out_bus_packet_array': Setting 1 LSB bits to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:45: Warning: Range select out of bounds on signal `\fifo_in_bus_packet_array': Setting result bit to undef.
+comp/gbus/rtl/gbus_top.sv:49: Warning: Range select out of bounds on signal `\fifo_out_bus_packet_array': Setting result bit to undef.
+Successfully finished Verilog frontend.
+
+13. Executing Verilog-2005 frontend: comp/vector_engine/krms_recompute/rtl/krms.sv
+Parsing SystemVerilog input from `comp/vector_engine/krms_recompute/rtl/krms.sv' to AST representation.
+Generating RTLIL representation for module `\krms'.
+comp/vector_engine/krms_recompute/rtl/krms.sv:159: ERROR: Can't resolve task name `\break'.

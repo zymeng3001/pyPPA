@@ -84,20 +84,36 @@ ppa_runner.add_job({
 	# The simplest way is to write ${clk_period} in any source files (Verilog, Verilog testbench file, or constraint.sdc) to replace the value with the parameters set.
 	# See the constraint.sdc file for example syntax usage.
 	# The hyperparameters are swept along with the flow config, and all possible combinations of the options will be swept.
+	# 'hyperparameters': {
+	# 	# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
+	# 	# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
+	# 	'clk_period': {
+	# 		'values': [3,4,5,6]
+	# 	},
+	# 	'mac_num': {
+	# 		'values': [4,8,16,32]
+	# 	},
+	# 	'wmem_depth': {
+	# 		'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+	# 	},
+	# 	'kv_cache_depth': {
+	# 		'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+	# 	}
+	# }
 	'hyperparameters': {
 		# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
 		# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
 		'clk_period': {
-			'values': [3,4,5,6]
+			'values': [6]
 		},
 		'mac_num': {
-			'values': [4,8,16,32]
+			'values': [32]
 		},
 		'wmem_depth': {
-			'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+			'values': [1536]
 		},
 		'kv_cache_depth': {
-			'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+			'values': [2048]
 		}
 	}
 })

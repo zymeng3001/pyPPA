@@ -20,7 +20,7 @@ module bf16_fp_recip (
   // 4) Optional: One Newton-Raphson refinement
   // y = y * (2 - x * y)
   wire [15:0] prod1 = mantissa_in * recip_est;      // x * y
-  wire [8:0] two_minus_prod1 = 9'd512 - prod1[15:7]; // 2 - prod1
+  wire [8:0] two_minus_prod1 = 10'd512 - prod1[15:7]; // 2 - prod1
   wire [15:0] refined = recip_est * two_minus_prod1;
 
   // 5) Exponent: invert exponent w.r.t bias
@@ -143,21 +143,21 @@ module fp_add_DG #(
   ) adder_core (
     .a(a),
     .b(b),
-    .rnd(0),
+    .rnd(3'b000),
     .z(sum_result),
-    .status(_)
+    .status(status)
   );
 
   // --- Data Gating: latch output when DG_ctrl=0 ---
   always @(*) begin
     if (DG_ctrl) begin
       z = sum_result;
+    end else begin
+      z = {SIG_WIDTH+EXP_WIDTH+1{1'b0}};  // or some default
     end
-    // else z holds previous value (in hardware, use a register!)
   end
-
   // --- Example: no real status flags here ---
-  assign status = 8'b0;
+  // assign status = 8'b0;
 
 endmodule
 
@@ -192,7 +192,7 @@ module fp_exp #(
 
   // For demo: map input to k and f
   assign k = exp - EXP_BIAS;  // approximate integer
-  assign f = frac[22:17];     // top bits for LUT index
+  assign f = frac[6:1];     // top bits for LUT index
 
   // --- LUT for 2^f ---
   reg [23:0] lut_out;
@@ -215,7 +215,7 @@ endmodule
 
 module fp_add #(
     parameter integer sig_width = 7,   // number of fraction bits
-    parameter integer exp_width = 8,   // number of exponent bits
+    parameter integer exp_width = 8   // number of exponent bits
 )(
     input  wire [sig_width+exp_width:0] a,  // input a
     input  wire [sig_width+exp_width:0] b,  // input b
@@ -290,6 +290,7 @@ module fp_add #(
     end
 
 endmodule
+
 // module fp_add #(
 //   parameter SIG_WIDTH = 23,
 //   parameter EXP_WIDTH = 8

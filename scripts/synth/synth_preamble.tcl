@@ -36,6 +36,9 @@ if {$::env(USE_YOSYS_SV_PLUGIN)} {
 # Read standard cells and macros as blackbox inputs
 # These libs have their dont_use properties set accordingly
 read_liberty -lib {*}$::env(DONT_USE_LIBS)
+read_liberty -lib /home/yimengz/pyPPA/nov_arch_explore/HW_NOV/util/mem_sp.lib
+read_liberty -lib /home/yimengz/pyPPA/nov_arch_explore/HW_NOV/util/sram_32x128_dp.lib
+read_liberty -lib /home/yimengz/pyPPA/nov_arch_explore/HW_NOV/util/sram_128x512.lib
 
 # Apply toplevel parameters (if exist)
 if {[info exist ::env(VERILOG_TOP_PARAMS)]} {
@@ -62,9 +65,10 @@ if {[info exist ::env(PRESERVE_HIERARCHY_MODULES)] } {
 }
 
 # blackbox abuf
-# blackbox headsram
-blackbox mem_sp_kv_cache 
-blackbox mem_sp_wmem
+# blackbox headsram 
+blackbox sky130_sram_0kbytes_1r1w_32x128_32
+blackbox sky130_sram_24kbytes_1rw_128x1536_128
+blackbox sky130_sram_8kbytes_1rw_128x512_128
 
 if {[info exist ::env(BLOCKS)]} {
   hierarchy -check -top $::env(DESIGN_NAME)

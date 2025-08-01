@@ -11,11 +11,12 @@ module arbiter (
 	input wire [15:0] req;
 	output wire [15:0] grant;
 	reg [15:0] round_priority;
-	always @(posedge clk or negedge rst_n)
+	always @(posedge clk) begin
 		if (~rst_n)
 			round_priority <= first_priority;
 		else if (|req)
 			round_priority <= {grant[14:0], grant[15]};
+	end
 	wire [31:0] double_req;
 	wire [31:0] req_sub_round_priority;
 	wire [31:0] double_grant;

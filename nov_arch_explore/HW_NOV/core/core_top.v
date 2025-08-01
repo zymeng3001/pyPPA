@@ -1,5 +1,3 @@
-`include "sys_defs.svh"
-
 module core_top (
 	clk,
 	rstn,
@@ -44,38 +42,29 @@ module core_top (
 	hlink_rvalid
 );
 	reg _sv2v_0;
-	parameter GBUS_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
-	parameter GBUS_ADDR_WIDTH = `GBUS_ADDR_WIDTH;
-	parameter CMEM_ADDR_WIDTH = `CMEM_ADDR_WIDTH;
-	parameter MAC_MULT_NUM = `MAC_MULT_NUM;
-	parameter IDATA_WIDTH = `IDATA_WIDTH;
-	parameter VLINK_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
-	parameter HLINK_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
-	parameter CMEM_DATA_WIDTH = MAC_MULT_NUM * IDATA_WIDTH;
-	parameter ODATA_BIT = `ODATA_WIDTH;
-	parameter RECOMPUTE_SCALE_WIDTH = `RECOMPUTE_SCALE_WIDTH;
-	parameter RECOMPUTE_SHIFT_WIDTH = `RECOMPUTE_SHIFT_WIDTH;
-	parameter RC_RETIMING_REG_NUM = `RC_RETIMING_REG_NUM;
-	parameter CDATA_ACCU_NUM_WIDTH = `CDATA_ACCU_NUM_WIDTH;
-	parameter CDATA_SCALE_WIDTH = `CDATA_SCALE_WIDTH;
-	parameter CDATA_BIAS_WIDTH = `CDATA_BIAS_WIDTH;
-	parameter CDATA_SHIFT_WIDTH = `CDATA_SHIFT_WIDTH;
-	parameter USER_ID_WIDTH = `USER_ID_WIDTH;
-	parameter CORE_MEM_ADDR_WIDTH = `CORE_MEM_ADDR_WIDTH;
-	parameter INTERFACE_DATA_WIDTH = `INTERFACE_DATA_WIDTH;
+	parameter GBUS_DATA_WIDTH = 32;
+	parameter GBUS_ADDR_WIDTH = 19;
+	parameter CMEM_ADDR_WIDTH = 13;
+	parameter CMEM_DATA_WIDTH = 128;
+	parameter VLINK_DATA_WIDTH = 128;
+	parameter HLINK_DATA_WIDTH = 128;
+	parameter MAC_MULT_NUM = 16;
+	parameter IDATA_WIDTH = 8;
+	parameter ODATA_BIT = 25;
+	parameter CDATA_ACCU_NUM_WIDTH = 10;
+	parameter CDATA_SCALE_WIDTH = 10;
+	parameter CDATA_BIAS_WIDTH = 16;
+	parameter CDATA_SHIFT_WIDTH = 5;
 	parameter HEAD_INDEX = 0;
 	parameter CORE_INDEX = 0;
-	parameter CACHE_DEPTH = `KV_CACHE_DEPTH_SINGLE_USER;
-	parameter CACHE_NUM = `MAC_MULT_NUM;
-
 	input clk;
 	input rstn;
 	input wire clean_kv_cache;
-	input wire [USER_ID_WIDTH - 1:0] clean_kv_cache_user_id;
-	input wire [CORE_MEM_ADDR_WIDTH - 1:0] core_mem_addr;
-	input wire [INTERFACE_DATA_WIDTH - 1:0] core_mem_wdata;
+	input wire [1:0] clean_kv_cache_user_id;
+	input wire [13:0] core_mem_addr;
+	input wire [15:0] core_mem_wdata;
 	input wire core_mem_wen;
-	output wire [INTERFACE_DATA_WIDTH - 1:0] core_mem_rdata;
+	output wire [15:0] core_mem_rdata;
 	input wire core_mem_ren;
 	output wire core_mem_rvld;
 	input op_cfg_vld;
@@ -101,7 +90,7 @@ module core_top (
 	output wire [((HEAD_SRAM_BIAS_WIDTH + BUS_CORE_ADDR_WIDTH) + BUS_CMEM_ADDR_WIDTH) - 1:0] out_gbus_addr;
 	output wire out_gbus_wen;
 	output wire [GBUS_DATA_WIDTH - 1:0] out_gbus_wdata;
-	input wire [RECOMPUTE_SCALE_WIDTH - 1:0] rc_scale;
+	input wire [23:0] rc_scale;
 	input wire rc_scale_vld;
 	input wire rc_scale_clear;
 	input wire [VLINK_DATA_WIDTH - 1:0] vlink_data_in;
@@ -121,7 +110,7 @@ module core_top (
 	reg [CDATA_BIAS_WIDTH - 1:0] cfg_quant_bias;
 	reg [CDATA_SHIFT_WIDTH - 1:0] cfg_quant_shift;
 	reg clean_kv_cache_delay1;
-	reg [USER_ID_WIDTH - 1:0] clean_kv_cache_user_id_delay1;
+	reg [1:0] clean_kv_cache_user_id_delay1;
 	always @(posedge clk or negedge rstn)
 		if (!rstn)
 			op_cfg_reg <= 0;
@@ -159,6 +148,7 @@ module core_top (
 			clean_kv_cache_delay1 <= clean_kv_cache;
 			clean_kv_cache_user_id_delay1 <= clean_kv_cache_user_id;
 		end
+	parameter integer USER_ID_WIDTH = 2;
 	reg [CMEM_DATA_WIDTH - 1:0] cmem_wdata;
 	reg [CMEM_ADDR_WIDTH - 1:0] cmem_waddr;
 	reg cmem_wen;
@@ -223,7 +213,7 @@ module core_top (
 		.cmem_rdata(cmem_rdata),
 		.cmem_rvalid(cmem_rvalid)
 	);
-	core_buf #(.CACHE_DATA_WIDTH(CMEM_DATA_WIDTH)) buf_inst(
+	core_buf #(.CACHE_DATA_WIDTH(128)) buf_inst(
 		.clk(clk),
 		.rstn(rstn),
 		.hlink_wdata(hlink_wdata),
@@ -232,9 +222,9 @@ module core_top (
 		.hlink_rvalid(hlink_rvalid)
 	);
 	wire mac_opa_vld;
-	wire [(MAC_MULT_NUM * IDATA_WIDTH) - 1:0] mac_opa;
+	wire [127:0] mac_opa;
 	wire mac_opb_vld;
-	wire [(MAC_MULT_NUM * IDATA_WIDTH) - 1:0] mac_opb;
+	wire [127:0] mac_opb;
 	wire signed [ODATA_BIT - 1:0] mac_odata;
 	wire mac_odata_valid;
 	core_mac #(
@@ -265,10 +255,10 @@ module core_top (
 		.odata_valid(acc_odata_valid)
 	);
 	wire recompute_needed;
-	wire [IDATA_WIDTH*2+$clog2(MAC_MULT_NUM) + 5 - 1:0] rc_out_data;  // copied from 
+	wire [ODATA_BIT - 1:0] rc_out_data;
 	wire rc_out_data_vld;
 	wire rc_error;
-	wire [RECOMPUTE_SHIFT_WIDTH - 1:0] rms_rc_shift;
+	wire [4:0] rms_rc_shift;
 	reg rc_cfg_vld_reg;
 	reg [83:0] rc_cfg_reg;
 	always @(posedge clk or negedge rstn)
@@ -284,10 +274,10 @@ module core_top (
 			rc_cfg_vld_reg <= 0;
 	assign rms_rc_shift = rc_cfg_reg[83-:5];
 	core_rc #(
-		.IN_DATA_WIDTH(`ODATA_WIDTH),
-		.OUT_DATA_WIDTH(`ODATA_WIDTH),
-		.RECOMPUTE_FIFO_DEPTH(`RECOMPUTE_FIFO_DEPTH),
-		.RETIMING_REG_NUM(`RC_RETIMING_REG_NUM)
+		.IN_DATA_WIDTH(ODATA_BIT),
+		.OUT_DATA_WIDTH(ODATA_BIT),
+		.RECOMPUTE_FIFO_DEPTH(16),
+		.RETIMING_REG_NUM(7)
 	) rc_inst(
 		.clk(clk),
 		.rst_n(rstn),
@@ -303,10 +293,11 @@ module core_top (
 		.error(rc_error)
 	);
 	wire signed [IDATA_WIDTH - 1:0] quant_odata;
+	wire [31:0] control_state_reg;
 	wire quant_odata_valid;
 	core_quant #(
-		.IDATA_WIDTH(`ODATA_WIDTH),
-		.ODATA_BIT(`IDATA_WIDTH)
+		.IDATA_WIDTH(ODATA_BIT),
+		.ODATA_BIT(IDATA_WIDTH)
 	) quant_inst(
 		.clk(clk),
 		.rstn(rstn),
@@ -314,48 +305,24 @@ module core_top (
 		.cfg_quant_bias(cfg_quant_bias),
 		.cfg_quant_shift(cfg_quant_shift),
 		.idata(rc_out_data),
-		.idata_valid(rc_out_data_vld && ((inst_core_ctrl.control_state_reg != 32'd6) && (inst_core_ctrl.control_state_reg != 32'd8))),
+		.idata_valid(rc_out_data_vld && ((control_state_reg != 32'd6) && (control_state_reg != 32'd8))),
 		.odata(quant_odata),
 		.odata_valid(quant_odata_valid)
 	);
-	wire [GBUS_DATA_WIDTH - 1:0] parallel_data;
+	wire [31:0] parallel_data;
 	wire parallel_data_valid;
 	align_s2p #(
-		.IDATA_WIDTH(IDATA_WIDTH),
-		.ODATA_BIT(GBUS_DATA_WIDTH)
+		.IDATA_WIDTH(8),
+		.ODATA_BIT(32)
 	) align_s2p_inst(
 		.clk(clk),
 		.rstn(rstn),
 		.idata(quant_odata),
-		.idata_valid(quant_odata_valid && (inst_core_ctrl.control_state_reg == 32'd4)),
+		.idata_valid(quant_odata_valid && (control_state_reg == 32'd4)),
 		.odata(parallel_data),
 		.odata_valid(parallel_data_valid)
 	);
-	core_ctrl #(
-		.HLINK_DATA_WIDTH(CMEM_DATA_WIDTH),
-		.VLINK_DATA_WIDTH(VLINK_DATA_WIDTH),
-		.GBUS_DATA_WIDTH(GBUS_DATA_WIDTH),
-		.IDATA_WIDTH(IDATA_WIDTH),
-		.CMEM_ADDR_WIDTH(CMEM_ADDR_WIDTH),
-		.CMEM_DATA_WIDTH(CMEM_DATA_WIDTH),
-		.ODATA_BIT(`ODATA_WIDTH),
-		.CORE_INDEX(CORE_INDEX),
-		.CACHE_DEPTH(CACHE_DEPTH),
-		.CACHE_NUM(CACHE_NUM),
-		.CACHE_ADDR_WIDTH($clog2(CACHE_NUM) + $clog2(CACHE_DEPTH)),
-		.MAX_EMBD_SIZE(`MAX_EMBD_SIZE),
-		.HEAD_NUM(`HEAD_NUM),
-		.HEAD_CORE_NUM(`HEAD_CORE_NUM),
-		.MAC_MULT_NUM(`MAC_MULT_NUM),
-		.WMEM_DEPTH(`WMEM_DEPTH),
-		.WMEM_NUM_PER_CORE(`WMEM_NUM_PER_CORE),
-		.MAX_CONTEXT_LENGTH(`MAX_CONTEXT_LENGTH),
-		.OP_GEN_CNT_WIDTH(`OP_GEN_CNT_WIDTH),
-		.TOKEN_PER_CORE_WIDTH(`TOKEN_PER_CORE_WIDTH),
-		.HEAD_SRAM_DEPTH(`HEAD_SRAM_DEPTH),
-		.GLOBAL_SRAM_DEPTH(`GLOBAL_SRAM_DEPTH)
-		) 
-	inst_core_ctrl(
+	core_ctrl #(.CORE_INDEX(CORE_INDEX)) inst_core_ctrl(
 		.clk(clk),
 		.rst_n(rstn),
 		.control_state(control_state),
@@ -384,7 +351,8 @@ module core_top (
 		.mac_opb(mac_opb),
 		.out_gbus_addr(out_gbus_addr),
 		.out_gbus_wen(out_gbus_wen),
-		.out_gbus_wdata(out_gbus_wdata)
+		.out_gbus_wdata(out_gbus_wdata),
+		.control_state_reg(control_state_reg)
 	);
 	initial _sv2v_0 = 0;
 endmodule

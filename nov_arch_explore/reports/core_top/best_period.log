@@ -1,0 +1,21 @@
+OpenROAD 2.0-12381-g01bba3695 
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0222] Reading LEF file: /home/yimengz/pyPPA/platforms/sky130hd/lef/sky130_fd_sc_hd.tlef
+[INFO ODB-0223]     Created 13 technology layers
+[INFO ODB-0224]     Created 25 technology vias
+[INFO ODB-0226] Finished LEF file:  /home/yimengz/pyPPA/platforms/sky130hd/lef/sky130_fd_sc_hd.tlef
+[INFO ODB-0222] Reading LEF file: /home/yimengz/pyPPA/platforms/sky130hd/lef/sky130_fd_sc_hd_merged.lef
+[INFO ODB-0225]     Created 441 library cells
+[INFO ODB-0226] Finished LEF file:  /home/yimengz/pyPPA/platforms/sky130hd/lef/sky130_fd_sc_hd_merged.lef
+[INFO ODB-0222] Reading LEF file: /home/yimengz/pyPPA/platforms/sky130hd/lef/sky130io_fill.lef
+[INFO ODB-0225]     Created 2 library cells
+[INFO ODB-0226] Finished LEF file:  /home/yimengz/pyPPA/platforms/sky130hd/lef/sky130io_fill.lef
+[WARNING STA-0201] /home/yimengz/pyPPA/nov_arch_explore/results/head_top/1_synth_coretop.v line 155129, instance \mem_inst.kv_cache_inst.kv_cache.u_sram  port clk not found.
+[WARNING STA-0201] /home/yimengz/pyPPA/nov_arch_explore/results/head_top/1_synth_coretop.v line 155137, instance \mem_inst.wmem_inst.inst_mem_sp.u_sram  port clk not found.
+[WARNING ORD-2012] Liberty cell sky130_sram_24kbytes_1rw_128x1536_128 has no LEF master.
+[WARNING ORD-2013] instance mem_inst.kv_cache_inst.kv_cache.u_sram LEF master sky130_sram_24kbytes_1rw_128x1536_128 not found.
+[WARNING ORD-2013] instance mem_inst.wmem_inst.inst_mem_sp.u_sram LEF master sky130_sram_24kbytes_1rw_128x1536_128 not found.
+[INFO FLW-0007] clock clk period 100.000000
+[INFO FLW-0008] Clock clk min period 10.328
+[INFO FLW-0009] Clock clk worst slack 89.129

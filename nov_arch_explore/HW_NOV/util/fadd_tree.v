@@ -3,8 +3,7 @@ module fadd_tree #(
     parameter   exp_width = 7,
     parameter   MAC_NUM = 8,
     parameter   IDATA_BIT = (sig_width+exp_width+1),
-    parameter   ODATA_BIT = (sig_width+exp_width+1),
-    localparam  ieee_compliance = 0
+    parameter   ODATA_BIT = (sig_width+exp_width+1)
 )(
     // Global Signals
     input                               clk,
@@ -20,7 +19,7 @@ module fadd_tree #(
 );
 
     localparam STAGE_NUM = $clog2(MAC_NUM);
-
+    localparam  ieee_compliance = 0;
     // Insert a pipeline every two stages
     // Validation
     genvar i, j;
@@ -55,7 +54,8 @@ module fadd_tree #(
             end
         end
     endgenerate
-
+    
+    
     // Adder
     generate
         for (i = 0; i <STAGE_NUM; i = i + 1) begin: gen_adt_stage
@@ -63,7 +63,8 @@ module fadd_tree #(
             localparam  OUT_NUM = MAC_NUM  >> (i + 1'b1);
 
             reg     [OUT_BIT-1:0]   add_idata   [0:OUT_NUM*2-1];
-            wire    [OUT_BIT-1:0]   add_odata   [0:OUT_NUM-1];
+            wire    [OUT_BIT*OUT_NUM-1:0] add_odata_flat;
+
 
             for (j = 0; j < OUT_NUM; j = j + 1) begin: gen_adt_adder
 
@@ -100,8 +101,9 @@ module fadd_tree #(
                             add_idata[j*2+1] <= 'd0;
                         end
                         else if (gen_adt_valid[i-1].add_valid) begin
-                            add_idata[j*2]   <= gen_adt_stage[i-1].add_odata[j*2];
-                            add_idata[j*2+1] <= gen_adt_stage[i-1].add_odata[j*2+1];
+                            add_idata[j*2]   <= gen_adt_stage[i-1].add_odata_flat[j*2*OUT_BIT +: OUT_BIT];
+                            add_idata[j*2+1] <= gen_adt_stage[i-1].add_odata_flat[(j*2+1)*OUT_BIT +: OUT_BIT];
+
                         end
                     end
                 end
@@ -113,7 +115,7 @@ module fadd_tree #(
                 // fadd_inst ( .a(add_idata[j*2]), .b(add_idata[j*2+1]), .rnd(3'b000), .z(add_odata[j]), .status());
             for (j = 0; j < OUT_NUM; j = j + 1) begin: gen_adt_adder_inst
                 fp_add #(sig_width, exp_width)
-                fadd_inst ( .a(add_idata[j*2]), .b(add_idata[j*2+1]), .rnd(3'b000), .z(add_odata[j]), .status());
+                fadd_inst ( .a(add_idata[j*2]), .b(add_idata[j*2+1]), .rnd(3'b000), .z(add_odata_flat[j*OUT_BIT +: OUT_BIT]), .status());
             end
 
 
@@ -128,7 +130,7 @@ module fadd_tree #(
 
     // Output
     always @(*) begin
-        nxt_odata       = gen_adt_stage[STAGE_NUM-1].add_odata[0];
+        nxt_odata       = gen_adt_stage[STAGE_NUM-1].add_odata_flat[0 +: ODATA_BIT];
         nxt_odata_valid = gen_adt_valid[STAGE_NUM-1].add_valid;
         nxt_last_out    = gen_adt_valid[STAGE_NUM-1].last_valid;
     end

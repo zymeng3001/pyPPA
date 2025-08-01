@@ -74,7 +74,7 @@ module krms (
 		isign
 	) i2flt_K(
 		.a(K_ext),
-		.z(nxt_float_K),
+		.z(nxt_float_K)
 	);
 	reg [sig_width + exp_width:0] rms_dequant_scale_square_reg;
 	always @(*) begin
@@ -119,6 +119,7 @@ module krms (
 			reg signed [31:0] i;
 			begin : sv2v_autoblock_3
 				reg signed [31:0] _sv2v_value_on_break;
+				_sv2v_value_on_break = -1;
 				for (i = 0; i < BUS_NUM; i = i + 1)
 					if (_sv2v_jump < 2'b10) begin
 						_sv2v_jump = 2'b00;
@@ -182,7 +183,7 @@ module krms (
 		isign
 	) i2flt_square_sum(
 		.a(fixed_square_sum_ext),
-		.z(i2flt_square_sum_z),
+		.z(i2flt_square_sum_z)
 	);
 	fp_mult_pipe #(
 		.sig_width(sig_width),

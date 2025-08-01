@@ -1,0 +1,3478 @@
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  block_size: 512
+  mlp_expansion_factor: 4
+  n_embd: 1024
+  n_head: 1
+  n_layer: 3
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-1-3-4-512
+  tensorboard_run_name: sweep-sweep_from_csv-1024-1-3-4-512
+formatted_name: sweep-sweep_from_csv-1024-1-3-4-512
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  block_size: 512
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 1
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-1-24-8-512
+  tensorboard_run_name: sweep-sweep_from_csv-384-1-24-8-512
+formatted_name: sweep-sweep_from_csv-384-1-24-8-512
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  block_size: 512
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 1
+  n_layer: 30
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-1-30-6-512
+  tensorboard_run_name: sweep-sweep_from_csv-384-1-30-6-512
+formatted_name: sweep-sweep_from_csv-384-1-30-6-512
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: 0
+best_val_loss: 11.054832458496094
+better_than_chance: 0.7946
+btc_per_param: 8.854e-09
+config:
+  batch_size: 256
+  block_size: 512
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  mlp_expansion_factor: 4
+  n_embd: 1024
+  n_head: 1
+  n_layer: 3
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-1-3-4-512-True-256-cuda-openwebtext
+  tensorboard_run_name: sweep-sweep_from_csv-1024-1-3-4-512-True-256-cuda-openwebtext
+formatted_name: sweep-sweep_from_csv-1024-1-3-4-512-True-256-cuda-openwebtext
+iter_latency_avg: 0.0
+num_params: 89743360
+peak_gpu_mb: 26396.5
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 256
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-256-True-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-256-True-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-256-True-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 256
+  compile: true
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-256-True-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-256-True-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-256-True-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 256
+  compile: 1
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-256-1-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-256-1-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-256-1-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 256
+  compile: 1
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-256-1-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-256-1-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-256-1-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-256-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-256-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-256-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-256-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-256-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-256-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-512-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-512-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-512-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: 0
+best_val_loss: 10.876696586608887
+better_than_chance: 0.9495
+btc_per_param: 9.993e-09
+config:
+  batch_size: 256
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-512-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-512-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-512-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95017728
+peak_gpu_mb: 63785.8
+---
+best_val_iter: 0
+best_val_loss: 10.914324760437012
+better_than_chance: 0.9145
+btc_per_param: 9.617e-09
+config:
+  batch_size: 256
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-22-4-256-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-22-4-256-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-22-4-256-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95091712
+peak_gpu_mb: 32245.0
+---
+best_val_iter: 0
+best_val_loss: 10.914471626281738
+better_than_chance: 0.9143
+btc_per_param: 9.615e-09
+config:
+  batch_size: 256
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-22-4-256-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-22-4-256-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-22-4-256-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95091712
+peak_gpu_mb: 32245.0
+---
+best_val_iter: 0
+best_val_loss: 10.891984939575195
+better_than_chance: 0.9351
+btc_per_param: 9.833e-09
+config:
+  batch_size: 256
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-33-2-256-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-33-2-256-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-33-2-256-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95102976
+peak_gpu_mb: 32245.0
+---
+best_val_iter: 0
+best_val_loss: 10.8925142288208
+better_than_chance: 0.9346
+btc_per_param: 9.828e-09
+config:
+  batch_size: 256
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-33-2-256-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-33-2-256-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-33-2-256-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95102976
+peak_gpu_mb: 32245.0
+---
+best_val_iter: 0
+best_val_loss: 10.914726257324219
+better_than_chance: 0.9141
+btc_per_param: 9.6e-09
+config:
+  batch_size: 256
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-22-4-512-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-22-4-512-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-22-4-512-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95222784
+peak_gpu_mb: 63914.6
+---
+best_val_iter: 0
+best_val_loss: 10.916054725646973
+better_than_chance: 0.9129
+btc_per_param: 9.587e-09
+config:
+  batch_size: 256
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-22-4-512-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-22-4-512-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-22-4-512-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95222784
+peak_gpu_mb: 63914.6
+---
+best_val_iter: 0
+best_val_loss: 10.898015022277832
+better_than_chance: 0.9295
+btc_per_param: 9.76e-09
+config:
+  batch_size: 256
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-33-2-512-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-33-2-512-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-33-2-512-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95234048
+peak_gpu_mb: 63914.7
+---
+best_val_iter: 0
+best_val_loss: 10.897846221923828
+better_than_chance: 0.9297
+btc_per_param: 9.762e-09
+config:
+  batch_size: 256
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-33-2-512-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-33-2-512-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-33-2-512-256-cuda-openwebtext-20000
+iter_latency_avg: 0.0
+num_params: 95234048
+peak_gpu_mb: 63914.7
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 1024
+  n_head: 2
+  n_layer: 2
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-2-2-8-1024-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-2-2-8-1024-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-2-2-8-1024-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 1024
+  n_head: 16
+  n_layer: 2
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-16-2-8-1024-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-16-2-8-1024-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-16-2-8-1024-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1024
+  n_head: 2
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-2-5-2-1024-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-2-5-2-1024-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-2-5-2-1024-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1024
+  n_head: 16
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-16-5-2-1024-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-16-5-2-1024-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-16-5-2-1024-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-1024-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-1024-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-1024-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: .nan
+best_val_loss: .nan
+better_than_chance: .nan
+btc_per_param: .nan
+config:
+  batch_size: 256
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-1024-256-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-1024-256-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-1024-256-cuda-openwebtext-20000
+iter_latency_avg: .nan
+num_params: .nan
+peak_gpu_mb: .nan
+---
+best_val_iter: 20000
+best_val_loss: 4.068703651428223
+better_than_chance: 859.4
+btc_per_param: 9.054e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 52.3
+num_params: 94919424
+peak_gpu_mb: 16169.6
+---
+best_val_iter: 19500
+best_val_loss: 3.9374008178710938
+better_than_chance: 980.0
+btc_per_param: 1.032e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 56.3
+num_params: 94919424
+peak_gpu_mb: 16197.4
+---
+best_val_iter: 19750
+best_val_loss: 3.778097152709961
+better_than_chance: 1149.0
+btc_per_param: 1.209e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 89.7
+num_params: 95017728
+peak_gpu_mb: 30912.8
+---
+best_val_iter: 19750
+best_val_loss: 3.6651675701141357
+better_than_chance: 1287.0
+btc_per_param: 1.354e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 103.4
+num_params: 95017728
+peak_gpu_mb: 30968.1
+---
+best_val_iter: 14750
+best_val_loss: 4.274662017822266
+better_than_chance: 699.4
+btc_per_param: 7.355e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-22-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-22-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-22-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 45.5
+num_params: 95091712
+peak_gpu_mb: 14043.4
+---
+best_val_iter: 20000
+best_val_loss: 3.8458166122436523
+better_than_chance: 1074.0
+btc_per_param: 1.129e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-22-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-22-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-22-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 46.8
+num_params: 95091712
+peak_gpu_mb: 14062.7
+---
+best_val_iter: 19750
+best_val_loss: 4.04861307144165
+better_than_chance: 876.8
+btc_per_param: 9.22e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-33-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-33-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-33-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 52.8
+num_params: 95102976
+peak_gpu_mb: 15134.3
+---
+best_val_iter: 19750
+best_val_loss: 3.868699550628662
+better_than_chance: 1050.0
+btc_per_param: 1.104e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-33-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-33-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-33-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 54.9
+num_params: 95102976
+peak_gpu_mb: 15163.2
+---
+best_val_iter: 1250
+best_val_loss: 6.145547389984131
+better_than_chance: 107.7
+btc_per_param: 1.131e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-22-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-22-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-22-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 78.0
+num_params: 95222784
+peak_gpu_mb: 26706.0
+---
+best_val_iter: 19500
+best_val_loss: 3.681823492050171
+better_than_chance: 1265.0
+btc_per_param: 1.329e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-22-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-22-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-22-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 82.3
+num_params: 95222784
+peak_gpu_mb: 26744.8
+---
+best_val_iter: 15250
+best_val_loss: 3.8185882568359375
+better_than_chance: 1104.0
+btc_per_param: 1.159e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-33-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-33-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-33-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 90.6
+num_params: 95234048
+peak_gpu_mb: 28887.5
+---
+best_val_iter: 20000
+best_val_loss: 3.633371353149414
+better_than_chance: 1328.0
+btc_per_param: 1.395e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-33-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-33-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-33-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 97.6
+num_params: 95234048
+peak_gpu_mb: 28945.4
+---
+best_val_iter: 19750
+best_val_loss: 3.7303571701049805
+better_than_chance: 1205.0
+btc_per_param: 1.276e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 1024
+  n_head: 2
+  n_layer: 2
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-2-2-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-2-2-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-2-2-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 110.0
+num_params: 94459904
+peak_gpu_mb: 39804.6
+---
+best_val_iter: 19750
+best_val_loss: 3.582684278488159
+better_than_chance: 1397.0
+btc_per_param: 1.479e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 1024
+  n_head: 16
+  n_layer: 2
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-16-2-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-16-2-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-16-2-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 97.1
+num_params: 94459904
+peak_gpu_mb: 39811.6
+---
+best_val_iter: 20000
+best_val_loss: 3.908156633377075
+better_than_chance: 1009.0
+btc_per_param: 1.068e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1024
+  n_head: 2
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-2-5-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-2-5-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-2-5-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 140.6
+num_params: 94466048
+peak_gpu_mb: 42112.8
+---
+best_val_iter: 19750
+best_val_loss: 3.5100717544555664
+better_than_chance: 1502.0
+btc_per_param: 1.59e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1024
+  n_head: 16
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-16-5-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-16-5-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-16-5-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 109.7
+num_params: 94466048
+peak_gpu_mb: 42385.6
+---
+best_val_iter: 20000
+best_val_loss: 3.611109733581543
+better_than_chance: 1358.0
+btc_per_param: 1.426e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-32-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-32-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-32-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 174.1
+num_params: 95214336
+peak_gpu_mb: 60451.5
+---
+best_val_iter: 19750
+best_val_loss: 3.5108039379119873
+better_than_chance: 1501.0
+btc_per_param: 1.577e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 32
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-32-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-32-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-32-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 211.0
+num_params: 95214336
+peak_gpu_mb: 60562.6
+---
+best_val_iter: 19500
+best_val_loss: 5.642091751098633
+better_than_chance: 178.2
+btc_per_param: 1.867e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 768
+  n_head: 2
+  n_layer: 6
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-6-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-6-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-6-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 36.3
+num_params: 95427072
+peak_gpu_mb: 10931.3
+---
+best_val_iter: 20000
+best_val_loss: 3.8490936756134033
+better_than_chance: 1070.0
+btc_per_param: 1.122e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 768
+  n_head: 16
+  n_layer: 6
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-6-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-6-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-6-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 34.9
+num_params: 95427072
+peak_gpu_mb: 10937.9
+---
+best_val_iter: 19000
+best_val_loss: 5.698451519012451
+better_than_chance: 168.4
+btc_per_param: 1.765e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 768
+  n_head: 2
+  n_layer: 8
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-8-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-8-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-8-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 38.5
+num_params: 95430144
+peak_gpu_mb: 11227.2
+---
+best_val_iter: 20000
+best_val_loss: 3.8466522693634033
+better_than_chance: 1073.0
+btc_per_param: 1.124e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 768
+  n_head: 16
+  n_layer: 8
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-8-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-8-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-8-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 36.7
+num_params: 95430144
+peak_gpu_mb: 11234.2
+---
+best_val_iter: 20000
+best_val_loss: 3.9763131141662598
+better_than_chance: 942.6
+btc_per_param: 9.876e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 2
+  n_layer: 12
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-12-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-12-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-12-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 44.8
+num_params: 95436288
+peak_gpu_mb: 11805.5
+---
+best_val_iter: 20000
+best_val_loss: 3.844132661819458
+better_than_chance: 1076.0
+btc_per_param: 1.127e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 16
+  n_layer: 12
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-12-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-12-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-12-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 40.7
+num_params: 95436288
+peak_gpu_mb: 11816.7
+---
+best_val_iter: 20000
+best_val_loss: 3.572591543197632
+better_than_chance: 1411.0
+btc_per_param: 1.478e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-22-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-22-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-22-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 154.0
+num_params: 95484928
+peak_gpu_mb: 52032.2
+---
+best_val_iter: 19750
+best_val_loss: 3.515319585800171
+better_than_chance: 1495.0
+btc_per_param: 1.565e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 22
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-22-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-22-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-22-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 164.8
+num_params: 95484928
+peak_gpu_mb: 52107.3
+---
+best_val_iter: 20000
+best_val_loss: 5.5629563331604
+better_than_chance: 192.9
+btc_per_param: 2.017e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 768
+  n_head: 2
+  n_layer: 6
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-6-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-6-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-6-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 66.0
+num_params: 95623680
+peak_gpu_mb: 20437.7
+---
+best_val_iter: 19750
+best_val_loss: 3.6118407249450684
+better_than_chance: 1357.0
+btc_per_param: 1.419e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 768
+  n_head: 16
+  n_layer: 6
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-6-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-6-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-6-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 62.0
+num_params: 95623680
+peak_gpu_mb: 20450.3
+---
+best_val_iter: 20000
+best_val_loss: 4.3380231857299805
+better_than_chance: 656.5
+btc_per_param: 6.865e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 768
+  n_head: 2
+  n_layer: 8
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-8-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-8-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-8-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 72.0
+num_params: 95626752
+peak_gpu_mb: 21021.1
+---
+best_val_iter: 20000
+best_val_loss: 3.609684944152832
+better_than_chance: 1360.0
+btc_per_param: 1.422e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 768
+  n_head: 16
+  n_layer: 8
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-8-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-8-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-8-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 65.1
+num_params: 95626752
+peak_gpu_mb: 21033.8
+---
+best_val_iter: 19750
+best_val_loss: 3.6258788108825684
+better_than_chance: 1338.0
+btc_per_param: 1.401e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-33-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-33-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-33-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 178.2
+num_params: 95496192
+peak_gpu_mb: 56266.4
+---
+best_val_iter: 19750
+best_val_loss: 3.4923486709594727
+better_than_chance: 1529.0
+btc_per_param: 1.601e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-33-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-33-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-33-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 196.1
+num_params: 95496192
+peak_gpu_mb: 56510.5
+---
+best_val_iter: 15250
+best_val_loss: 5.679098129272461
+better_than_chance: 171.7
+btc_per_param: 1.796e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 2
+  n_layer: 12
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-12-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-12-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-12-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 84.1
+num_params: 95632896
+peak_gpu_mb: 22270.5
+---
+best_val_iter: 19750
+best_val_loss: 3.6470775604248047
+better_than_chance: 1310.0
+btc_per_param: 1.37e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 16
+  n_layer: 12
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-12-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-12-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-12-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 73.1
+num_params: 95632896
+peak_gpu_mb: 22193.9
+---
+best_val_iter: 20000
+best_val_loss: 4.109758377075195
+better_than_chance: 824.8
+btc_per_param: 8.583e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 26
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-26-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-26-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-26-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 48.9
+num_params: 96094464
+peak_gpu_mb: 15876.9
+---
+best_val_iter: 20000
+best_val_loss: 3.9053683280944824
+better_than_chance: 1012.0
+btc_per_param: 1.053e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 26
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-26-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-26-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-26-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 52.5
+num_params: 96094464
+peak_gpu_mb: 15899.6
+---
+best_val_iter: 20000
+best_val_loss: 3.7457468509674072
+better_than_chance: 1187.0
+btc_per_param: 1.234e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 26
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-26-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-26-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-26-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 84.1
+num_params: 96192768
+peak_gpu_mb: 30294.3
+---
+best_val_iter: 19750
+best_val_loss: 3.6873466968536377
+better_than_chance: 1258.0
+btc_per_param: 1.308e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 26
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-26-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-26-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-26-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 94.8
+num_params: 96192768
+peak_gpu_mb: 30341.8
+---
+best_val_iter: 19750
+best_val_loss: 3.6645946502685547
+better_than_chance: 1287.0
+btc_per_param: 1.336e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 26
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-26-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-26-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-26-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 164.0
+num_params: 96389376
+peak_gpu_mb: 59211.0
+---
+best_val_iter: 19750
+best_val_loss: 3.5619919300079346
+better_than_chance: 1426.0
+btc_per_param: 1.48e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 26
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-26-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-26-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-26-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 195.3
+num_params: 96389376
+peak_gpu_mb: 59306.8
+---
+best_val_iter: 19750
+best_val_loss: 3.5891218185424805
+better_than_chance: 1388.0
+btc_per_param: 1.446e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 768
+  n_head: 2
+  n_layer: 6
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-6-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-6-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-6-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 146.7
+num_params: 96016896
+peak_gpu_mb: 39644.6
+---
+best_val_iter: 20000
+best_val_loss: 3.50398325920105
+better_than_chance: 1512.0
+btc_per_param: 1.574e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 768
+  n_head: 16
+  n_layer: 6
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-6-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-6-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-6-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 123.7
+num_params: 96016896
+peak_gpu_mb: 39473.6
+---
+best_val_iter: 19750
+best_val_loss: 3.5766937732696533
+better_than_chance: 1406.0
+btc_per_param: 1.464e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 768
+  n_head: 2
+  n_layer: 8
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-8-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-8-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-8-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 160.8
+num_params: 96019968
+peak_gpu_mb: 40608.4
+---
+best_val_iter: 20000
+best_val_loss: 3.4608659744262695
+better_than_chance: 1578.0
+btc_per_param: 1.644e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 768
+  n_head: 16
+  n_layer: 8
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-8-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-8-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-8-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 130.8
+num_params: 96019968
+peak_gpu_mb: 40637.9
+---
+best_val_iter: 20000
+best_val_loss: 3.5431699752807617
+better_than_chance: 1454.0
+btc_per_param: 1.514e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 2
+  n_layer: 12
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-12-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-12-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-12-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 192.7
+num_params: 96026112
+peak_gpu_mb: 42918.0
+---
+best_val_iter: 20000
+best_val_loss: 3.4790961742401123
+better_than_chance: 1550.0
+btc_per_param: 1.614e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 16
+  n_layer: 12
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-12-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-12-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-12-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 148.5
+num_params: 96026112
+peak_gpu_mb: 43153.0
+---
+best_val_iter: 20000
+best_val_loss: 5.476335525512695
+better_than_chance: 210.3
+btc_per_param: 2.18e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1536
+  n_head: 2
+  n_layer: 1
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1536-2-1-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1536-2-1-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1536-2-1-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 29.3
+num_params: 96466944
+peak_gpu_mb: 10029.3
+---
+best_val_iter: 20000
+best_val_loss: 4.608863353729248
+better_than_chance: 500.7
+btc_per_param: 5.191e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1536
+  n_head: 16
+  n_layer: 1
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1536-16-1-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1536-16-1-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1536-16-1-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 28.1
+num_params: 96466944
+peak_gpu_mb: 10030.2
+---
+best_val_iter: 20000
+best_val_loss: 3.963905096054077
+better_than_chance: 954.3
+btc_per_param: 9.82e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 2
+  n_layer: 17
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-17-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-17-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-17-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 42.7
+num_params: 97183744
+peak_gpu_mb: 13784.1
+---
+best_val_iter: 20000
+best_val_loss: 3.8792693614959717
+better_than_chance: 1039.0
+btc_per_param: 1.069e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 16
+  n_layer: 17
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-17-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-17-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-17-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 43.5
+num_params: 97183744
+peak_gpu_mb: 13766.8
+---
+best_val_iter: 20000
+best_val_loss: 3.9349005222320557
+better_than_chance: 982.4
+btc_per_param: 1.011e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-34-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-34-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-34-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 54.0
+num_params: 97201152
+peak_gpu_mb: 15386.6
+---
+best_val_iter: 20000
+best_val_loss: 3.8690292835235596
+better_than_chance: 1049.0
+btc_per_param: 1.08e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-34-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-34-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-34-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 56.2
+num_params: 97201152
+peak_gpu_mb: 15416.3
+---
+best_val_iter: 19750
+best_val_loss: 3.9299166202545166
+better_than_chance: 987.3
+btc_per_param: 1.015e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-33-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-33-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-33-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 53.5
+num_params: 97279488
+peak_gpu_mb: 16441.0
+---
+best_val_iter: 19750
+best_val_loss: 3.8807809352874756
+better_than_chance: 1037.0
+btc_per_param: 1.066e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-33-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-33-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-33-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 58.0
+num_params: 97279488
+peak_gpu_mb: 16493.9
+---
+best_val_iter: 20000
+best_val_loss: 3.8277769088745117
+better_than_chance: 1093.0
+btc_per_param: 1.123e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-33-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-33-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-33-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 92.4
+num_params: 97377792
+peak_gpu_mb: 31520.3
+---
+best_val_iter: 20000
+best_val_loss: 3.691960096359253
+better_than_chance: 1253.0
+btc_per_param: 1.286e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-33-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-33-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-33-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 105.6
+num_params: 97377792
+peak_gpu_mb: 31578.5
+---
+best_val_iter: 20000
+best_val_loss: 3.690502882003784
+better_than_chance: 1254.0
+btc_per_param: 1.289e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 2
+  n_layer: 17
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-17-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-17-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-17-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 74.5
+num_params: 97314816
+peak_gpu_mb: 26027.1
+---
+best_val_iter: 20000
+best_val_loss: 3.663759231567383
+better_than_chance: 1288.0
+btc_per_param: 1.324e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 16
+  n_layer: 17
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-17-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-17-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-17-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 77.1
+num_params: 97314816
+peak_gpu_mb: 26056.8
+---
+best_val_iter: 20000
+best_val_loss: 3.7279157638549805
+better_than_chance: 1208.0
+btc_per_param: 1.241e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-34-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-34-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-34-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 93.3
+num_params: 97332224
+peak_gpu_mb: 29364.0
+---
+best_val_iter: 20000
+best_val_loss: 3.661623239517212
+better_than_chance: 1291.0
+btc_per_param: 1.327e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-34-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-34-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-34-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 99.3
+num_params: 97332224
+peak_gpu_mb: 29359.5
+---
+best_val_iter: 20000
+best_val_loss: 4.328031539916992
+better_than_chance: 663.1
+btc_per_param: 6.846e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1536
+  n_head: 2
+  n_layer: 1
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1536-2-1-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1536-2-1-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1536-2-1-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 52.0
+num_params: 96860160
+peak_gpu_mb: 18709.8
+---
+best_val_iter: 20000
+best_val_loss: 4.129347324371338
+better_than_chance: 808.8
+btc_per_param: 8.35e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1536
+  n_head: 16
+  n_layer: 1
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1536-16-1-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1536-16-1-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1536-16-1-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 49.5
+num_params: 96860160
+peak_gpu_mb: 18711.6
+---
+best_val_iter: 19750
+best_val_loss: 3.626204252243042
+better_than_chance: 1338.0
+btc_per_param: 1.371e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-33-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-33-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-33-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 184.9
+num_params: 97574400
+peak_gpu_mb: 61636.4
+---
+best_val_iter: 19750
+best_val_loss: 3.5725879669189453
+better_than_chance: 1411.0
+btc_per_param: 1.446e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 33
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-33-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-33-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-33-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 215.9
+num_params: 97574400
+peak_gpu_mb: 61655.2
+---
+best_val_iter: 20000
+best_val_loss: 4.184703826904297
+better_than_chance: 765.2
+btc_per_param: 7.826e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 768
+  n_head: 2
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-5-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-5-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-5-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 35.9
+num_params: 97784832
+peak_gpu_mb: 10910.0
+---
+best_val_iter: 19750
+best_val_loss: 3.848384141921997
+better_than_chance: 1071.0
+btc_per_param: 1.095e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 768
+  n_head: 16
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-5-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-5-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-5-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 34.3
+num_params: 97784832
+peak_gpu_mb: 10913.8
+---
+best_val_iter: 20000
+best_val_loss: 3.5782310962677
+better_than_chance: 1403.0
+btc_per_param: 1.438e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 2
+  n_layer: 17
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-17-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-17-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-17-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 146.3
+num_params: 97576960
+peak_gpu_mb: 50779.8
+---
+best_val_iter: 20000
+best_val_loss: 3.458421230316162
+better_than_chance: 1582.0
+btc_per_param: 1.621e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 16
+  n_layer: 17
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-17-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-17-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-17-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 154.5
+num_params: 97576960
+peak_gpu_mb: 50707.7
+---
+best_val_iter: 11750
+best_val_loss: 3.749523639678955
+better_than_chance: 1182.0
+btc_per_param: 1.212e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-34-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-34-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-34-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 182.2
+num_params: 97594368
+peak_gpu_mb: 57191.4
+---
+best_val_iter: 20000
+best_val_loss: 3.4517972469329834
+better_than_chance: 1593.0
+btc_per_param: 1.632e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-34-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-34-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-34-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 201.2
+num_params: 97594368
+peak_gpu_mb: 57309.5
+---
+best_val_iter: 20000
+best_val_loss: 4.05552339553833
+better_than_chance: 870.8
+btc_per_param: 8.864e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 23
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-23-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-23-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-23-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 47.0
+num_params: 98238464
+peak_gpu_mb: 14405.8
+---
+best_val_iter: 20000
+best_val_loss: 3.8784561157226562
+better_than_chance: 1039.0
+btc_per_param: 1.058e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 23
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-23-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-23-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-23-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 47.9
+num_params: 98238464
+peak_gpu_mb: 14426.0
+---
+best_val_iter: 19750
+best_val_loss: 5.366938591003418
+better_than_chance: 234.6
+btc_per_param: 2.395e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 768
+  n_head: 2
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-5-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-5-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-5-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 63.8
+num_params: 97981440
+peak_gpu_mb: 20369.0
+---
+best_val_iter: 20000
+best_val_loss: 3.6151938438415527
+better_than_chance: 1353.0
+btc_per_param: 1.38e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 768
+  n_head: 16
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-5-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-5-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-5-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 61.8
+num_params: 97981440
+peak_gpu_mb: 20473.4
+---
+best_val_iter: 19750
+best_val_loss: 3.70585560798645
+better_than_chance: 1235.0
+btc_per_param: 1.256e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 23
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-23-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-23-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-23-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 81.0
+num_params: 98369536
+peak_gpu_mb: 27388.6
+---
+best_val_iter: 19750
+best_val_loss: 3.6264808177948
+better_than_chance: 1337.0
+btc_per_param: 1.359e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 23
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-23-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-23-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-23-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 84.9
+num_params: 98369536
+peak_gpu_mb: 27429.3
+---
+best_val_iter: 20000
+best_val_loss: 3.940913438796997
+better_than_chance: 976.5
+btc_per_param: 9.859e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 27
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-27-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-27-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-27-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 50.9
+num_params: 99044352
+peak_gpu_mb: 16205.9
+---
+best_val_iter: 20000
+best_val_loss: 3.9185287952423096
+better_than_chance: 998.6
+btc_per_param: 1.008e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 27
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-27-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-27-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-27-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 54.0
+num_params: 99044352
+peak_gpu_mb: 16229.5
+---
+best_val_iter: 20000
+best_val_loss: 3.5400688648223877
+better_than_chance: 1458.0
+btc_per_param: 1.478e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 23
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-23-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-23-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-23-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 159.5
+num_params: 98631680
+peak_gpu_mb: 53356.7
+---
+best_val_iter: 20000
+best_val_loss: 3.479330539703369
+better_than_chance: 1549.0
+btc_per_param: 1.571e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 23
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-23-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-23-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-23-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 171.4
+num_params: 98631680
+peak_gpu_mb: 53435.3
+---
+best_val_iter: 20000
+best_val_loss: 3.5929229259490967
+better_than_chance: 1383.0
+btc_per_param: 1.406e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 768
+  n_head: 2
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-5-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-5-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-5-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 140.0
+num_params: 98374656
+peak_gpu_mb: 39283.7
+---
+best_val_iter: 20000
+best_val_loss: 3.4547171592712402
+better_than_chance: 1588.0
+btc_per_param: 1.614e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 768
+  n_head: 16
+  n_layer: 5
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-5-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-5-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-5-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 122.0
+num_params: 98374656
+peak_gpu_mb: 39301.7
+---
+best_val_iter: 20000
+best_val_loss: 4.118747711181641
+better_than_chance: 817.4
+btc_per_param: 8.371e-06
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1536
+  n_head: 2
+  n_layer: 1
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1536-2-1-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1536-2-1-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1536-2-1-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 103.1
+num_params: 97646592
+peak_gpu_mb: 36071.7
+---
+best_val_iter: 20000
+best_val_loss: 4.001626968383789
+better_than_chance: 919.0
+btc_per_param: 9.411e-06
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 1536
+  n_head: 16
+  n_layer: 1
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1536-16-1-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1536-16-1-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1536-16-1-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 94.3
+num_params: 97646592
+peak_gpu_mb: 36074.6
+---
+best_val_iter: 20000
+best_val_loss: 3.780411958694458
+better_than_chance: 1147.0
+btc_per_param: 1.156e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 27
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-27-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-27-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-27-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 86.9
+num_params: 99142656
+peak_gpu_mb: 30910.0
+---
+best_val_iter: 20000
+best_val_loss: 3.6661059856414795
+better_than_chance: 1285.0
+btc_per_param: 1.296e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 27
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-27-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-27-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-27-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 98.0
+num_params: 99142656
+peak_gpu_mb: 30959.2
+---
+best_val_iter: 13500
+best_val_loss: 4.206665515899658
+better_than_chance: 748.6
+btc_per_param: 7.541e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 512
+  n_head: 2
+  n_layer: 14
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-14-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-14-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-14-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 51.6
+num_params: 99277824
+peak_gpu_mb: 13585.2
+---
+best_val_iter: 20000
+best_val_loss: 3.843991994857788
+better_than_chance: 1076.0
+btc_per_param: 1.084e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 512
+  n_head: 16
+  n_layer: 14
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-14-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-14-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-14-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 41.2
+num_params: 99277824
+peak_gpu_mb: 13597.7
+---
+best_val_iter: 19750
+best_val_loss: 3.928065299987793
+better_than_chance: 989.1
+btc_per_param: 9.961e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-35-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-35-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-35-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 54.8
+num_params: 99299328
+peak_gpu_mb: 15639.1
+---
+best_val_iter: 19750
+best_val_loss: 3.864370107650757
+better_than_chance: 1054.0
+btc_per_param: 1.062e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-35-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-35-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-35-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 56.8
+num_params: 99299328
+peak_gpu_mb: 15669.7
+---
+best_val_iter: 19750
+best_val_loss: 3.7676584720611572
+better_than_chance: 1161.0
+btc_per_param: 1.168e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 512
+  n_head: 2
+  n_layer: 14
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-14-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-14-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-14-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 71.9
+num_params: 99408896
+peak_gpu_mb: 25797.8
+---
+best_val_iter: 19750
+best_val_loss: 3.6318700313568115
+better_than_chance: 1330.0
+btc_per_param: 1.338e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 512
+  n_head: 16
+  n_layer: 14
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-14-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-14-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-14-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 74.2
+num_params: 99408896
+peak_gpu_mb: 25822.3
+---
+best_val_iter: 20000
+best_val_loss: 3.680488348007202
+better_than_chance: 1267.0
+btc_per_param: 1.274e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-35-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-35-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-35-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 95.6
+num_params: 99430400
+peak_gpu_mb: 29776.8
+---
+best_val_iter: 20000
+best_val_loss: 3.6616952419281006
+better_than_chance: 1291.0
+btc_per_param: 1.298e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-35-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-35-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-35-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 100.5
+num_params: 99430400
+peak_gpu_mb: 29902.5
+---
+best_val_iter: 19750
+best_val_loss: 3.595132350921631
+better_than_chance: 1380.0
+btc_per_param: 1.389e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 27
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-27-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-27-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-27-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 166.6
+num_params: 99339264
+peak_gpu_mb: 60403.7
+---
+best_val_iter: 19750
+best_val_loss: 3.5390899181365967
+better_than_chance: 1459.0
+btc_per_param: 1.469e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 27
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-27-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-27-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-27-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 201.4
+num_params: 99339264
+peak_gpu_mb: 60504.2
+---
+best_val_iter: 19750
+best_val_loss: 4.0891804695129395
+better_than_chance: 842.0
+btc_per_param: 8.45e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-34-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-34-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-34-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 54.5
+num_params: 99639552
+peak_gpu_mb: 16761.5
+---
+best_val_iter: 19750
+best_val_loss: 3.914548873901367
+better_than_chance: 1003.0
+btc_per_param: 1.006e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-34-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-34-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-34-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 59.1
+num_params: 99639552
+peak_gpu_mb: 16791.3
+---
+best_val_iter: 20000
+best_val_loss: 3.741921901702881
+better_than_chance: 1192.0
+btc_per_param: 1.195e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-34-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-34-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-34-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 94.3
+num_params: 99737856
+peak_gpu_mb: 32032.9
+---
+best_val_iter: 20000
+best_val_loss: 3.654090166091919
+better_than_chance: 1301.0
+btc_per_param: 1.304e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-34-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-34-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-34-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 108.1
+num_params: 99737856
+peak_gpu_mb: 32142.0
+---
+best_val_iter: 19750
+best_val_loss: 3.5714874267578125
+better_than_chance: 1413.0
+btc_per_param: 1.418e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 512
+  n_head: 2
+  n_layer: 14
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-14-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-14-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-14-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 138.7
+num_params: 99671040
+peak_gpu_mb: 50031.1
+---
+best_val_iter: 19250
+best_val_loss: 3.5407845973968506
+better_than_chance: 1457.0
+btc_per_param: 1.462e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 512
+  n_head: 16
+  n_layer: 14
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-14-8-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-14-8-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-14-8-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 147.6
+num_params: 99671040
+peak_gpu_mb: 50080.1
+---
+best_val_iter: 10500
+best_val_loss: 3.7271416187286377
+better_than_chance: 1209.0
+btc_per_param: 1.213e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-35-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-35-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-35-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 188.1
+num_params: 99692544
+peak_gpu_mb: 58245.9
+---
+best_val_iter: 19500
+best_val_loss: 3.4695816040039062
+better_than_chance: 1565.0
+btc_per_param: 1.569e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-35-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-35-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-35-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 202.0
+num_params: 99692544
+peak_gpu_mb: 58239.0
+---
+best_val_iter: 20000
+best_val_loss: 3.6344568729400635
+better_than_chance: 1327.0
+btc_per_param: 1.328e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-34-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-34-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-34-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 182.0
+num_params: 99934464
+peak_gpu_mb: 62723.9
+---
+best_val_iter: 20000
+best_val_loss: 3.499171733856201
+better_than_chance: 1519.0
+btc_per_param: 1.52e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 34
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-34-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-34-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-34-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 221.2
+num_params: 99934464
+peak_gpu_mb: 62844.3
+---
+best_val_iter: 11250
+best_val_loss: 6.003802299499512
+better_than_chance: 124.1
+btc_per_param: 1.239e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 2
+  n_layer: 13
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-13-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-13-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-13-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 46.4
+num_params: 100156416
+peak_gpu_mb: 12206.2
+---
+best_val_iter: 19750
+best_val_loss: 3.846130609512329
+better_than_chance: 1074.0
+btc_per_param: 1.072e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 16
+  n_layer: 13
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-13-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-13-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-13-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 42.6
+num_params: 100156416
+peak_gpu_mb: 12219.2
+---
+best_val_iter: 500
+best_val_loss: 6.212759494781494
+better_than_chance: 100.7
+btc_per_param: 1.003e-06
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 2
+  n_layer: 13
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-13-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-13-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-13-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 90.2
+num_params: 100353024
+peak_gpu_mb: 22911.4
+---
+best_val_iter: 20000
+best_val_loss: 3.619969367980957
+better_than_chance: 1346.0
+btc_per_param: 1.341e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 16
+  n_layer: 13
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-13-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-13-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-13-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 76.4
+num_params: 100353024
+peak_gpu_mb: 22930.8
+---
+best_val_iter: 2500
+best_val_loss: 5.692230224609375
+better_than_chance: 169.5
+btc_per_param: 1.672e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 2
+  n_layer: 18
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-18-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-18-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-18-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 44.2
+num_params: 101379072
+peak_gpu_mb: 14162.2
+---
+best_val_iter: 19750
+best_val_loss: 3.8541383743286133
+better_than_chance: 1065.0
+btc_per_param: 1.051e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 16
+  n_layer: 18
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-18-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-18-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-18-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 45.3
+num_params: 101379072
+peak_gpu_mb: 14178.2
+---
+best_val_iter: 20000
+best_val_loss: 3.8985190391540527
+better_than_chance: 1019.0
+btc_per_param: 1.005e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-24-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-24-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-24-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 48.0
+num_params: 101385216
+peak_gpu_mb: 14704.0
+---
+best_val_iter: 20000
+best_val_loss: 3.8562426567077637
+better_than_chance: 1063.0
+btc_per_param: 1.048e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-24-4-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-24-4-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-24-4-256-64-cuda-openwebtext-20000
+iter_latency_avg: 49.5
+num_params: 101385216
+peak_gpu_mb: 14725.0
+---
+best_val_iter: 20000
+best_val_loss: 4.188582897186279
+better_than_chance: 762.3
+btc_per_param: 7.518e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 36
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-36-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-36-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-36-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 56.5
+num_params: 101397504
+peak_gpu_mb: 15891.4
+---
+best_val_iter: 19500
+best_val_loss: 3.8862104415893555
+better_than_chance: 1031.0
+btc_per_param: 1.017e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 36
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-36-2-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-36-2-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-36-2-256-64-cuda-openwebtext-20000
+iter_latency_avg: 58.2
+num_params: 101397504
+peak_gpu_mb: 15922.9
+---
+best_val_iter: 750
+best_val_loss: 5.896187782287598
+better_than_chance: 138.2
+btc_per_param: 1.372e-06
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 2
+  n_layer: 13
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-2-13-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-2-13-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-2-13-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 206.7
+num_params: 100746240
+peak_gpu_mb: 44519.4
+---
+best_val_iter: 20000
+best_val_loss: 3.4704034328460693
+better_than_chance: 1563.0
+btc_per_param: 1.552e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 768
+  n_head: 16
+  n_layer: 13
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-768-16-13-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-768-16-13-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-768-16-13-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 157.6
+num_params: 100746240
+peak_gpu_mb: 44373.5
+---
+best_val_iter: 19750
+best_val_loss: 3.730452299118042
+better_than_chance: 1205.0
+btc_per_param: 1.187e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 2
+  n_layer: 18
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-18-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-18-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-18-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 77.5
+num_params: 101510144
+peak_gpu_mb: 26851.8
+---
+best_val_iter: 19750
+best_val_loss: 3.6503937244415283
+better_than_chance: 1306.0
+btc_per_param: 1.286e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 16
+  n_layer: 18
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-18-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-18-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-18-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 80.9
+num_params: 101510144
+peak_gpu_mb: 26883.3
+---
+best_val_iter: 20000
+best_val_loss: 3.8052539825439453
+better_than_chance: 1118.0
+btc_per_param: 1.102e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-24-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-24-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-24-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 83.8
+num_params: 101516288
+peak_gpu_mb: 27942.8
+---
+best_val_iter: 20000
+best_val_loss: 3.670624017715454
+better_than_chance: 1280.0
+btc_per_param: 1.26e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-24-4-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-24-4-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-24-4-512-64-cuda-openwebtext-20000
+iter_latency_avg: 88.3
+num_params: 101516288
+peak_gpu_mb: 27985.3
+---
+best_val_iter: 19000
+best_val_loss: 3.7883951663970947
+better_than_chance: 1137.0
+btc_per_param: 1.12e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 36
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-36-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-36-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-36-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 98.1
+num_params: 101528576
+peak_gpu_mb: 30317.6
+---
+best_val_iter: 19750
+best_val_loss: 3.6345953941345215
+better_than_chance: 1327.0
+btc_per_param: 1.307e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 36
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-36-2-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-36-2-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-36-2-512-64-cuda-openwebtext-20000
+iter_latency_avg: 104.5
+num_params: 101528576
+peak_gpu_mb: 30380.7
+---
+best_val_iter: 20000
+best_val_loss: 4.018406391143799
+better_than_chance: 903.7
+btc_per_param: 8.86e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 28
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-28-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-28-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-28-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 52.0
+num_params: 101994240
+peak_gpu_mb: 16583.1
+---
+best_val_iter: 20000
+best_val_loss: 3.890275239944458
+better_than_chance: 1027.0
+btc_per_param: 1.007e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 28
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-28-8-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-28-8-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-28-8-256-64-cuda-openwebtext-20000
+iter_latency_avg: 55.6
+num_params: 101994240
+peak_gpu_mb: 16607.6
+---
+best_val_iter: 20000
+best_val_loss: 3.8992176055908203
+better_than_chance: 1018.0
+btc_per_param: 9.981e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-35-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-35-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-35-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 56.2
+num_params: 101999616
+peak_gpu_mb: 17034.2
+---
+best_val_iter: 20000
+best_val_loss: 3.8920035362243652
+better_than_chance: 1025.0
+btc_per_param: 1.005e-05
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-35-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-35-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-35-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 60.4
+num_params: 101999616
+peak_gpu_mb: 17088.9
+---
+best_val_iter: 20000
+best_val_loss: 3.7807116508483887
+better_than_chance: 1146.0
+btc_per_param: 1.123e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 2
+  n_layer: 28
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-28-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-28-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-28-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 89.3
+num_params: 102092544
+peak_gpu_mb: 31621.6
+---
+best_val_iter: 20000
+best_val_loss: 3.656374454498291
+better_than_chance: 1298.0
+btc_per_param: 1.271e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 8
+  n_embd: 384
+  n_head: 16
+  n_layer: 28
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-28-8-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-28-8-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-28-8-512-64-cuda-openwebtext-20000
+iter_latency_avg: 100.5
+num_params: 102092544
+peak_gpu_mb: 31672.6
+---
+best_val_iter: 19750
+best_val_loss: 3.7367067337036133
+better_than_chance: 1198.0
+btc_per_param: 1.173e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 2
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-2-35-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-2-35-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-2-35-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 96.9
+num_params: 102097920
+peak_gpu_mb: 32641.6
+---
+best_val_iter: 19750
+best_val_loss: 3.6755101680755615
+better_than_chance: 1273.0
+btc_per_param: 1.247e-05
+config:
+  batch_size: 64
+  block_size: 512
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 384
+  n_head: 16
+  n_layer: 35
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-384-16-35-6-512-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-384-16-35-6-512-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-384-16-35-6-512-64-cuda-openwebtext-20000
+iter_latency_avg: 111.6
+num_params: 102097920
+peak_gpu_mb: 32654.6
+---
+best_val_iter: 20000
+best_val_loss: 3.6254043579101562
+better_than_chance: 1339.0
+btc_per_param: 1.315e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 2
+  n_layer: 18
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-18-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-18-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-18-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 151.8
+num_params: 101772288
+peak_gpu_mb: 52115.3
+---
+best_val_iter: 20000
+best_val_loss: 3.455120325088501
+better_than_chance: 1587.0
+btc_per_param: 1.56e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 512
+  n_head: 16
+  n_layer: 18
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-18-6-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-18-6-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-18-6-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 160.2
+num_params: 101772288
+peak_gpu_mb: 52304.8
+---
+best_val_iter: 11250
+best_val_loss: 3.675107955932617
+better_than_chance: 1274.0
+btc_per_param: 1.252e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 2
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-24-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-24-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-24-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 162.7
+num_params: 101778432
+peak_gpu_mb: 54421.3
+---
+best_val_iter: 20000
+best_val_loss: 3.4788031578063965
+better_than_chance: 1550.0
+btc_per_param: 1.523e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 4
+  n_embd: 512
+  n_head: 16
+  n_layer: 24
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-24-4-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-24-4-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-24-4-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 175.0
+num_params: 101778432
+peak_gpu_mb: 54633.0
+---
+best_val_iter: 13250
+best_val_loss: 3.608895778656006
+better_than_chance: 1361.0
+btc_per_param: 1.337e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 2
+  n_layer: 36
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-2-36-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-2-36-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-2-36-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 188.0
+num_params: 101790720
+peak_gpu_mb: 59170.9
+---
+best_val_iter: 20000
+best_val_loss: 3.4565112590789795
+better_than_chance: 1585.0
+btc_per_param: 1.557e-05
+config:
+  batch_size: 64
+  block_size: 1024
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 2
+  n_embd: 512
+  n_head: 16
+  n_layer: 36
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-512-16-36-2-1024-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-512-16-36-2-1024-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-512-16-36-2-1024-64-cuda-openwebtext-20000
+iter_latency_avg: 208.3
+num_params: 101790720
+peak_gpu_mb: 59296.0
+---
+best_val_iter: 19000
+best_val_loss: 4.9700703620910645
+better_than_chance: 348.9
+btc_per_param: 3.419e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 1024
+  n_head: 2
+  n_layer: 3
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-2-3-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-2-3-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-2-3-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 33.1
+num_params: 102064128
+peak_gpu_mb: 11495.1
+---
+best_val_iter: 20000
+best_val_loss: 4.0035600662231445
+better_than_chance: 917.2
+btc_per_param: 8.987e-06
+config:
+  batch_size: 64
+  block_size: 256
+  dataset: openwebtext
+  device: cuda
+  max_iters: 20000
+  mlp_expansion_factor: 6
+  n_embd: 1024
+  n_head: 16
+  n_layer: 3
+  out_dir: sweep_from_csv/sweep-sweep_from_csv-1024-16-3-6-256-64-cuda-openwebtext-20000
+  tensorboard_run_name: sweep-sweep_from_csv-1024-16-3-6-256-64-cuda-openwebtext-20000
+formatted_name: sweep-sweep_from_csv-1024-16-3-6-256-64-cuda-openwebtext-20000
+iter_latency_avg: 31.7
+num_params: 102064128
+peak_gpu_mb: 11497.7

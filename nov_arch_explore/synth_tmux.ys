@@ -1,0 +1,64 @@
+# Read your Verilog files
+read_verilog -I HW_NOV \
+    HW_NOV/util/pe.v \
+    HW_NOV/util/mem.v \
+    HW_NOV/util/align.v \
+    HW_NOV/util/open_fp_cores.v \
+    HW_NOV/gbus/arbiter.v \
+    HW_NOV/gbus/bus_controller.v \
+    HW_NOV/gbus/bus_packet_fifo.v \
+    HW_NOV/gbus/gbus_top.v \
+    HW_NOV/util/fadd_tree.v \
+    HW_NOV/vector_engine/krms_recompute/rtl/krms.v \
+    HW_NOV/vector_engine/RMSnorm/rtl/RMSnorm.v \
+    HW_NOV/vector_engine/RMSnorm/rtl/fp_div_pipe.v \
+    HW_NOV/vector_engine/RMSnorm/rtl/fp_invsqrt_pipe.v \
+    HW_NOV/vector_engine/RMSnorm/rtl/fp_mult_pipe.v \
+    HW_NOV/vector_engine/softmax_recompute/rtl/softmax_rc.v \
+    HW_NOV/core/core_acc.v \
+    HW_NOV/core/core_buf.v \
+    HW_NOV/core/core_ctrl.v \
+    HW_NOV/core/core_mac.v \
+    HW_NOV/core/core_mem.v \
+    HW_NOV/core/core_quant.v \
+    HW_NOV/core/core_rc.v \
+    HW_NOV/core/core_top.v \
+    HW_NOV/head/abuf.v \
+    HW_NOV/head/head_core_array.v \
+    HW_NOV/head/head_sram_rd_ctrl.v \
+    HW_NOV/head/head_sram.v \
+    HW_NOV/head/head_top.v \
+    HW_NOV/head/two_heads.v
+    
+hierarchy -top head_top
+flatten
+blackbox core_top
+# synth -top head_top
+
+
+proc; opt; fsm; opt; memory; opt; techmap; opt
+
+read_liberty -lib /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+dfflibmap -liberty /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# Technology mapping
+techmap; 
+opt_expr -mux_undef -mux_bool -undriven
+opt_merge
+opt_muxtree
+opt_reduce
+opt_merge
+opt_dff -nodffe
+opt_clean
+opt_expr -mux_undef -mux_bool -undriven
+
+# abc -fast -liberty /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -D 10000 -liberty /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+clean
+
+# Final sanity check
+check; stat
+
+# Write out
+write_verilog -noattr -noexpr -norename results/head_top/1_synth_headtop_1.v

@@ -1,0 +1,12 @@
+strash
+dch
+map -B 0.5 -A 0.6
+retime -D 1000 -M 6
+topo
+stime -c
+
+buffer -N 10
+upsize -c
+
+dnsize -c
+

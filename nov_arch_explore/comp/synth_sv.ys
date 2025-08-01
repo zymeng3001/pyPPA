@@ -1,0 +1,86 @@
+# Read your Verilog files# Read Verilog (pure .v) files
+read_verilog -I comp \
+    comp/util/rtl/pe.v \
+    comp/util/rtl/mem.v \
+    comp/util/rtl/align.v \
+    HW_NOV/util/open_fp_cores.v \
+    HW_NOV/util/fadd_tree.v 
+
+# Read SystemVerilog (.sv) files
+read_verilog -sv -I comp \
+    comp/sys_defs.svh \
+    comp/core/rtl/core_acc.sv \
+    comp/core/rtl/core_buf.sv \
+    comp/gbus/rtl/arbiter.sv \
+    comp/gbus/rtl/bus_controller.sv \
+    comp/gbus/rtl/bus_packet_fifo.sv \
+    comp/gbus/rtl/gbus_top.sv \
+    comp/vector_engine/krms_recompute/rtl/krms.sv \
+    comp/vector_engine/RMSnorm/rtl/RMSnorm.sv \
+    comp/vector_engine/RMSnorm/rtl/fp_invsqrt_pipe.sv \
+    comp/vector_engine/RMSnorm/rtl/fp_mult_pipe.sv \
+    comp/vector_engine/RMSnorm/rtl/fp_div_pipe.sv \
+    comp/vector_engine/softmax_recompute/rtl/softmax_rc.sv \
+    comp/core/rtl/core_ctrl.sv \
+    comp/core/rtl/core_mac.v \
+    comp/core/rtl/core_mem.sv \
+    comp/core/rtl/core_quant.v \
+    comp/core/rtl/core_rc.sv \
+    comp/core/rtl/core_top.sv \
+    comp/head/rtl/abuf.sv \
+    comp/head/rtl/head_core_array.sv \
+    comp/head/rtl/head_sram_rd_ctrl.sv \
+    comp/head/rtl/head_sram.sv \
+    comp/head/rtl/head_top.sv \
+    comp/head/rtl/two_heads.sv
+
+    
+hierarchy -top head_top
+flatten off
+blackbox mem_sp
+blackbox mem_dp
+blackbox align_s2p
+blackbox align_p2s
+blackbox wmem
+# synth -top head_top
+
+read_liberty -lib /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+dfflibmap -liberty /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+proc; opt; fsm; opt; memory; opt; techmap; opt
+
+
+# Technology mapping
+techmap; 
+opt_expr -mux_undef -mux_bool -undriven
+opt_merge
+opt_muxtree
+opt_reduce
+opt_merge
+opt_dff -nodffe
+opt_clean
+opt_expr -mux_undef -mux_bool -undriven
+
+# abc -fast -liberty /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -D 10000 -liberty /home/yimengz/pyPPA/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+clean
+
+# Final sanity check
+check; stat
+
+# Write out
+write_verilog synth_out_sv.v
+
+
+
+# read_verilog dummy.v
+# hierarchy -top dummy_top
+# opt_expr -mux_undef -mux_bool -undriven
+# opt_merge
+# opt_muxtree
+# opt_reduce
+# opt_merge
+# opt_dff -nodffe
+# opt_clean
+# opt_expr -mux_undef -mux_bool -undriven

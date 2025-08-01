@@ -1,0 +1,51 @@
+//general idea 
+summarization stage is same with the generation stage
+
+verilog parameter //which will be parameter, can't changed
+MAX_CONTEXT_LENGTH (block size)
+NUM_HEAD
+MAC_MULT_NUM
+MAX_NUM_USER
+KV_CACHE_DEPTH_SINGLE_USER
+HEAD_SRAM_WIDTH
+HEAD_SRAM_dEPTH
+GLOBAL_SRAM_WIDTH
+GLOBAL_SRAM_DEPTH
+GBUS_WIDTH
+
+off chip mem access //how each chip communication with each other
+?
+
+model config //This should be uploaded before the initialization of weight, and will not be changed when accelerator is running
+{
+    max_context_length
+    embd_size
+    head_num
+    op_cfg_0
+    ...
+    
+}
+
+user config
+{
+    user_id
+    user_seq_len //似乎不需要？因为summarization stage和generation stage是一模一样的
+    user_first_token_flag //inidicate whether this is the first token for user input
+}
+
+operation config
+{
+    quant_shift
+    quant_scale
+    quant_bias //should always be zero
+    acc_num
+}
+
+
+GQA
+1. CMEM ADDR 里面的KV CACHE的width增加1位
+2.采用广播
+3.TOEKN per core也要翻倍
+4.K的写回要做出更改（应该不用？
+5.core mem， 304行的，cache的写逻辑要进行冲裁。需要根据GQA是否启用，head index还有，cmem addr进行判断
+目前的思路是，KV CACHE的深度看上去翻倍了，但是实际上没有。K和V的

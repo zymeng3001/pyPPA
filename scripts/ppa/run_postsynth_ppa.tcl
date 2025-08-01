@@ -45,6 +45,4 @@ report_checks \
   -path_delay min_max \
   -format full \
   -unconstrained \
-  -group_path_count 1000 \
-  -endpoint_path_count 1000 \
   > $timing_report_file

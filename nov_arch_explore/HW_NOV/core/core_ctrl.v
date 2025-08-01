@@ -27,7 +27,8 @@ module core_ctrl (
 	mac_opb,
 	out_gbus_addr,
 	out_gbus_wen,
-	out_gbus_wdata
+	out_gbus_wdata,
+	control_state_reg
 );
 	reg _sv2v_0;
 	parameter HLINK_DATA_WIDTH = 128;
@@ -78,6 +79,7 @@ module core_ctrl (
 	output reg [CMEM_DATA_WIDTH - 1:0] mac_opa;
 	output reg mac_opb_vld;
 	output reg [CMEM_DATA_WIDTH - 1:0] mac_opb;
+	output reg [31:0] control_state_reg;
 	localparam integer BUS_CMEM_ADDR_WIDTH = 13;
 	localparam integer BUS_CORE_ADDR_WIDTH = 4;
 	localparam integer HEAD_SRAM_BIAS_WIDTH = 2;
@@ -92,7 +94,7 @@ module core_ctrl (
 	localparam FFN1_WEIGHT_ADDR_BASE = (WMEM_DEPTH / WMEM_NUM_PER_CORE) * 2;
 	localparam K_CACHE_ADDR_BASE = 0;
 	localparam V_CACHE_ADDR_BASE = (((MAX_CONTEXT_LENGTH * MAX_EMBD_SIZE) / HEAD_NUM) / HEAD_CORE_NUM) / MAC_MULT_NUM;
-	reg [31:0] control_state_reg;
+
 	reg start_reg;
 	always @(posedge clk or negedge rst_n)
 		if (~rst_n)
