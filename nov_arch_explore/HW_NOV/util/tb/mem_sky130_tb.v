@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_mem_sp_sky130;
+module mem_sp_sky130_tb;
 
     // Parameters
     localparam DATA_BIT = ${sram_width};
@@ -8,33 +8,46 @@ module tb_mem_sp_sky130;
     localparam ADDR_BIT = $clog2(DEPTH);
 
     // DUT signals
-    logic                    clk;
-    logic [ADDR_BIT-1:0]     addr;
-    logic                    wen;
-    logic [DATA_BIT-1:0]     wdata;
-    logic [DATA_BIT-1:0]     bwe;
-    logic                    ren;
-    logic [DATA_BIT-1:0]     rdata;
+    reg                    clk;
+    reg  [ADDR_BIT-1:0]    addr;
+    reg                    wen;
+    reg  [DATA_BIT-1:0]    wdata;
+    reg  [DATA_BIT-1:0]    bwe;
+    reg                    ren;
+    wire [DATA_BIT-1:0]    rdata;
 
     // Instantiate the DUT
-    mem_sp_sky130 #(
-        .DATA_BIT(DATA_BIT),
-        .DEPTH(DEPTH),
-        .ADDR_BIT(ADDR_BIT),
-        .BWE(0)
-    ) dut (
-        .clk(clk),
-        .addr(addr),
-        .wen(wen),
-        .wdata(wdata),
-        .bwe(bwe),
-        .ren(ren),
-        .rdata(rdata)
-    );
+    //  mem_sp_sky130 #(
+    //      .DATA_BIT(DATA_BIT),
+    //      .DEPTH(DEPTH),
+    //      .ADDR_BIT(ADDR_BIT),
+    //      .BWE(0)
+    //  ) dut (
+    //      .clk(clk),
+    //      .addr(addr),
+    //      .wen(wen),
+    //      .wdata(wdata),
+    //      .bwe(bwe),
+    //      .ren(ren),
+    //      .rdata(rdata)
+    //  );
+
+    // for postsynthesis
+   mem_sp_sky130 dut (
+       .clk(clk),
+       .addr(addr),
+       .wen(wen),
+       .wdata(wdata),
+       .bwe(bwe),
+       .ren(ren),
+       .rdata(rdata)
+   );
 
     // Clock generation
     initial clk = 0;
-    always #5 clk = ~clk;  // 100MHz
+    always #2.5 clk = ~clk;  // 100MHz
+    
+    integer i;
 
     // Test procedure
     initial begin
@@ -43,12 +56,12 @@ module tb_mem_sp_sky130;
         wen  = 0;
         ren  = 0;
         wdata = 0;
-        bwe = '1;
+        bwe = 1;
 
         repeat (5) @(posedge clk);  // Wait for initialization
 
         // Write to a few addresses
-        for (int i = 0; i < 8; i++) begin
+        for (i = 0; i < 8; i=i+1) begin
             @(posedge clk);
             addr  <= i;
             wdata <= $random;
@@ -60,7 +73,7 @@ module tb_mem_sp_sky130;
         wen <= 0;
 
         // Read back the values
-        for (int i = 0; i < 8; i++) begin
+        for (i = 0; i < 8; i=i+1) begin
             @(posedge clk);
             addr <= i;
             ren  <= 1;

@@ -30,12 +30,14 @@ if {$::env(USE_YOSYS_SV_PLUGIN)} {
 } else {
   foreach file $::env(VERILOG_FILES) {
     read_verilog -defer -sv {*}$vIdirsArgs $file
+    puts "reading veilog $file"
   }
 }
 
 # Read standard cells and macros as blackbox inputs
 # These libs have their dont_use properties set accordingly
 read_liberty -lib {*}$::env(DONT_USE_LIBS)
+puts "Reading standard cells and macros as blackbox inputs: $::env(DONT_USE_LIBS)"
 
 # Apply toplevel parameters (if exist)
 if {[info exist ::env(VERILOG_TOP_PARAMS)]} {
@@ -61,11 +63,19 @@ if {[info exist ::env(PRESERVE_HIERARCHY_MODULES)] } {
   }
 }
 
-
 if {[info exist ::env(BLOCKS)]} {
   hierarchy -check -top $::env(DESIGN_NAME)
+  puts "top module is $::env(DESIGN_NAME)"
   foreach block $::env(BLOCKS) {
     blackbox $block
     puts "blackboxing $block"
   }
 }
+
+blackbox sram_macro
+
+# stat mem_sp_sky130
+
+# setattr -mod -set keep 1 mem_sp_sky130
+
+puts "synth preamble finished"

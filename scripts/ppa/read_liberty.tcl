@@ -22,4 +22,8 @@ if {[info exists ::env(CORNERS)]} {
   foreach libFile $::env(LIB_FILES) {
     read_liberty $libFile
   }
+
+  foreach libFile $::env(ADDITIONAL_LIB_FILES) {
+    read_liberty $libFile
+  }
 }

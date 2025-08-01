@@ -23,6 +23,7 @@ ppa_runner = PPARunner(
 		# Source Verilog files.
 		'VERILOG_FILES': [
             path.join(path.dirname(__file__), 'HW_NOV', 'util/mem_sky130.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/sky130_sram_stub.v'),
         ],
 		# The constraint SDC file path.
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
@@ -57,6 +58,9 @@ ppa_runner.add_job({
         ,'ADDITIONAL_LIB_FILES': [
             path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_0kbytes_1rw_32x128_32.lib')
         ]
+		,'ADDITIONAL_LEFS': [
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef')
+        ]
         ,'BLOCKS': {
             'values': ['sky130_sram_0kbytes_1rw_32x128_32']
         }
@@ -83,13 +87,13 @@ ppa_runner.add_job({
 		# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
 		# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
 		'clk_period': {
-			'values': [4,5]
+			'values': [3]
 		},
 		'sram_depth': {
-			'values': [128]
+			'values': [128, 256, 512, 768, 1024, 1536, 2048]  # 256 to 524288
 		},
 		'sram_width': {
-			'values': [32,64]
+			'values': [32,64,128,256]
 		}
 	}
 })
@@ -97,5 +101,7 @@ ppa_runner.add_job({
 # Finally, run all the jobs. They will be run concurrently, and each job will be assigned a number of threads to parallelize the sweep.
 # To change the number of threads assigned per job, change the `threads_per_job` argument to the PPARunner. To change the number of concurrent jobs, change the `max_concurrent_jobs` argument to the PPARunner.
 ppa_runner.run_all_jobs()
+
+
 
 
