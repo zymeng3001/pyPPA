@@ -61,10 +61,6 @@ if {[info exist ::env(PRESERVE_HIERARCHY_MODULES)] } {
   }
 }
 
-# blackbox abuf
-# blackbox headsram
-blackbox mem_sp_kv_cache 
-blackbox mem_sp_wmem
 
 if {[info exist ::env(BLOCKS)]} {
   hierarchy -check -top $::env(DESIGN_NAME)
