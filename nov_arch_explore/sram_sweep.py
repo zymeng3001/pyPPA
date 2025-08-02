@@ -48,7 +48,7 @@ ppa_runner.add_job({
 		# A list of the required testbench files. The design files are automatically included and need not be added here.
 		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW_NOV', 'util/tb/mem_sky130_tb.v')],
 		# If this option is set to true, a VCD file dumped from the simulations will be used to get more accurate power estimates.
-		'USE_STA_VCD': False,
+		'USE_STA_VCD': True,
 		# The name of the VCD file dumped. By default it is set to `module_name.vcd`
 		'VERILOG_VCD_NAME': 'mem_sp_sky130.vcd'
 		# If the option `ABC_AREA` is set to `True`, the area-optimized synthesis strategy is used as opposed to the speed-optimized strategy. The following dictionary lists both values, and hence both the options will be swept and the PPA results will be generated for each case.
