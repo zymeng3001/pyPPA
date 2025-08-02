@@ -48,3 +48,10 @@ report_checks \
   -group_path_count 1000 \
   -endpoint_path_count 1000 \
   > $timing_report_file
+
+
+# report_checks \
+#   -path_delay min_max \
+#   -format full \
+#   -unconstrained \
+#   > $timing_report_file

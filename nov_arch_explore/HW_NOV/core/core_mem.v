@@ -364,6 +364,7 @@ module core_mem (
 	assign vlink_data_out_vld = cache_rvalid;
 	initial _sv2v_0 = 0;
 endmodule
+
 module wmem (
 	clk,
 	rstn,
@@ -500,7 +501,12 @@ module wmem (
 	// 	.ADDR_BIT(WMEM_ADDR_WIDTH),
 	// 	.BWE(1)
 	// ) inst_mem_sp(
-	mem_sp_wmem mem_sp_wmem_inst(
+	mem_sp_sky130 #(
+		.DATA_BIT(DATA_BIT),
+		.DEPTH(${wmem_depth}),
+		.ADDR_BIT(WMEM_ADDR_WIDTH),
+		.BWE(1)
+	) mem_sp_wmem_inst(
 		.clk(clk),
 		.addr(wmem_addr_f),
 		.wen(wmem_wen_f),
@@ -511,6 +517,7 @@ module wmem (
 	);
 	initial _sv2v_0 = 0;
 endmodule
+
 module kv_cache_pkt (
 	clk,
 	rstn,
@@ -767,7 +774,14 @@ module kv_cache_pkt (
 			inst_addr_f = interface_inst_raddr;
 		end
 	end
-	mem_sp_kv_cache kv_cache_mem (
+	localparam integer ADDR_BIT = $clog2(${kv_cache_depth});
+
+	mem_sp_sky130 #(
+		.DATA_BIT(ODATA_BIT),
+		.DEPTH(${kv_cache_depth}),
+		.ADDR_BIT(ADDR_BIT),
+		.BWE(1)
+	) kv_cache_mem (
 		.clk(clk),
 		.addr(inst_addr_f),
 		.wen(inst_wen_f),
@@ -779,100 +793,102 @@ module kv_cache_pkt (
 	initial _sv2v_0 = 0;
 endmodule
 
-module mem_sp_kv_cache #(
-    parameter   DATA_BIT = (`MAC_MULT_NUM * `IDATA_WIDTH),
-    parameter   DEPTH = `KV_CACHE_DEPTH_SINGLE_USER,
-    parameter   ADDR_BIT = $clog2(DEPTH),
-    parameter   BWE = 0 //bit write enable
-)(
-    // Global Signals
-    input                       clk,
 
-    // Data Signals
-    input       [ADDR_BIT-1:0]  addr,
-    input                       wen,
-    input       [DATA_BIT-1:0]  bwe,
 
-    input       [DATA_BIT-1:0]  wdata,
-    input                       ren,
-    output  reg [DATA_BIT-1:0]  rdata
-);
+// module mem_sp_kv_cache #(
+//     parameter   DATA_BIT = (`MAC_MULT_NUM * `IDATA_WIDTH),
+//     parameter   DEPTH = `KV_CACHE_DEPTH_SINGLE_USER,
+//     parameter   ADDR_BIT = $clog2(DEPTH),
+//     parameter   BWE = 0 //bit write enable
+// )(
+//     // Global Signals
+//     input                       clk,
 
-    // 1. RAM/Memory initialization
-    reg [DATA_BIT-1:0]  mem [0:DEPTH-1];
+//     // Data Signals
+//     input       [ADDR_BIT-1:0]  addr,
+//     input                       wen,
+//     input       [DATA_BIT-1:0]  bwe,
 
-    // 2. Write channel
-generate
-    if (BWE == 0) begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= wdata;
-            end
-        end
-    end
-    else begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= (wdata & bwe) | (mem[addr] & (~bwe));
-            end
-        end
-    end
-endgenerate
+//     input       [DATA_BIT-1:0]  wdata,
+//     input                       ren,
+//     output  reg [DATA_BIT-1:0]  rdata
+// );
 
-    // 3. Read channel
-    always @(posedge clk) begin
-        if (ren) begin
-            rdata <= mem[addr];
-        end
-    end
+//     // 1. RAM/Memory initialization
+//     reg [DATA_BIT-1:0]  mem [0:DEPTH-1];
 
-endmodule
+//     // 2. Write channel
+// generate
+//     if (BWE == 0) begin
+//         always @(posedge clk) begin
+//             if (wen) begin
+//                 mem[addr] <= wdata;
+//             end
+//         end
+//     end
+//     else begin
+//         always @(posedge clk) begin
+//             if (wen) begin
+//                 mem[addr] <= (wdata & bwe) | (mem[addr] & (~bwe));
+//             end
+//         end
+//     end
+// endgenerate
 
-module mem_sp_wmem #(
-    parameter   DATA_BIT = `MAC_MULT_NUM*`IDATA_WIDTH,
-    parameter   DEPTH = `WMEM_DEPTH,
-    parameter   ADDR_BIT = $clog2(DEPTH),
-    parameter   BWE = 0 //bit write enable
-)(
-    // Global Signals
-    input                       clk,
+//     // 3. Read channel
+//     always @(posedge clk) begin
+//         if (ren) begin
+//             rdata <= mem[addr];
+//         end
+//     end
 
-    // Data Signals
-    input       [ADDR_BIT-1:0]  addr,
-    input                       wen,
-    input       [DATA_BIT-1:0]  bwe,
+// endmodule
 
-    input       [DATA_BIT-1:0]  wdata,
-    input                       ren,
-    output  reg [DATA_BIT-1:0]  rdata
-);
+// module mem_sp_wmem #(
+//     parameter   DATA_BIT = `MAC_MULT_NUM*`IDATA_WIDTH,
+//     parameter   DEPTH = `WMEM_DEPTH,
+//     parameter   ADDR_BIT = $clog2(DEPTH),
+//     parameter   BWE = 0 //bit write enable
+// )(
+//     // Global Signals
+//     input                       clk,
 
-    // 1. RAM/Memory initialization
-    reg [DATA_BIT-1:0]  mem [0:DEPTH-1];
+//     // Data Signals
+//     input       [ADDR_BIT-1:0]  addr,
+//     input                       wen,
+//     input       [DATA_BIT-1:0]  bwe,
 
-    // 2. Write channel
-generate
-    if (BWE == 0) begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= wdata;
-            end
-        end
-    end
-    else begin
-        always @(posedge clk) begin
-            if (wen) begin
-                mem[addr] <= (wdata & bwe) | (mem[addr] & (~bwe));
-            end
-        end
-    end
-endgenerate
+//     input       [DATA_BIT-1:0]  wdata,
+//     input                       ren,
+//     output  reg [DATA_BIT-1:0]  rdata
+// );
 
-    // 3. Read channel
-    always @(posedge clk) begin
-        if (ren) begin
-            rdata <= mem[addr];
-        end
-    end
+//     // 1. RAM/Memory initialization
+//     reg [DATA_BIT-1:0]  mem [0:DEPTH-1];
 
-endmodule
+//     // 2. Write channel
+// generate
+//     if (BWE == 0) begin
+//         always @(posedge clk) begin
+//             if (wen) begin
+//                 mem[addr] <= wdata;
+//             end
+//         end
+//     end
+//     else begin
+//         always @(posedge clk) begin
+//             if (wen) begin
+//                 mem[addr] <= (wdata & bwe) | (mem[addr] & (~bwe));
+//             end
+//         end
+//     end
+// endgenerate
+
+//     // 3. Read channel
+//     always @(posedge clk) begin
+//         if (ren) begin
+//             rdata <= mem[addr];
+//         end
+//     end
+
+// endmodule

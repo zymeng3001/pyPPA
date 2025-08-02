@@ -32,7 +32,7 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_rc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem_sky130.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
         ],
 		# The constraint SDC file path.
@@ -52,11 +52,13 @@ ppa_runner.add_job({
 	# To use multiple sets of values (all of which will be swept), use a dictionary. See the option `ABC_AREA` below and `clk_period` in hyperparameters for more information.
 	'flow_config': {
 		# If this option is set to True, Verilgo simulations will be run using the verilog_sim_tool set above. In this example, IVerilog is used.
-		'RUN_VERILOG_SIM': False,
+		'RUN_VERILOG_SIM': True,
 		# This sets the netlist used for running the Verilog simulations. In this case, the postsynthesis Verilog netlist will be used.
 		'VERILOG_SIM_TYPE': 'postsynth',
 		# A list of the required testbench files. The design files are automatically included and need not be added here.
-		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW', 'core_top_tb.v')],
+		'VERILOG_TESTBENCH_FILES': [
+			path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top_tb.v')
+		],
 		# If this option is set to true, a VCD file dumped from the simulations will be used to get more accurate power estimates.
 		'USE_STA_VCD': True,
 		# The name of the VCD file dumped. By default it is set to `module_name.vcd`
@@ -65,6 +67,15 @@ ppa_runner.add_job({
 		# 'ABC_AREA': {
 		# 	'values': [True]
 		# }
+		,'ADDITIONAL_LIB_FILES': [
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_0kbytes_1rw_32x128_32.lib')
+        ]
+		,'ADDITIONAL_LEFS': [
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef')
+        ]
+        ,'BLOCKS': {
+            'values': ['sky130_sram_0kbytes_1rw_32x128_32_used']
+        }
 		,'ABC_MAX_FANOUT': {
 			'start': 40,
 			'end': 40,
@@ -87,17 +98,29 @@ ppa_runner.add_job({
 	'hyperparameters': {
 		# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
 		# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
+		# 'clk_period': {
+		# 	'values': [3,4,5,6]
+		# },
+		# 'mac_num': {
+		# 	'values': [4,8,16,32]
+		# },
+		# 'wmem_depth': {
+		# 	'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+		# },
+		# 'kv_cache_depth': {
+		# 	'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+		# }
 		'clk_period': {
 			'values': [3,4,5,6]
 		},
 		'mac_num': {
-			'values': [4,8,16,32]
+			'values': [4]
 		},
 		'wmem_depth': {
-			'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+			'values': [64]
 		},
 		'kv_cache_depth': {
-			'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+			'values': [64]
 		}
 	}
 })

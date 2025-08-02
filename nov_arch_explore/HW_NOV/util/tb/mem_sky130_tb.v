@@ -98,7 +98,7 @@ endmodule
 
 
 
-module sky130_sram_0kbytes_1rw_32x128_32(
+module sky130_sram_0kbytes_1rw_32x128_32_used(
 // `ifdef USE_POWER_PINS
 //     vccd1,
 //     vssd1,
