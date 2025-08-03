@@ -5,6 +5,7 @@ module mem_sp_sky130_tb;
     // Parameters
     localparam DATA_BIT = ${sram_width};
     localparam DEPTH    = ${sram_depth};
+    localparam real CLK_PERIOD = ${clk_period};  // Clock period in ns
     localparam ADDR_BIT = $clog2(DEPTH);
 
     // DUT signals
@@ -45,7 +46,7 @@ module mem_sp_sky130_tb;
 
     // Clock generation
     initial clk = 0;
-    always #2.5 clk = ~clk;  // 100MHz
+    always #(CLK_PERIOD/2) clk = ~clk;  // 100MHz
     
     integer i;
 
@@ -158,7 +159,7 @@ end
 always @ (negedge clk0)
 begin : MEM_WRITE0
     if ( !csb0_reg && !web0_reg ) begin
-        mem[addr0_reg][30:0] = din0_reg[30:0];
+        mem[addr0_reg][31:0] = din0_reg[31:0];
         // if (spare_wen0_reg)
                 // mem[addr0_reg][32] = din0_reg[32];
     end

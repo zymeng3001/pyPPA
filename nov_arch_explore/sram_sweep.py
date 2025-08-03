@@ -90,10 +90,10 @@ ppa_runner.add_job({
 			'values': [3]
 		},
 		'sram_depth': {
-			'values': [128, 256, 512, 768, 1024, 1536, 2048]  # 256 to 524288
+			'values': [128, 256]  # 256 to 524288
 		},
 		'sram_width': {
-			'values': [32,64,128,256]
+			'values': [32,64]
 		}
 	}
 })

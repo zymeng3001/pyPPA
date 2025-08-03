@@ -21,7 +21,7 @@ module mem_sp_sky130 #(
     localparam TILE_ADDR_BITS = $clog2(MACRO_DEPTH);       
     localparam TILE_SEL_BITS = $clog2(NUM_TILES);  
 
-    localparam ADDR_WIDTH = 8;   
+    localparam ADDR_WIDTH = $clog2(MACRO_DEPTH);   
 
     // Internal signals
     wire [TILE_ADDR_BITS-1:0] local_addr;
@@ -49,9 +49,9 @@ module mem_sp_sky130 #(
                 .csb0(csb),
                 .web0(web),
                 // .spare_wen0(1'b1),  // enable spare bit write
-                .addr0(addr0),
-                .din0({1'b0,din0}),  // pad MSB (bit 32) as unused
-                .dout0({1'b0,dout0_t})  // pad MSB (bit 32) as unused
+                .addr0({1'b0,addr0}),
+                .din0({din0}),  // pad MSB (bit 32) as unused
+                .dout0({dout0_t})  // pad MSB (bit 32) as unused
             );
 
             assign tile_rdata_candidate[tile][bank*MACRO_WIDTH +: MACRO_WIDTH] = (ren & ~csb) ? dout0_t : 0;
@@ -80,12 +80,12 @@ endmodule
 // Words: 128
 // Word size: 32
 
-(* blackbox *)
-module sky130_sram_0kbytes_1rw_32x128_32 (
-    input  wire        clk,
-    input  wire        wen,
-    input  wire [6:0]  addr,
-    input  wire [31:0] wdata,
-    output wire [31:0] rdata
-);
-endmodule
+// (* blackbox *)
+// module sky130_sram_0kbytes_1rw_32x128_32 (
+//     input  wire        clk,
+//     input  wire        wen,
+//     input  wire [6:0]  addr,
+//     input  wire [31:0] wdata,
+//     output wire [31:0] rdata
+// );
+// endmodule
