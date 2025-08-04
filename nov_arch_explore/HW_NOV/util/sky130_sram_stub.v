@@ -3,8 +3,8 @@ module sky130_sram_0kbytes_1rw_32x128_32 (
     input  wire        clk0,
     input  wire        wen0,
     input  wire [7:0]  addr0,
-    input  wire [32:0] wdata0,
-    output wire [32:0] rdata0
+    input  wire [31:0] wdata0,
+    output wire [31:0] rdata0
 );
 
   parameter MACRO_WIDTH = 32;

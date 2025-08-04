@@ -22,7 +22,7 @@ ppa_runner = PPARunner(
 	global_flow_config={
 		# Source Verilog files.
 		'VERILOG_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem_sky130.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/sram_sky130.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/sky130_sram_stub.v'),
         ],
 		# The constraint SDC file path.
