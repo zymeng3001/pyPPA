@@ -5,6 +5,7 @@ module mem_sp_sky130_tb;
     // Parameters
     localparam DATA_BIT = ${sram_width};
     localparam DEPTH    = ${sram_depth};
+    localparam real CLK_PERIOD = ${clk_period};  // Clock period in ns
     localparam ADDR_BIT = $clog2(DEPTH);
 
     // DUT signals
@@ -45,7 +46,7 @@ module mem_sp_sky130_tb;
 
     // Clock generation
     initial clk = 0;
-    always #2.5 clk = ~clk;  // 100MHz
+    always #(CLK_PERIOD/2) clk = ~clk;  // 100MHz
     
     integer i;
 
@@ -70,10 +71,15 @@ module mem_sp_sky130_tb;
             @(posedge clk);
             addr  <= i;
             wdata <= $random;
-            wen   <= 1;
-            ren   <= 0;
+            wen   <= 0; // pre-set
+
+            @(posedge clk);
+            wen   <= 1;  // activate write
+            @(posedge clk);
+            wen   <= 0;  // deactivate
             $display("[WRITE] addr=%0d data=0x%h", i, wdata);
         end
+
         @(posedge clk);
         wen <= 0;
 
@@ -82,14 +88,32 @@ module mem_sp_sky130_tb;
             @(posedge clk);
             addr <= i;
             ren  <= 1;
-            @(posedge clk);  
-            ren <= 0;
-            @(posedge clk);  
+
+            @(posedge clk);
+            @(posedge clk); // capture rdata at correct timing
+            @(negedge clk);
             $display("[READ ] addr=%0d data=0x%h", i, rdata);
-            
         end
 
-        repeat (10) @(posedge clk);
+        // Write to the whole sram
+        for (i = 0; i < DEPTH; i=i+1) begin
+            @(posedge clk);
+            addr  <= i;
+            wdata <= $random;
+            wen   <= 1; 
+            ren   <= 0; 
+        end
+
+        // Read back the values
+        for (i = 0; i < DEPTH; i=i+1) begin
+            @(posedge clk);
+            addr  <= i;
+            wdata <= $random;
+            wen   <= 0; 
+            ren   <= 1; 
+        end
+
+
         $display("===== SRAM Test Completed =====");
         $finish;
     end
@@ -158,7 +182,7 @@ end
 always @ (negedge clk0)
 begin : MEM_WRITE0
     if ( !csb0_reg && !web0_reg ) begin
-        mem[addr0_reg][30:0] = din0_reg[30:0];
+        mem[addr0_reg][31:0] = din0_reg[31:0];
         // if (spare_wen0_reg)
                 // mem[addr0_reg][32] = din0_reg[32];
     end

@@ -1,4 +1,4 @@
-module mem_sp_sky130 #(
+module sram_sp_sky130 #(
     parameter   DATA_BIT = ${sram_width},
     parameter   DEPTH = ${sram_depth},
     parameter   ADDR_BIT = $clog2(DEPTH),
@@ -15,7 +15,8 @@ module mem_sp_sky130 #(
 
     // Constants
     localparam MACRO_WIDTH = 32;
-    localparam MACRO_DEPTH = 128;
+    localparam MACRO_DEPTH = (DEPTH < 512) ? 128 : 512;
+
     localparam NUM_BANKS = DATA_BIT / MACRO_WIDTH;          
     localparam NUM_TILES = DEPTH / MACRO_DEPTH;             
     localparam TILE_ADDR_BITS = $clog2(MACRO_DEPTH);       
@@ -44,15 +45,24 @@ module mem_sp_sky130 #(
             wire [MACRO_WIDTH-1:0] din0  = wdata[bank*MACRO_WIDTH +: MACRO_WIDTH];
             wire [MACRO_WIDTH-1:0] dout0_t;
 
-            sky130_sram_0kbytes_1rw_32x128_32 sram_macro (
-                .clk0(clk),
-                .csb0(csb),
-                .web0(web),
-                // .spare_wen0(1'b1),  // enable spare bit write
-                .addr0({1'b0,addr0}),
-                .din0(din0),  // pad MSB (bit 32) as unused
-                .dout0(dout0_t)  // pad MSB (bit 32) as unused
-            );
+            if (DEPTH < 512) begin
+                sky130_sram_0kbytes_1rw_32x128_32 sram_macro (
+                    .clk0(clk),
+                    .csb0(csb),
+                    .web0(web),
+                    .addr0({1'b0,addr0}),
+                    .din0(din0),  // pad MSB (bit 32) as unused
+                    .dout0(dout0_t)  // pad MSB (bit 32) as unused
+                );
+            end else begin
+                sky130_sram_2kbytes_1rw_32x512_32 sram_macro (
+                    .clk(clk),
+                    .wen(web),
+                    .addr({1'b0,addr0}),
+                    .wdata(din0),
+                    .rdata(dout0_t)
+                );
+            end
 
             assign tile_rdata_candidate[tile][bank*MACRO_WIDTH +: MACRO_WIDTH] = (ren & ~csb) ? dout0_t : 0;
         end
@@ -77,15 +87,26 @@ endmodule
 
 
 // OpenRAM SRAM model
-// Words: 128
+// Words: 512
 // Word size: 32
 
-// (* blackbox *)
-// module sky130_sram_0kbytes_1rw_32x128_32 (
-//     input  wire        clk,
-//     input  wire        wen,
-//     input  wire [6:0]  addr,
-//     input  wire [31:0] wdata,
-//     output wire [31:0] rdata
-// );
-// endmodule
+(* blackbox *)
+module sky130_sram_0kbytes_1rw_32x128_32 (
+    input  wire        clk,
+    input  wire        wen,
+    input  wire [7:0]  addr,
+    input  wire [31:0] wdata,
+    output wire [31:0] rdata
+);
+endmodule
+
+(* blackbox *)
+module sky130_sram_2kbytes_1rw_32x512_32 (
+    input  wire        clk,
+    input  wire        wen,
+    input  wire [9:0]  addr,
+    input  wire [31:0] wdata,
+    output wire [31:0] rdata
+);
+endmodule
+
