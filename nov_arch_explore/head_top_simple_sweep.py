@@ -11,7 +11,7 @@ from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 # Initialize a PPA runner
 ppa_runner = PPARunner(
 	# Design name can be anything
-	design_name="core_top",
+	design_name="head_top",
 	# Define the tools to be used here
 	tools={
 		'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
@@ -22,7 +22,22 @@ ppa_runner = PPARunner(
 	global_flow_config={
 		# Source Verilog files.
 		'VERILOG_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'sys_defs.svh'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'sysdef.svh'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/open_fp_cores.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'gbus/arbiter.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'gbus/bus_controller.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'gbus/bus_packet_fifo.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'gbus/gbus_top.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/fadd_tree.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/krms_recompute/rtl/krms.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/RMSnorm/rtl/RMSnorm.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/RMSnorm/rtl/fp_div_pipe.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/RMSnorm/rtl/fp_invsqrt_pipe.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/RMSnorm/rtl/fp_mult_pipe.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'vector_engine/softmax_recompute/rtl/softmax_rc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_acc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_buf.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_ctrl.v'),
@@ -31,9 +46,12 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_quant.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_rc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem_sky130.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'head/abuf.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'head/head_core_array.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'head/head_sram_rd_ctrl.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'head/head_sram.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'head/head_top.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'head/two_heads.v'),
         ],
 		# The constraint SDC file path.
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
@@ -46,7 +64,7 @@ ppa_runner.set_platform(SKY130HD_PLATFORM_CONFIG)
 # Add a new sweep PPA job. This job sweeps a range of flow configurations and hyperparameters
 ppa_runner.add_job({
 	# Name of the Verilog module to run the PPA job on
-	'module_name': 'core_top',
+	'module_name': 'head_top',
 	'mode': 'sweep',
 	# This dictionary sets the flow configuration options for this job only. The options set here are appended to the global_flow_config options.
 	# To use multiple sets of values (all of which will be swept), use a dictionary. See the option `ABC_AREA` below and `clk_period` in hyperparameters for more information.
@@ -95,36 +113,20 @@ ppa_runner.add_job({
 	# The simplest way is to write ${clk_period} in any source files (Verilog, Verilog testbench file, or constraint.sdc) to replace the value with the parameters set.
 	# See the constraint.sdc file for example syntax usage.
 	# The hyperparameters are swept along with the flow config, and all possible combinations of the options will be swept.
-	# 'hyperparameters': {
-	# 	# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
-	# 	# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
-	# 	'clk_period': {
-	# 		'values': [4,5,6,7,8]
-	# 	},
-	# 	'mac_num': {
-	# 		'values': [4,8,16,32]
-	# 	},
-	# 	'wmem_depth': {
-	# 		'values': [64,128,256,512]
-	# 	},
-	# 	'kv_cache_depth': {
-	# 		'values': [64,128,256,512]
-	# 	}
-	# }
 	'hyperparameters': {
 		# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
 		# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
 		'clk_period': {
-			'values': [4]
+			'values': [3,4,5,6,7,8]
 		},
 		'mac_num': {
-			'values': [4]
+			'values': [4,8,16,32]
 		},
 		'wmem_depth': {
-			'values': [64]
+			'values': [64,128,256,512,768,1024,1536]
 		},
 		'kv_cache_depth': {
-			'values': [64]
+			'values': [64,128,256,512,768,1024,1536]
 		}
 	}
 })

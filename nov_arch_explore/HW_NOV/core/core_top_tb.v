@@ -438,12 +438,12 @@ module core_top_tb;
     @(negedge clk);
     rc_scale_vld = 0;
 
-    // Wait for finish or timeout
-    repeat (1000) @(negedge clk);
-    if (finish)
-      $display("core_top completed");
-    else
-      $display("Timeout!");
+    // // Wait for finish or timeout
+    // repeat (10000) @(negedge clk);
+    // if (finish)
+    //   $display("core_top completed");
+    // else
+    //   $display("Timeout!");
 
     $finish;
   end

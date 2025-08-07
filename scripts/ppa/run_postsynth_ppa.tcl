@@ -41,17 +41,17 @@ report_checks -path_group clk
 
 set timing_report_file [file join $::env(REPORTS_DIR) "timing_report.txt"]
 
-report_checks \
-  -path_delay min_max \
-  -format full \
-  -unconstrained \
-  -group_path_count 1000 \
-  -endpoint_path_count 1000 \
-  > $timing_report_file
-
-
 # report_checks \
 #   -path_delay min_max \
 #   -format full \
 #   -unconstrained \
+#   -group_path_count 1000 \
+#   -endpoint_path_count 1000 \
 #   > $timing_report_file
+
+
+report_checks \
+  -path_delay min_max \
+  -format full \
+  -unconstrained \
+  > $timing_report_file

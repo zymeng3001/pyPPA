@@ -8,8 +8,7 @@ proc write_power_report {step} {
 
 		if {$::env(USE_STA_VCD) && [info exists ::env(STA_VCD_FILE)]} {
 			puts "Reading VCD file for setting power activity."
-			# sta::read_power_activities -scope $::env(VERILOG_TESTBENCH_MODULE)/$::env(STA_TB_DUT_INSTANCE) -vcd $::env(STA_VCD_FILE)
-			sta::read_vcd -scope $::env(VERILOG_TESTBENCH_MODULE)/$::env(STA_TB_DUT_INSTANCE) $::env(STA_VCD_FILE)
+			sta::read_power_activities -scope $::env(VERILOG_TESTBENCH_MODULE)/$::env(STA_TB_DUT_INSTANCE) -vcd $::env(STA_VCD_FILE)
 		} else {
 			puts "No VCD file found. Using default power activity values."
 			sta::set_power_activity -input -activity .1

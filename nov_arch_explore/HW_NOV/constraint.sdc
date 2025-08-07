@@ -1,5 +1,5 @@
 set clk_name clk
-set rst_name rst_n
+set rst_name rstn
 set clk_port_name clk
 set clk_period ${clk_period}
 set clk_io_pct 0.2
