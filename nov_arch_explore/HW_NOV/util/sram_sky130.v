@@ -1,6 +1,6 @@
 module sram_sp_sky130 #(
-    parameter   DATA_BIT = ${sram_width},
-    parameter   DEPTH = ${sram_depth},
+    parameter   DATA_BIT = (`IDATA_WIDTH * `MAC_MULT_NUM),
+    parameter   DEPTH = 128,
     parameter   ADDR_BIT = $clog2(DEPTH),
     parameter   BWE = 0 // bit write enable (currently unused)
 )(
@@ -20,16 +20,28 @@ module sram_sp_sky130 #(
     localparam NUM_BANKS = DATA_BIT / MACRO_WIDTH;          
     localparam NUM_TILES = DEPTH / MACRO_DEPTH;             
     localparam TILE_ADDR_BITS = $clog2(MACRO_DEPTH);       
-    localparam TILE_SEL_BITS = $clog2(NUM_TILES);  
+    localparam TILE_SEL_BITS = (NUM_TILES == 1) ? 1 : $clog2(NUM_TILES);  
 
-    localparam ADDR_WIDTH = $clog2(MACRO_DEPTH);   
+    // localparam ADDR_WIDTH = $clog2(MACRO_DEPTH);   
 
     // Internal signals
     wire [TILE_ADDR_BITS-1:0] local_addr;
     wire [TILE_SEL_BITS-1:0]  tile_sel;
 
-    assign local_addr = (ADDR_BIT == TILE_ADDR_BITS) ? addr : addr[TILE_ADDR_BITS-1:0];
-    assign tile_sel   = (ADDR_BIT == TILE_ADDR_BITS) ? 1'b0 : addr[ADDR_BIT-1:TILE_ADDR_BITS];
+    // assign local_addr = (ADDR_BIT == TILE_ADDR_BITS) ? addr : addr[TILE_ADDR_BITS-1:0];
+    // assign tile_sel   = (ADDR_BIT == TILE_ADDR_BITS) ? 1'b0 : addr[ADDR_BIT-1:TILE_ADDR_BITS];
+    generate
+        if (ADDR_BIT <= TILE_ADDR_BITS) begin
+            assign tile_sel = {TILE_SEL_BITS{1'b0}};
+        end else begin
+            assign tile_sel = addr[ADDR_BIT-1:TILE_ADDR_BITS];
+        end
+        if (ADDR_BIT >= TILE_ADDR_BITS) begin
+            assign local_addr = addr[TILE_ADDR_BITS-1:0];
+        end else begin
+            assign local_addr = {{(TILE_ADDR_BITS-ADDR_BIT){1'b0}}, addr};
+        end
+    endgenerate
 
     genvar bank, tile;
     // wire [MACRO_WIDTH-1:0] rdata_temp [0:NUM_BANKS-1];
@@ -41,7 +53,7 @@ module sram_sp_sky130 #(
         for (bank = 0; bank < NUM_BANKS; bank = bank + 1) begin : bank_gen
             wire csb  = ~(tile_sel == tile);  // active low
             wire web  = ~wen;
-            wire [ADDR_WIDTH-1:0] addr0 = local_addr;
+            wire [TILE_ADDR_BITS-1:0] addr0 = local_addr;
             wire [MACRO_WIDTH-1:0] din0  = wdata[bank*MACRO_WIDTH +: MACRO_WIDTH];
             wire [MACRO_WIDTH-1:0] dout0_t;
 

@@ -46,7 +46,7 @@ module mem_sp_sky130 #(
             wire [MACRO_WIDTH-1:0] din0  = wdata[bank*MACRO_WIDTH +: MACRO_WIDTH];
             wire [MACRO_WIDTH-1:0] dout0_t;
 
-            sky130_sram_0kbytes_1rw_32x128_32_used sram_macro (
+            sky130_sram_0kbytes_1rw_32x128_32 sram_macro (
                 .clk0(clk),
                 .csb0(csb),
                 .web0(web),

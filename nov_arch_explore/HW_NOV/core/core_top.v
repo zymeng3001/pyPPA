@@ -314,7 +314,7 @@ module core_top (
 		.cfg_quant_bias(cfg_quant_bias),
 		.cfg_quant_shift(cfg_quant_shift),
 		.idata(rc_out_data),
-		.idata_valid(rc_out_data_vld && ((inst_core_ctrl.control_state_reg != 32'd6) && (inst_core_ctrl.control_state_reg != 32'd8))),
+		.idata_valid(rc_out_data_vld && ((control_state != 32'd6) && (control_state != 32'd8))),
 		.odata(quant_odata),
 		.odata_valid(quant_odata_valid)
 	);
@@ -327,7 +327,7 @@ module core_top (
 		.clk(clk),
 		.rstn(rstn),
 		.idata(quant_odata),
-		.idata_valid(quant_odata_valid && (inst_core_ctrl.control_state_reg == 32'd4)),
+		.idata_valid(quant_odata_valid && (control_state == 32'd4)),
 		.odata(parallel_data),
 		.odata_valid(parallel_data_valid)
 	);

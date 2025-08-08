@@ -501,7 +501,7 @@ module wmem (
 	// 	.ADDR_BIT(WMEM_ADDR_WIDTH),
 	// 	.BWE(1)
 	// ) inst_mem_sp(
-	mem_sp_sky130 #(
+	sram_sp_sky130 #(
 		.DATA_BIT(DATA_BIT),
 		.DEPTH(${wmem_depth}),
 		.ADDR_BIT(WMEM_ADDR_WIDTH),
@@ -776,7 +776,7 @@ module kv_cache_pkt (
 	end
 	localparam integer ADDR_BIT = $clog2(${kv_cache_depth});
 
-	mem_sp_sky130 #(
+	sram_sp_sky130 #(
 		.DATA_BIT(ODATA_BIT),
 		.DEPTH(${kv_cache_depth}),
 		.ADDR_BIT(ADDR_BIT),

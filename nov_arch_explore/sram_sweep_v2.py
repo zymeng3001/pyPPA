@@ -11,7 +11,7 @@ from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 # Initialize a PPA runner
 ppa_runner = PPARunner(
 	# Design name can be anything
-	design_name="mem_sp_sky130",
+	design_name="sram_sp_sky130",
 	# Define the tools to be used here
 	tools={
 		'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
@@ -36,7 +36,7 @@ ppa_runner.set_platform(SKY130HD_PLATFORM_CONFIG)
 # Add a new sweep PPA job. This job sweeps a range of flow configurations and hyperparameters
 ppa_runner.add_job({
 	# Name of the Verilog module to run the PPA job on
-	'module_name': 'mem_sp_sky130',
+	'module_name': 'sram_sp_sky130',
 	'mode': 'sweep',
 	# This dictionary sets the flow configuration options for this job only. The options set here are appended to the global_flow_config options.
 	# To use multiple sets of values (all of which will be swept), use a dictionary. See the option `ABC_AREA` below and `clk_period` in hyperparameters for more information.

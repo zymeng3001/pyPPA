@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module mem_sp_sky130_tb;
+module sram_sp_sky130_tb;
 
     // Parameters
     localparam DATA_BIT = ${sram_width};
@@ -34,7 +34,7 @@ module mem_sp_sky130_tb;
     //  );
 
     // for postsynthesis
-   mem_sp_sky130 dut (
+   sram_sp_sky130 dut (
        .clk(clk),
        .addr(addr),
        .wen(wen),
@@ -55,7 +55,7 @@ module mem_sp_sky130_tb;
         // --- VCD Dump ---
         $display("===== VCD Dump =====");
         $dumpfile("mem_sp_sky130.vcd");   // VCD output file name
-        $dumpvars(0, mem_sp_sky130_tb);   // Dump all signals recursively under this module
+        $dumpvars(0, sram_sp_sky130_tb);   // Dump all signals recursively under this module
 
         $display("===== Begin SRAM Testbench =====");
         addr = 0;
@@ -122,7 +122,7 @@ endmodule
 
 
 
-module sky130_sram_0kbytes_1rw_32x128_32_used(
+module sky130_sram_0kbytes_1rw_32x128_32(
 // `ifdef USE_POWER_PINS
 //     vccd1,
 //     vssd1,

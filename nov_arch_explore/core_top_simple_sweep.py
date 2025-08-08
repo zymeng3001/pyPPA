@@ -32,7 +32,7 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_rc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/mem_sky130.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/sram_sky130.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
         ],
 		# The constraint SDC file path.
@@ -74,7 +74,7 @@ ppa_runner.add_job({
 			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef')
         ]
         ,'BLOCKS': {
-            'values': ['sky130_sram_0kbytes_1rw_32x128_32_used']
+            'values': ['sky130_sram_0kbytes_1rw_32x128_32']
         }
 		,'ABC_MAX_FANOUT': {
 			'start': 40,
