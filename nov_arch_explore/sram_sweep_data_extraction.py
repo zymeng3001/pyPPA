@@ -9,10 +9,13 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(script_dir)
 
 # Base directory containing all folders with ppa.json files
-base_dir = os.path.join(parent_dir, "runs", "mem_sp_sky130", "1_mem_sp_sky130_sweep")
+# base_dir = os.path.join(parent_dir, "runs", "mem_sp_sky130", "1_mem_sp_sky130_sweep")
+base_dir = os.path.join(parent_dir, "runs", "sram_sp_sky130", "1_sram_sp_sky130_sweep")
 
 # Define the output CSV file path
-output_csv_path = os.path.join(parent_dir, "nov_arch_explore/sram_sweep_data", "ppa_sram_data_3ns.csv")
+# output_csv_path = os.path.join(parent_dir, "nov_arch_explore/sram_sweep_data", "ppa_sram_data_3ns.csv")
+output_csv_path = os.path.join(parent_dir, "nov_arch_explore/sram_sweep_data", "ppa_sram_data_3ns_v2.csv")
+
 
 # Column headers for CSV
 # csv_columns = [
