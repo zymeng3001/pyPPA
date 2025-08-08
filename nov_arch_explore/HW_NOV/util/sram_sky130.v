@@ -37,30 +37,32 @@ module sram_sp_sky130 #(
 
     generate
     for (tile = 0; tile < NUM_TILES; tile = tile + 1) begin : tile_gen
-        
         for (bank = 0; bank < NUM_BANKS; bank = bank + 1) begin : bank_gen
-            wire csb  = ~(tile_sel == tile);  // active low
-            wire web  = ~wen;
+            wire csb  = ~((tile_sel == tile) & (wen | ren));  // active low
+            wire web  = ~((tile_sel == tile) & wen);
+            // wire csb = 0;
+            // wire wsb = 0;
             wire [ADDR_WIDTH-1:0] addr0 = local_addr;
             wire [MACRO_WIDTH-1:0] din0  = wdata[bank*MACRO_WIDTH +: MACRO_WIDTH];
             wire [MACRO_WIDTH-1:0] dout0_t;
 
             if (DEPTH < 512) begin
-                sky130_sram_0kbytes_1rw_32x128_32 sram_macro (
+                sky130_sram_0kbytes_1rw_32x128_32 sram_macro_32x128 (
                     .clk0(clk),
                     .csb0(csb),
                     .web0(web),
                     .addr0({1'b0,addr0}),
-                    .din0(din0),  // pad MSB (bit 32) as unused
-                    .dout0(dout0_t)  // pad MSB (bit 32) as unused
+                    .din0(din0), 
+                    .dout0(dout0_t)  
                 );
             end else begin
-                sky130_sram_2kbytes_1rw_32x512_32 sram_macro (
-                    .clk(clk),
-                    .wen(web),
-                    .addr({1'b0,addr0}),
-                    .wdata(din0),
-                    .rdata(dout0_t)
+                sky130_sram_2kbytes_1rw_32x512_32 sram_macro_32x512 (
+                    .clk0(clk),
+                    .csb0(csb),
+                    .web0(web),
+                    .addr0({1'b0,addr0}),
+                    .din0(din0), 
+                    .dout0(dout0_t) 
                 );
             end
 
@@ -92,21 +94,23 @@ endmodule
 
 (* blackbox *)
 module sky130_sram_0kbytes_1rw_32x128_32 (
-    input  wire        clk,
-    input  wire        wen,
-    input  wire [7:0]  addr,
-    input  wire [31:0] wdata,
-    output wire [31:0] rdata
+    input  wire        clk0,
+    input  wire        wen0,
+    input  wire        csb0,
+    input  wire [7:0]  addr0,
+    input  wire [31:0] din0,
+    output wire [31:0] dout0
 );
 endmodule
 
 (* blackbox *)
 module sky130_sram_2kbytes_1rw_32x512_32 (
-    input  wire        clk,
-    input  wire        wen,
-    input  wire [9:0]  addr,
-    input  wire [31:0] wdata,
-    output wire [31:0] rdata
+    input  wire        clk0,
+    input  wire        wen0,
+    input  wire        csb0,
+    input  wire [9:0]  addr0,
+    input  wire [31:0] din0,
+    output wire [31:0] dout0
 );
 endmodule
 

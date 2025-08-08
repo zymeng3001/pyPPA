@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Read the CSV data
-df = pd.read_csv("ppa_sram_data_3ns.csv")
+df = pd.read_csv("ppa_sram_data_3ns_v2.csv")
 
 # Filter for widths 8 and 16
 # df = df[df['width_bits'].isin([8, 16])]
@@ -89,4 +89,4 @@ ax.set_title('Power (mW) vs Depth')
 ax.legend()
 ax.grid(True)
 plt.tight_layout()
-plt.savefig('sram_power.png')
+plt.savefig('sram_power_v2.png')

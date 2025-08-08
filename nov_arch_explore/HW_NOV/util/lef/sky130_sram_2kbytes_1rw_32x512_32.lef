@@ -5,7 +5,7 @@ DIVIDERCHAR "/" ;
 UNITS
   DATABASE MICRONS 1000 ;
 END UNITS
-MACRO sky130_sram_0kbytes_1rw_32x512_32
+MACRO sky130_sram_2kbytes_1rw_32x512_32
    CLASS BLOCK ;
    SIZE 309.66 BY 899.78 ;
    SYMMETRY X Y R90 ;
@@ -658,5 +658,5 @@ MACRO sky130_sram_0kbytes_1rw_32x512_32
       RECT  258.095 0.62 258.32 0.98 ;
       RECT  260.59 0.62 264.16 0.98 ;
    END
-END    sky130_sram_0kbytes_1rw_32x512_32
+END    sky130_sram_2kbytes_1rw_32x512_32
 END    LIBRARY

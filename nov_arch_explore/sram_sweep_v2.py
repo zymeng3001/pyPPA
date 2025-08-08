@@ -11,7 +11,7 @@ from platforms.sky130hd.config import SKY130HD_PLATFORM_CONFIG
 # Initialize a PPA runner
 ppa_runner = PPARunner(
 	# Design name can be anything
-	design_name="mem_sp_sky130",
+	design_name="sram_sp_sky130",
 	# Define the tools to be used here
 	tools={
 		'verilog_sim_tool': Iverilog(scripts_dir=path.join('scripts', 'iverilog')),
@@ -23,7 +23,7 @@ ppa_runner = PPARunner(
 		# Source Verilog files.
 		'VERILOG_FILES': [
             path.join(path.dirname(__file__), 'HW_NOV', 'util/sram_sky130.v'),
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/sky130_sram_stub.v'),
+            # path.join(path.dirname(__file__), 'HW_NOV', 'util/sky130_sram_stub.v'),
         ],
 		# The constraint SDC file path.
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
@@ -36,7 +36,7 @@ ppa_runner.set_platform(SKY130HD_PLATFORM_CONFIG)
 # Add a new sweep PPA job. This job sweeps a range of flow configurations and hyperparameters
 ppa_runner.add_job({
 	# Name of the Verilog module to run the PPA job on
-	'module_name': 'mem_sp_sky130',
+	'module_name': 'sram_sp_sky130',
 	'mode': 'sweep',
 	# This dictionary sets the flow configuration options for this job only. The options set here are appended to the global_flow_config options.
 	# To use multiple sets of values (all of which will be swept), use a dictionary. See the option `ABC_AREA` below and `clk_period` in hyperparameters for more information.
@@ -46,23 +46,26 @@ ppa_runner.add_job({
 		# This sets the netlist used for running the Verilog simulations. In this case, the postsynthesis Verilog netlist will be used.
 		'VERILOG_SIM_TYPE': 'postsynth',
 		# A list of the required testbench files. The design files are automatically included and need not be added here.
-		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW_NOV', 'util/tb/mem_sky130_tb.v')],
+		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW_NOV', 'util/tb/sram_sky130_tb.v')],
 		# If this option is set to true, a VCD file dumped from the simulations will be used to get more accurate power estimates.
 		'USE_STA_VCD': True,
 		# The name of the VCD file dumped. By default it is set to `module_name.vcd`
-		'VERILOG_VCD_NAME': 'mem_sp_sky130.vcd'
+		'VERILOG_VCD_NAME': 'sram_sp_sky130.vcd'
 		# If the option `ABC_AREA` is set to `True`, the area-optimized synthesis strategy is used as opposed to the speed-optimized strategy. The following dictionary lists both values, and hence both the options will be swept and the PPA results will be generated for each case.
 		# 'ABC_AREA': {
 		# 	'values': [True]
 		# }
         ,'ADDITIONAL_LIB_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_0kbytes_1rw_32x128_32.lib')
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_0kbytes_1rw_32x128_32.lib'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_2kbytes_1rw_32x512_32.lib')
         ]
 		,'ADDITIONAL_LEFS': [
-			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef')
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef'),
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_2kbytes_1rw_32x512_32.lef')
         ]
         ,'BLOCKS': {
-            'values': ['sky130_sram_0kbytes_1rw_32x128_32']
+            'values': ['sky130_sram_0kbytes_1rw_32x128_32'],
+            'values': ['sky130_sram_2kbytes_1rw_32x512_32']
         }
 		,'ABC_MAX_FANOUT': {
 			'start': 40,
@@ -90,7 +93,7 @@ ppa_runner.add_job({
 			'values': [3]
 		},
 		'sram_depth': {
-			'values': [128, 256, 512, 768, 1024, 1536, 2048]  # 256 to 524288
+			'values': [128, 256, 512, 1024, 1536, 2048]  # 256 to 524288
 		},
 		'sram_width': {
 			'values': [32,64,128,256]
