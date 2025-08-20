@@ -117,7 +117,9 @@ module sram_sp_sky130_tb;
         // repeat (100) @(posedge clk);  // Wait for initialization
         ren <= 0; // deactivate read
         wen <= 0; // deactivate write
-        #5000;
+
+        repeat (200) @(posedge clk);  // Wait for initialization
+        
         $display("===== SRAM Test Completed =====");
         $finish;
     end
