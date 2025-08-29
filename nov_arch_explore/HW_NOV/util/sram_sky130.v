@@ -50,15 +50,10 @@ module sram_sp_sky130 #(
     generate
     for (tile = 0; tile < NUM_TILES; tile = tile + 1) begin : tile_gen
         for (bank = 0; bank < NUM_BANKS; bank = bank + 1) begin : bank_gen
-<<<<<<< HEAD
-            wire csb  = ~(tile_sel == tile);  // active low
-            wire web  = ~wen;
-            wire [TILE_ADDR_BITS-1:0] addr0 = local_addr;
-=======
+            // wire csb = ~(tile_sel == tile);
+            // wire wsb = ~(wen);
             wire csb  = ~((tile_sel == tile) & (wen | ren));  // active low
             wire web  = ~((tile_sel == tile) & wen);
-            // wire csb = 0;
-            // wire wsb = 0;
             wire [ADDR_WIDTH-1:0] addr0 = local_addr;
 >>>>>>> origin/use_nov_tapeout
             wire [MACRO_WIDTH-1:0] din0  = wdata[bank*MACRO_WIDTH +: MACRO_WIDTH];
