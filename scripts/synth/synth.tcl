@@ -258,5 +258,15 @@ foreach lib $::env(DONT_USE_LIBS) {
 tee -o $::env(REPORTS_DIR)/synth_stat.txt stat {*}$stat_libs
 tee -o $::env(REPORTS_DIR)/synth_stat.json stat -json {*}$stat_libs
 
+
+
+# Do we see the macro cells?
+select -count t:sky130_sram_0kbytes_1rw_32x128_32
+select -count t:sky130_sram_2kbytes_1rw_32x512_32
+select -list  t:sky130_sram_0kbytes_1rw_32x128_32
+select -list  t:sky130_sram_2kbytes_1rw_32x512_32
+
+
+
 # Write synthesized design
 write_verilog -noattr -noexpr -nohex -nodec $::env(RESULTS_DIR)/1_1_yosys.v

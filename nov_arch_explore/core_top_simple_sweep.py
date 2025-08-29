@@ -34,7 +34,8 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/sram_sky130.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
-        ],
+        	path.join(path.dirname(__file__), 'HW_NOV', 'util/sky130_sram_stub.v')
+		],
 		# The constraint SDC file path.
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
 	}
@@ -69,14 +70,17 @@ ppa_runner.add_job({
 		# 	'values': [True]
 		# }
 		,'ADDITIONAL_LIB_FILES': [
-            path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_0kbytes_1rw_32x128_32.lib')
+            path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_0kbytes_1rw_32x128_32.lib'),
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lib/sky130_sram_2kbytes_1rw_32x512_32.lib')
         ]
 		,'ADDITIONAL_LEFS': [
-			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef')
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_0kbytes_1rw_32x128_32.lef'),
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/lef/sky130_sram_2kbytes_1rw_32x512_32.lef')
         ]
-        ,'BLOCKS': {
-            'values': ['sky130_sram_0kbytes_1rw_32x128_32']
-        }
+        ,'BLOCKS': [
+			'sky130_sram_0kbytes_1rw_32x128_32',
+			'sky130_sram_2kbytes_1rw_32x512_32'
+		]
 		,'ABC_MAX_FANOUT': {
 			'start': 40,
 			'end': 40,
@@ -96,22 +100,6 @@ ppa_runner.add_job({
 	# The simplest way is to write ${clk_period} in any source files (Verilog, Verilog testbench file, or constraint.sdc) to replace the value with the parameters set.
 	# See the constraint.sdc file for example syntax usage.
 	# The hyperparameters are swept along with the flow config, and all possible combinations of the options will be swept.
-	# 'hyperparameters': {
-	# 	# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
-	# 	# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
-	# 	'clk_period': {
-	# 		'values': [4,5,6,7,8]
-	# 	},
-	# 	'mac_num': {
-	# 		'values': [4,8,16,32]
-	# 	},
-	# 	'wmem_depth': {
-	# 		'values': [64,128,256,512]
-	# 	},
-	# 	'kv_cache_depth': {
-	# 		'values': [64,128,256,512]
-	# 	}
-	# }
 	'hyperparameters': {
 		# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
 		# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
@@ -128,18 +116,34 @@ ppa_runner.add_job({
 		# 	'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
 		# }
 		'clk_period': {
-			'values': [4]
+			'values': [4,5,6,7]
 		},
 		'mac_num': {
-			'values': [4]
+			'values': [4,8,16,32]
 		},
 		'wmem_depth': {
-			'values': [64]
+			'values': [64,128,256,512,1024]
 		},
 		'kv_cache_depth': {
-			'values': [64]
+			'values': [64,128,256,512,1024]
 		}
 	}
+	# 'hyperparameters': {
+	# 	# The dictionary below defines a sweep for the `clk_period` hyperparameter. All values of clk_period, starting at `10` and going upto `100` will be swept with a step of 10. i.e., 10, 20, ..., 100.
+	# 	# This hyperparameter is used to set the clock period in the constraint.sdc and the verilog testbench.
+	# 	'clk_period': {
+	# 		'values': [4]
+	# 	},
+	# 	'mac_num': {
+	# 		'values': [4]
+	# 	},
+	# 	'wmem_depth': {
+	# 		'values': [64]
+	# 	},
+	# 	'kv_cache_depth': {
+	# 		'values': [64]
+	# 	}
+	# }
 })
 
 # set the timer in python
