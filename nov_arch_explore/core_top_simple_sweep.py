@@ -115,17 +115,29 @@ ppa_runner.add_job({
 		# 'kv_cache_depth': {
 		# 	'values': [64,128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
 		# }
-		'clk_period': {
-			'values': [4,5,6,7]
+		# 'clk_period': {
+		# 	'values': [4,5,6,7]
+		# },
+		# 'mac_num': {
+		# 	'values': [4,8,16,32]
+		# },
+		# 'wmem_depth': {
+		# 	'values': [64,128,256,512,1024]
+		# },
+		# 'kv_cache_depth': {
+		# 	'values': [64,128,256,512,1024]
+		# }
+			'clk_period': {
+			'values': [4]
 		},
 		'mac_num': {
-			'values': [4,8,16,32]
+			'values': [4]
 		},
 		'wmem_depth': {
-			'values': [64,128,256,512,1024]
+			'values': [64]
 		},
 		'kv_cache_depth': {
-			'values': [64,128,256,512,1024]
+			'values': [64]
 		}
 	}
 	# 'hyperparameters': {

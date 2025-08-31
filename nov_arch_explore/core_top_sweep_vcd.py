@@ -34,6 +34,8 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),
+			path.join(path.dirname(__file__), 'HW_NOV', 'util/sram_sky130.v'),
+        	path.join(path.dirname(__file__), 'HW_NOV', 'util/sky130_sram_stub.v')
         ],
 		# The constraint SDC file path.
 		'SDC_FILE': path.join(path.dirname(__file__), 'HW_NOV', 'constraint.sdc')
@@ -56,7 +58,7 @@ ppa_runner.add_job({
 		# This sets the netlist used for running the Verilog simulations. In this case, the postsynthesis Verilog netlist will be used.
 		'VERILOG_SIM_TYPE': 'postsynth',
 		# A list of the required testbench files. The design files are automatically included and need not be added here.
-		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW', 'core/tb/core_top_tb.v')],
+		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW_NOV', 'core/tb/core_top_tb.v')],
 		# If this option is set to true, a VCD file dumped from the simulations will be used to get more accurate power estimates.
 		'USE_STA_VCD': True,
 		# The name of the VCD file dumped. By default it is set to `module_name.vcd`
