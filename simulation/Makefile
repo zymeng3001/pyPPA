@@ -10,7 +10,8 @@
 # ------------------------------
 
 # ---- Paths / files ----
-TB        ?= HW_NOV/core/tb/core_top_tbv2.v
+# TB        ?= HW_NOV/core/tb/core_top_tbv2.v
+TB        ?= HW_NOV/core/tb/Q_GEN_tb.v
 SIM       ?= build/sim_coretop_v
 VCD       ?= core_top_ppa.vcd
 

@@ -1,5 +1,5 @@
-`timescale 1ps/1ps
 `include "sys_defs.svh"   // uses your existing macros
+`timescale 1ps/1ps
 
 // -----------------------------------------------------------------------------
 // tb_core_top_ppa_v.v  (Verilog-2001)
@@ -23,15 +23,20 @@ module tb_core_top_ppa_v;
   // Widths & fallbacks
   // -----------------------
   // Prefer macros from sys_defs.svh. If a macro is missing, we fall back to 32-bit.
-localparam USER_ID_W = `USER_ID_WIDTH;
+localparam USER_ID_W = 2;
 
 localparam CORE_MEM_ADDR_W = `CORE_MEM_ADDR_WIDTH;
 
-localparam CORE_MEM_DATA_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
+// core_top expects INTERFACE_DATA_WIDTH for core_mem data ports
+localparam CORE_MEM_DATA_W = `INTERFACE_DATA_WIDTH;
 
-localparam GBUS_DATA_W = `GBUS_DATA_WIDTH;
+localparam BUS_CMEM_ADDR_WIDTH = 13;
+localparam BUS_CORE_ADDR_WIDTH = 4;
+localparam HEAD_SRAM_BIAS_WIDTH = 2;
+localparam GBUS_ADDR_W = ((HEAD_SRAM_BIAS_WIDTH + BUS_CORE_ADDR_WIDTH) + BUS_CMEM_ADDR_WIDTH);
 
-localparam GBUS_ADDR_W = `GBUS_ADDR_WIDTH;
+localparam GBUS_DATA_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
+
 
 localparam RC_SCALE_W = `RECOMPUTE_SCALE_WIDTH;
 
@@ -197,7 +202,7 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
       rstn = 1'b0;
 
       clean_kv_cache = 1'b0;
-      clean_kv_cache_user_id = {USER_ID_W{1'b0}};
+      clean_kv_cache_user_id = {2'b0};
 
       core_mem_addr = {CORE_MEM_ADDR_W{1'b0}};
       core_mem_wdata= {CORE_MEM_DATA_W{1'b0}};
@@ -264,13 +269,16 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
 
   task drive_links;
     input integer cycles_i;
-    integer i;
+  integer i;
+  integer _rand_seed;
     begin
       for (i=0;i<cycles_i;i=i+1) begin
         hlink_wen         <= ((i%3)==0);
-        hlink_wdata       <= $random(SEED);
-        vlink_data_in_vld <= ((i%5)==0);
-        vlink_data_in     <= $random(SEED ^ i);
+    _rand_seed = SEED;
+    hlink_wdata       <= $random(_rand_seed);
+    vlink_data_in_vld <= ((i%5)==0);
+    _rand_seed = SEED ^ i;
+    vlink_data_in     <= $random(_rand_seed);
         @(posedge clk);
       end
       hlink_wen <= 1'b0;
@@ -282,9 +290,11 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
     input integer pulses;
     input integer gap;
     integer i,j;
+  integer _rand_seed;
     begin
       for (i=0;i<pulses;i=i+1) begin
-        rc_scale     <= $random(SEED+i);
+    _rand_seed = SEED + i;
+    rc_scale     <= $random(_rand_seed);
         rc_scale_vld <= 1'b1;
         @(posedge clk);
         rc_scale_vld <= 1'b0;
@@ -297,12 +307,14 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
   task preload_cmem;
     input integer words;
     integer i;
+  integer _rand_seed;
     begin
       for (i=0;i<words;i=i+1) begin
         // If your address mapping differs, adjust here.
         in_gbus_addr  = { { (GBUS_ADDR_W>0)?GBUS_ADDR_W:1 {1'b0} } };
         in_gbus_addr[ (`CMEM_ADDR_WIDTH>0)?(`CMEM_ADDR_WIDTH-1):0 : 0 ] = i[`CMEM_ADDR_WIDTH-1:0];
-        in_gbus_wdata = $random(SEED+i);
+    _rand_seed = SEED + i;
+    in_gbus_wdata = $random(_rand_seed);
         in_gbus_wen   = 1'b1;
         @(posedge clk);
         in_gbus_wen   = 1'b0;

@@ -333,6 +333,41 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
   end
 
   // -----------------------
+  // Lightweight TB monitor (prints key events / progress)
+  // -----------------------
+  localparam DEBUG_TB = 1;
+  reg prev_start = 1'b0;
+  reg prev_finish = 1'b0;
+
+  always @(posedge clk) begin
+    if (DEBUG_TB) begin
+      // notify start/finish edges
+      if (start & ~prev_start) $display("[TB][START]  %0t ps  cycles=%0d", $time, cycles);
+      if (finish & ~prev_finish) $display("[TB][FINISH] %0t ps  cycles=%0d", $time, cycles);
+
+      // bus / mem events
+      if (in_gbus_wen)    $display("[TB][GBUS_IN]  %0t ps addr=%0h data=%0h", $time, in_gbus_addr, in_gbus_wdata);
+      if (out_gbus_wen)   $display("[TB][GBUS_OUT] %0t ps addr=%0h data=%0h", $time, out_gbus_addr, out_gbus_wdata);
+
+      if (core_mem_wen)   $display("[TB][CMEM_WR]  %0t ps addr=%0h data=%0h", $time, core_mem_addr, core_mem_wdata);
+      if (core_mem_ren & core_mem_rvld) $display("[TB][CMEM_RD]  %0t ps addr=%0h data=%0h", $time, core_mem_addr, core_mem_rdata);
+
+      if (vlink_data_out_vld) $display("[TB][VLINK_OUT] %0t ps data=%0h", $time, vlink_data_out);
+      if (hlink_wen)         $display("[TB][HLINK_WR]  %0t ps data=%0h", $time, hlink_wdata);
+
+      // rc_scale events
+      if (rc_scale_vld) $display("[TB][RC_SCALE]  %0t ps scale=%0h", $time, rc_scale);
+
+      // periodic progress message
+      if ((cycles % 1000) == 0) $display("[TB][PROG] %0t ps cycles=%0d", $time, cycles);
+
+      // update previous-state trackers
+      prev_start <= start;
+      prev_finish <= finish;
+    end
+  end
+
+  // -----------------------
   // Measure one stage
   // -----------------------
   task measure_stage;

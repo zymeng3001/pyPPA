@@ -30,10 +30,10 @@
     //////////////////////////////////////////////////
 `define HEAD_NUM  8 //for debugging, use small number for quick simumation
 
-`define MAX_EMBD_SIZE 512
+`define MAX_EMBD_SIZE 128
 `define MAX_HEAD_DIM (`MAX_EMBD_SIZE/`HEAD_NUM)
 
-`define MAX_CONTEXT_LENGTH 256
+`define MAX_CONTEXT_LENGTH 128
 `define MAX_CONTEXT_LENGTH_WITH_GQA (`MAX_CONTEXT_LENGTH*2)
 
 `define HEAD_CORE_NUM  16   //How many cores for one head

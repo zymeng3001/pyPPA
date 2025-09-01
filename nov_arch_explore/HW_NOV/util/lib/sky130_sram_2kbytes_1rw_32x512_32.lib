@@ -292,10 +292,10 @@ cell (sky130_sram_2kbytes_1rw_32x512_32){
         internal_power(){
             when : "csb0 & !web0"; 
             rise_power(scalar){
-                values("0.354807e+00");
+                values("0.675e+00");
             }
             fall_power(scalar){
-                values("0.354807e+00");
+                values("0.675807e+00");
             }
         }
         internal_power(){
@@ -310,10 +310,10 @@ cell (sky130_sram_2kbytes_1rw_32x512_32){
         internal_power(){
             when : "csb0 & web0"; 
             rise_power(scalar){
-                values("0.354807e+00");
+                values("0.675807e+00");
             }
             fall_power(scalar){
-                values("0.354807e+00");
+                values("0.675807e+00");
             }
         }
         timing(){ 

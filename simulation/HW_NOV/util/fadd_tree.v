@@ -130,7 +130,9 @@ module fadd_tree #(
     reg                         nxt_last_out;
 
     // Output
-    always @(*) begin
+    // Make sensitivity explicit to avoid tool warning about @* over arrays
+    // (sensitive to pipeline valid signals & stage outputs)
+    always @(gen_adt_stage[STAGE_NUM-1].add_odata[0] or gen_adt_valid[STAGE_NUM-1].add_valid or gen_adt_valid[STAGE_NUM-1].last_valid) begin
         nxt_odata       = gen_adt_stage[STAGE_NUM-1].add_odata[0];
         nxt_odata_valid = gen_adt_valid[STAGE_NUM-1].add_valid;
         nxt_last_out    = gen_adt_valid[STAGE_NUM-1].last_valid;
