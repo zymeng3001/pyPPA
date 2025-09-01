@@ -126,88 +126,86 @@
                         //1 for the head sram
                         //0 for core
 
-
-
 `define SIG_WIDTH 7
 `define EXP_WIDTH 8
 
 
-typedef struct packed {
-logic       [`CDATA_ACCU_NUM_WIDTH-1:0]  cfg_acc_num;
-logic       [`CDATA_SCALE_WIDTH-1:0]     cfg_quant_scale;
-logic       [`CDATA_BIAS_WIDTH-1:0]      cfg_quant_bias;
-logic       [`CDATA_SHIFT_WIDTH-1:0]     cfg_quant_shift;
-}OP_CONFIG;
+// typedef struct packed {
+// logic       [`CDATA_ACCU_NUM_WIDTH-1:0]  cfg_acc_num;
+// logic       [`CDATA_SCALE_WIDTH-1:0]     cfg_quant_scale;
+// logic       [`CDATA_BIAS_WIDTH-1:0]      cfg_quant_bias;
+// logic       [`CDATA_SHIFT_WIDTH-1:0]     cfg_quant_shift;
+// }OP_CONFIG;
 
-typedef struct packed {
-logic       [`USER_ID_WIDTH-1:0]    user_id;
-logic       [`SEQ_LEN_WIDTH-2:0]    user_token_cnt; //this token's position in MAX_CONTEXT_LENGTH，(usr_cfg.user_token_cnt / `MAC_MULT_NUM)会和qkv weight per core相乘，注意延时
-logic                               user_kv_cache_not_full;
-// logic                               user_first_token_flag;
-}USER_CONFIG;
+// typedef struct packed {
+// logic       [`USER_ID_WIDTH-1:0]    user_id;
+// logic       [`SEQ_LEN_WIDTH-2:0]    user_token_cnt; //this token's position in MAX_CONTEXT_LENGTH，(usr_cfg.user_token_cnt / `MAC_MULT_NUM)会和qkv weight per core相乘，注意延时
+// logic                               user_kv_cache_not_full;
+// // logic                               user_first_token_flag;
+// }USER_CONFIG;
 
-typedef struct packed {
-    logic   pmu_cfg_bc1;
-    logic   pmu_cfg_bc2;
-    logic   pmu_cfg_en;
-    logic   deepsleep_en;
-}PMU_CONFIG;
+// typedef struct packed {
+//     logic   pmu_cfg_bc1;
+//     logic   pmu_cfg_bc2;
+//     logic   pmu_cfg_en;
+//     logic   deepsleep_en;
+// }PMU_CONFIG;
 
-//实际上qkv_weight_cols_per_core和embd_size是等价的，max_context_length和token_per_core是等价的，实际传的时候，只需要各自的其中一个就可以了
-typedef struct packed {
-logic   [`SEQ_LEN_WIDTH-1:0]                     max_context_length; //(model_cfg.max_context_length / `MAC_MULT_NUM) * model_cfg.qkv_weight_cols_per_core
-logic   [`QKV_WEIGHT_COLS_PER_CORE_WIDTH-1:0]    qkv_weight_cols_per_core; //这会和embd_size做乘法，注意延时（/`MAC_MULT_NUM相当于右移，应该能减latency），然后不同控制逻辑里面乘法器能够综合时复用
-logic   [`TOKEN_PER_CORE_WIDTH-1:0]              token_per_core; // Max_Context_Length / head_core_num 
-logic   [`EMBD_SIZE_WIDTH-1:0]                   embd_size;
-logic                                            gqa_en;
-}MODEL_CONFIG;
+// //实际上qkv_weight_cols_per_core和embd_size是等价的，max_context_length和token_per_core是等价的，实际传的时候，只需要各自的其中一个就可以了
+// typedef struct packed {
+// logic   [`SEQ_LEN_WIDTH-1:0]                     max_context_length; //(model_cfg.max_context_length / `MAC_MULT_NUM) * model_cfg.qkv_weight_cols_per_core
+// logic   [`QKV_WEIGHT_COLS_PER_CORE_WIDTH-1:0]    qkv_weight_cols_per_core; //这会和embd_size做乘法，注意延时（/`MAC_MULT_NUM相当于右移，应该能减latency），然后不同控制逻辑里面乘法器能够综合时复用
+// logic   [`TOKEN_PER_CORE_WIDTH-1:0]              token_per_core; // Max_Context_Length / head_core_num 
+// logic   [`EMBD_SIZE_WIDTH-1:0]                   embd_size;
+// logic                                            gqa_en;
+// }MODEL_CONFIG;
 
-typedef struct packed {
-    //rms norm
-    logic   [`RECOMPUTE_SHIFT_WIDTH - 1:0]           rms_rc_shift;
-    logic   [`EMBD_SIZE_WIDTH-1:0]                   rms_K;
-    logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              attn_rms_dequant_scale_square;
-    logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              mlp_rms_dequant_scale_square;
-    //softmax
-    logic   [`RECOMPUTE_SHIFT_WIDTH - 1:0]           softmax_rc_shift; //这个必须和rms_rc_shift一样
-    logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              softmax_input_dequant_scale;
-    logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              softmax_exp_quant_scale;
-}RC_CONFIG;
+// typedef struct packed {
+//     //rms norm
+//     logic   [`RECOMPUTE_SHIFT_WIDTH - 1:0]           rms_rc_shift;
+//     logic   [`EMBD_SIZE_WIDTH-1:0]                   rms_K;
+//     logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              attn_rms_dequant_scale_square;
+//     logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              mlp_rms_dequant_scale_square;
+//     //softmax
+//     logic   [`RECOMPUTE_SHIFT_WIDTH - 1:0]           softmax_rc_shift; //这个必须和rms_rc_shift一样
+//     logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              softmax_input_dequant_scale;
+//     logic   [`SIG_WIDTH+`EXP_WIDTH : 0]              softmax_exp_quant_scale;
+// }RC_CONFIG;
 
 
-typedef struct packed {
-    OP_CONFIG                       Q_GEN_CFG;
-    OP_CONFIG                       K_GEN_CFG;
-    OP_CONFIG                       V_GEN_CFG;
-    OP_CONFIG                       ATT_QK_CFG;
-    OP_CONFIG                       ATT_PV_CFG;
-    OP_CONFIG                       PROJ_CFG;
-    OP_CONFIG                       FFN0_CFG;
-    OP_CONFIG                       FFN1_CFG;
-    OP_CONFIG                       ATTN_RESIDUAL_CFG;//这个比较特殊，其中的accu num用于scale a, scale 用于 scale b
-    OP_CONFIG                       MLP_RESIDUAL_CFG;//这个比较特殊，其中的accu num用于scale a, scale 用于 scale b
-}OP_CONFIG_PKT;
+// typedef struct packed {
+//     OP_CONFIG                       Q_GEN_CFG;
+//     OP_CONFIG                       K_GEN_CFG;
+//     OP_CONFIG                       V_GEN_CFG;
+//     OP_CONFIG                       ATT_QK_CFG;
+//     OP_CONFIG                       ATT_PV_CFG;
+//     OP_CONFIG                       PROJ_CFG;
+//     OP_CONFIG                       FFN0_CFG;
+//     OP_CONFIG                       FFN1_CFG;
+//     OP_CONFIG                       ATTN_RESIDUAL_CFG;//这个比较特殊，其中的accu num用于scale a, scale 用于 scale b
+//     OP_CONFIG                       MLP_RESIDUAL_CFG;//这个比较特殊，其中的accu num用于scale a, scale 用于 scale b
+// }OP_CONFIG_PKT;
 
     //////////////////////////////////////////////////
     //                                              //
     //                GBUS DEFINE                   //
     //                                              //
     //////////////////////////////////////////////////
-parameter integer BUS_DATA_WIDTH = `GBUS_DATA_WIDTH;
-parameter integer BUS_CMEM_ADDR_WIDTH = `CMEM_ADDR_WIDTH; 
-parameter integer BUS_CORE_ADDR_WIDTH = $clog2(`HEAD_CORE_NUM);
-parameter integer HEAD_SRAM_BIAS_WIDTH = 2;
+// parameter integer BUS_DATA_WIDTH = `GBUS_DATA_WIDTH;
+// parameter integer BUS_CMEM_ADDR_WIDTH = `CMEM_ADDR_WIDTH; 
+// parameter integer BUS_CORE_ADDR_WIDTH = $clog2(`HEAD_CORE_NUM);
+// parameter integer HEAD_SRAM_BIAS_WIDTH = 2;
 
-typedef struct packed {
-    logic [HEAD_SRAM_BIAS_WIDTH-1:0]    hs_bias;   
-    logic [BUS_CORE_ADDR_WIDTH-1:0]     core_addr;
-    logic [BUS_CMEM_ADDR_WIDTH-1:0]     cmem_addr;
-}BUS_ADDR;
+// typedef struct packed {
+//     logic [HEAD_SRAM_BIAS_WIDTH-1:0]    hs_bias;   
+//     logic [BUS_CORE_ADDR_WIDTH-1:0]     core_addr;
+//     logic [BUS_CMEM_ADDR_WIDTH-1:0]     cmem_addr;
+// }BUS_ADDR;
 
-typedef struct packed {
-    logic [BUS_DATA_WIDTH-1:0] bus_data;
-    BUS_ADDR bus_addr;
-}BUS_PACKET;
+// typedef struct packed {
+//     logic [BUS_DATA_WIDTH-1:0] bus_data;
+//     BUS_ADDR bus_addr;
+// }BUS_PACKET;
 
 
     /////////////////////////////////////////////////////
@@ -216,17 +214,17 @@ typedef struct packed {
     //                                                 //
     /////////////////////////////////////////////////////
 
-typedef enum{
-    IDLE_STATE,
-    Q_GEN_STATE,
-    K_GEN_STATE,
-    V_GEN_STATE,
-    ATT_QK_STATE,
-    ATT_PV_STATE,
-    PROJ_STATE,
-    FFN0_STATE,
-    FFN1_STATE
-} CONTROL_STATE;
+// typedef enum{
+//     IDLE_STATE,
+//     Q_GEN_STATE,
+//     K_GEN_STATE,
+//     V_GEN_STATE,
+//     ATT_QK_STATE,
+//     ATT_PV_STATE,
+//     PROJ_STATE,
+//     FFN0_STATE,
+//     FFN1_STATE
+// } CONTROL_STATE;
 
 
     /////////////////////////////////////////////////////
