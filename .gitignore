@@ -11,3 +11,4 @@ input.txt
 plots/
 data/
 analytical/
+*.png
