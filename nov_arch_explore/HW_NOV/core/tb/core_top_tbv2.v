@@ -1,6 +1,3 @@
-`include "sys_defs.svh"   // uses your existing macros
-`timescale 1ps/1ps
-
 // -----------------------------------------------------------------------------
 // tb_core_top_ppa_v.v  (Verilog-2001)
 // - Exact cycle counting per stage using core_top.start/finish
@@ -8,14 +5,16 @@
 // - +args: CLKPS, WARM, COOL, TIMEOUT, SEED
 // - Optional CMEM preload via in_gbus writes
 // -----------------------------------------------------------------------------
-module tb_core_top_ppa_v;
+`timescale 1ns / 1ps
+module core_top_tb;
 
   // -----------------------
   // Clock / Reset
   // -----------------------
-  integer CLK_PERIOD_PS = 5000;  // default 200 MHz
+  localparam real CLK_PERIOD_NS = ${clk_period};  // default 200 MHz
+  real CLK_PERIOD_PS = CLK_PERIOD_NS * 1000.0;
   reg clk = 1'b0;
-  always #(CLK_PERIOD_PS/2) clk = ~clk;
+  always #(CLK_PERIOD_NS/2) clk = ~clk;
 
   reg rstn;
 
@@ -25,22 +24,22 @@ module tb_core_top_ppa_v;
   // Prefer macros from sys_defs.svh. If a macro is missing, we fall back to 32-bit.
 localparam USER_ID_W = 2;
 
-localparam CORE_MEM_ADDR_W = `CORE_MEM_ADDR_WIDTH;
+localparam CORE_MEM_ADDR_W = (${mac_num}*8);
 
 // core_top expects INTERFACE_DATA_WIDTH for core_mem data ports
-localparam CORE_MEM_DATA_W = `INTERFACE_DATA_WIDTH;
+localparam CORE_MEM_DATA_W = (${mac_num}*8);
 
 localparam BUS_CMEM_ADDR_WIDTH = 13;
+localparam CMEM_ADDR_WIDTH = 1 + $clog2(${kv_cache_depth}) + $clog2(${mac_num});
 localparam BUS_CORE_ADDR_WIDTH = 4;
 localparam HEAD_SRAM_BIAS_WIDTH = 2;
 localparam GBUS_ADDR_W = ((HEAD_SRAM_BIAS_WIDTH + BUS_CORE_ADDR_WIDTH) + BUS_CMEM_ADDR_WIDTH);
 
-localparam GBUS_DATA_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
+localparam GBUS_DATA_W = (${mac_num}*8);
 
+localparam RC_SCALE_W = 24;
 
-localparam RC_SCALE_W = `RECOMPUTE_SCALE_WIDTH;
-
-localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
+localparam LANES_W = (${mac_num}*8);
 
 
   // -----------------------
@@ -170,7 +169,7 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
   // VCD
   // -----------------------
   initial begin
-    $dumpfile("core_top_ppa.vcd");
+    $dumpfile("core_top.vcd");
     $dumpvars(0, dut);
     $dumpoff;
   end
@@ -178,15 +177,15 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
   // -----------------------
   // Plusargs & settings
   // -----------------------
-  integer warm_cycles   = 500;
-  integer cool_cycles   = 200;
-  integer TIMEOUT_CYC   = 1000000;
+  integer warm_cycles   = 50;
+  integer cool_cycles   = 20;
+  integer TIMEOUT_CYC   = 500;
   integer SEED          = 1;
 
   initial begin
     if ($value$plusargs("WARM=%d",  warm_cycles)) ;
     if ($value$plusargs("COOL=%d",  cool_cycles)) ;
-    if ($value$plusargs("CLKPS=%d", CLK_PERIOD_PS)) ;
+    if ($value$plusargs("CLKPS=%f", CLK_PERIOD_PS)) ;
     if ($value$plusargs("SEED=%d",  SEED)) ;
     if ($value$plusargs("TIMEOUT=%d", TIMEOUT_CYC)) ;
     $display("[TB] CLK=%0.2f MHz  WARM=%0d  COOL=%0d  TIMEOUT=%0d  SEED=%0d",
@@ -312,7 +311,7 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
       for (i=0;i<words;i=i+1) begin
         // If your address mapping differs, adjust here.
         in_gbus_addr  = { { (GBUS_ADDR_W>0)?GBUS_ADDR_W:1 {1'b0} } };
-        in_gbus_addr[ (`CMEM_ADDR_WIDTH>0)?(`CMEM_ADDR_WIDTH-1):0 : 0 ] = i[`CMEM_ADDR_WIDTH-1:0];
+        in_gbus_addr[ (CMEM_ADDR_WIDTH>0)?(CMEM_ADDR_WIDTH-1):0 : 0 ] = i[CMEM_ADDR_WIDTH-1:0];
     _rand_seed = SEED + i;
     in_gbus_wdata = $random(_rand_seed);
         in_gbus_wen   = 1'b1;
@@ -330,6 +329,41 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
   always @(posedge clk or negedge rstn) begin
     if (!rstn) cycles <= 64'd0;
     else       cycles <= cycles + 64'd1;
+  end
+
+  // -----------------------
+  // Lightweight TB monitor (prints key events / progress)
+  // -----------------------
+  localparam DEBUG_TB = 1;
+  reg prev_start = 1'b0;
+  reg prev_finish = 1'b0;
+
+  always @(posedge clk) begin
+    if (DEBUG_TB) begin
+      // notify start/finish edges
+      if (start & ~prev_start) $display("[TB][START]  %0t ps  cycles=%0d", $time, cycles);
+      if (finish & ~prev_finish) $display("[TB][FINISH] %0t ps  cycles=%0d", $time, cycles);
+
+      // bus / mem events
+      if (in_gbus_wen)    $display("[TB][GBUS_IN]  %0t ps addr=%0h data=%0h", $time, in_gbus_addr, in_gbus_wdata);
+      if (out_gbus_wen)   $display("[TB][GBUS_OUT] %0t ps addr=%0h data=%0h", $time, out_gbus_addr, out_gbus_wdata);
+
+      if (core_mem_wen)   $display("[TB][CMEM_WR]  %0t ps addr=%0h data=%0h", $time, core_mem_addr, core_mem_wdata);
+      if (core_mem_ren & core_mem_rvld) $display("[TB][CMEM_RD]  %0t ps addr=%0h data=%0h", $time, core_mem_addr, core_mem_rdata);
+
+      if (vlink_data_out_vld) $display("[TB][VLINK_OUT] %0t ps data=%0h", $time, vlink_data_out);
+      if (hlink_wen)         $display("[TB][HLINK_WR]  %0t ps data=%0h", $time, hlink_wdata);
+
+      // rc_scale events
+      if (rc_scale_vld) $display("[TB][RC_SCALE]  %0t ps scale=%0h", $time, rc_scale);
+
+      // periodic progress message
+      if ((cycles % 1000) == 0) $display("[TB][PROG] %0t ps cycles=%0d", $time, cycles);
+
+      // update previous-state trackers
+      prev_start <= start;
+      prev_finish <= finish;
+    end
   end
 
   // -----------------------
@@ -416,3 +450,159 @@ localparam LANES_W = (`MAC_MULT_NUM*`IDATA_WIDTH);
   end
 
 endmodule
+
+
+module sky130_sram_0kbytes_1rw_32x128_32(
+// `ifdef USE_POWER_PINS
+//     vccd1,
+//     vssd1,
+// `endif
+// Port 0: RW
+    // clk0,csb0,web0,spare_wen0,addr0,din0,dout0
+    clk0,csb0,web0,addr0,din0,dout0
+);
+
+parameter MACRO_WIDTH = 32 ;
+parameter ADDR_WIDTH = 8 ;
+parameter RAM_DEPTH = 1 << ADDR_WIDTH;
+// FIXME: This delay is arbitrary.
+parameter DELAY = 3 ;
+parameter VERBOSE = 1 ; //Set to 0 to only display warnings
+parameter T_HOLD = 1 ; //Delay to hold dout value after posedge. Value is arbitrary
+
+`ifdef USE_POWER_PINS
+    inout vccd1;
+    inout vssd1;
+`endif
+input  clk0; // clock
+input   csb0; // active low chip select
+input  web0; // active low write control
+input [ADDR_WIDTH-1:0]  addr0;
+// input           spare_wen0; // spare mask
+input [MACRO_WIDTH-1:0]  din0;
+output [MACRO_WIDTH-1:0] dout0;
+
+reg [MACRO_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
+
+reg  csb0_reg;
+reg  web0_reg;
+// reg spare_wen0_reg;
+reg [ADDR_WIDTH-1:0]  addr0_reg;
+reg [MACRO_WIDTH-1:0]  din0_reg;
+reg [MACRO_WIDTH-1:0]  dout0;
+
+// All inputs are registers
+always @(posedge clk0)
+begin
+    csb0_reg = csb0;
+    web0_reg = web0;
+    // spare_wen0_reg = spare_wen0;
+    addr0_reg = addr0;
+    din0_reg = din0;
+    // #(T_HOLD) dout0 = 32'bx;
+    // if ( !csb0_reg && web0_reg && VERBOSE )
+    //   $display($time," Reading %m addr0=%b dout0=%b",addr0_reg,mem[addr0_reg]);
+    // if ( !csb0_reg && !web0_reg && VERBOSE )
+    //   $display($time," Writing %m addr0=%b din0=%b",addr0_reg,din0_reg);
+end
+
+
+// Memory Write Block Port 0
+// Write Operation : When web0 = 0, csb0 = 0
+always @ (negedge clk0)
+begin : MEM_WRITE0
+    if ( !csb0_reg && !web0_reg ) begin
+        mem[addr0_reg][31:0] = din0_reg[31:0];
+        // if (spare_wen0_reg)
+                // mem[addr0_reg][32] = din0_reg[32];
+    end
+end
+
+// Memory Read Block Port 0
+// Read Operation : When web0 = 1, csb0 = 0
+always @ (negedge clk0)
+begin : MEM_READ0
+    if (!csb0_reg && web0_reg)
+    //    dout0 <= #(DELAY) mem[addr0_reg];
+    dout0 <= mem[addr0_reg];
+end
+
+endmodule
+
+module sky130_sram_2kbytes_1rw_32x512_32(
+// `ifdef USE_POWER_PINS
+//     vccd1,
+//     vssd1,
+// `endif
+// Port 0: RW
+    // clk0,csb0,web0,spare_wen0,addr0,din0,dout0
+    clk0,csb0,web0,addr0,din0,dout0
+);
+
+parameter MACRO_WIDTH = 32 ;
+parameter ADDR_WIDTH = 10 ;
+parameter RAM_DEPTH = 1 << ADDR_WIDTH;
+// FIXME: This delay is arbitrary.
+parameter DELAY = 3 ;
+parameter VERBOSE = 1 ; //Set to 0 to only display warnings
+parameter T_HOLD = 1 ; //Delay to hold dout value after posedge. Value is arbitrary
+
+`ifdef USE_POWER_PINS
+    inout vccd1;
+    inout vssd1;
+`endif
+input  clk0; // clock
+input   csb0; // active low chip select
+input  web0; // active low write control
+input [ADDR_WIDTH-1:0]  addr0;
+// input           spare_wen0; // spare mask
+input [MACRO_WIDTH-1:0]  din0;
+output [MACRO_WIDTH-1:0] dout0;
+
+reg [MACRO_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
+
+reg  csb0_reg;
+reg  web0_reg;
+// reg spare_wen0_reg;
+reg [ADDR_WIDTH-1:0]  addr0_reg;
+reg [MACRO_WIDTH-1:0]  din0_reg;
+reg [MACRO_WIDTH-1:0]  dout0;
+
+// All inputs are registers
+always @(posedge clk0)
+begin
+    csb0_reg = csb0;
+    web0_reg = web0;
+    // spare_wen0_reg = spare_wen0;
+    addr0_reg = addr0;
+    din0_reg = din0;
+    // #(T_HOLD) dout0 = 32'bx;
+    // if ( !csb0_reg && web0_reg && VERBOSE )
+    //   $display($time," Reading %m addr0=%b dout0=%b",addr0_reg,mem[addr0_reg]);
+    // if ( !csb0_reg && !web0_reg && VERBOSE )
+    //   $display($time," Writing %m addr0=%b din0=%b",addr0_reg,din0_reg);
+end
+
+
+// Memory Write Block Port 0
+// Write Operation : When web0 = 0, csb0 = 0
+always @ (negedge clk0)
+begin : MEM_WRITE0
+    if ( !csb0_reg && !web0_reg ) begin
+        mem[addr0_reg][31:0] = din0_reg[31:0];
+        // if (spare_wen0_reg)
+                // mem[addr0_reg][32] = din0_reg[32];
+    end
+end
+
+// Memory Read Block Port 0
+// Read Operation : When web0 = 1, csb0 = 0
+always @ (negedge clk0)
+begin : MEM_READ0
+    if (!csb0_reg && web0_reg)
+    //    dout0 <= #(DELAY) mem[addr0_reg];
+    dout0 <= mem[addr0_reg];
+end
+
+endmodule
+

@@ -20,7 +20,7 @@
 // `define TRUE_MEM //TRUE MEM otherwise data array
 // `define APR_TWO_HEADS
 `define CHIP_TOP_SIMULATION
-`timescale 1ps/1ps  
+`timescale 1ns/1ps  
 // `define CLOCK_PERIOD 2000
 `define SD #0
     //////////////////////////////////////////////////
