@@ -54,8 +54,7 @@ module sram_sp_sky130 #(
             // wire wsb = ~(wen);
             wire csb  = ~((tile_sel == tile) & (wen | ren));  // active low
             wire web  = ~((tile_sel == tile) & wen);
-            wire [ADDR_WIDTH-1:0] addr0 = local_addr;
->>>>>>> origin/use_nov_tapeout
+            wire [TILE_ADDR_BITS-1:0] addr0 = local_addr;
             wire [MACRO_WIDTH-1:0] din0  = wdata[bank*MACRO_WIDTH +: MACRO_WIDTH];
             wire [MACRO_WIDTH-1:0] dout0_t;
 

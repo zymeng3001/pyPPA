@@ -31,6 +31,7 @@ ppa_runner = PPARunner(
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_quant.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_rc.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'core/core_top.v'),
+            path.join(path.dirname(__file__), 'HW_NOV', 'core/tb/core_top_tb.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/pe.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/mem.v'),
             path.join(path.dirname(__file__), 'HW_NOV', 'util/align.v'),

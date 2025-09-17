@@ -8,3 +8,7 @@ logs/
 vizier_report/
 vizier_results/
 input.txt
+plots/
+data/
+analytical/
+*.png

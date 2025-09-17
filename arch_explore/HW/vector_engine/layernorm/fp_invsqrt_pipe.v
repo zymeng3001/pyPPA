@@ -275,25 +275,3 @@ module custom_fp_sub #(
     end
 
 endmodule
-
-module priority_encoder #(
-    parameter WIDTH = 16,
-    parameter SHIFT_WIDTH = $clog2(WIDTH)
-)(
-    input  wire [WIDTH-1:0] in,
-    output reg  [SHIFT_WIDTH-1:0] shift,
-    output wire valid
-);
-
-    integer i;
-    always @(*) begin
-        shift = 0;
-        for (i = WIDTH-1; i >= 0; i = i - 1) begin
-            if (in[i]) begin
-                shift = WIDTH - 1 - i;
-            end
-        end
-    end
-
-    assign valid = |in;
-endmodule

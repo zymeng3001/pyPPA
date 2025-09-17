@@ -115,7 +115,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Read data
-df = pd.read_csv("ppa_nov_core_top_extracted_data_5ns.csv")
+df = pd.read_csv("ppa_nov_core_top_extracted_data_9_1.csv")
 
 # 🔍 Filter only rows where timing slack is met
 df = df[df['Clock Slack (ns)'] >= 0]
