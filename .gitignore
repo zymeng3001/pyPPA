@@ -8,7 +8,12 @@ logs/
 vizier_report/
 vizier_results/
 input.txt
-plots/
-data/
+*/plots/
+*/data/
+*/remote_runs/
+*/.to_be_deleted/
+nsga2_search/train/
+nsga2_search/trial/
+remote*/
 analytical/
 *.png

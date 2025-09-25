@@ -2,7 +2,9 @@ import random, math
 import os, time
 from typing import Any, Dict, List
 from search_space import HeteroSearchSpace, Individual
-import hashlib, json
+import hashlib, json, csv
+from remote_trainer import RemoteTrainer
+
 # -----------------------------
 # Problem with proxy evaluation
 # -----------------------------
@@ -50,10 +52,60 @@ class Problem:
 class Population:
     # Holds individuals and their evaluations
     # initialized after evaluation 
-    def __init__(self, individuals: List[Individual], evaluations: List[EvaluationResult] = None):
+    def __init__(self, individuals: List[Individual], evaluations: List[EvaluationResult] = None, search_space: HeteroSearchSpace = None):
         self.individuals = individuals
         self.evaluations = evaluations
+        self.offspring: List[Individual] = []
+        self.offspring_evaluations: List[EvaluationResult] = []
         self.gen = 0
+
+        self.search_space = search_space
+
+        # parameter options
+        self.n_offspring = 32
+        self.tournament_k = 2  # tournament selection size
+        self.mutation_rate = 0.1  # mutation rate for offspring
+        self.crossover_rate = 0.9  # crossover rate for offspring
+
+    def print_summary(self):
+        """Print a formatted summary of the population."""
+        print(f"\n=== Population Summary (Generation {self.gen}) ===")
+        print(f"Population size: {len(self.individuals)}")
+        if self.offspring:
+            print(f"Offspring size: {len(self.offspring)}")
+        
+        if self.evaluations:
+            print(f"Evaluations completed: {len(self.evaluations)}")
+            # Show objective statistics
+            objs = [ev.objs for ev in self.evaluations]
+            if objs:
+                val_losses = [obj[0] for obj in objs]
+                energy_per_token = [obj[1] for obj in objs]
+                ttft = [obj[2] for obj in objs]
+                
+                print(f"\nObjective Statistics:")
+                print(f"  Validation Loss: {min(val_losses):.3f} - {max(val_losses):.3f} (avg: {sum(val_losses)/len(val_losses):.3f})")
+                print(f"  Energy/Token:    {min(energy_per_token):.3f} - {max(energy_per_token):.3f} (avg: {sum(energy_per_token)/len(energy_per_token):.3f})")
+                print(f"  TTFT:           {min(ttft):.3f} - {max(ttft):.3f} (avg: {sum(ttft)/len(ttft):.3f})")
+                
+                # Show constraint violations
+                cons = [ev.cons for ev in self.evaluations]
+                if cons:
+                    param_violations = sum(1 for c in cons if c[0] > 0)
+                    mem_violations = sum(1 for c in cons if c[1] > 0)
+                    # latency_violations = sum(1 for c in cons if c[2] > 0)
+                    print(f"\nConstraint Violations:")
+                    print(f"  Parameter budget: {param_violations}/{len(cons)} individuals")
+                    print(f"  Memory budget:    {mem_violations}/{len(cons)} individuals")
+                    # print(f"  Latency limit:    {latency_violations}/{len(cons)} individuals")
+        else:
+            print("No evaluations completed yet")
+        
+        print("=" * 50)
+
+    def __str__(self):
+        """String representation of the population."""
+        return f"Population(gen={self.gen}, size={len(self.individuals)}, evaluated={len(self.evaluations) if self.evaluations else 0})"
 
     def delete_duplicates(self):
         unique = {}
@@ -62,6 +114,77 @@ class Population:
             if key not in unique:
                 unique[key] = ind
         self.individuals = list(unique.values())
+
+    def fast_non_dominated_sort(self, objs: List[List[float]] = None, cons: List[List[float]] = None) -> List[List[int]]:
+        """Perform non-dominated sorting and return a list of fronts (each front is a list of indices).
+
+        If objs/cons are not provided, they will be derived from self.evaluations.
+        - objs: List of objective vectors, each a list of floats (minimization).
+        - cons: List of constraint vectors, each a list of floats (<= 0 is feasible).
+        """
+        # Derive from current evaluations if not explicitly given
+        if objs is None or cons is None:
+            if not self.evaluations:
+                return []
+            objs = [e.objs for e in self.evaluations]
+            cons = [e.cons for e in self.evaluations]
+
+        N = len(objs)
+        S = [[] for _ in range(N)]
+        n = [0] * N
+        rank = [None] * N
+        F: List[List[int]] = [[]]
+        for p in range(N):
+            for q in range(N):
+                if p == q:
+                    continue
+                d = dominates(objs[p], cons[p], objs[q], cons[q])
+                if d == 1:
+                    S[p].append(q)
+                elif d == -1:
+                    n[p] += 1
+            if n[p] == 0:
+                rank[p] = 0
+                F[0].append(p)
+        i = 0
+        while F[i]:
+            Q: List[int] = []
+            for p in F[i]:
+                for q in S[p]:
+                    n[q] -= 1
+                    if n[q] == 0:
+                        rank[q] = i + 1
+                        Q.append(q)
+            i += 1
+            F.append(Q)
+        return F[:-1]
+
+    def reorder_by_non_domination(self) -> None:
+        """Reorder population in-place by Pareto fronts and crowding distance.
+
+        Returns the index permutation applied (indices into the previous order).
+
+        Ordering rule:
+        1) Sort individuals into non-dominated fronts (F0, F1, ...)
+        2) Within each front, sort by crowding distance descending (diversity preference)
+        The final order is F0 (by CD), then F1 (by CD), etc.
+        """
+        if not self.evaluations:
+            return []
+        objs = [e.objs for e in self.evaluations]
+        cons = [e.cons for e in self.evaluations]
+        fronts = self.fast_non_dominated_sort(objs, cons)
+        order: List[int] = []
+        for front in fronts:
+            if not front:
+                continue
+            cd = crowding_distance(front, objs)
+            order.extend(sorted(front, key=lambda i: cd[i], reverse=True))
+        # Apply permutation to individuals and evaluations
+        self.individuals = [self.individuals[i] for i in order]
+        self.evaluations = [self.evaluations[i] for i in order]
+        print(f"Reordered individuals and evaluations by non-domination: {order}")
+        return
 
     def to_yaml(self, save_path: str = None) -> str:
         """Convert population to YAML format for training experiments.
@@ -72,7 +195,7 @@ class Population:
         yaml_lines.append("# Note: n_layers is automatically determined from the length of n_head_layerlist")
         yaml_lines.append("")
 
-        for i, individual in enumerate(self.individuals):
+        for i, individual in enumerate(self.individuals if self.gen == 0 else self.offspring):
             g = individual["globals"]
             layers = individual["layers"]
             mask = g.get("layer_mask", [True] * len(layers))
@@ -113,7 +236,9 @@ class Population:
             param_millions = params / 1_000_000
             
             # Format YAML entry
-            yaml_lines.append(f"- n_embd: {g['d_model']}")
+            yaml_lines.append(f"- idx: {i+1}")
+            yaml_lines.append(f"  n_embd: {g['d_model']}")
+            # yaml_lines.append(f"- n_embd: {g['d_model']}")
             yaml_lines.append(f"  block_size: {g['block_size']}")
             yaml_lines.append(f"  n_head_layerlist: {n_head_list}")
             yaml_lines.append(f"  mlp_size_layerlist: {mlp_size_list}")
@@ -167,10 +292,87 @@ class Population:
         pop.gen = int(data.get("gen", 0))
         return pop
 
-    # def accuracy_evals(self):
-        # send the training work to worker nodes by fabric and wait for results
-        
+    def sw_eval(self, hosts: List[str], user: str, key_filename: str) -> None:
+        # send the training work to worker nodes and wait for results
+        train_yaml_path = self.to_yaml(save_path="train")
+        trainer = RemoteTrainer(hosts=hosts, user=user, key_filename=key_filename)
+        trainer.submit_job(path_to_yaml=train_yaml_path, remote_work_dir=f"/home/{user}/Evo_GPT")
+        trainer.wait_for_all(poll_interval=120, timeout=3600, verbose=True)
+        data_csv = trainer.fetch_results(local_dir="train", gen=self.gen)
+        # read the csv and populate self.evaluations
+        # load the csv file's second column as a list of floats
+        sw_data = load_csv_with_idx_lookup(data_csv)
+        print (f"Loaded {len(sw_data)} results from {data_csv}")
 
+        if self.gen == 0:
+            self.evaluations = []
+        else:
+            self.offspring_evaluations = []
+
+        for i, ind in enumerate(self.individuals if self.gen == 0 else self.offspring):
+            idx = i + 1  # CSV idx starts from 1
+            if idx in sw_data:
+                val_loss = sw_data[idx]
+                # reconstruct evaluation result
+                params = estimate_params_hetero(ind)
+                mem_bytes = estimate_mem_hetero(ind)
+                flops = estimate_flops_hetero(ind)
+                _, e_per_token, ttft = proxy_measure(ind, params, mem_bytes, flops)
+                c1 = params - 110_000_000
+                c2 = mem_bytes - 1_200_000_000
+                # c3 = latency_from_tp(throughput) - 180.0
+                objs = [float(val_loss), float(e_per_token), float(ttft)]
+                eval_res = EvaluationResult(objs, [c1, c2], {
+                    "params": params, "mem_bytes": mem_bytes, "FLOPs": flops
+                })
+                if self.gen == 0:
+                    self.evaluations.append(eval_res)
+                else:
+                    self.offspring_evaluations.append(eval_res)
+            else:
+                print(f"Warning: No result for individual idx {idx} in CSV")
+
+            ind.print_individual()
+            print(f"gen {self.gen} individual {idx}: val_loss={val_loss:.3f}, energy/token={e_per_token:.3f}, TTFT={ttft:.3f}, params={params/1e6:.1f}M, mem={mem_bytes/1e9:.2f}GB")
+        return
+
+    def generate_offspring(self) -> None:
+        """Generate offspring via tournament selection and mutation."""
+        if self.evaluations is None or not self.evaluations:
+            raise ValueError("Cannot generate offspring without evaluations.")
+        if self.search_space is None:
+            raise ValueError("Search space is not defined for mutation.")
+        search_space = self.search_space
+        offspring = []
+        for _ in range(self.n_offspring):
+            p1_idx = tournament_select(self.individuals, self.evaluations, k=self.tournament_k)
+            p2_idx = tournament_select(self.individuals, self.evaluations, k=self.tournament_k)
+            parent1, _ = search_space.crossover(self.individuals[p1_idx], self.individuals[p2_idx], self.crossover_rate)
+            child1 = self.search_space.mutate(parent1, self.mutation_rate)
+            # child2 = self.search_space.mutate(parent2, self.mutation_rate)
+            print("Generated offspring:")
+            child1.print_individual()
+            offspring.append(child1)
+
+        self.offspring = offspring
+        self.offspring_evaluations = []
+        self.gen += 1
+        print(f"Generated {self.n_offspring} offspring for generation {self.gen}")
+        return
+
+# -----------------------------
+# CSV loading utility
+# -----------------------------
+def load_csv_with_idx_lookup(filepath):
+    """Load CSV and return a dict for idx-based lookup."""
+    data = {}
+    with open(filepath, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            idx = int(row['#idx'])
+            best_val_loss = float(row[' best_val_loss'])
+            data[idx] = best_val_loss
+    return data
 
 # -----------------------------
 # Proxies (edit/replace later)
@@ -217,19 +419,19 @@ def latency_from_tp(tp_tok_s: float) -> float:
 def proxy_measure(x: Individual, params, mem_bytes, flops):
     scale = 1e-9
     # throughput decreases with flops and params (rough)
-    throughput = max(0.5, 30_000_000 / (flops*scale + 3.0) / (1.0 + params/150e6))
+    # throughput = max(0.5, 30_000_000 / (flops*scale + 3.0) / (1.0 + params/150e6))
     # TTFT depends on params and whether using flash/linear
     mask = x["globals"].get("layer_mask", [True]*len(x["layers"]))
     L = sum(1 for v in mask if v)
     attn_bonus = sum(1 for i in range(L) if x["layers"][i]["attn_type"] in ("flash","mha"))
-    ttft = 120.0 + 0.03*(params/1e6) - 2.0*attn_bonus
+    ttft = 50.0 + 0.5*(params/1e6)  #ms  scale with size
     # energy per token depends on flops and memory
-    e_per_token = 0.12 + 6e-12*flops + 1.5e-10*mem_bytes + 0.015*(1.0)
+    e_per_token = 0.1 + 6e-11*flops + 1.5e-9*mem_bytes + 0.015*(1.0)
     # val_loss improves with capacity but worsens with aggressive quant + sparsity
     capacity = math.log10(params + 10.0)
     reg = 0.15 + (x["globals"]["quant_bits"] <= 6)*0.18
     val_loss = max(2.0, 5.2 - 0.40*capacity + 0.5*reg)
-    return val_loss, throughput, e_per_token, ttft
+    return val_loss, e_per_token, ttft
 
 # -----------------------------
 # NSGA-II core

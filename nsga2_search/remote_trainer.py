@@ -137,7 +137,10 @@ class RemoteTrainer:
 
         # Upload each slice to its corresponding host
         overall_ok = True
-        run_id = uuid.uuid4().hex[:8]
+        # Encode run_id with timestamp for better tracking
+        timestamp = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+        short_uuid = uuid.uuid4().hex[:4]
+        run_id = f"{timestamp}_{short_uuid}"
         new_jobs: List[RemoteJob] = []
         for i, host in enumerate(self.hosts):
             if local_slice_files[i] is None:
@@ -162,7 +165,7 @@ class RemoteTrainer:
                 cmd = (
                     f"cd {remote_work_dir} && "
                     f"setsid bash -lc '\n"
-                    f"( python3 -u optimization_and_search/run_from_yaml.py --yaml {remote_yaml_path} --output_dir {remote_run_dir} --override_args max_iters=100; ec=$?; echo $ec > {remote_run_dir}/exit_code ) >> {remote_log_path} 2>&1 < /dev/null &\n"
+                    f"( python3 -u optimization_and_search/run_from_yaml.py --yaml {remote_yaml_path} --output_dir {remote_run_dir} --prefix {base} --override_args max_iters=100; ec=$?; echo $ec > {remote_run_dir}/exit_code ) >> {remote_log_path} 2>&1 < /dev/null &\n"
                     f"echo $! > {remote_pid_path}\n"
                     f"' </dev/null >/dev/null 2>&1 &"
                 )
@@ -177,7 +180,7 @@ class RemoteTrainer:
                         pid = int(s)
 
                 job = RemoteJob(
-                    id=f"{base}-{run_id}-h{i}",
+                    id=f"{base}-{run_id}-host{i}",
                     host=host,
                     remote_dir=remote_run_dir,
                     yaml_path=remote_yaml_path,
@@ -274,6 +277,7 @@ class RemoteTrainer:
                     else:
                         job.status = JobStatus.FAILED
                         logging.error(f"\033[31mJob {job.id}@{job.host} failed.\033[0m")
+                        exit()  # early exit on failure
                     job.finished_at = time.time()
                     # stop heartbeat
                     if job.heartbeat_stop:
@@ -297,6 +301,7 @@ class RemoteTrainer:
         while True:
             states = [j.status for j in self.poll_jobs()]
             if all(s in (JobStatus.COMPLETED, JobStatus.FAILED, JobStatus.CANCELLED, JobStatus.TIMEOUT) for s in states):
+                logging.info(f"\033[32mAll jobs completed: {states}\033[0m")
                 return True
             if timeout and (time.time() - start) > timeout:
                 for j in self.jobs:
@@ -339,65 +344,72 @@ class RemoteTrainer:
                     pass
         return self.jobs
 
-    def fetch_results(self, local_dir: str) -> None:
+    def fetch_results(self, gen: int, local_dir: str = "train") -> str:
         local_base = Path(local_dir)
         local_base.mkdir(parents=True, exist_ok=True)
-        agg_yaml_path = local_base / "aggregate.yaml"
+        time_stamp = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+        agg_yaml_path = local_base / f"{time_stamp}_gen{gen}.yaml"
+        gen_csv_path = local_base / f"{time_stamp}_gen{gen}.csv"
+        if not gen_csv_path.exists():
+            gen_csv_path.write_text("#idx, best_val_loss\n")
+
         summary_csv_path = local_base / "best_val_loss.csv"
         # ensure CSV header once
         if not summary_csv_path.exists():
-            summary_csv_path.write_text("job_id,formatted_name,best_val_loss\n")
+            summary_csv_path.write_text("#gen, job_id,formatted_name, best_val_loss\n")
         logs_local_dir = local_base / "logs"
         logs_local_dir.mkdir(parents=True, exist_ok=True)
         for job in self.jobs:
             if job.status not in (JobStatus.COMPLETED, JobStatus.FAILED, JobStatus.TIMEOUT):
+                logging.warning(f"\033[33mSkipping fetch for incomplete job {job.id}@{job.host} (status: {job.status})\033[0m") 
                 continue
             conn = Connection(host=job.host, user=self.user, connect_kwargs={"key_filename": self.key_filename} if self.key_filename else {})
             try:
                 conn.open()
                 # Tar the run directory remotely for robust transfer
-                parent = "/".join(job.remote_dir.rstrip("/").split("/")[:-1])
-                leaf = job.remote_dir.rstrip("/").split("/")[-1]
-                tar_path = f"{parent}/{job.id}.tar.gz"
-                conn.run(f"cd {parent} && tar -czf {job.id}.tar.gz {leaf}", hide=True)
-                conn.get(tar_path, local=str(local_base / f"{job.id}.tar.gz"))
-                logging.info(f"Fetched {job.id} to {local_base}/{job.id}.tar.gz")
-
-                # Also pull exploration logs and aggregate metrics
-                # remote_work_dir is two levels up from remote_run_dir (strip nsga_exps/<leaf>)
+                # parent = "/".join(job.remote_dir.rstrip("/").split("/")[:-1])
+                # leaf = job.remote_dir.rstrip("/").split("/")[-1]
+                # tar_path = f"{parent}/{job.id}.tar.gz"
+                # conn.run(f"cd {parent} && tar -czf {job.id}.tar.gz {leaf}", hide=True)
+                # conn.get(tar_path, local=str(local_base / f"{job.id}.tar.gz"))
+                # logging.info(f"Fetched {job.id} to {local_base}/{job.id}.tar.gz")
+              
+                # peel the job directory for logs
                 parts = job.remote_dir.rstrip("/").split("/")
-                if len(parts) >= 2:
-                    remote_work_dir = "/".join(parts[:-2])
+                remote_work_dir = "/".join(parts[:-1])
+                remote_logs_path = f"{remote_work_dir}/{job.id}.yaml"
+                
+                r = conn.run(f"test -f {remote_logs_path}", hide=True, warn=True)
+                if r.ok:
+                    # Download the YAML results file locally
+                    local_yaml_path = logs_local_dir / f"{job.id}.yaml"
+                    conn.get(remote_logs_path, local=str(local_yaml_path))
+                    # Parse and append to aggregate + CSV
+                    try:
+                        with local_yaml_path.open("r") as f:
+                            docs = list(yaml.safe_load_all(f))
+                        if not docs:
+                            logging.warning(f"\033[33mEmpty YAML in results from {job.id}@{job.host}\033[0m")
+                        for doc in docs:
+                            if not isinstance(doc, dict):
+                                continue
+                            # Append to aggregate.yaml
+                            with agg_yaml_path.open("a") as fa:
+                                yaml.safe_dump(doc, fa, explicit_start=True, sort_keys=False, width=4096)
+                            # Append best_val_loss to CSV if present
+                            idx = doc["config"]["idx"]
+                            bvl = doc.get("best_val_loss")
+                            name = doc.get("formatted_name", "")
+                            if bvl is not None:
+                                with summary_csv_path.open("a") as fc:
+                                    fc.write(f"{gen},{job.id},{name},{bvl}\n")
+                                with gen_csv_path.open("a") as fc:
+                                    fc.write(f"{idx},{bvl}\n")
+                        logging.info(f"\033[32mFetched results from {job.id}@{job.host}\033[0m")
+                    except Exception as ye:
+                        logging.error(f"\033[31mYAML parse error for results from {job.id}@{job.host}: {ye}\033[0m")
                 else:
-                    remote_work_dir = "/".join(parts[:-1])
-                remote_logs_dir = f"{remote_work_dir}/exploration_logs"
-                ls = conn.run(f"test -d {remote_logs_dir} && ls -1 {remote_logs_dir}/*.yaml 2>/dev/null || true", hide=True, warn=True)
-                if ls.ok and ls.stdout.strip():
-                    for line in ls.stdout.splitlines():
-                        remote_yaml_log = line.strip()
-                        if not remote_yaml_log:
-                            continue
-                        local_log_path = logs_local_dir / f"{job.id}__{Path(remote_yaml_log).name}"
-                        conn.get(remote_yaml_log, local=str(local_log_path))
-                        # Parse and aggregate
-                        try:
-                            with local_log_path.open("r") as f:
-                                for doc in yaml.safe_load_all(f):
-                                    if not doc or not isinstance(doc, dict):
-                                        continue
-                                    # Append full doc to aggregate YAML
-                                    with agg_yaml_path.open("a") as fa:
-                                        yaml.safe_dump(doc, fa, explicit_start=True, sort_keys=False)
-                                    # Append best_val_loss summary
-                                    bvl = doc.get("best_val_loss")
-                                    name = doc.get("formatted_name", "")
-                                    if bvl is not None:
-                                        with summary_csv_path.open("a") as fc:
-                                            fc.write(f"{job.id},{name},{bvl}\n")
-                        except Exception as e:
-                            logging.warning(f"\033[33mFailed to parse log {local_log_path}: {e}\033[0m")
-                else:
-                    logging.warning(f"\033[33mNo exploration logs found at {remote_logs_dir} for {job.id}@{job.host}\033[0m")
+                    logging.warning(f"\033[33mNo results YAML found at {remote_logs_path} for {job.id}@{job.host}\033[0m")
             except Exception as e:
                 logging.error(f"Fetch failed for {job.id}@{job.host}: {e}")
             finally:
@@ -405,3 +417,27 @@ class RemoteTrainer:
                     conn.close()
                 except Exception:
                     pass
+        # reorder gen_csv by idx
+        try:
+            lines = gen_csv_path.read_text().strip().split("\n")
+            header = lines[0]
+            entries = []
+            for line in lines[1:]:
+                parts = line.split(",")
+                if len(parts) != 2:
+                    continue
+                idx_str, bvl_str = parts
+                try:
+                    idx = int(idx_str)
+                    bvl = float(bvl_str)
+                    entries.append((idx, bvl))
+                except ValueError:
+                    continue
+            entries.sort(key=lambda x: x[0])
+            with gen_csv_path.open("w") as fc:
+                fc.write(header + "\n")
+                for idx, bvl in entries:
+                    fc.write(f"{idx},{bvl}\n")
+        except Exception as re:
+            logging.error(f"\033[31mFailed to reorder gen CSV {gen_csv_path}: {re}\033[0m")
+        return str(gen_csv_path)

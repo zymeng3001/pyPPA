@@ -14,15 +14,16 @@ for name in ("paramiko", "paramiko.transport", "fabric", "invoke"):
     logging.getLogger(name).disabled = True
 
 #initialize Population class from nsga.py with individuals randomly
-search_space = HeteroSearchSpace(L_max=6)
-individuals = [search_space.sample() for _ in range(4)]
+search_space = HeteroSearchSpace(L_max=10)
+individuals = [search_space.sample() for _ in range(16)]
 population = Population(individuals, search_space=search_space)
 population.delete_duplicates()  # Remove duplicates if any
 
 # Convert to YAML format
 # train_yaml_path = population.to_yaml(save_path="trial")  # Save to file for generation 0
 
-hosts = ["34.85.168.66","34.69.195.101"]
+# hosts = ["34.85.168.66", "34.132.101.194"]
+hosts = ["34.85.168.66"]
 # hosts = ["34.69.195.101"]
 
 user = "xinting"
@@ -30,10 +31,16 @@ key_filename = "/home/xinting/.ssh/id_rsa"
 
 population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
 population.print_summary()
+population.n_offspring = 10
+
 
 population.reorder_by_non_domination()
 population.print_summary()
 population.generate_offspring()
+population.gen += 1
+population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
+population.print_summary()
+
 
 # trainer = RemoteTrainer(hosts=hosts, user=user, key_filename=key_filename)
 # trainer.check_connectivity()

@@ -1,0 +1,3300 @@
+{
+  "history": [
+    {
+      "gen": 1,
+      "pareto_size": 32,
+      "avg_objs": [
+        2.4299,
+        -8444282.5348,
+        0.1337,
+        112.975
+      ]
+    },
+    {
+      "gen": 2,
+      "pareto_size": 32,
+      "avg_objs": [
+        2.4597,
+        -8550721.7848,
+        0.1333,
+        112.9834
+      ]
+    },
+    {
+      "gen": 3,
+      "pareto_size": 32,
+      "avg_objs": [
+        2.458,
+        -8574328.5481,
+        0.1338,
+        112.6473
+      ]
+    },
+    {
+      "gen": 4,
+      "pareto_size": 32,
+      "avg_objs": [
+        2.4955,
+        -8643665.0238,
+        0.1333,
+        112.3141
+      ]
+    },
+    {
+      "gen": 5,
+      "pareto_size": 32,
+      "avg_objs": [
+        2.4823,
+        -8516016.3162,
+        0.1341,
+        112.6447
+      ]
+    },
+    {
+      "gen": 6,
+      "pareto_size": 32,
+      "avg_objs": [
+        2.4396,
+        -8402665.8253,
+        0.135,
+        111.9058
+      ]
+    }
+  ],
+  "pareto_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "solutions": [
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 1024,
+          "quant_bits": 10,
+          "act_sparsity": 0.4182522550803501,
+          "active_L": 12
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.334958193759105,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.9233374437137667,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.586513782272868,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.011731460418255,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.570246102484447,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.923304965246964,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.8312779990228325,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.3054146249036265,
+            "attn_type": "flash"
+          }
+        ]
+      },
+      "objs": [
+        2.1349702913214523,
+        -6297406.079995553,
+        0.1421225994485594,
+        106.45433201
+      ],
+      "cons": [
+        -28188933,
+        -1113994629,
+        -179.99984120445984
+      ],
+      "aux": {
+        "params": 81811067,
+        "mem_bytes": 86005371,
+        "FLOPs": 82596270.79411042,
+        "val_loss": 2.1349702913214523,
+        "throughput": 6297406.079995553,
+        "energy/token": 0.1421225994485594,
+        "TTFT": 106.45433201,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 1024,
+          "quant_bits": 10,
+          "act_sparsity": 0.4182522550803501,
+          "active_L": 12
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 128,
+          "seq_len": 5120,
+          "quant_bits": 8,
+          "act_sparsity": 0.4695032255451897,
+          "active_L": 12
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.334958193759105,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.9233374437137667,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9939164799479383,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.5554518159065416,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.959623073219706,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.8825721173980625,
+        -9913097.693373466,
+        0.12854207034788342,
+        102.03377634
+      ],
+      "cons": [
+        -108874122,
+        -1196252682,
+        -179.99989912335872
+      ],
+      "aux": {
+        "params": 1125878,
+        "mem_bytes": 3747318,
+        "FLOPs": 3753505.176879518,
+        "val_loss": 2.8825721173980625,
+        "throughput": 9913097.693373466,
+        "energy/token": 0.12854207034788342,
+        "TTFT": 102.03377634,
+        "globals": {
+          "d_model": 128,
+          "seq_len": 5120,
+          "quant_bits": 8,
+          "act_sparsity": 0.4695032255451897,
+          "active_L": 12
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 128,
+          "seq_len": 1792,
+          "quant_bits": 13,
+          "act_sparsity": 0.8117036002543802,
+          "active_L": 4
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.027146969040762,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6070651551788722,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.5436084413598885,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.065034381650138,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.509423770437653,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.455090215979887,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.7418342678375223,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.1137224808306248,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.0456503258454344,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 1.7555146375000428,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.085410297917746,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.294852213337444,
+            "attn_type": "scaled_dot"
+          }
+        ]
+      },
+      "objs": [
+        3.098897428201882,
+        -9973813.166897828,
+        0.12302026580989418,
+        116.01094262
+      ],
+      "cons": [
+        -109635246,
+        -1198717742,
+        -179.9998997374441
+      ],
+      "aux": {
+        "params": 364754,
+        "mem_bytes": 1282258,
+        "FLOPs": 580185.6183154575,
+        "val_loss": 3.098897428201882,
+        "throughput": 9973813.166897828,
+        "energy/token": 0.12302026580989418,
+        "TTFT": 116.01094262,
+        "globals": {
+          "d_model": 128,
+          "seq_len": 1792,
+          "quant_bits": 13,
+          "act_sparsity": 0.8117036002543802,
+          "active_L": 4
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 576,
+          "seq_len": 1792,
+          "quant_bits": 15,
+          "act_sparsity": 0.5366968472369462,
+          "active_L": 6
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.805358536969101,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.963809977573976,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.141139048055765,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.106274202864851,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 12,
+            "mlp_ratio": 5.611877512590215,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 12,
+            "mlp_ratio": 2.3670393984380396,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 3,
+            "mlp_ratio": 2.1137224808306248,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 6,
+            "mlp_ratio": 2.0766308976990984,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 6,
+            "mlp_ratio": 1.7555146375000428,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.060551684799106,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.4471370410700732,
+        -9083298.895565532,
+        0.1297989605177148,
+        120.42391899
+      ],
+      "cons": [
+        -95869367,
+        -1181740599,
+        -179.99988990783947
+      ],
+      "aux": {
+        "params": 14130633,
+        "mem_bytes": 18259401,
+        "FLOPs": 18417179.37816945,
+        "val_loss": 2.4471370410700732,
+        "throughput": 9083298.895565532,
+        "energy/token": 0.1297989605177148,
+        "TTFT": 120.42391899,
+        "globals": {
+          "d_model": 576,
+          "seq_len": 1792,
+          "quant_bits": 15,
+          "act_sparsity": 0.5366968472369462,
+          "active_L": 6
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 128,
+          "seq_len": 1024,
+          "quant_bits": 14,
+          "act_sparsity": 0.8601894835029518,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.2958231110652907,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.424041414635921,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.001092673569149,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.506422430185344,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.620216717359713,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.653630562834441,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.723684335470382,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.3916079253077434,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.6075467361378815,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 1.9252667197205782,
+            "attn_type": "scaled_dot"
+          }
+        ]
+      },
+      "objs": [
+        2.983000506391181,
+        -9947290.897381278,
+        0.12229282277095625,
+        112.02168415
+      ],
+      "cons": [
+        -109277195,
+        -1198752907,
+        -179.999899470116
+      ],
+      "aux": {
+        "params": 722805,
+        "mem_bytes": 1247093,
+        "FLOPs": 1433512.2500882922,
+        "val_loss": 2.983000506391181,
+        "throughput": 9947290.897381278,
+        "energy/token": 0.12229282277095625,
+        "TTFT": 112.02168415,
+        "globals": {
+          "d_model": 128,
+          "seq_len": 1024,
+          "quant_bits": 14,
+          "act_sparsity": 0.8601894835029518,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 992,
+          "seq_len": 2688,
+          "quant_bits": 7,
+          "act_sparsity": 0.02071319842803221,
+          "active_L": 12
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.611206260522649,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.2746295333624165,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.790591850677767,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.402717035190335,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.4705014477743745,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.415391847303065,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.2871211241305303,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.547268653393493,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.353747715106686,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.3054146249036265,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.1220558816691426,
+        -6423957.647965173,
+        0.1483422987737175,
+        108.30456241
+      ],
+      "cons": [
+        -33181253,
+        -1112515269,
+        -179.99984433272218
+      ],
+      "aux": {
+        "params": 76818747,
+        "mem_bytes": 87484731,
+        "FLOPs": 88381183.35632835,
+        "val_loss": 2.1220558816691426,
+        "throughput": 6423957.647965173,
+        "energy/token": 0.1483422987737175,
+        "TTFT": 108.30456241,
+        "globals": {
+          "d_model": 992,
+          "seq_len": 2688,
+          "quant_bits": 7,
+          "act_sparsity": 0.02071319842803221,
+          "active_L": 12
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 5120,
+          "quant_bits": 9,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.067786388119876,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.9233374437137667,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.586513782272868,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.011731460418255,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.570246102484447,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.923304965246964,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.2009493689619557,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.5081968912005426,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.1539349855606646,
+        -6630331.268004324,
+        0.14490049220412377,
+        108.10063063
+      ],
+      "cons": [
+        -39978979,
+        -1109007459,
+        -179.99984917797323
+      ],
+      "aux": {
+        "params": 70021021,
+        "mem_bytes": 90992541,
+        "FLOPs": 84701258.91785997,
+        "val_loss": 2.1539349855606646,
+        "throughput": 6630331.268004324,
+        "energy/token": 0.14490049220412377,
+        "TTFT": 108.10063063,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 5120,
+          "quant_bits": 9,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 512,
+          "seq_len": 5120,
+          "quant_bits": 14,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.067786388119876,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.9233374437137667,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.957628431569994,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.353747715106686,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.143832944806433,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.413069145340715,
+        -8960227.706815932,
+        0.13485881872851435,
+        104.47262216
+      ],
+      "cons": [
+        -94245928,
+        -1173760168,
+        -179.99988839569343
+      ],
+      "aux": {
+        "params": 15754072,
+        "mem_bytes": 26239832,
+        "FLOPs": 29906737.982955992,
+        "val_loss": 2.413069145340715,
+        "throughput": 8960227.706815932,
+        "energy/token": 0.13485881872851435,
+        "TTFT": 104.47262216,
+        "globals": {
+          "d_model": 512,
+          "seq_len": 5120,
+          "quant_bits": 14,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 800,
+          "seq_len": 2688,
+          "quant_bits": 8,
+          "act_sparsity": 0.09231800910535873,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 6.0,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.2746295333624165,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.790591850677767,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.402717035190335,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.4705014477743745,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.415391847303065,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.2871211241305303,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6710344950672937,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.547268653393493,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.73234279555307,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.768565306474118,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.260715265089276,
+        -7969596.231459175,
+        0.1404911350632972,
+        113.06336086
+      ],
+      "cons": [
+        -74554638,
+        -1155953038,
+        -179.99987452312877
+      ],
+      "aux": {
+        "params": 35445362,
+        "mem_bytes": 44046962,
+        "FLOPs": 44810149.97959637,
+        "val_loss": 2.260715265089276,
+        "throughput": 7969596.231459175,
+        "energy/token": 0.1404911350632972,
+        "TTFT": 113.06336086,
+        "globals": {
+          "d_model": 800,
+          "seq_len": 2688,
+          "quant_bits": 8,
+          "act_sparsity": 0.09231800910535873,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 800,
+          "seq_len": 512,
+          "quant_bits": 9,
+          "act_sparsity": 0.2582088576206764,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.7071341434996343,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.5623137902031807,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 10,
+            "mlp_ratio": 2.4193948985508182,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.470767756573338,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 10,
+            "mlp_ratio": 2.3113268814329784,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.5,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 5,
+            "mlp_ratio": 5.620937314027756,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.922990400560195,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.7125240516772484,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.814803046517242,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.749274189736914,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.7784536939592983,
+            "attn_type": "scaled_dot"
+          }
+        ]
+      },
+      "objs": [
+        2.3097538778245457,
+        -8331669.437477946,
+        0.13579306508799968,
+        116.84911739
+      ],
+      "cons": [
+        -81696087,
+        -1170057687,
+        -179.99987997603512
+      ],
+      "aux": {
+        "params": 28303913,
+        "mem_bytes": 29942313,
+        "FLOPs": 29141833.718302656,
+        "val_loss": 2.3097538778245457,
+        "throughput": 8331669.437477946,
+        "energy/token": 0.13579306508799968,
+        "TTFT": 116.84911739,
+        "globals": {
+          "d_model": 800,
+          "seq_len": 512,
+          "quant_bits": 9,
+          "act_sparsity": 0.2582088576206764,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 128,
+          "seq_len": 3200,
+          "quant_bits": 14,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.067786388119876,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.569887235498733,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.110471722141791,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.957628431569994,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.353747715106686,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.143832944806433,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.887233533830066,
+        -9921251.451912316,
+        0.13116274206713127,
+        106.03083892
+      ],
+      "cons": [
+        -108972036,
+        -1197333636,
+        -179.99989920626396
+      ],
+      "aux": {
+        "params": 1027964,
+        "mem_bytes": 2666364,
+        "FLOPs": 3230661.0857740096,
+        "val_loss": 2.887233533830066,
+        "throughput": 9921251.451912316,
+        "energy/token": 0.13116274206713127,
+        "TTFT": 106.03083892,
+        "globals": {
+          "d_model": 128,
+          "seq_len": 3200,
+          "quant_bits": 14,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 8192,
+          "quant_bits": 9,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.733042444627895,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.844505244240403,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.576267083488816,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.820978248121529,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.6998247033531975,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.132566786711756,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.251062598208961,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.011731460418255,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.787660631858696,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.923304965246964,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.2009493689619557,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.772179308333012,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.1445577130695503,
+        -6456011.701629508,
+        0.1475405210124772,
+        118.21713878
+      ],
+      "cons": [
+        -36095374,
+        -1092540942,
+        -179.99984510560913
+      ],
+      "aux": {
+        "params": 73904626,
+        "mem_bytes": 107459058,
+        "FLOPs": 113043135.31009752,
+        "val_loss": 2.1445577130695503,
+        "throughput": 6456011.701629508,
+        "energy/token": 0.1475405210124772,
+        "TTFT": 118.21713878,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 8192,
+          "quant_bits": 9,
+          "act_sparsity": 0.28377309995889183,
+          "active_L": 10
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 832,
+          "seq_len": 5120,
+          "quant_bits": 15,
+          "act_sparsity": 0.459976040925688,
+          "active_L": 12
+        },
+        "layers": [
+          {
+            "n_heads": 13,
+            "mlp_ratio": 2.378844710761156,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 13,
+            "mlp_ratio": 1.5168348732341785,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.5436084413598885,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.065034381650138,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.104098090472183,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.5817761082138062,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.957628431569994,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.353747715106686,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.3054146249036265,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.2328078023612887,
+        -7439239.387409432,
+        0.1381442429727983,
+        105.4177448
+      ],
+      "cons": [
+        -62741840,
+        -1135702480,
+        -179.99986557765547
+      ],
+      "aux": {
+        "params": 47258160,
+        "mem_bytes": 64297520,
+        "FLOPs": 66542597.78060431,
+        "val_loss": 2.2328078023612887,
+        "throughput": 7439239.387409432,
+        "energy/token": 0.1381442429727983,
+        "TTFT": 105.4177448,
+        "globals": {
+          "d_model": 832,
+          "seq_len": 5120,
+          "quant_bits": 15,
+          "act_sparsity": 0.459976040925688,
+          "active_L": 12
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 704,
+          "seq_len": 3968,
+          "quant_bits": 8,
+          "act_sparsity": 0.29464374260782433,
+          "active_L": 6
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.0410154687617865,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.9757491967880223,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6235444418810743,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 4.008010395368984,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.48201148004175,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.062743765463632,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.847134641170736,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.1581553179926596,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.882452314786638,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.532715393989206,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.861923231383212,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5733991693318965,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.377958320654528,
+        -8764902.310881017,
+        0.13534910306888936,
+        118.58065984
+      ],
+      "cons": [
+        -90644672,
+        -1169470784,
+        -179.9998859085972
+      ],
+      "aux": {
+        "params": 19355328,
+        "mem_bytes": 30529216,
+        "FLOPs": 31562801.334456056,
+        "val_loss": 2.377958320654528,
+        "throughput": 8764902.310881017,
+        "energy/token": 0.13534910306888936,
+        "TTFT": 118.58065984,
+        "globals": {
+          "d_model": 704,
+          "seq_len": 3968,
+          "quant_bits": 8,
+          "act_sparsity": 0.29464374260782433,
+          "active_L": 6
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 224,
+          "seq_len": 3200,
+          "quant_bits": 14,
+          "act_sparsity": 0.873745490668781,
+          "active_L": 9
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.6170461609304994,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.7865099072029125,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.610766085389644,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.263107284448713,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.9138056169968467,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.959623073219706,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.7477720290538623,
+        -9795815.653892294,
+        0.12278277937970272,
+        112.08438232
+      ],
+      "cons": [
+        -107187256,
+        -1194320056,
+        -179.99989791559628
+      ],
+      "aux": {
+        "params": 2812744,
+        "mem_bytes": 5679944,
+        "FLOPs": 6161689.955739927,
+        "val_loss": 2.7477720290538623,
+        "throughput": 9795815.653892294,
+        "energy/token": 0.12278277937970272,
+        "TTFT": 112.08438232,
+        "globals": {
+          "d_model": 224,
+          "seq_len": 3200,
+          "quant_bits": 14,
+          "act_sparsity": 0.873745490668781,
+          "active_L": 9
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 512,
+          "seq_len": 1024,
+          "quant_bits": 14,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 12
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.334958193759105,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.9233374437137667,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.959623073219706,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.3934584343260425,
+        -8900697.584946414,
+        0.13416527959797148,
+        102.52458363
+      ],
+      "cons": [
+        -92513879,
+        -1180416727,
+        -179.99988764925553
+      ],
+      "aux": {
+        "params": 17486121,
+        "mem_bytes": 19583273,
+        "FLOPs": 18628332.3716783,
+        "val_loss": 2.3934584343260425,
+        "throughput": 8900697.584946414,
+        "energy/token": 0.13416527959797148,
+        "TTFT": 102.52458363,
+        "globals": {
+          "d_model": 512,
+          "seq_len": 1024,
+          "quant_bits": 14,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 12
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 576,
+          "seq_len": 1024,
+          "quant_bits": 14,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 11
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.334958193759105,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.67715167189416,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.953074727090046,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.509423770437653,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.455090215979887,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.723684335470382,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 6,
+            "mlp_ratio": 3.276288854935821,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.895126315878476,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.357535923715985,
+        -8679005.50171012,
+        0.13483472966656257,
+        110.64509111
+      ],
+      "cons": [
+        -88496963,
+        -1176137667,
+        -179.99988477942549
+      ],
+      "aux": {
+        "params": 21503037,
+        "mem_bytes": 23862333,
+        "FLOPs": 23226843.803524103,
+        "val_loss": 2.357535923715985,
+        "throughput": 8679005.50171012,
+        "energy/token": 0.13483472966656257,
+        "TTFT": 110.64509111,
+        "globals": {
+          "d_model": 576,
+          "seq_len": 1024,
+          "quant_bits": 14,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 11
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 896,
+          "seq_len": 1024,
+          "quant_bits": 13,
+          "act_sparsity": 0.02071319842803221,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.805358536969101,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 14,
+            "mlp_ratio": 1.7284228821734051,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 14,
+            "mlp_ratio": 4.790591850677767,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.402717035190335,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.4705014477743745,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 14,
+            "mlp_ratio": 5.415391847303065,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.2871211241305303,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 14,
+            "mlp_ratio": 1.9479959027545957,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.060551684799106,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.22838788497514,
+        -7714635.055915105,
+        0.1417490513189034,
+        111.24956375
+      ],
+      "cons": [
+        -68347875,
+        -1154677859,
+        -179.99987037624038
+      ],
+      "aux": {
+        "params": 41652125,
+        "mem_bytes": 45322141,
+        "FLOPs": 43571357.553979896,
+        "val_loss": 2.22838788497514,
+        "throughput": 7714635.055915105,
+        "energy/token": 0.1417490513189034,
+        "TTFT": 111.24956375,
+        "globals": {
+          "d_model": 896,
+          "seq_len": 1024,
+          "quant_bits": 13,
+          "act_sparsity": 0.02071319842803221,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 704,
+          "seq_len": 1536,
+          "quant_bits": 8,
+          "act_sparsity": 0.29464374260782433,
+          "active_L": 9
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.0410154687617865,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.9757491967880223,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6235444418810743,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.263107284448713,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.062743765463632,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.847134641170736,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.1581553179926596,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.882452314786638,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.532715393989206,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.861923231383212,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5733991693318965,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.332763995966267,
+        -8482334.60576243,
+        0.13517312574945778,
+        116.75319539
+      ],
+      "cons": [
+        -84893487,
+        -1170568111,
+        -179.99988210792824
+      ],
+      "aux": {
+        "params": 25106513,
+        "mem_bytes": 29431889,
+        "FLOPs": 29666423.095856436,
+        "val_loss": 2.332763995966267,
+        "throughput": 8482334.60576243,
+        "energy/token": 0.13517312574945778,
+        "TTFT": 116.75319539,
+        "globals": {
+          "d_model": 704,
+          "seq_len": 1536,
+          "quant_bits": 8,
+          "act_sparsity": 0.29464374260782433,
+          "active_L": 9
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 352,
+          "seq_len": 1024,
+          "quant_bits": 9,
+          "act_sparsity": 0.8601894835029518,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.2958231110652907,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.424041414635921,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.001092673569149,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.506422430185344,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.620216717359713,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.653630562834441,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.723684335470382,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.875091282964746,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.912573424727235,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.6075467361378815,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 1.9252667197205782,
+            "attn_type": "scaled_dot"
+          }
+        ]
+      },
+      "objs": [
+        2.6328666189325083,
+        -9627988.034540439,
+        0.12317010188493517,
+        114.16273551
+      ],
+      "cons": [
+        -104575483,
+        -1193133691,
+        -179.99989613614014
+      ],
+      "aux": {
+        "params": 5424517,
+        "mem_bytes": 6866309,
+        "FLOPs": 7166297.913239841,
+        "val_loss": 2.6328666189325083,
+        "throughput": 9627988.034540439,
+        "energy/token": 0.12317010188493517,
+        "TTFT": 114.16273551,
+        "globals": {
+          "d_model": 352,
+          "seq_len": 1024,
+          "quant_bits": 9,
+          "act_sparsity": 0.8601894835029518,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 512,
+          "seq_len": 128,
+          "quant_bits": 14,
+          "act_sparsity": 0.658231260107559,
+          "active_L": 6
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.334958193759105,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.061392514348002,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.9486368668166874,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.535221223903014,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.4904110279388005,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.5197469144735756,
+        -9363311.416667288,
+        0.12667725697040916,
+        112.29106381
+      ],
+      "cons": [
+        -100297873,
+        -1190035729,
+        -179.9998932001772
+      ],
+      "aux": {
+        "params": 9702127,
+        "mem_bytes": 9964271,
+        "FLOPs": 9347537.003757965,
+        "val_loss": 2.5197469144735756,
+        "throughput": 9363311.416667288,
+        "energy/token": 0.12667725697040916,
+        "TTFT": 112.29106381,
+        "globals": {
+          "d_model": 512,
+          "seq_len": 128,
+          "quant_bits": 14,
+          "act_sparsity": 0.658231260107559,
+          "active_L": 6
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 576,
+          "seq_len": 1024,
+          "quant_bits": 9,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 5
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.805358536969101,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.01759365511972,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.953074727090046,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.014061999031425,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.509423770437653,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.455090215979887,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.723684335470382,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 6,
+            "mlp_ratio": 3.276288854935821,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.113237990530456,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.060551684799106,
+            "attn_type": "scaled_dot"
+          }
+        ]
+      },
+      "objs": [
+        2.456997648746878,
+        -9208650.807320006,
+        0.13337380777647215,
+        118.36388704
+      ],
+      "cons": [
+        -97870432,
+        -1185511136,
+        -179.9998914064589
+      ],
+      "aux": {
+        "params": 12129568,
+        "mem_bytes": 14488864,
+        "FLOPs": 14076587.121788861,
+        "val_loss": 2.456997648746878,
+        "throughput": 9208650.807320006,
+        "energy/token": 0.13337380777647215,
+        "TTFT": 118.36388704,
+        "globals": {
+          "d_model": 576,
+          "seq_len": 1024,
+          "quant_bits": 9,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 5
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 2048,
+          "quant_bits": 10,
+          "act_sparsity": 0.4182522550803501,
+          "active_L": 9
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.334958193759105,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.292071681605546,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.9233374437137667,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.586513782272868,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.011731460418255,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.570246102484447,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.923304965246964,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.861923231383212,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5733991693318965,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.1864806020688947,
+        -6970130.233369233,
+        0.139481728991167,
+        109.82455734
+      ],
+      "cons": [
+        -49181422,
+        -1130792814,
+        -179.99985653065775
+      ],
+      "aux": {
+        "params": 60818578,
+        "mem_bytes": 69207186,
+        "FLOPs": 62405819.56204531,
+        "val_loss": 2.1864806020688947,
+        "throughput": 6970130.233369233,
+        "energy/token": 0.139481728991167,
+        "TTFT": 109.82455734,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 2048,
+          "quant_bits": 10,
+          "act_sparsity": 0.4182522550803501,
+          "active_L": 9
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 128,
+          "seq_len": 5376,
+          "quant_bits": 8,
+          "act_sparsity": 0.8601894835029518,
+          "active_L": 4
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.027146969040762,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6070651551788722,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.83431218479328,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.4137467820624545,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.509423770437653,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.455090215979887,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.8341325614038007,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.611749563006257,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.2605367135380705,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.9071424781321213,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.038048031429047,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.151827780441252,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        3.0711334193443034,
+        -9965139.9021931,
+        0.12258602702753284,
+        118.01305588
+      ],
+      "cons": [
+        -109564804,
+        -1196812292,
+        -179.99989965017954
+      ],
+      "aux": {
+        "params": 435196,
+        "mem_bytes": 3187708,
+        "FLOPs": 1785513.3461862942,
+        "val_loss": 3.0711334193443034,
+        "throughput": 9965139.9021931,
+        "energy/token": 0.12258602702753284,
+        "TTFT": 118.01305588,
+        "globals": {
+          "d_model": 128,
+          "seq_len": 5376,
+          "quant_bits": 8,
+          "act_sparsity": 0.8601894835029518,
+          "active_L": 4
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 352,
+          "seq_len": 3968,
+          "quant_bits": 9,
+          "act_sparsity": 0.5583693540738659,
+          "active_L": 6
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.0410154687617865,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.9757491967880223,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 11,
+            "mlp_ratio": 2.4193948985508182,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.470767756573338,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.808214574018282,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.062743765463632,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 2.847134641170736,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.1581553179926596,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.882452314786638,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.532715393989206,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.861923231383212,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5733991693318965,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.643107088244028,
+        -9667433.448399099,
+        0.128217970349761,
+        120.13823181
+      ],
+      "cons": [
+        -105392273,
+        -1189805329,
+        -179.99989655992923
+      ],
+      "aux": {
+        "params": 4607727,
+        "mem_bytes": 10194671,
+        "FLOPs": 10718335.144835955,
+        "val_loss": 2.643107088244028,
+        "throughput": 9667433.448399099,
+        "energy/token": 0.128217970349761,
+        "TTFT": 120.13823181,
+        "globals": {
+          "d_model": 352,
+          "seq_len": 3968,
+          "quant_bits": 9,
+          "act_sparsity": 0.5583693540738659,
+          "active_L": 6
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 800,
+          "seq_len": 1024,
+          "quant_bits": 13,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 12
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.805358536969101,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.67715167189416,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.953074727090046,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 10,
+            "mlp_ratio": 4.509423770437653,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.455090215979887,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.723684335470382,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.276288854935821,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.060551684799106,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.2219207526644245,
+        -7492579.482416802,
+        0.13894628924355126,
+        109.40818299
+      ],
+      "cons": [
+        -63060567,
+        -1149783767,
+        -179.9998665346157
+      ],
+      "aux": {
+        "params": 46939433,
+        "mem_bytes": 50216233,
+        "FLOPs": 49639273.30163745,
+        "val_loss": 2.2219207526644245,
+        "throughput": 7492579.482416802,
+        "energy/token": 0.13894628924355126,
+        "TTFT": 109.40818299,
+        "globals": {
+          "d_model": 800,
+          "seq_len": 1024,
+          "quant_bits": 13,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 12
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 800,
+          "seq_len": 3200,
+          "quant_bits": 10,
+          "act_sparsity": 0.2582088576206764,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.733042444627895,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.465747677014528,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.576267083488816,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.2168430099691,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 2.3113268814329784,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.5,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 5,
+            "mlp_ratio": 5.620937314027756,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.922990400560195,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.24281340261696,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.957628431569994,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.353747715106686,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.3054146249036265,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.2957515840850653,
+        -8196383.409627571,
+        0.1374967347316937,
+        114.92039337
+      ],
+      "cons": [
+        -79320221,
+        -1159080221,
+        -179.99987799497046
+      ],
+      "aux": {
+        "params": 30679779,
+        "mem_bytes": 40919779,
+        "FLOPs": 38650124.333973065,
+        "val_loss": 2.2957515840850653,
+        "throughput": 8196383.409627571,
+        "energy/token": 0.1374967347316937,
+        "TTFT": 114.92039337,
+        "globals": {
+          "d_model": 800,
+          "seq_len": 3200,
+          "quant_bits": 10,
+          "act_sparsity": 0.2582088576206764,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 1536,
+          "quant_bits": 9,
+          "act_sparsity": 0.1511446168126648,
+          "active_L": 10
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.733042444627895,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.844505244240403,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.576267083488816,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.426099196305932,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.724460007125586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.090685119965614,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 1.589426279803633,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.7972460904745544,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.319588022190771,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.696158531030426,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.265270040378824,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.2999134731359225,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.16434400846587,
+        -6883059.608821755,
+        0.14354259292010796,
+        109.88987403
+      ],
+      "cons": [
+        -47004199,
+        -1130712743,
+        -179.99985471577222
+      ],
+      "aux": {
+        "params": 62995801,
+        "mem_bytes": 69287257,
+        "FLOPs": 69445603.7163191,
+        "val_loss": 2.16434400846587,
+        "throughput": 6883059.608821755,
+        "energy/token": 0.14354259292010796,
+        "TTFT": 109.88987403,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 1536,
+          "quant_bits": 9,
+          "act_sparsity": 0.1511446168126648,
+          "active_L": 10
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 224,
+          "seq_len": 3200,
+          "quant_bits": 14,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.6170461609304994,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.7865099072029125,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.610766085389644,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.508115998564162,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.6432858803349584,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 3.9939164799479383,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.24281340261696,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.8995500719031302,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 1.5385254664779118,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.959623073219706,
+            "attn_type": "mha_linear"
+          }
+        ]
+      },
+      "objs": [
+        2.723838727225849,
+        -9811020.352873342,
+        0.131970560333077,
+        112.07831818
+      ],
+      "cons": [
+        -107389394,
+        -1194522194,
+        -179.9998980738023
+      ],
+      "aux": {
+        "params": 2610606,
+        "mem_bytes": 5477806,
+        "FLOPs": 5478463.222596368,
+        "val_loss": 2.723838727225849,
+        "throughput": 9811020.352873342,
+        "energy/token": 0.131970560333077,
+        "TTFT": 112.07831818,
+        "globals": {
+          "d_model": 224,
+          "seq_len": 3200,
+          "quant_bits": 14,
+          "act_sparsity": 0.25893208975057147,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 3200,
+          "quant_bits": 9,
+          "act_sparsity": 0.1511446168126648,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 4,
+            "mlp_ratio": 5.733042444627895,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.844505244240403,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 2.576267083488816,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.2168430099691,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.579114026739835,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.048032701291921,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 4.984053155467866,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.3730909530427153,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.24281340261696,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.957628431569994,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.353747715106686,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.3054146249036265,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.1889104724566755,
+        -7176728.245844052,
+        0.1432821099209852,
+        113.64065281
+      ],
+      "cons": [
+        -55311573,
+        -1132204373,
+        -179.9998606607404
+      ],
+      "aux": {
+        "params": 54688427,
+        "mem_bytes": 67795627,
+        "FLOPs": 63322520.5291937,
+        "val_loss": 2.1889104724566755,
+        "throughput": 7176728.245844052,
+        "energy/token": 0.1432821099209852,
+        "TTFT": 113.64065281,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 3200,
+          "quant_bits": 9,
+          "act_sparsity": 0.1511446168126648,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 832,
+          "seq_len": 5120,
+          "quant_bits": 15,
+          "act_sparsity": 0.459976040925688,
+          "active_L": 8
+        },
+        "layers": [
+          {
+            "n_heads": 13,
+            "mlp_ratio": 2.378844710761156,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 13,
+            "mlp_ratio": 1.5168348732341785,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.5436084413598885,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.065034381650138,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.104098090472183,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.190855829952239,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.6784926411924586,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.9937052939444766,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.5817761082138062,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.957628431569994,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 2.875091282964746,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.768565306474118,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.305247757531425,
+        -8166919.771527383,
+        0.13557865598917446,
+        108.93432534
+      ],
+      "cons": [
+        -78855822,
+        -1151816462,
+        -179.99987755481527
+      ],
+      "aux": {
+        "params": 31144178,
+        "mem_bytes": 48183538,
+        "FLOPs": 41794317.17663077,
+        "val_loss": 2.305247757531425,
+        "throughput": 8166919.771527383,
+        "energy/token": 0.13557865598917446,
+        "TTFT": 108.93432534,
+        "globals": {
+          "d_model": 832,
+          "seq_len": 5120,
+          "quant_bits": 15,
+          "act_sparsity": 0.459976040925688,
+          "active_L": 8
+        }
+      }
+    },
+    {
+      "x": {
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 1536,
+          "quant_bits": 7,
+          "act_sparsity": 0.1511446168126648,
+          "active_L": 10
+        },
+        "layers": [
+          {
+            "n_heads": 8,
+            "mlp_ratio": 5.805358536969101,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 5.2746295333624165,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.790591850677767,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 4,
+            "mlp_ratio": 4.882425711123886,
+            "attn_type": "scaled_dot"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 3.402717035190335,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 2,
+            "mlp_ratio": 4.4705014477743745,
+            "attn_type": "flash"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 5.415391847303065,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 3.2817364494493813,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 1.7817394867274259,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 4.608996458937408,
+            "attn_type": "mha_linear"
+          },
+          {
+            "n_heads": 16,
+            "mlp_ratio": 3.265270040378824,
+            "attn_type": "gqa"
+          },
+          {
+            "n_heads": 8,
+            "mlp_ratio": 4.2999134731359225,
+            "attn_type": "gqa"
+          }
+        ]
+      },
+      "objs": [
+        2.147553502053048,
+        -6671379.416633519,
+        0.14453218986892988,
+        110.0816568
+      ],
+      "cons": [
+        -40611440,
+        -1124319984,
+        -179.99985010596197
+      ],
+      "aux": {
+        "params": 69388560,
+        "mem_bytes": 75680016,
+        "FLOPs": 74559453.51997277,
+        "val_loss": 2.147553502053048,
+        "throughput": 6671379.416633519,
+        "energy/token": 0.14453218986892988,
+        "TTFT": 110.0816568,
+        "globals": {
+          "d_model": 1024,
+          "seq_len": 1536,
+          "quant_bits": 7,
+          "act_sparsity": 0.1511446168126648,
+          "active_L": 10
+        }
+      }
+    }
+  ]
+}

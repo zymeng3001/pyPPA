@@ -115,16 +115,19 @@ import matplotlib.pyplot as plt
 import os
 
 # Read data
-df = pd.read_csv("ppa_nov_core_top_extracted_data_9_1.csv")
+df = pd.read_csv("ppa_nov_core_top_extracted_data_no_sram.csv")
 
 # 🔍 Filter only rows where timing slack is met
-df = df[df['Clock Slack (ns)'] >= 0]
+# df = df[df['Clock Slack (ns)'] >= 0]
+
+df = df[df['Clock Period (ns) Entered'] == 5]
 
 # Aggregate: average power across duplicate entries
 agg_df = df.groupby(['Cache Depth', 'Wmem Depth', 'MAC NUM'])['Power (W)'].mean().reset_index()
 
 # Ensure directory exists
-os.makedirs("figs_coretop", exist_ok=True)
+dir_name = "figs_coretop_without_sram"
+os.makedirs(dir_name, exist_ok=True)
 
 # Loop over Wmem Depths
 for wmem_depth in sorted(agg_df['Wmem Depth'].unique()):
@@ -149,7 +152,7 @@ for wmem_depth in sorted(agg_df['Wmem Depth'].unique()):
     ax.legend()
     ax.grid(True)
     plt.tight_layout()
-    plt.savefig(f'figs_coretop/coretop_power_vs_mac_wmem{wmem_depth}.png')
+    plt.savefig(f'{dir_name}/coretop_power_vs_mac_wmem{wmem_depth}.png')
     plt.close()
 
 print("✅ Slack-filtered plots saved in `figs_coretop/`.") 

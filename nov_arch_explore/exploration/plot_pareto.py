@@ -71,3 +71,15 @@ for metric, label in metrics.items():
     plt.savefig(f"../plots/pareto2/pareto2_{metric}.png", dpi=500)
 
 
+# generate the figure of energy per token vs latency (TTFT)
+plt.figure(figsize=(8,6))
+plt.scatter(df["TTFT_ms"], df["Energy_per_token_mJ_token"], s=5, alpha=0.3)
+plt.xlabel("TTFT (ms)")
+plt.ylabel("Energy per Token (mJ/token)")
+plt.title("Energy per Token vs TTFT")
+# plt.xscale("log")
+# plt.yscale("log")
+plt.grid(True, which="both", ls="--", linewidth=0.5)
+plt.savefig("../plots/pareto/energy_per_token_vs_ttft.png", dpi=500)
+
+

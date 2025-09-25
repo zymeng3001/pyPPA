@@ -33,15 +33,43 @@ class Individual(dict):
             total += (2.0 + r)*d*d + 0.05*h*d*d
         return int(total)
 
-    # def get_training_config(self) -> Dict[str, Any]:
-    #     row = {
-    #     "n_embd": self["globals"]["d_model"],
-    #     "block_size": self["globals"]["block_size"],
-    #     # include only layers where layer_mask is True
-    #     "n_head_layerlist": " ".join(str(self["layers"][i].get("n_heads", "")) for i in range(space.L_max) if self["globals"]["layer_mask"][i]),
-    #     "mlp_size_layerlist": " ".join(str(self["layers"][i].get("mlp_ratio", "")*self["globals"]["d_model"]) for i in range(space.L_max) if self["globals"]["layer_mask"][i]),
-    #     }
-    #     return row
+    def print_individual(self, include_inactive: bool = False, include_params: bool = True, max_layers: int = None) -> None:
+        """Return a human-readable, layer-aware summary of this Individual.
+
+        - include_inactive: when True, also lists layers masked off (marked as [inactive])
+        - include_params: when True, appends an estimated parameter count if available
+        - max_layers: optional cap on how many layers to print (useful for very deep nets)
+        """
+        g = self.get("globals", {})
+        layers: List[Dict[str, Any]] = self.get("layers", [])
+        mask: List[bool] = g.get("layer_mask", [True] * len(layers))
+        active_count = sum(1 for i in range(min(len(mask), len(layers))) if mask[i])
+        header = (
+            f"Individual: d_model={g.get('d_model')}, block_size={g.get('block_size')}, "
+            f"quant_bits={g.get('quant_bits')}, active_layers={active_count}/{len(layers)}"
+        )
+        lines = [header]
+        if include_params:
+            try:
+                params = self.estimate_params()
+                lines.append(f"  ~params={params/1e6:.1f}M")
+            except Exception:
+                pass
+        lines.append("  Layers:")
+        limit = max_layers if isinstance(max_layers, int) and max_layers >= 0 else len(layers)
+        for idx, li in enumerate(layers[:limit]):
+            active = mask[idx] if idx < len(mask) else True
+            if not include_inactive and not active:
+                continue
+            lines.append(
+                f"    - L{idx:02d}: n_heads={li.get('n_heads')}, mlp_ratio={li.get('mlp_ratio')}, "
+                f"attn_type={li.get('attn_type')} {'[inactive]' if not active else ''}"
+            )
+        if limit < len(layers):
+            lines.append(f"    ... (+{len(layers) - limit} more layers)")
+
+        print("\n".join(lines))
+        return
 
 class HeteroSearchSpace:
     def __init__(self, L_max=24):
@@ -155,13 +183,13 @@ class HeteroSearchSpace:
         return Individual.from_dict(y)
 
     # ----- variation: layer-aware -----
-    def crossover(self, a: Dict[str,Any], b: Dict[str,Any]) -> (Dict[str,Any], Dict[str,Any]):
+    def crossover(self, a: Dict[str,Any], b: Dict[str,Any], crossover_rate: float = 0.5) -> (Dict[str,Any], Dict[str,Any]):
         A = {"globals": dict(a["globals"]), "layers":[dict(li) for li in a["layers"]]}
         B = {"globals": dict(b["globals"]), "layers":[dict(li) for li in b["layers"]]}
 
         # uniform crossover on globals
         for k in self.globals:
-            if random.random() < 0.5:
+            if random.random() < crossover_rate:
                 A["globals"][k], B["globals"][k] = B["globals"][k], A["globals"][k]
 
         # layer usage mask crossover (treat mask as gene string)
