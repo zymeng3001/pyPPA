@@ -161,11 +161,35 @@ class RemoteTrainer:
                 conn.put(str(local_slice_files[i]), remote=remote_yaml_path)
                 logging.info(f"Uploaded {local_slice_files[i].name} to host_{i}:{remote_yaml_path}")
 
-                # kick off remote job with a watchdog that kills the child if lease stops updating
+                # kick off remote job; robust conda detection: prefer `conda run -n base`, else activate via hook or conda.sh; log diagnostics
+                max_iters = 10000  # default max iters if not overridden
                 cmd = (
                     f"cd {remote_work_dir} && "
                     f"setsid bash -lc '\n"
-                    f"( python3 -u optimization_and_search/run_from_yaml.py --yaml {remote_yaml_path} --output_dir {remote_run_dir} --prefix {base} --override_args max_iters=100; ec=$?; echo $ec > {remote_run_dir}/exit_code ) >> {remote_log_path} 2>&1 < /dev/null &\n"
+                    f"{{\n"
+                    f"echo \"[launcher] $(date) starting on $(hostname)\";\n"
+                    f"echo \"[launcher] PATH: $PATH\";\n"
+                    f"CONDA_BIN=$(command -v conda || true);\n"
+                    f"echo \"[launcher] which conda: ${{CONDA_BIN:-not-found}}\";\n"
+                    f"if [ -n \"$CONDA_BIN\" ] && conda run -n base python -V >/dev/null 2>&1; then\n"
+                    f"  echo \"[launcher] using conda run -n base\";\n"
+                    f"  conda run -n base python -u optimization_and_search/run_from_yaml.py --yaml {remote_yaml_path} --output_dir {remote_run_dir} --prefix {base} --override_args max_iters={max_iters}; ec=$?;\n"
+                    f"else\n"
+                    f"  if [ -n \"$CONDA_BIN\" ]; then eval \"$(conda shell.bash hook)\" >/dev/null 2>&1 || true; fi;\n"
+                    f"  if command -v conda >/dev/null 2>&1; then\n"
+                    f"    conda activate base || echo \"[ERROR] conda activate base failed\";\n"
+                    f"  else\n"
+                    f"    CONDA_SH=${{CONDA_SH:-$HOME/miniconda3/etc/profile.d/conda.sh}};\n"
+                    f"    [ -f \"$CONDA_SH\" ] || CONDA_SH=\"$HOME/anaconda3/etc/profile.d/conda.sh\";\n"
+                    f"    if [ -f \"$CONDA_SH\" ]; then . \"$CONDA_SH\"; conda activate base || echo \"[ERROR] conda activate base failed (from conda.sh)\"; else echo \"[WARN] conda.sh not found at $CONDA_SH\"; fi;\n"
+                    f"  fi;\n"
+                    f"  echo \"[launcher] conda: $(conda --version 2>/dev/null || echo not-found)\";\n"
+                    f"  echo \"[launcher] which python: $(which python 2>/dev/null || echo not-found)\";\n"
+                    f"  python -V || true;\n"
+                    f"  python -u optimization_and_search/run_from_yaml.py --yaml {remote_yaml_path} --output_dir {remote_run_dir} --prefix {base} --override_args max_iters={max_iters}; ec=$?;\n"
+                    f"fi;\n"
+                    f"echo $ec > {remote_run_dir}/exit_code\n"
+                    f"}} >> {remote_log_path} 2>&1 < /dev/null &\n"
                     f"echo $! > {remote_pid_path}\n"
                     f"' </dev/null >/dev/null 2>&1 &"
                 )
@@ -379,6 +403,16 @@ class RemoteTrainer:
                 remote_work_dir = "/".join(parts[:-1])
                 remote_logs_path = f"{remote_work_dir}/{job.id}.yaml"
                 
+                # Always fetch the job's run.log first for diagnostics
+                try:
+                    remote_log_path = job.log_path
+                    local_log_copy = logs_local_dir / f"{job.id}.log"
+                    lr = conn.run(f"test -f {remote_log_path}", hide=True, warn=True)
+                    if lr.ok:
+                        conn.get(remote_log_path, local=str(local_log_copy))
+                except Exception:
+                    pass
+
                 r = conn.run(f"test -f {remote_logs_path}", hide=True, warn=True)
                 if r.ok:
                     # Download the YAML results file locally

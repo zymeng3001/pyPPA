@@ -22,8 +22,9 @@ population.delete_duplicates()  # Remove duplicates if any
 # Convert to YAML format
 # train_yaml_path = population.to_yaml(save_path="trial")  # Save to file for generation 0
 
-# hosts = ["34.85.168.66", "34.132.101.194"]
-hosts = ["34.85.168.66"]
+hosts = ["34.85.168.66", "34.132.101.194"]
+# hosts = ["104.198.154.89"]
+# hosts = ["34.85.168.66"]
 # hosts = ["34.69.195.101"]
 
 user = "xinting"
@@ -31,15 +32,25 @@ key_filename = "/home/xinting/.ssh/id_rsa"
 
 population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
 population.print_summary()
-population.n_offspring = 10
+
+population.n_population = 16
+population.n_offspring = 8
 
 
-population.reorder_by_non_domination()
-population.print_summary()
-population.generate_offspring()
-population.gen += 1
-population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
-population.print_summary()
+# population.reorder_by_non_domination()
+# population.print_summary()
+# population.generate_offspring()
+# population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
+# population.print_summary()
+# population.save_checkpoint("ckpts/checkpoint_gen1.pkl")
+
+for gen in range(1, 5):
+    print(f"\n\n================ Generation {gen} ================\n")
+    population.generate_offspring()
+    population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
+    population.update_elimination()
+    population.print_summary()
+    population.save_checkpoint(f"ckpts/927_checkpoint_gen{gen}.pkl")
 
 
 # trainer = RemoteTrainer(hosts=hosts, user=user, key_filename=key_filename)

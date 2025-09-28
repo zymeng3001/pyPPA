@@ -1,0 +1,337 @@
+INFO:root: Prepared slice for host_0: /var/tmp/yaml_slices_jy3wt7d_/gen0.host0.yaml (8 configs)
+INFO:root: Prepared slice for host_1: /var/tmp/yaml_slices_jy3wt7d_/gen0.host1.yaml (8 configs)
+INFO:paramiko.transport.sftp: [chan 1] Opened sftp connection (server version 3)
+INFO:root: Uploaded gen0.host0.yaml to host_0:/home/xinting/Evo_GPT/nsga_exps/gen0-20250926_054243_395a-host0/gen0.host0.yaml
+INFO:root: [32mLaunched job on host_0 (34.85.168.66), PID=1870451, log: /home/xinting/Evo_GPT/nsga_exps/gen0-20250926_054243_395a-host0/run.log[0m
+INFO:paramiko.transport.sftp: [chan 1] sftp session closed.
+INFO:paramiko.transport.sftp: [chan 1] Opened sftp connection (server version 3)
+INFO:root: Uploaded gen0.host1.yaml to host_1:/home/xinting/Evo_GPT/nsga_exps/gen0-20250926_054243_395a-host1/gen0.host1.yaml
+INFO:root: [32mLaunched job on host_1 (34.132.101.194), PID=469565, log: /home/xinting/Evo_GPT/nsga_exps/gen0-20250926_054243_395a-host1/run.log[0m
+INFO:paramiko.transport.sftp: [chan 1] sftp session closed.
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1.5s
+INFO:root: Job statuses: {'RUNNING': 2}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 122.7s
+INFO:root: Job statuses: {'RUNNING': 2}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 244.0s
+INFO:root: Job statuses: {'RUNNING': 2}
+INFO:root: [32mJob gen0-20250926_054243_395a-host1@34.132.101.194 completed successfully.[0m
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 365.3s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 486.2s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 607.1s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 728.1s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 849.0s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 969.9s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1090.9s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1211.8s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1332.7s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1453.7s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1574.7s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1695.6s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1816.6s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 1937.5s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2058.4s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2179.4s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2300.3s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2421.2s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2542.2s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2663.1s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2784.0s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 2904.9s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 3025.9s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 3146.8s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 3267.8s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 3388.7s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+INFO:root: ----------------------------------------
+INFO:root: Elapsed time: 3509.7s
+INFO:root: Job statuses: {'COMPLETED': 1, 'RUNNING': 1}
+WARNING:root: [33mJob gen0-20250926_054243_395a-host0@34.85.168.66 timed out.[0m
+INFO:paramiko.transport.sftp: [chan 1] Opened sftp connection (server version 3)
+INFO:root: [32mFetched results from gen0-20250926_054243_395a-host0@34.85.168.66[0m
+INFO:paramiko.transport.sftp: [chan 1] sftp session closed.
+INFO:paramiko.transport.sftp: [chan 1] Opened sftp connection (server version 3)
+INFO:root: [32mFetched results from gen0-20250926_054243_395a-host1@34.132.101.194[0m
+INFO:paramiko.transport.sftp: [chan 1] sftp session closed.
+Loaded 10 results from train/20250926_064317_gen0.csv
+Individual: d_model=1408, block_size=512, quant_bits=8, active_layers=8/10
+  ~params=199.8M
+  Layers:
+    - L00: n_heads=4, mlp_ratio=6, attn_type=mha 
+    - L01: n_heads=22, mlp_ratio=5, attn_type=mha 
+    - L02: n_heads=22, mlp_ratio=5, attn_type=mha 
+    - L03: n_heads=16, mlp_ratio=7, attn_type=mha 
+    - L04: n_heads=16, mlp_ratio=4, attn_type=mha 
+    - L06: n_heads=2, mlp_ratio=6, attn_type=mha 
+    - L07: n_heads=32, mlp_ratio=4, attn_type=mha 
+    - L09: n_heads=8, mlp_ratio=6, attn_type=mha 
+gen 0 individual 1: val_loss=5.855, energy/token=0.313, TTFT=112.111, params=124.2M, mem=0.13GB
+Individual: d_model=2048, block_size=512, quant_bits=8, active_layers=7/10
+  ~params=295.2M
+  Layers:
+    - L00: n_heads=32, mlp_ratio=3, attn_type=mha 
+    - L01: n_heads=32, mlp_ratio=4, attn_type=mha 
+    - L02: n_heads=16, mlp_ratio=7, attn_type=mha 
+    - L04: n_heads=16, mlp_ratio=2, attn_type=mha 
+    - L07: n_heads=8, mlp_ratio=3, attn_type=mha 
+    - L08: n_heads=32, mlp_ratio=5, attn_type=mha 
+    - L09: n_heads=1, mlp_ratio=1, attn_type=mha 
+gen 0 individual 2: val_loss=11.155, energy/token=0.402, TTFT=140.408, params=180.8M, mem=0.19GB
+Individual: d_model=256, block_size=512, quant_bits=8, active_layers=7/10
+  ~params=16.4M
+  Layers:
+    - L00: n_heads=32, mlp_ratio=1, attn_type=mha 
+    - L01: n_heads=2, mlp_ratio=1, attn_type=mha 
+    - L03: n_heads=32, mlp_ratio=3, attn_type=mha 
+    - L04: n_heads=8, mlp_ratio=8, attn_type=mha 
+    - L05: n_heads=2, mlp_ratio=6, attn_type=mha 
+    - L08: n_heads=16, mlp_ratio=8, attn_type=mha 
+    - L09: n_heads=2, mlp_ratio=8, attn_type=mha 
+gen 0 individual 3: val_loss=3.187, energy/token=0.121, TTFT=51.698, params=3.4M, mem=0.00GB
+Individual: d_model=512, block_size=512, quant_bits=8, active_layers=6/10
+  ~params=36.6M
+  Layers:
+    - L00: n_heads=1, mlp_ratio=2, attn_type=mha 
+    - L02: n_heads=8, mlp_ratio=6, attn_type=mha 
+    - L04: n_heads=8, mlp_ratio=3, attn_type=mha 
+    - L05: n_heads=4, mlp_ratio=4, attn_type=mha 
+    - L07: n_heads=16, mlp_ratio=5, attn_type=mha 
+    - L09: n_heads=32, mlp_ratio=6, attn_type=mha 
+gen 0 individual 4: val_loss=10.880, energy/token=0.133, TTFT=55.252, params=10.5M, mem=0.01GB
+Warning: No result for individual idx 5 in CSV
+Individual: d_model=384, block_size=512, quant_bits=8, active_layers=10/10
+  ~params=29.4M
+  Layers:
+    - L00: n_heads=8, mlp_ratio=1, attn_type=mha 
+    - L01: n_heads=12, mlp_ratio=8, attn_type=mha 
+    - L02: n_heads=32, mlp_ratio=7, attn_type=mha 
+    - L03: n_heads=16, mlp_ratio=6, attn_type=mha 
+    - L04: n_heads=3, mlp_ratio=1, attn_type=mha 
+    - L05: n_heads=32, mlp_ratio=1, attn_type=mha 
+    - L06: n_heads=4, mlp_ratio=2, attn_type=mha 
+    - L07: n_heads=8, mlp_ratio=3, attn_type=mha 
+    - L08: n_heads=12, mlp_ratio=7, attn_type=mha 
+    - L09: n_heads=1, mlp_ratio=6, attn_type=mha 
+gen 0 individual 5: val_loss=10.880, energy/token=0.133, TTFT=55.252, params=10.5M, mem=0.01GB
+Individual: d_model=256, block_size=512, quant_bits=8, active_layers=8/10
+  ~params=16.6M
+  Layers:
+    - L00: n_heads=16, mlp_ratio=7, attn_type=mha 
+    - L01: n_heads=8, mlp_ratio=1, attn_type=mha 
+    - L03: n_heads=16, mlp_ratio=4, attn_type=mha 
+    - L04: n_heads=32, mlp_ratio=6, attn_type=mha 
+    - L06: n_heads=2, mlp_ratio=3, attn_type=mha 
+    - L07: n_heads=1, mlp_ratio=1, attn_type=mha 
+    - L08: n_heads=32, mlp_ratio=6, attn_type=mha 
+    - L09: n_heads=32, mlp_ratio=6, attn_type=mha 
+gen 0 individual 6: val_loss=10.784, energy/token=0.121, TTFT=51.775, params=3.6M, mem=0.00GB
+Warning: No result for individual idx 7 in CSV
+Individual: d_model=640, block_size=512, quant_bits=8, active_layers=7/10
+  ~params=55.3M
+  Layers:
+    - L00: n_heads=20, mlp_ratio=2, attn_type=mha 
+    - L01: n_heads=16, mlp_ratio=8, attn_type=mha 
+    - L03: n_heads=16, mlp_ratio=6, attn_type=mha 
+    - L04: n_heads=16, mlp_ratio=7, attn_type=mha 
+    - L05: n_heads=1, mlp_ratio=7, attn_type=mha 
+    - L07: n_heads=20, mlp_ratio=1, attn_type=mha 
+    - L09: n_heads=20, mlp_ratio=6, attn_type=mha 
+gen 0 individual 7: val_loss=10.784, energy/token=0.121, TTFT=51.775, params=3.6M, mem=0.00GB
+Individual: d_model=512, block_size=512, quant_bits=8, active_layers=5/10
+  ~params=35.9M
+  Layers:
+    - L00: n_heads=8, mlp_ratio=8, attn_type=mha 
+    - L05: n_heads=8, mlp_ratio=1, attn_type=mha 
+    - L06: n_heads=32, mlp_ratio=2, attn_type=mha 
+    - L07: n_heads=8, mlp_ratio=8, attn_type=mha 
+    - L09: n_heads=16, mlp_ratio=6, attn_type=mha 
+gen 0 individual 8: val_loss=10.847, energy/token=0.132, TTFT=54.871, params=9.7M, mem=0.01GB
+Warning: No result for individual idx 9 in CSV
+Individual: d_model=1920, block_size=512, quant_bits=8, active_layers=10/10
+  ~params=348.8M
+  Layers:
+    - L00: n_heads=8, mlp_ratio=6, attn_type=mha 
+    - L01: n_heads=1, mlp_ratio=6, attn_type=mha 
+    - L02: n_heads=2, mlp_ratio=5, attn_type=mha 
+    - L03: n_heads=15, mlp_ratio=7, attn_type=mha 
+    - L04: n_heads=15, mlp_ratio=3, attn_type=mha 
+    - L05: n_heads=24, mlp_ratio=1, attn_type=mha 
+    - L06: n_heads=8, mlp_ratio=1, attn_type=mha 
+    - L07: n_heads=16, mlp_ratio=1, attn_type=mha 
+    - L08: n_heads=30, mlp_ratio=4, attn_type=mha 
+    - L09: n_heads=30, mlp_ratio=7, attn_type=mha 
+gen 0 individual 9: val_loss=10.847, energy/token=0.132, TTFT=54.871, params=9.7M, mem=0.01GB
+Individual: d_model=512, block_size=512, quant_bits=8, active_layers=7/10
+  ~params=36.0M
+  Layers:
+    - L00: n_heads=16, mlp_ratio=3, attn_type=mha 
+    - L01: n_heads=32, mlp_ratio=1, attn_type=mha 
+    - L04: n_heads=8, mlp_ratio=5, attn_type=mha 
+    - L05: n_heads=4, mlp_ratio=1, attn_type=mha 
+    - L06: n_heads=8, mlp_ratio=1, attn_type=mha 
+    - L07: n_heads=16, mlp_ratio=1, attn_type=mha 
+    - L08: n_heads=16, mlp_ratio=8, attn_type=mha 
+gen 0 individual 10: val_loss=10.782, energy/token=0.132, TTFT=54.850, params=9.7M, mem=0.01GB
+Warning: No result for individual idx 11 in CSV
+Individual: d_model=2048, block_size=512, quant_bits=8, active_layers=10/10
+  ~params=398.2M
+  Layers:
+    - L00: n_heads=16, mlp_ratio=3, attn_type=mha 
+    - L01: n_heads=32, mlp_ratio=3, attn_type=mha 
+    - L02: n_heads=32, mlp_ratio=8, attn_type=mha 
+    - L03: n_heads=16, mlp_ratio=4, attn_type=mha 
+    - L04: n_heads=32, mlp_ratio=1, attn_type=mha 
+    - L05: n_heads=32, mlp_ratio=5, attn_type=mha 
+    - L06: n_heads=32, mlp_ratio=3, attn_type=mha 
+    - L07: n_heads=32, mlp_ratio=7, attn_type=mha 
+    - L08: n_heads=16, mlp_ratio=1, attn_type=mha 
+    - L09: n_heads=8, mlp_ratio=3, attn_type=mha 
+gen 0 individual 11: val_loss=10.782, energy/token=0.132, TTFT=54.850, params=9.7M, mem=0.01GB
+Individual: d_model=384, block_size=512, quant_bits=8, active_layers=10/10
+  ~params=28.8M
+  Layers:
+    - L00: n_heads=24, mlp_ratio=4, attn_type=mha 
+    - L01: n_heads=16, mlp_ratio=5, attn_type=mha 
+    - L02: n_heads=24, mlp_ratio=8, attn_type=mha 
+    - L03: n_heads=8, mlp_ratio=3, attn_type=mha 
+    - L04: n_heads=16, mlp_ratio=1, attn_type=mha 
+    - L05: n_heads=4, mlp_ratio=2, attn_type=mha 
+    - L06: n_heads=24, mlp_ratio=1, attn_type=mha 
+    - L07: n_heads=24, mlp_ratio=7, attn_type=mha 
+    - L08: n_heads=16, mlp_ratio=2, attn_type=mha 
+    - L09: n_heads=6, mlp_ratio=3, attn_type=mha 
+gen 0 individual 12: val_loss=10.839, energy/token=0.130, TTFT=54.487, params=9.0M, mem=0.01GB
+Warning: No result for individual idx 13 in CSV
+Individual: d_model=1536, block_size=512, quant_bits=8, active_layers=6/10
+  ~params=176.8M
+  Layers:
+    - L00: n_heads=24, mlp_ratio=4, attn_type=mha 
+    - L02: n_heads=32, mlp_ratio=2, attn_type=mha 
+    - L03: n_heads=24, mlp_ratio=5, attn_type=mha 
+    - L07: n_heads=24, mlp_ratio=4, attn_type=mha 
+    - L08: n_heads=24, mlp_ratio=7, attn_type=mha 
+    - L09: n_heads=16, mlp_ratio=1, attn_type=mha 
+gen 0 individual 13: val_loss=10.839, energy/token=0.130, TTFT=54.487, params=9.0M, mem=0.01GB
+Individual: d_model=768, block_size=512, quant_bits=8, active_layers=5/10
+  ~params=63.2M
+  Layers:
+    - L02: n_heads=12, mlp_ratio=5, attn_type=mha 
+    - L04: n_heads=6, mlp_ratio=3, attn_type=mha 
+    - L07: n_heads=16, mlp_ratio=5, attn_type=mha 
+    - L08: n_heads=32, mlp_ratio=8, attn_type=mha 
+    - L09: n_heads=8, mlp_ratio=7, attn_type=mha 
+gen 0 individual 14: val_loss=10.943, energy/token=0.154, TTFT=61.861, params=23.7M, mem=0.03GB
+Warning: No result for individual idx 15 in CSV
+Individual: d_model=1408, block_size=512, quant_bits=8, active_layers=9/10
+  ~params=224.4M
+  Layers:
+    - L00: n_heads=32, mlp_ratio=8, attn_type=mha 
+    - L01: n_heads=22, mlp_ratio=4, attn_type=mha 
+    - L02: n_heads=1, mlp_ratio=7, attn_type=mha 
+    - L03: n_heads=1, mlp_ratio=3, attn_type=mha 
+    - L05: n_heads=16, mlp_ratio=8, attn_type=mha 
+    - L06: n_heads=32, mlp_ratio=8, attn_type=mha 
+    - L07: n_heads=22, mlp_ratio=6, attn_type=mha 
+    - L08: n_heads=22, mlp_ratio=4, attn_type=mha 
+    - L09: n_heads=22, mlp_ratio=3, attn_type=mha 
+gen 0 individual 15: val_loss=10.943, energy/token=0.154, TTFT=61.861, params=23.7M, mem=0.03GB
+Individual: d_model=1536, block_size=512, quant_bits=8, active_layers=5/10
+  ~params=137.9M
+  Layers:
+    - L00: n_heads=32, mlp_ratio=2, attn_type=mha 
+    - L01: n_heads=24, mlp_ratio=1, attn_type=mha 
+    - L04: n_heads=24, mlp_ratio=3, attn_type=mha 
+    - L07: n_heads=12, mlp_ratio=2, attn_type=mha 
+    - L08: n_heads=3, mlp_ratio=3, attn_type=mha 
+gen 0 individual 16: val_loss=11.124, energy/token=0.207, TTFT=78.135, params=56.3M, mem=0.06GB
+
+=== Population Summary (Generation 0) ===
+Population size: 16
+Evaluations completed: 10
+
+Objective Statistics:
+  Validation Loss: 3.187 - 11.155 (avg: 9.640)
+  Energy/Token:    0.121 - 0.402 (avg: 0.185)
+  TTFT:           51.698 - 140.408 (avg: 71.545)
+
+Constraint Violations:
+  Parameter budget: 2/10 individuals
+  Memory budget:    0/10 individuals
+==================================================
+
+
+================ Generation 1 ================
+
+Generated offspring:
+Individual: d_model=640, block_size=512, quant_bits=8, active_layers=6/10
+  ~params=51.3M
+  Layers:
+    - L00: n_heads=16, mlp_ratio=7, attn_type=mha 
+    - L01: n_heads=10, mlp_ratio=5, attn_type=mha 
+    - L03: n_heads=16, mlp_ratio=4, attn_type=mha 
+    - L04: n_heads=32, mlp_ratio=6, attn_type=mha 
+    - L07: n_heads=20, mlp_ratio=1, attn_type=mha 
+    - L09: n_heads=20, mlp_ratio=6, attn_type=mha 
+Traceback (most recent call last):
+  File "/home/xinting/yimeng_repo/pyPPA/nsga2_search/fake_hw_opt.py", line 49, in <module>
+    population.generate_offspring()
+  File "/home/xinting/yimeng_repo/pyPPA/nsga2_search/nsga2.py", line 394, in generate_offspring
+    p1_idx = tournament_select(self.individuals, self.evaluations, k=self.tournament_k)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xinting/yimeng_repo/pyPPA/nsga2_search/nsga2.py", line 580, in tournament_select
+    d = dominates(evals[i].objs, evals[i].cons, evals[j].objs, evals[j].cons)
+                                                ~~~~~^^^
+IndexError: list index out of range

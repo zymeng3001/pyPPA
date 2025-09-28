@@ -1,0 +1,540 @@
+{
+  "gen": 1,
+  "individuals": [
+    {
+      "globals": {
+        "d_model": 768,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 2,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 768,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 2,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 768,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 2,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 768,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 2,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 768,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 2,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 1152,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          false,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 4,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 9,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 18,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        }
+      ]
+    }
+  ],
+  "evaluations": [
+    {
+      "objs": [
+        10.8490629196167,
+        0.15377751766000003,
+        61.7139045
+      ],
+      "cons": [
+        -86572191,
+        -1174999327
+      ],
+      "aux": {
+        "params": 23427809,
+        "mem_bytes": 25000673,
+        "FLOPs": 21275136.0
+      }
+    },
+    {
+      "objs": [
+        10.805521011352539,
+        0.1592982703,
+        63.4833765
+      ],
+      "cons": [
+        -83033247,
+        -1171460383
+      ],
+      "aux": {
+        "params": 26966753,
+        "mem_bytes": 28539617,
+        "FLOPs": 24814080.0
+      }
+    },
+    {
+      "objs": [
+        10.805580139160156,
+        0.15897976480000003,
+        63.377207999999996
+      ],
+      "cons": [
+        -83245584,
+        -1171672720
+      ],
+      "aux": {
+        "params": 26754416,
+        "mem_bytes": 28327280,
+        "FLOPs": 24814080.0
+      }
+    },
+    {
+      "objs": [
+        10.907033920288086,
+        0.16237756534000003,
+        64.4742805
+      ],
+      "cons": [
+        -81051439,
+        -1169478575
+      ],
+      "aux": {
+        "params": 28948561,
+        "mem_bytes": 30521425,
+        "FLOPs": 26590464.0
+      }
+    },
+    {
+      "objs": [
+        10.907033920288086,
+        0.16761561826,
+        66.16117750000001
+      ],
+      "cons": [
+        -77677645,
+        -1166104781
+      ],
+      "aux": {
+        "params": 32322355,
+        "mem_bytes": 33895219,
+        "FLOPs": 29546496.0
+      }
+    },
+    {
+      "objs": [
+        11.065896034240723,
+        0.17961538012,
+        69.614597
+      ],
+      "cons": [
+        -70770806,
+        -1158411510
+      ],
+      "aux": {
+        "params": 39229194,
+        "mem_bytes": 41588490,
+        "FLOPs": 37210752.0
+      }
+    }
+  ],
+  "offspring": [],
+  "offspring_evaluations": [],
+  "n_offspring": 6,
+  "tournament_k": 2,
+  "mutation_rate": 0.1,
+  "crossover_rate": 0.9,
+  "search_space_config": {
+    "L_max": 10,
+    "d_model_choices": null,
+    "block_size_choices": null
+  }
+}

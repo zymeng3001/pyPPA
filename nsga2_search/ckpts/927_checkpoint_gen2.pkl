@@ -1,0 +1,1410 @@
+{
+  "gen": 2,
+  "individuals": [
+    {
+      "globals": {
+        "d_model": 256,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          false,
+          true,
+          false,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 32,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 4,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 1024,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 32,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 896,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 28,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 4,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 28,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 28,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 28,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 1024,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 512,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 32,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 640,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 20,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 10,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 4,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 10,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 640,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 20,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 10,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 896,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 4,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 28,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 256,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 2,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 4,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 4,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 384,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 32,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 6,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 6,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 3,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 384,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 32,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 12,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 6,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 6,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 24,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 1024,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 32,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 1280,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 8,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 20,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 7,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 256,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 1024,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 5,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 2,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 32,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 8,
+          "mlp_ratio": 4,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        }
+      ]
+    },
+    {
+      "globals": {
+        "d_model": 512,
+        "block_size": 512,
+        "quant_bits": 8,
+        "layer_mask": [
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "layers": [
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 2,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 1,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 6,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 8,
+          "attn_type": "mha"
+        },
+        {
+          "n_heads": 16,
+          "mlp_ratio": 3,
+          "attn_type": "mha"
+        }
+      ]
+    }
+  ],
+  "evaluations": [
+    {
+      "objs": [
+        3.1714038848876953,
+        0.11767821544,
+        50.608174
+      ],
+      "cons": [
+        -108783652,
+        -1198259364
+      ],
+      "aux": {
+        "params": 1216348,
+        "mem_bytes": 1740636,
+        "FLOPs": 1121024.0
+      }
+    },
+    {
+      "objs": [
+        2.7782058715820312,
+        0.22070033026000002,
+        82.9462575
+      ],
+      "cons": [
+        -44107485,
+        -1132010333
+      ],
+      "aux": {
+        "params": 65892515,
+        "mem_bytes": 67989667,
+        "FLOPs": 61930496.0
+      }
+    },
+    {
+      "objs": [
+        2.7969281673431396,
+        0.1828567318,
+        70.929413
+      ],
+      "cons": [
+        -68141174,
+        -1156306166
+      ],
+      "aux": {
+        "params": 41858826,
+        "mem_bytes": 43693834,
+        "FLOPs": 38599680.0
+      }
+    },
+    {
+      "objs": [
+        2.8102049827575684,
+        0.16722184942,
+        65.7915545
+      ],
+      "cons": [
+        -78416891,
+        -1166319739
+      ],
+      "aux": {
+        "params": 31583109,
+        "mem_bytes": 33680261,
+        "FLOPs": 28357632.0
+      }
+    },
+    {
+      "objs": [
+        2.927345037460327,
+        0.13101313702,
+        54.6399485
+      ],
+      "cons": [
+        -100720103,
+        -1189671527
+      ],
+      "aux": {
+        "params": 9279897,
+        "mem_bytes": 10328473,
+        "FLOPs": 8673792.0
+      }
+    },
+    {
+      "objs": [
+        2.8822338581085205,
+        0.15670892800000003,
+        62.77952
+      ],
+      "cons": [
+        -84440960,
+        -1173130240
+      ],
+      "aux": {
+        "params": 25559040,
+        "mem_bytes": 26869760,
+        "FLOPs": 23404800.0
+      }
+    },
+    {
+      "objs": [
+        2.9197444915771484,
+        0.1490777344,
+        60.334208000000004
+      ],
+      "cons": [
+        -89331584,
+        -1178020864
+      ],
+      "aux": {
+        "params": 20668416,
+        "mem_bytes": 21979136,
+        "FLOPs": 18483840.0
+      }
+    },
+    {
+      "objs": [
+        3.0584311485290527,
+        0.12391327732,
+        52.483159
+      ],
+      "cons": [
+        -105033682,
+        -1194247250
+      ],
+      "aux": {
+        "params": 4966318,
+        "mem_bytes": 5752750,
+        "FLOPs": 4735872.0
+      }
+    },
+    {
+      "objs": [
+        3.1518239974975586,
+        0.11975874286,
+        51.2753305
+      ],
+      "cons": [
+        -107449339,
+        -1196925051
+      ],
+      "aux": {
+        "params": 2550661,
+        "mem_bytes": 3074949,
+        "FLOPs": 2438656.0
+      }
+    },
+    {
+      "objs": [
+        3.026620388031006,
+        0.1292751916,
+        54.208394
+      ],
+      "cons": [
+        -101583212,
+        -1190796780
+      ],
+      "aux": {
+        "params": 8416788,
+        "mem_bytes": 9203220,
+        "FLOPs": 7839360.0
+      }
+    },
+    {
+      "objs": [
+        3.034252882003784,
+        0.12898765288,
+        54.118446
+      ],
+      "cons": [
+        -101763108,
+        -1190976676
+      ],
+      "aux": {
+        "params": 8236892,
+        "mem_bytes": 9023324,
+        "FLOPs": 7544448.0
+      }
+    },
+    {
+      "objs": [
+        3.156972646713257,
+        0.11972335335999999,
+        51.263534
+      ],
+      "cons": [
+        -107472932,
+        -1196948644
+      ],
+      "aux": {
+        "params": 2527068,
+        "mem_bytes": 3051356,
+        "FLOPs": 2438656.0
+      }
+    },
+    {
+      "objs": [
+        2.806816339492798,
+        0.2720468608,
+        99.23392
+      ],
+      "cons": [
+        -11532160,
+        -1098910720
+      ],
+      "aux": {
+        "params": 98467840,
+        "mem_bytes": 101089280,
+        "FLOPs": 90215680.0
+      }
+    },
+    {
+      "objs": [
+        3.2093701362609863,
+        0.120309244,
+        51.453588
+      ],
+      "cons": [
+        -107092824,
+        -1196568536
+      ],
+      "aux": {
+        "params": 2907176,
+        "mem_bytes": 3431464,
+        "FLOPs": 2700800.0
+      }
+    },
+    {
+      "objs": [
+        2.8135039806365967,
+        0.18933742312000001,
+        72.89041399999999
+      ],
+      "cons": [
+        -64219172,
+        -1152122020
+      ],
+      "aux": {
+        "params": 45780828,
+        "mem_bytes": 47877980,
+        "FLOPs": 42007552.0
+      }
+    },
+    {
+      "objs": [
+        2.953742027282715,
+        0.13711640194000002,
+        56.6007855
+      ],
+      "cons": [
+        -96798429,
+        -1185749853
+      ],
+      "aux": {
+        "params": 13201571,
+        "mem_bytes": 14250147,
+        "FLOPs": 12353024.0
+      }
+    }
+  ],
+  "offspring": [],
+  "offspring_evaluations": [],
+  "n_offspring": 8,
+  "tournament_k": 2,
+  "mutation_rate": 0.1,
+  "crossover_rate": 0.9,
+  "search_space_config": {
+    "L_max": 10,
+    "d_model_choices": null,
+    "block_size_choices": null
+  }
+}

@@ -62,7 +62,8 @@ class Population:
         self.search_space = search_space
 
         # parameter options
-        self.n_offspring = 32
+        self.n_population = 16
+        self.n_offspring = 8
         self.tournament_k = 2  # tournament selection size
         self.mutation_rate = 0.1  # mutation rate for offspring
         self.crossover_rate = 0.9  # crossover rate for offspring
@@ -257,7 +258,8 @@ class Population:
     def save_checkpoint(self, path: str) -> str:
         """Save a checkpoint of the population to JSON.
 
-        Contents: gen (int), individuals (list of dict), evaluations (objs/cons/aux).
+        Contents: gen (int), individuals, evaluations, offspring, offspring_evaluations,
+        search_space config, and all population parameters.
         Writes atomically via a temporary file then rename.
         Returns the final path.
         """
@@ -268,10 +270,26 @@ class Population:
             "evaluations": None if self.evaluations is None else [
                 {"objs": ev.objs, "cons": ev.cons, "aux": ev.aux} for ev in self.evaluations
             ],
+            "offspring": self.offspring,
+            "offspring_evaluations": None if self.offspring_evaluations is None else [
+                {"objs": ev.objs, "cons": ev.cons, "aux": ev.aux} for ev in self.offspring_evaluations
+            ],
+            # Population parameters
+            "n_offspring": self.n_offspring,
+            "tournament_k": self.tournament_k,
+            "mutation_rate": self.mutation_rate,
+            "crossover_rate": self.crossover_rate,
+            # Search space configuration (if available)
+            "search_space_config": None if self.search_space is None else {
+                "L_max": getattr(self.search_space, 'L_max', None),
+                "d_model_choices": getattr(self.search_space, 'd_model_choices', None),
+                "block_size_choices": getattr(self.search_space, 'block_size_choices', None),
+                # Add other search space attributes as needed
+            }
         }
         tmp = f"{path}.tmp"
         with open(tmp, "w") as f:
-            json.dump(payload, f)
+            json.dump(payload, f, indent=2)
         os.replace(tmp, path)
         return path
 
@@ -280,16 +298,44 @@ class Population:
         """Load a Population from a checkpoint created by save_checkpoint.
 
         Note: EvaluationResult objects are reconstructed from stored dicts.
+        Search space must be re-initialized separately if needed for operations.
         """
         with open(path, "r") as f:
             data = json.load(f)
+        
+        # Load basic data
         individuals = data.get("individuals", [])
+        
+        # Load evaluations
         evals_raw = data.get("evaluations")
         evaluations = None
         if evals_raw is not None:
             evaluations = [EvaluationResult(er["objs"], er["cons"], er.get("aux", {})) for er in evals_raw]
+        
+        # Load offspring
+        offspring = data.get("offspring", [])
+        
+        # Load offspring evaluations
+        offspring_evals_raw = data.get("offspring_evaluations")
+        offspring_evaluations = None
+        if offspring_evals_raw is not None:
+            offspring_evaluations = [EvaluationResult(er["objs"], er["cons"], er.get("aux", {})) for er in offspring_evals_raw]
+        
+        # Create population
         pop = Population(individuals, evaluations)
         pop.gen = int(data.get("gen", 0))
+        pop.offspring = offspring
+        pop.offspring_evaluations = offspring_evaluations if offspring_evaluations is not None else []
+        
+        # Restore population parameters
+        pop.n_offspring = data.get("n_offspring", 32)
+        pop.tournament_k = data.get("tournament_k", 2)
+        pop.mutation_rate = data.get("mutation_rate", 0.1)
+        pop.crossover_rate = data.get("crossover_rate", 0.9)
+        
+        # Note: search_space is not restored as it requires re-initialization
+        # User should call pop.search_space = HeteroSearchSpace(...) after loading if needed
+        
         return pop
 
     def sw_eval(self, hosts: List[str], user: str, key_filename: str) -> None:
@@ -297,7 +343,7 @@ class Population:
         train_yaml_path = self.to_yaml(save_path="train")
         trainer = RemoteTrainer(hosts=hosts, user=user, key_filename=key_filename)
         trainer.submit_job(path_to_yaml=train_yaml_path, remote_work_dir=f"/home/{user}/Evo_GPT")
-        trainer.wait_for_all(poll_interval=120, timeout=3600, verbose=True)
+        trainer.wait_for_all(poll_interval=600, timeout=72000, verbose=True)
         data_csv = trainer.fetch_results(local_dir="train", gen=self.gen)
         # read the csv and populate self.evaluations
         # load the csv file's second column as a list of floats
@@ -358,6 +404,33 @@ class Population:
         self.offspring_evaluations = []
         self.gen += 1
         print(f"Generated {self.n_offspring} offspring for generation {self.gen}")
+        return
+
+    def update_elimination(self, verbose: bool = False) -> None:
+        if self.offspring_evaluations is None or not self.offspring_evaluations:
+            raise ValueError("Cannot update elimination without offspring evaluations.")
+
+        # append offspring to current population
+        self.individuals.extend(self.offspring)
+        self.evaluations.extend(self.offspring_evaluations)
+
+        # Clear the offspring lists for the next generation
+        self.offspring = []
+        self.offspring_evaluations = []
+
+        # Reorder by non-domination and keep the best individuals
+        self.reorder_by_non_domination()
+        if len(self.individuals) > self.n_population:
+            print(f"Eliminating {len(self.individuals) - self.n_population} individuals to maintain population size {self.n_population}.")
+            self.individuals = self.individuals[:self.n_population]
+            self.evaluations = self.evaluations[:self.n_population]
+        else:
+            print(f"Population size {len(self.individuals)} is within limit {self.n_population}, no elimination needed.")
+
+        if verbose:
+            print(f"After elimination, population size: {len(self.individuals)}")
+            for i, (ind, ev) in enumerate(zip(self.individuals, self.evaluations)):
+                print(f"Individual {i+1}: Objs={ev.objs}, Cons={ev.cons}, Aux={ev.aux}")
         return
 
 # -----------------------------
@@ -504,6 +577,7 @@ def tournament_select(pop, evals, k=2):
     i = random.randrange(len(pop))
     for _ in range(k-1):
         j = random.randrange(len(pop))
+        if j == i: continue
         d = dominates(evals[i].objs, evals[i].cons, evals[j].objs, evals[j].cons)
         if d == -1 or (d == 0 and random.random() < 0.5):
             i = j
