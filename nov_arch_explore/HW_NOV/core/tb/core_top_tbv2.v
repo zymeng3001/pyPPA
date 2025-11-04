@@ -177,9 +177,9 @@ localparam LANES_W = (${mac_num}*8);
   // -----------------------
   // Plusargs & settings
   // -----------------------
-  integer warm_cycles   = 50;
-  integer cool_cycles   = 20;
-  integer TIMEOUT_CYC   = 500;
+  integer warm_cycles   = 10;
+  integer cool_cycles   = 10;
+  integer TIMEOUT_CYC   = 100;
   integer SEED          = 1;
 
   initial begin

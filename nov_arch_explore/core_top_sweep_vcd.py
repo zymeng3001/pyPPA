@@ -54,13 +54,13 @@ ppa_runner.add_job({
 	# To use multiple sets of values (all of which will be swept), use a dictionary. See the option `ABC_AREA` below and `clk_period` in hyperparameters for more information.
 	'flow_config': {
 		# If this option is set to True, Verilgo simulations will be run using the verilog_sim_tool set above. In this example, IVerilog is used.
-		'RUN_VERILOG_SIM': False,
+		'RUN_VERILOG_SIM': True,
 		# This sets the netlist used for running the Verilog simulations. In this case, the postsynthesis Verilog netlist will be used.
 		'VERILOG_SIM_TYPE': 'postsynth',
 		# A list of the required testbench files. The design files are automatically included and need not be added here.
 		'VERILOG_TESTBENCH_FILES': [path.join(path.dirname(__file__), 'HW_NOV', 'core/tb/core_top_tbv2.v'), path.join(path.dirname(__file__), 'HW_NOV', 'sys_defs.svh')],
 		# If this option is set to true, a VCD file dumped from the simulations will be used to get more accurate power estimates.
-		'USE_STA_VCD': False,
+		'USE_STA_VCD': True,
 		# The name of the VCD file dumped. By default it is set to `module_name.vcd`
 		'VERILOG_VCD_NAME': 'core_top.vcd'
 		# If the option `ABC_AREA` is set to `True`, the area-optimized synthesis strategy is used as opposed to the speed-optimized strategy. The following dictionary lists both values, and hence both the options will be swept and the PPA results will be generated for each case.
@@ -114,16 +114,16 @@ ppa_runner.add_job({
 		# 	'values': [128]
 		# }
 		'clk_period': {
-			'values': [3,4,5,6]
+			'values': [5]
 		},
 		'mac_num': {
 			'values': [4,8,16,32]
 		},
 		'wmem_depth': {
-			'values': [128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+			'values': [128,256,512,768,1024,1536,2048,2560,3072,3584,4096,5120,6144,7168,8192]
 		},
 		'kv_cache_depth': {
-			'values': [128,256,512,768,1024,1536,2048,2560,3072,3584,4096]
+			'values': [128,256,512,768,1024,1536,2048,2560,3072,3584,4096,5120,6144,7168,8192]
 		}
 	}
 })

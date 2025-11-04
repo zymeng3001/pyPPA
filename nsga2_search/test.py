@@ -22,7 +22,7 @@ population.delete_duplicates()  # Remove duplicates if any
 # Convert to YAML format
 # train_yaml_path = population.to_yaml(save_path="trial")  # Save to file for generation 0
 
-hosts = ["34.85.168.66","34.69.195.101"]
+hosts = ["34.85.168.66", "34.58.151.71"]
 # hosts = ["34.69.195.101"]
 
 user = "xinting"

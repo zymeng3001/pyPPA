@@ -14,7 +14,9 @@ for name in ("paramiko", "paramiko.transport", "fabric", "invoke"):
     logging.getLogger(name).disabled = True
 
 # load from checkpoint
-population = Population.load_checkpoint("ckpts/927_checkpoint_gen2.pkl")
+search_space = HeteroSearchSpace(L_max=10)
+
+population = Population.load_checkpoint("ckpts/init_pop.pkl")
 
 print("Loaded population from checkpoint.")
 population.print_summary()
@@ -22,9 +24,19 @@ population.print_summary()
 # Convert to YAML format
 # train_yaml_path = population.to_yaml(save_path="trial")  # Save to file for generation 0
 
-hosts = ["34.85.168.66", "34.11.48.206", "34.86.55.236"]
+hosts = ["35.193.4.143"]
+# hosts = ["34.85.168.66", "34.11.48.206", "34.86.55.236"]
 user = "xinting"
 key_filename = "/home/xinting/.ssh/id_rsa"
+
+population.gen = 1
+
+population.generate_offspring()
+population.print_details()
+population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
+
+
+# population.sw_eval(hosts=hosts, user=user, key_filename=key_filename)
 
 
 

@@ -12,7 +12,7 @@ parent_dir = os.path.dirname(script_dir)
 base_dir = os.path.join(parent_dir, "runs", "core_top", "1_core_top_sweep")
 
 # Define the output CSV file path
-output_csv_path = os.path.join(parent_dir, "nov_arch_explore/core_top_sweep_data", "ppa_nov_core_top_extracted_data_no_sram.csv")
+output_csv_path = os.path.join(parent_dir, "nov_arch_explore/core_top_sweep_data", "ppa_nov_core_top_extracted_data_10_1.csv")
 
 # Column headers for CSV
 csv_columns = [

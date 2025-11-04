@@ -135,7 +135,7 @@ def get_TTFT(clk_period, n_model, mac_num, n_heads, n_cols, max_context_length, 
     ffn_ratio = float(ffn_ratio)
 
     # Calculate the token delay for GEMM ops
-    TTFT = (4.0 * n_model * n_model + 2.0 * ffn_ratio * n_model * n_model) * 1e-9 * clk_period # load and store delay
+    TTFT = (4.0 * n_model * n_model + 2.0 * ffn_ratio * n_model * n_model) * 1e-9 * clk_period / gbus_width # load and store delay
 
     # Number of cycles = Total MACs / (Number of MAC units)
     num_loading_cycles = (4*n_model*n_model*sequence_length + 2*max_context_length*max_context_length*n_model + 2*ffn_ratio*n_model*n_model*sequence_length) / (n_heads*n_cols*mac_num)
